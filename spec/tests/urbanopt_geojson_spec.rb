@@ -28,19 +28,19 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe OpenStudio::ModelArticulation do
+RSpec.describe URBANopt::GeoJSON do
   it "has a version number" do
-    expect(OpenStudio::ModelArticulation::VERSION).not_to be nil
+    expect(URBANopt::GeoJSON::VERSION).not_to be nil
   end
 
   it 'has a base version number' do
-    instance = OpenStudio::ModelArticulation::ModelArticulation.new
+    instance = URBANopt::GeoJSON::GeoJSON.new
     expect(instance.version).not_to be nil
-    expect(instance.version).to eq(OpenStudio::ModelArticulation::VERSION)
+    expect(instance.version).to eq(URBANopt::GeoJSON::VERSION)
   end
 
   it 'has a measures directory' do
-    instance = OpenStudio::ModelArticulation::ModelArticulation.new
-    expect(File.exists?(File.join(instance.measures_dir, 'BarAspectRatioStudy/'))).to be true
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    expect(File.exists?(File.join(instance.measures_dir, 'urban_geometry_creation/'))).to be true
   end
 end

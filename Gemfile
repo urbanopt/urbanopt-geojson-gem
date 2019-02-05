@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in buildingsync.gemspec
+# Specify your gem's dependencies in urbanopt-geojson.gemspec
 gemspec
 
 if File.exists?('../OpenStudio-extension-gem')

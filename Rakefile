@@ -41,8 +41,8 @@ RSpec::Core::RakeTask.new(:spec)
 
 # Load in the rake tasks from the base extension gem
 require "openstudio/extension/rake_task"
-require "openstudio/model-articulation"
+require "urbanopt/geojson"
 rake_task = OpenStudio::Extension::RakeTask.new
-rake_task.set_extension_class(OpenStudio::ModelArticulation::ModelArticulation)
+rake_task.set_extension_class(URBANopt::GeoJSON::GeoJSON)
 
 task :default => :spec

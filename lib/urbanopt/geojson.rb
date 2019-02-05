@@ -54,7 +54,6 @@ module URBANopt
       def root_dir
         return File.absolute_path(File.join(File.dirname(__FILE__), '../../'))
       end
-      
     end
   end
 end
