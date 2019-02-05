@@ -1,3 +1,38 @@
+# *******************************************************************************
+# OpenStudio(R), Copyright (c) 2008-2018, Alliance for Sustainable Energy, LLC.
+# All rights reserved.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# (1) Redistributions of source code must retain the above copyright notice,
+# this list of conditions and the following disclaimer.
+#
+# (2) Redistributions in binary form must reproduce the above copyright notice,
+# this list of conditions and the following disclaimer in the documentation
+# and/or other materials provided with the distribution.
+#
+# (3) Neither the name of the copyright holder nor the names of any contributors
+# may be used to endorse or promote products derived from this software without
+# specific prior written permission from the respective party.
+#
+# (4) Other than as required in clauses (1) and (2), distributions in any form
+# of modifications or other derivative works may not use the "OpenStudio"
+# trademark, "OS", "os", or any other confusingly similar designation without
+# specific prior written permission from Alliance for Sustainable Energy, LLC.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER(S) AND ANY CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER(S), ANY CONTRIBUTORS, THE
+# UNITED STATES GOVERNMENT, OR THE UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF
+# THEIR EMPLOYEES, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+# OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# *******************************************************************************
+
 # see the URL below for information on how to write OpenStudio measures
 # http://nrel.github.io/OpenStudio-user-documentation/measures/measure_writing_guide/
 
@@ -18,7 +53,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
 
   # human readable description
   def description
-    return "This measure queries the URBANopt database for a building then creates geometry for it.  Surrounding buildings are included as shading structures."
+    return "This measure reads an URBANopt GeoJSON and creates geometry for a particular building.  Surrounding buildings are included as shading structures."
   end
 
   # human readable description of modeling approach
@@ -30,32 +65,17 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    # url of the city database
-    city_db_url = OpenStudio::Ruleset::OSArgument.makeStringArgument("city_db_url", true)
-    city_db_url.setDisplayName("City Database Url")
-    city_db_url.setDescription("Url of the City Database")
-	  #city_db_url.setDefaultValue("http://localhost:3000")
-    city_db_url.setDefaultValue("http://insight4.hpc.nrel.gov:8081/")
-    args << city_db_url
+    # geojson file
+    geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
+    geojson_file.setDisplayName("GeoJSON File")
+    geojson_file.setDescription("GeoJSON File.")
+    args << geojson_file
     
-    # project name of the building to create
-    project_name = OpenStudio::Ruleset::OSArgument.makeStringArgument("project_name", true)
-    project_name.setDisplayName("Project Name")
-    project_name.setDescription("Project Name.")
-    args << project_name
-    
-    # source id of the building to create
-    source_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("source_id", true)
-    source_id.setDisplayName("Building Source ID")
-    source_id.setDescription("Building Source ID to generate geometry for.")
-    args << source_id
-    
-    # source name of the building to create
-    source_name = OpenStudio::Ruleset::OSArgument.makeStringArgument("source_name", true)
-    source_name.setDisplayName("Building Source Name")
-    source_name.setDescription("Building Source Name to generate geometry for.")
-    source_name.setDefaultValue("NREL_GDS")
-    args << source_name
+    # feature id of the building to create
+    feature_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("feature_id", true)
+    feature_id.setDisplayName("Feature ID")
+    feature_id.setDescription("Feature ID.")
+    args << feature_id
     
     # which surrounding buildings to include
     chs = OpenStudio::StringVector.new
@@ -560,62 +580,28 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     return result
   end
   
-  # get the project from the database
-  def get_project(project_name)
-
-    params = {}
-    params[:name] = project_name
-
-    http = Net::HTTP.new(@city_db_url, @port)
-    http.read_timeout = 1000
-    if @city_db_is_https
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    end
-
-    request = Net::HTTP::Post.new("/api/project_search.json")
-    request.add_field('Content-Type', 'application/json')
-    request.add_field('Accept', 'application/json')
-    request.body = JSON.generate(params)
+  # get the feature from the geojson
+  def get_feature(feature_id)
     
-    # DLM: todo, get these from environment variables or as measure inputs?
-    request.basic_auth("test@nrel.gov", "testing123")
-  
-    response = http.request(request)
-    if  response.code != '200' # success
-      @runner.registerError("Bad response #{response.code}")
-      @runner.registerError(response.body)
-      return {}
+    puts feature_id
+    @geojson[:features].each do |f|
+      if f[:properties] && f[:properties][:source_id] == feature_id
+        return f
+      end
     end
     
-    return JSON.parse(response.body, :symbolize_names => true)
+    return nil
   end
   
   # get the feature collection from the database
   def get_feature_collection(params)
     
-    http = Net::HTTP.new(@city_db_url, @port)
-    http.read_timeout = 1000
-    if @city_db_is_https
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    end
-    request = Net::HTTP::Post.new("/api/search.json")
-    request.add_field('Content-Type', 'application/json')
-    request.add_field('Accept', 'application/json')
-    request.body = JSON.generate(params)
-    
-    # DLM: todo, get these from environment variables or as measure inputs?
-    request.basic_auth("test@nrel.gov", "testing123")
-  
-    response = http.request(request)
-    if  response.code != '200' # success
-      @runner.registerError("Bad response #{response.code}")
-      @runner.registerError(response.body)
-      return {}
-    end
-    
-    return JSON.parse(response.body, :symbolize_names => true)
+    #params[:commit] = 'Proximity Search'
+    #params[:feature_id] = feature_id
+    #params[:distance] = 100
+    #params[:proximity_feature_types] = ['Building']
+ 
+    return {}
   end
   
   # define what happens when the measure is run
@@ -628,76 +614,62 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     end
      
     # assign the user inputs to variables
-    city_db_url = runner.getStringArgumentValue("city_db_url", user_arguments)
-    project_name = runner.getStringArgumentValue("project_name", user_arguments)
-    source_id = runner.getStringArgumentValue("source_id", user_arguments)
-    source_name = runner.getStringArgumentValue("source_name", user_arguments)
+    geojson_file = runner.getStringArgumentValue("geojson_file", user_arguments)
+    feature_id = runner.getStringArgumentValue("feature_id", user_arguments)
     surrounding_buildings = runner.getStringArgumentValue("surrounding_buildings", user_arguments)
     
     # instance variables
     @runner = runner
     @origin_lat_lon = nil
-
-    # @port = 80
-    # if md = /http:\/\/(.*):(\d+)/.match(city_db_url)
-    #   @city_db_url = md[1]
-    #   @port = md[2]
-    # elsif /http:\/\/([^:\/]*)/.match(city_db_url)
-    #   @city_db_url = md[1]
-    # end
-
-    uri = URI.parse(city_db_url)
-    @city_db_url = uri.host
-    @port = uri.port
-    @city_db_is_https = uri.scheme == 'https' ? true : false
-
-    project = get_project(project_name)
+    @geojson = nil
     
-    if project.nil? || project.empty?
-      @runner.registerError("Could not find project '#{project_name}")
-      return false
-    end
-    project_id = project.first[:id]
-    
-    params = {}
-    params[:commit] = 'Search'
-    params[:project_id] = project_id
-    params[:source_id] = source_id
-    params[:source_name] = source_name
-    params[:feature_types] = ['Building']
-    
-    feature_collection = get_feature_collection(params)
-
-    if feature_collection[:features].nil?
-      @runner.registerError("No features found in #{feature_collection}")
-      return false
-    elsif feature_collection[:features].empty?
-      @runner.registerError("No features found in #{feature_collection}")
-      return false
-    elsif feature_collection[:features].size > 1
-      @runner.registerError("Multiple features found in #{feature_collection}")
+    path = @runner.workflow.findFile(geojson_file)
+    if path.nil? || path.empty?
+      @runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
       return false
     end
     
-    building_json = feature_collection[:features][0]
-    
-    if building_json[:geometry].nil?
-      @runner.registerError("No geometry found in #{building_json}")
+    path = path.get.to_s
+    if !File.exists?(path)
+      @runner.registerError("GeoJSON file '#{path}' could not be found")
+      return false
+    end
+
+    File.open(path, 'r') do |file|
+      @geojson = JSON.parse(file.read, {symbolize_names: true})
+    end
+
+    feature = get_feature(feature_id)
+    if feature.nil? || feature.empty?
+      @runner.registerError("Feature '#{feature_id}' could not be found")
       return false
     end
     
-    geometry_type = building_json[:geometry][:type]
+    if feature[:geometry].nil?
+      @runner.registerError("No geometry found in '#{feature}'")
+      return false
+    end
+    
+    if feature[:properties].nil?
+      @runner.registerError("No properties found in '#{feature}'")
+      return false
+    end
+    
+    name = feature[:properties][:name]
+    model.getBuilding.setName(name)
+
+    geometry_type = feature[:geometry][:type]
     if geometry_type == "Polygon"
       # ok
     elsif geometry_type == "MultiPolygon"
       # ok
     else
-      @runner.registerError("Unknown geometry type #{geometry_type}")
+      @runner.registerError("Unknown geometry type '#{geometry_type}'")
       return false
     end
 
     # find min and max x coordinate
-    min_lon_lat = get_min_lon_lat(building_json)
+    min_lon_lat = get_min_lon_lat(feature)
     min_lon = min_lon_lat[0]
     min_lat = min_lon_lat[1]
 
@@ -714,6 +686,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
     
+    building_json = feature
     if building_json[:properties][:surface_elevation]
       surface_elevation = building_json[:properties][:surface_elevation].to_f
       site.setElevation(surface_elevation)

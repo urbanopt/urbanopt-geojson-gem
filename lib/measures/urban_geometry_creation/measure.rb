@@ -1,3 +1,38 @@
+# *******************************************************************************
+# OpenStudio(R), Copyright (c) 2008-2018, Alliance for Sustainable Energy, LLC.
+# All rights reserved.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# (1) Redistributions of source code must retain the above copyright notice,
+# this list of conditions and the following disclaimer.
+#
+# (2) Redistributions in binary form must reproduce the above copyright notice,
+# this list of conditions and the following disclaimer in the documentation
+# and/or other materials provided with the distribution.
+#
+# (3) Neither the name of the copyright holder nor the names of any contributors
+# may be used to endorse or promote products derived from this software without
+# specific prior written permission from the respective party.
+#
+# (4) Other than as required in clauses (1) and (2), distributions in any form
+# of modifications or other derivative works may not use the "OpenStudio"
+# trademark, "OS", "os", or any other confusingly similar designation without
+# specific prior written permission from Alliance for Sustainable Energy, LLC.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER(S) AND ANY CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER(S), ANY CONTRIBUTORS, THE
+# UNITED STATES GOVERNMENT, OR THE UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF
+# THEIR EMPLOYEES, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+# OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# *******************************************************************************
+
 ######################################################################
 #  Copyright © 2016-2017 the Alliance for Sustainable Energy, LLC, All Rights Reserved
 #   
@@ -21,7 +56,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
 
   # human readable description
   def description
-    return "This measure queries the URBANopt database for a building then creates geometry for it.  Surrounding buildings are included as shading structures."
+    return "This measure reads an URBANopt GeoJSON and creates geometry for a particular building.  Surrounding buildings are included as shading structures."
   end
 
   # human readable description of modeling approach
@@ -33,21 +68,13 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    # url of the city database
-    city_db_url = OpenStudio::Ruleset::OSArgument.makeStringArgument("city_db_url", true)
-    city_db_url.setDisplayName("City Database Url")
-    city_db_url.setDescription("Url of the City Database")
-	  #city_db_url.setDefaultValue("http://localhost:3000")
-    city_db_url.setDefaultValue("http://insight4.hpc.nrel.gov:8081/")
-    args << city_db_url
+    # geojson file
+    geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
+    geojson_file.setDisplayName("GeoJSON File")
+    geojson_file.setDescription("GeoJSON File.")
+    args << geojson_file
     
-    # project name of the building to create
-    project_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("project_id", true)
-    project_id.setDisplayName("Project ID")
-    project_id.setDescription("Project ID.")
-    args << project_id
-    
-    # source id of the building to create
+    # feature id of the building to create
     feature_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("feature_id", true)
     feature_id.setDisplayName("Feature ID")
     feature_id.setDescription("Feature ID.")
@@ -373,10 +400,9 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     # nearby buildings to conver to shading
     convert_to_shades = []
 
-    # query database for nearby buildings
+    # query for nearby buildings
     params = {}
     params[:commit] = 'Proximity Search'
-    params[:project_id] = project_id
     params[:feature_id] = feature_id
     params[:distance] = 100
     params[:proximity_feature_types] = ['Building']
@@ -639,84 +665,28 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     return result
   end
   
-  # get the project from the database
-  def get_project(project_id)
-
-    http = Net::HTTP.new(@city_db_url, @port)
-    http.read_timeout = 1000
-    if @city_db_is_https
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  # get the feature from the geojson
+  def get_feature(feature_id)
+    
+    puts feature_id
+    @geojson[:features].each do |f|
+      if f[:properties] && f[:properties][:source_id] == feature_id
+        return f
+      end
     end
     
-    request = Net::HTTP::Get.new("/projects/#{project_id}.json")
-    request.add_field('Content-Type', 'application/json')
-    request.add_field('Accept', 'application/json')
-    request.basic_auth(ENV['URBANOPT_USERNAME'], ENV['URBANOPT_PASSWORD'])
-  
-    response = http.request(request)
-    if  response.code != '200' # success
-      @runner.registerError("Bad response #{response.code}")
-      @runner.registerError(response.body)
-      @result = false
-      return {}
-    end
-    
-    result = JSON.parse(response.body, :symbolize_names => true)
-    return result
-  end
-  
-  # get the feature from the database
-  def get_feature(project_id, feature_id)
-    
-    http = Net::HTTP.new(@city_db_url, @port)
-    http.read_timeout = 1000
-    if @city_db_is_https
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    end
-
-    request = Net::HTTP::Get.new("/api/feature.json?project_id=#{project_id}&feature_id=#{feature_id}")
-    request.add_field('Content-Type', 'application/json')
-    request.add_field('Accept', 'application/json')
-    request.basic_auth(ENV['URBANOPT_USERNAME'], ENV['URBANOPT_PASSWORD'])
-    @runner.registerInfo("/api/feature.json?project_id=#{project_id}&feature_id=#{feature_id}")
-    response = http.request(request)
-    if  response.code != '200' # success
-      @runner.registerError("Bad response #{response.code}")
-      @runner.registerError(response.body)
-      @result = false
-      return {}
-    end
-    
-    result = JSON.parse(response.body, :symbolize_names => true)
-    return result
+    return nil
   end
   
   # get the feature collection from the database
   def get_feature_collection(params)
     
-    http = Net::HTTP.new(@city_db_url, @port)
-    http.read_timeout = 1000
-    if @city_db_is_https
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    end
-    
-    request = Net::HTTP::Post.new("/api/search.json")
-    request.add_field('Content-Type', 'application/json')
-    request.add_field('Accept', 'application/json')
-    request.body = JSON.generate(params)
-    request.basic_auth(ENV['URBANOPT_USERNAME'], ENV['URBANOPT_PASSWORD'])
-  
-    response = http.request(request)
-    if  response.code != '200' # success
-      @runner.registerError("Bad response #{response.code}")
-      @runner.registerError(response.body)
-      return {}
-    end
-    
-    return JSON.parse(response.body, :symbolize_names => true)
+    #params[:commit] = 'Proximity Search'
+    #params[:feature_id] = feature_id
+    #params[:distance] = 100
+    #params[:proximity_feature_types] = ['Building']
+ 
+    return {}
   end
   
   # define what happens when the measure is run
@@ -729,8 +699,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     end
      
     # assign the user inputs to variables
-    city_db_url = runner.getStringArgumentValue("city_db_url", user_arguments)
-    project_id = runner.getStringArgumentValue("project_id", user_arguments)
+    geojson_file = runner.getStringArgumentValue("geojson_file", user_arguments)
     feature_id = runner.getStringArgumentValue("feature_id", user_arguments)
     surrounding_buildings = runner.getStringArgumentValue("surrounding_buildings", user_arguments)
     
@@ -771,13 +740,25 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     # instance variables
     @runner = runner
     @origin_lat_lon = nil
+    @geojson = nil
+    
+    path = @runner.workflow.findFile(geojson_file)
+    if path.nil? || path.empty?
+      @runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
+      return false
+    end
+    
+    path = path.get.to_s
+    if !File.exists?(path)
+      @runner.registerError("GeoJSON file '#{path}' could not be found")
+      return false
+    end
 
-    uri = URI.parse(city_db_url)
-    @city_db_url = uri.host
-    @port = uri.port
-    @city_db_is_https = uri.scheme == 'https' ? true : false
+    File.open(path, 'r') do |file|
+      @geojson = JSON.parse(file.read, {symbolize_names: true})
+    end
 
-    feature = get_feature(project_id, feature_id)
+    feature = get_feature(feature_id)
     if feature.nil? || feature.empty?
       @runner.registerError("Feature '#{feature_id}' could not be found")
       return false
