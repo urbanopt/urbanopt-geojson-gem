@@ -880,9 +880,9 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           if !surface_construction.empty?
             surface.setConstruction(surface_construction.get)
           else
-            @runner.registerError("Surface '#{surface.nameString}' does not have a construction")
+            #@runner.registerError("Surface '#{surface.nameString}' does not have a construction")
             #model.save('error.osm', true)
-            return false
+            #return false
           end
           surface.setOutsideBoundaryCondition('Adiabatic')
           
@@ -890,9 +890,9 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           if !adjacent_surface_construction.empty?
             adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
           else
-            @runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
+            #@runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
             #model.save('error.osm', true)
-            return false
+            #return false
           end
           adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
         end
