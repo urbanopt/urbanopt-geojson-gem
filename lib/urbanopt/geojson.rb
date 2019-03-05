@@ -54,6 +54,20 @@ module URBANopt
       def root_dir
         return File.absolute_path(File.join(File.dirname(__FILE__), '../../'))
       end
+
+      def get_multi_polygons(building_json)
+        geometry_type = building_json[:geometry][:type]
+
+        multi_polygons = nil
+        if geometry_type == "Polygon"
+          polygons = building_json[:geometry][:coordinates]
+          multi_polygons = [polygons]
+        elsif geometry_type == "MultiPolygon"
+          multi_polygons = building_json[:geometry][:coordinates]
+        end
+
+        return multi_polygons
+      end
     end
   end
 end
