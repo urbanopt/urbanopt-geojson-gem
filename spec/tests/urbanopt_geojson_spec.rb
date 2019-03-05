@@ -43,4 +43,70 @@ RSpec.describe URBANopt::GeoJSON do
     instance = URBANopt::GeoJSON::GeoJSON.new
     expect(File.exists?(File.join(instance.measures_dir, 'urban_geometry_creation/'))).to be true
   end
+
+  it 'creates a multi polygon out of a polygon' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    polygon = {
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
+          [
+            [0, 5],
+            [5, 5],
+            [5, 0],
+          ]
+        ]
+      }
+    }
+    multi_polygon = instance.get_multi_polygons(polygon)
+    expect(multi_polygon).to eq([
+      [
+        [
+          [0, 5],
+          [5, 5],
+          [5, 0],
+        ]
+      ]
+    ])
+  end
+
+  it 'extracts coordinates from multipolygon' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    multipolygon = {
+      'geometry': {
+        'type': 'MultiPolygon',
+        'coordinates': [
+          [
+            [
+              [0, 5],
+              [5, 5],
+              [5, 0],
+            ]
+          ]
+        ]
+      }
+    }
+    coordinates = instance.get_multi_polygons(multipolygon)
+    expect(coordinates).to eq([
+      [
+        [
+          [0, 5],
+          [5, 5],
+          [5, 0],
+        ]
+      ]
+    ])
+  end
+
+  it 'returns nil when given a point' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    point = {
+      'geometry': {
+        'type': 'Point',
+        'coordinates': [0, 5],
+      }
+    }
+    coordinates = instance.get_multi_polygons(point)
+    expect(coordinates).to eq(nil)
+  end
 end
