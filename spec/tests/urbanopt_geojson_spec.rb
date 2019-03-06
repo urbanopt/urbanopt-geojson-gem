@@ -117,14 +117,88 @@ RSpec.describe URBANopt::GeoJSON do
         'type': 'Polygon',
         'coordinates': [
           [
-            [0, 5],
+            [1, 5],
             [5, 5],
-            [5, 0],
+            [5, 1],
           ]
         ]
       }
     }
     min_lon_and_lat = instance.get_min_lon_lat(polygon)
-    expect(min_lon_and_lat).to eq([0, 0])
+    expect(min_lon_and_lat).to eq([1, 1])
   end
+
+  it 'creates minimum longitute and latitude given a polygon' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    polygon = {
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
+          [
+            [1, 5],
+            [5, 5],
+            [5, 1],
+          ]
+        ]
+      }
+    }
+    min_lon_and_lat = instance.get_min_lon_lat(polygon)
+    expect(min_lon_and_lat).to eq([1, 1])
+  end
+
+  it 'creates a floorprint from polygon' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    polygon = [
+            [1, 5],
+            [5, 5],
+            [5, 1],
+          ]
+    floorprint = instance.floor_print_from_polygon(polygon, 0)
+    vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
+    vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
+    vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
+    vertexes = [vertex1, vertex2, vertex3]
+
+    vertexes.each_with_index {
+      |vertex, idx|
+      expect(floorprint[idx].x).to eq(vertex.x)
+      expect(floorprint[idx].y).to eq(vertex.y)
+      expect(floorprint[idx].z).to eq(vertex.z)
+    }
+  end
+
+  it 'determines if a point is shadowed' do
+    # NOTE: Need to write happy path test for this
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    point = OpenStudio::Point3d.new(2, 4, 0)
+    point2 = OpenStudio::Point3d.new(4, 8, 0)
+
+    is_shadowed = instance.point_is_shadowed(point, point2)
+    expect(is_shadowed).to eq(false)
+  end
+
+  it 'determines if building is shadowed' do
+    # NOTE: Need to write happy path test for this
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    points = [
+      OpenStudio::Point3d.new(2, 4, 0),
+      OpenStudio::Point3d.new(3, 6, 1),
+    ]
+    points2 = [
+      OpenStudio::Point3d.new(4, 8, 0),
+      OpenStudio::Point3d.new(6, 12, 6),
+    ]
+
+    is_shadowed = instance.is_shadowed(points, points2)
+    expect(is_shadowed).to eq(false)
+  end
+
+  it 'gets feature given a feature ID' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    feature = instance.get_feature('Thermal Test Facility')
+
+    expect(feature[:type]).to eq("Feature")
+    expect(feature[:properties][:name]).to eq("Thermal Test Facility")
+  end
+
 end
