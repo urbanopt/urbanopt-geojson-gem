@@ -68,6 +68,26 @@ module URBANopt
 
         return multi_polygons
       end
+
+      def get_min_lon_lat(building_json)
+        min_lon = Float::MAX
+        min_lat = Float::MAX
+
+        # find min and max x coordinate
+        multi_polygons = get_multi_polygons(building_json)
+        multi_polygons.each do |multi_polygon|
+          multi_polygon.each do |polygon|
+            polygon.each do |point|
+              min_lon = point[0] if point[0] < min_lon
+              min_lat = point[1] if point[1] < min_lat
+            end
+            # subsequent polygons are holes, we do not support them
+            break
+          end
+        end
+        return [min_lon, min_lat]
+      end
+
     end
   end
 end
