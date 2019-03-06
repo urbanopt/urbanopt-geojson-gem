@@ -81,12 +81,117 @@ module URBANopt
               min_lon = point[0] if point[0] < min_lon
               min_lat = point[1] if point[1] < min_lat
             end
+            # QUESTION: is this a different scenario? should I be testing it?
             # subsequent polygons are holes, we do not support them
             break
           end
         end
         return [min_lon, min_lat]
       end
+
+      def get_feature(feature_id)
+        puts feature_id
+
+        # NOTE: geoJSON path is harcoded TEMPORARILY (REMOVE ONCE ADDRESSED)
+        path = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
+        @geojson = nil
+
+        File.open(path, 'r') do |file|
+          @geojson = JSON.parse(file.read, {symbolize_names: true})
+        end
+
+        @geojson[:features].each do |f|
+          if f[:properties] && f[:properties][:source_id] == feature_id
+            return f
+          end
+        end
+        return nil
+      end
+
+      def is_shadowed(building_points, other_building_points)
+        all_pairs = []
+        building_points.each do |building_point|
+          other_building_points.each do |other_building_point|
+            vector = other_building_point - building_point
+            all_pairs << {:building_point => building_point, :other_building_point => other_building_point, :vector => vector, :distance => vector.length}
+          end
+        end
+
+        all_pairs.sort! {|x, y| x[:distance] <=> y[:distance]}
+
+        all_pairs.each do |pair|
+          if point_is_shadowed(pair[:building_point], pair[:other_building_point])
+            return true
+          end
+        end
+        return false
+      end
+
+      def point_is_shadowed(building_point, other_building_point)
+      # NOTE: DELETE THIS
+        @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+
+
+        vector = other_building_point - building_point
+
+        height = vector.z
+        distance = Math.sqrt(vector.x*vector.x + vector.y*vector.y)
+
+        if distance < 1
+          return true
+        end
+
+        hour_angle_rad = Math.atan2(-vector.x, -vector.y)
+        hour_angle = OpenStudio::radToDeg(hour_angle_rad)
+        lattitude_rad = OpenStudio::degToRad(@origin_lat_lon.lat)
+
+        result = false
+        (-24..24).each do |declination|
+
+          declination_rad = OpenStudio::degToRad(declination)
+          zenith_angle_rad = Math.acos(Math.sin(lattitude_rad)*Math.sin(declination_rad) + Math.cos(lattitude_rad)*Math.cos(declination_rad)*Math.cos(hour_angle_rad))
+          zenith_angle = OpenStudio::radToDeg(zenith_angle_rad)
+          elevation_angle = 90-zenith_angle
+
+          apparent_angle_rad = Math.atan2(height, distance)
+          apparent_angle = OpenStudio::radToDeg(apparent_angle_rad)
+
+          if (elevation_angle > 0 && elevation_angle < apparent_angle)
+            result = true
+            break
+          end
+        end
+        return result
+      end
+
+    def floor_print_from_polygon(polygon, elevation)
+      # NOTE: DELETE THIS
+      @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+
+
+      floor_print = OpenStudio::Point3dVector.new
+      polygon.each do |p|
+        lon = p[0]
+        lat = p[1]
+        point_3d = @origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
+        point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
+        floor_print << point_3d
+      end
+      if floor_print.size < 3
+        @runner.registerWarning("Cannot create floor print, fewer than 3 points")
+        return nil
+      end
+      floor_print = OpenStudio::removeCollinear(floor_print)
+      normal = OpenStudio::getOutwardNormal(floor_print)
+      if normal.empty?
+        @runner.registerWarning("Cannot create floor print, cannot compute outward normal")
+        return nil
+      elsif normal.get.z > 0
+        floor_print = OpenStudio::reverse(floor_print)
+        @runner.registerWarning("Reversing floor print")
+      end
+      return floor_print
+    end
 
     end
   end
