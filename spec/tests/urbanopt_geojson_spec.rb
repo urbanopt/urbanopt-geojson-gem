@@ -109,4 +109,22 @@ RSpec.describe URBANopt::GeoJSON do
     coordinates = instance.get_multi_polygons(point)
     expect(coordinates).to eq(nil)
   end
+
+  it 'creates minimum longitute and latitude given a polygon' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    polygon = {
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
+          [
+            [0, 5],
+            [5, 5],
+            [5, 0],
+          ]
+        ]
+      }
+    }
+    min_lon_and_lat = instance.get_min_lon_lat(polygon)
+    expect(min_lon_and_lat).to eq([0, 0])
+  end
 end
