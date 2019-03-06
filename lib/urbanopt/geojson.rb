@@ -55,9 +55,9 @@ module URBANopt
         return File.absolute_path(File.join(File.dirname(__FILE__), '../../'))
       end
 
+
       def get_multi_polygons(building_json)
         geometry_type = building_json[:geometry][:type]
-
         multi_polygons = nil
         if geometry_type == "Polygon"
           polygons = building_json[:geometry][:coordinates]
@@ -65,14 +65,13 @@ module URBANopt
         elsif geometry_type == "MultiPolygon"
           multi_polygons = building_json[:geometry][:coordinates]
         end
-
         return multi_polygons
       end
+
 
       def get_min_lon_lat(building_json)
         min_lon = Float::MAX
         min_lat = Float::MAX
-
         # find min and max x coordinate
         multi_polygons = get_multi_polygons(building_json)
         multi_polygons.each do |multi_polygon|
@@ -89,17 +88,15 @@ module URBANopt
         return [min_lon, min_lat]
       end
 
+
       def get_feature(feature_id)
         puts feature_id
-
         # NOTE: geoJSON path is harcoded TEMPORARILY (REMOVE ONCE ADDRESSED)
         path = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
         @geojson = nil
-
         File.open(path, 'r') do |file|
           @geojson = JSON.parse(file.read, {symbolize_names: true})
         end
-
         @geojson[:features].each do |f|
           if f[:properties] && f[:properties][:source_id] == feature_id
             return f
@@ -107,6 +104,7 @@ module URBANopt
         end
         return nil
       end
+
 
       def is_shadowed(building_points, other_building_points)
         all_pairs = []
@@ -116,9 +114,7 @@ module URBANopt
             all_pairs << {:building_point => building_point, :other_building_point => other_building_point, :vector => vector, :distance => vector.length}
           end
         end
-
         all_pairs.sort! {|x, y| x[:distance] <=> y[:distance]}
-
         all_pairs.each do |pair|
           if point_is_shadowed(pair[:building_point], pair[:other_building_point])
             return true
@@ -127,35 +123,28 @@ module URBANopt
         return false
       end
 
+
       def point_is_shadowed(building_point, other_building_point)
       # NOTE: DELETE THIS
         @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
 
-
         vector = other_building_point - building_point
-
         height = vector.z
         distance = Math.sqrt(vector.x*vector.x + vector.y*vector.y)
-
         if distance < 1
           return true
         end
-
         hour_angle_rad = Math.atan2(-vector.x, -vector.y)
         hour_angle = OpenStudio::radToDeg(hour_angle_rad)
         lattitude_rad = OpenStudio::degToRad(@origin_lat_lon.lat)
-
         result = false
         (-24..24).each do |declination|
-
           declination_rad = OpenStudio::degToRad(declination)
           zenith_angle_rad = Math.acos(Math.sin(lattitude_rad)*Math.sin(declination_rad) + Math.cos(lattitude_rad)*Math.cos(declination_rad)*Math.cos(hour_angle_rad))
           zenith_angle = OpenStudio::radToDeg(zenith_angle_rad)
           elevation_angle = 90-zenith_angle
-
           apparent_angle_rad = Math.atan2(height, distance)
           apparent_angle = OpenStudio::radToDeg(apparent_angle_rad)
-
           if (elevation_angle > 0 && elevation_angle < apparent_angle)
             result = true
             break
@@ -164,10 +153,10 @@ module URBANopt
         return result
       end
 
+
     def floor_print_from_polygon(polygon, elevation)
       # NOTE: DELETE THIS
       @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
-
 
       floor_print = OpenStudio::Point3dVector.new
       polygon.each do |p|
