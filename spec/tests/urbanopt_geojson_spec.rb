@@ -207,7 +207,12 @@ RSpec.describe URBANopt::GeoJSON do
 
     # NOTE: currently only asserting the class
     args = instance.arguments(model)
-    expect(args.class()).to eq(OpenStudio::Ruleset::OSArgumentVector)
+    arg_map = OpenStudio::Measure::convertOSArgumentVectorToMap(args)
+
+    expect(args.class()).to eq(OpenStudio::Measure::OSArgumentVector)
+    expect(arg_map['feature_id'].class()).to eq(OpenStudio::Measure::OSArgument)
+    expect(arg_map['geojson_file'].class()).to eq(OpenStudio::Measure::OSArgument)
+    expect(arg_map['surrounding_buildings'].class()).to eq(OpenStudio::Measure::OSArgument)
   end
 
 end
