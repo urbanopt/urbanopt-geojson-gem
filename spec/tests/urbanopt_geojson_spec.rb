@@ -215,4 +215,80 @@ RSpec.describe URBANopt::GeoJSON do
     expect(arg_map['surrounding_buildings'].class()).to eq(OpenStudio::Measure::OSArgument)
   end
 
+  it 'creates photovoltaics given a feaure, height and model' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    feature = instance.get_feature('Thermal Test Facility')
+    model = OpenStudio::Model::Model.new
+    
+    photovoltaics = instance.create_photovoltaics(feature, 0, model)
+    # TODO: make this test more specific
+    expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
+  end
+  
+  it 'creates a space per building' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    model = OpenStudio::Model::Model.new
+    building_json = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -105.1761558651924,
+              39.74217020021416
+            ],
+            [
+              -105.1763167977333,
+              39.74228982098384
+            ],
+            [
+              -105.17616927623748,
+              39.74240944154582
+            ],
+            [
+              -105.1760110259056,
+              39.74228775855852
+            ],
+            [
+              -105.1761558651924,
+              39.74217020021416
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "59a9ce2b42f7d007c059d302",
+        "source_id": "Vehicle Testing and Integration Facility",
+        "source_name": "NREL_GDS",
+        "project_id": "59a9ccdf42f7d007c059d2ed",
+        "stroke": "#555555",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "fill": "#555555",
+        "fill-opacity": 0.5,
+        "name": "Vehicle Testing and Integration Facility",
+        "maximum_roof_height": 10,
+        "floor_area": 3745.419332770663,
+        "number_of_stories": 1,
+        "number_of_stories_above_ground": 1,
+        "building_type": "Office",
+        "surface_elevation": 5198,
+        "type": "Building",
+        "footprint_area": 3750,
+        "footprint_perimeter": 245,
+        "updated_at": "2017-09-01T21:17:07.507Z",
+        "created_at": "2017-09-01T21:16:27.649Z",
+        "height": 3,
+        "geometryType": "Polygon"
+      }
+    }
+
+    building_spaces = instance.create_space_per_building(building_json, 1, 10, model)
+    puts Object.methods(building_spaces[0])
+    puts building_spaces[0].surfaces()
+    expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
+    expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
+  end
+
 end
