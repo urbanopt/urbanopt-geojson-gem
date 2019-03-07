@@ -90,7 +90,6 @@ module URBANopt
 
 
       def get_feature(feature_id)
-        puts feature_id
         # NOTE: geoJSON path is harcoded TEMPORARILY (REMOVE ONCE ADDRESSED)
         path = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
         @geojson = nil
@@ -154,33 +153,60 @@ module URBANopt
       end
 
 
-    def floor_print_from_polygon(polygon, elevation)
-      # NOTE: DELETE THIS
-      @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+      def floor_print_from_polygon(polygon, elevation)
+        # NOTE: DELETE THIS
+        @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
 
-      floor_print = OpenStudio::Point3dVector.new
-      polygon.each do |p|
-        lon = p[0]
-        lat = p[1]
-        point_3d = @origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
-        point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
-        floor_print << point_3d
+        floor_print = OpenStudio::Point3dVector.new
+        polygon.each do |p|
+          lon = p[0]
+          lat = p[1]
+          point_3d = @origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
+          point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
+          floor_print << point_3d
+        end
+        if floor_print.size < 3
+          @runner.registerWarning("Cannot create floor print, fewer than 3 points")
+          return nil
+        end
+        floor_print = OpenStudio::removeCollinear(floor_print)
+        normal = OpenStudio::getOutwardNormal(floor_print)
+        if normal.empty?
+          @runner.registerWarning("Cannot create floor print, cannot compute outward normal")
+          return nil
+        elsif normal.get.z > 0
+          floor_print = OpenStudio::reverse(floor_print)
+          @runner.registerWarning("Reversing floor print")
+        end
+        return floor_print
       end
-      if floor_print.size < 3
-        @runner.registerWarning("Cannot create floor print, fewer than 3 points")
-        return nil
+
+
+      def arguments(model)
+        args = OpenStudio::Ruleset::OSArgumentVector.new
+        # geojson file
+        geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
+        geojson_file.setDisplayName("GeoJSON File")
+        geojson_file.setDescription("GeoJSON File.")
+        args << geojson_file
+        # feature id of the building to create
+        feature_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("feature_id", true)
+        feature_id.setDisplayName("Feature ID")
+        feature_id.setDescription("Feature ID.")
+        args << feature_id
+        # which surrounding buildings to include
+        chs = OpenStudio::StringVector.new
+        chs << "None"
+        chs << "ShadingOnly"
+        chs << "All"
+        surrounding_buildings = OpenStudio::Ruleset::OSArgument.makeChoiceArgument("surrounding_buildings", chs, true)
+        surrounding_buildings.setDisplayName("Surrounding Buildings")
+        surrounding_buildings.setDescription("Select which surrounding buildings to include.")
+        surrounding_buildings.setDefaultValue("ShadingOnly")
+        args << surrounding_buildings
+        return args
       end
-      floor_print = OpenStudio::removeCollinear(floor_print)
-      normal = OpenStudio::getOutwardNormal(floor_print)
-      if normal.empty?
-        @runner.registerWarning("Cannot create floor print, cannot compute outward normal")
-        return nil
-      elsif normal.get.z > 0
-        floor_print = OpenStudio::reverse(floor_print)
-        @runner.registerWarning("Reversing floor print")
-      end
-      return floor_print
-    end
+
 
     end
   end
