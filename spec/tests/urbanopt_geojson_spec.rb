@@ -201,4 +201,13 @@ RSpec.describe URBANopt::GeoJSON do
     expect(feature[:properties][:name]).to eq("Thermal Test Facility")
   end
 
+  it 'defines the arguments that the user will input given a model' do
+    instance = URBANopt::GeoJSON::GeoJSON.new
+    model = OpenStudio::Model::Model.new
+
+    # NOTE: currently only asserting the class
+    args = instance.arguments(model)
+    expect(args.class()).to eq(OpenStudio::Ruleset::OSArgumentVector)
+  end
+
 end
