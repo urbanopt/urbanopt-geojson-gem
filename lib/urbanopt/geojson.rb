@@ -183,7 +183,7 @@ module URBANopt
 
 
       def arguments(model)
-        args = OpenStudio::Ruleset::OSArgumentVector.new
+        args = OpenStudio::Measure::OSArgumentVector.new
         # geojson file
         geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
         geojson_file.setDisplayName("GeoJSON File")
