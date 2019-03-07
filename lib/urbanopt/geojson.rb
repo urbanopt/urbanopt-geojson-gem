@@ -208,6 +208,98 @@ module URBANopt
       end
 
 
+      def create_photovoltaics(feature_json, height, model)
+        #NOTE replace this runner
+        @runner =  OpenStudio::Ruleset::OSRunner.new
+
+
+        properties = feature_json[:properties]
+        feature_id = properties[:properties]
+        name = properties[:name]
+        floor_prints = []
+        multi_polygons = get_multi_polygons(feature_json)
+        multi_polygons.each do |multi_polygon|
+          if multi_polygon.size > 1
+            @runner.registerWarning("Ignoring holes in polygon")
+          end
+          multi_polygon.each do |polygon|
+            floor_print = floor_print_from_polygon(polygon, height)
+            if floor_print
+              floor_prints << OpenStudio::reverse(floor_print)
+            else
+              @runner.registerWarning("Cannot create footprint for '#{name}'")
+            end
+            # subsequent polygons are holes, we do not support them
+            break
+          end
+        end
+        shading_surfaces = []
+        floor_prints.each do |floor_print|
+          shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
+          shading_surface = OpenStudio::Model::ShadingSurface.new(floor_print, model)
+          shading_surface.setShadingSurfaceGroup(shading_group)
+          shading_surface.setName("Photovoltaic Panel")
+          shading_surfaces << shading_surface
+        end
+        # create the inverter
+        inverter = OpenStudio::Model::ElectricLoadCenterInverterSimple.new(model)
+        inverter.setInverterEfficiency(0.95)
+        # create the distribution system
+        elcd = OpenStudio::Model::ElectricLoadCenterDistribution.new(model)
+        elcd.setInverter(inverter)
+        shading_surfaces.each do |shading_surface|
+          panel = OpenStudio::Model::GeneratorPhotovoltaic::simple(model)
+          panel.setSurface(shading_surface)
+          performance = panel.photovoltaicPerformance.to_PhotovoltaicPerformanceSimple.get
+          performance.setFractionOfSurfaceAreaWithActiveSolarCells(1.0)
+          performance.setFixedEfficiency(0.3)
+          elcd.addGenerator(panel)
+        end
+        return shading_surfaces
+      end
+
+
+      def create_space_per_building(building_json, min_elevation, max_elevation, model)
+        #NOTE replace this runner
+        @runner =  OpenStudio::Ruleset::OSRunner.new
+
+
+        geometry = building_json[:geometry]
+        properties = building_json[:properties]
+        name = properties[:name]
+        floor_prints = []
+        multi_polygons = get_multi_polygons(building_json)
+        multi_polygons.each do |multi_polygon|
+          if multi_polygon.size > 1
+            @runner.registerWarning("Ignoring holes in polygon")
+          end
+          multi_polygon.each do |polygon|
+            floor_print = floor_print_from_polygon(polygon, min_elevation)
+            if floor_print
+              floor_prints << floor_print
+            else
+              @runner.registerWarning("Cannot get floor print for building '#{name}'")
+            end
+            break
+          end
+        end
+        result = []
+        floor_prints.each do |floor_print|
+          space = OpenStudio::Model::Space.fromFloorPrint(floor_print, max_elevation-min_elevation, model)
+          if space.empty?
+            @runner.registerWarning("Cannot create building space")
+            next
+          end
+          space = space.get
+          space.setName("Building #{name} Space")
+          thermal_zone = OpenStudio::Model::ThermalZone.new(model)
+          thermal_zone.setName("Building #{name} ThermalZone")
+          space.setThermalZone(thermal_zone)
+          result << space
+        end
+        return result
+      end
+
     end
   end
 end
