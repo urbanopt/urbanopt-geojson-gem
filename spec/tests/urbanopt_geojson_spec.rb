@@ -29,7 +29,7 @@
 require_relative '../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
-  
+
   before(:each) do
     @gem_instance = URBANopt::GeoJSON::GeoJSON.new
   end
@@ -287,8 +287,12 @@ RSpec.describe URBANopt::GeoJSON do
     end
 
     it 'creates space per floor' do
+      model = OpenStudio::Model::Model.new
 
-    end
+      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model)
+      expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
+      expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
+     end
   end
 
 end
