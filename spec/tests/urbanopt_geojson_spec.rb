@@ -29,23 +29,25 @@
 require_relative '../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
+  
+  before(:each) do
+    @gem_instance = URBANopt::GeoJSON::GeoJSON.new
+  end
+
   it "has a version number" do
     expect(URBANopt::GeoJSON::VERSION).not_to be nil
   end
 
   it 'has a base version number' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    expect(instance.version).not_to be nil
-    expect(instance.version).to eq(URBANopt::GeoJSON::VERSION)
+    expect(@gem_instance.version).not_to be nil
+    expect(@gem_instance.version).to eq(URBANopt::GeoJSON::VERSION)
   end
 
   it 'has a measures directory' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    expect(File.exists?(File.join(instance.measures_dir, 'urban_geometry_creation/'))).to be true
+    expect(File.exists?(File.join(@gem_instance.measures_dir, 'urban_geometry_creation/'))).to be true
   end
 
   it 'creates a multi polygon out of a polygon' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     polygon = {
       'geometry': {
         'type': 'Polygon',
@@ -58,7 +60,7 @@ RSpec.describe URBANopt::GeoJSON do
         ]
       }
     }
-    multi_polygon = instance.get_multi_polygons(polygon)
+    multi_polygon = @gem_instance.get_multi_polygons(polygon)
     expect(multi_polygon).to eq([
       [
         [
@@ -71,7 +73,6 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'extracts coordinates from multipolygon' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     multipolygon = {
       'geometry': {
         'type': 'MultiPolygon',
@@ -86,7 +87,7 @@ RSpec.describe URBANopt::GeoJSON do
         ]
       }
     }
-    coordinates = instance.get_multi_polygons(multipolygon)
+    coordinates = @gem_instance.get_multi_polygons(multipolygon)
     expect(coordinates).to eq([
       [
         [
@@ -99,19 +100,17 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'returns nil when given a point' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     point = {
       'geometry': {
         'type': 'Point',
         'coordinates': [0, 5],
       }
     }
-    coordinates = instance.get_multi_polygons(point)
+    coordinates = @gem_instance.get_multi_polygons(point)
     expect(coordinates).to eq(nil)
   end
 
   it 'creates minimum longitute and latitude given a polygon' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     polygon = {
       'geometry': {
         'type': 'Polygon',
@@ -124,12 +123,11 @@ RSpec.describe URBANopt::GeoJSON do
         ]
       }
     }
-    min_lon_and_lat = instance.get_min_lon_lat(polygon)
+    min_lon_and_lat = @gem_instance.get_min_lon_lat(polygon)
     expect(min_lon_and_lat).to eq([1, 1])
   end
 
   it 'creates minimum longitute and latitude given a polygon' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     polygon = {
       'geometry': {
         'type': 'Polygon',
@@ -142,18 +140,17 @@ RSpec.describe URBANopt::GeoJSON do
         ]
       }
     }
-    min_lon_and_lat = instance.get_min_lon_lat(polygon)
+    min_lon_and_lat = @gem_instance.get_min_lon_lat(polygon)
     expect(min_lon_and_lat).to eq([1, 1])
   end
 
   it 'creates a floorprint from polygon' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     polygon = [
             [1, 5],
             [5, 5],
             [5, 1],
           ]
-    floorprint = instance.floor_print_from_polygon(polygon, 0)
+    floorprint = @gem_instance.floor_print_from_polygon(polygon, 0)
     vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
     vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
     vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
@@ -169,17 +166,15 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'determines if a point is shadowed' do
     # NOTE: Need to write happy path test for this
-    instance = URBANopt::GeoJSON::GeoJSON.new
     point = OpenStudio::Point3d.new(2, 4, 0)
     point2 = OpenStudio::Point3d.new(4, 8, 0)
 
-    is_shadowed = instance.point_is_shadowed(point, point2)
+    is_shadowed = @gem_instance.point_is_shadowed(point, point2)
     expect(is_shadowed).to eq(false)
   end
 
   it 'determines if building is shadowed' do
     # NOTE: Need to write happy path test for this
-    instance = URBANopt::GeoJSON::GeoJSON.new
     points = [
       OpenStudio::Point3d.new(2, 4, 0),
       OpenStudio::Point3d.new(3, 6, 1),
@@ -189,24 +184,22 @@ RSpec.describe URBANopt::GeoJSON do
       OpenStudio::Point3d.new(6, 12, 6),
     ]
 
-    is_shadowed = instance.is_shadowed(points, points2)
+    is_shadowed = @gem_instance.is_shadowed(points, points2)
     expect(is_shadowed).to eq(false)
   end
 
   it 'gets feature given a feature ID' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    feature = instance.get_feature('Thermal Test Facility')
+    feature = @gem_instance.get_feature('Thermal Test Facility')
 
     expect(feature[:type]).to eq("Feature")
     expect(feature[:properties][:name]).to eq("Thermal Test Facility")
   end
 
   it 'defines the arguments that the user will input given a model' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
     model = OpenStudio::Model::Model.new
 
     # NOTE: currently only asserting the class
-    args = instance.arguments(model)
+    args = @gem_instance.arguments(model)
     arg_map = OpenStudio::Measure::convertOSArgumentVectorToMap(args)
 
     expect(args.class()).to eq(OpenStudio::Measure::OSArgumentVector)
@@ -216,79 +209,86 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates photovoltaics given a feaure, height and model' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    feature = instance.get_feature('Thermal Test Facility')
+    feature = @gem_instance.get_feature('Thermal Test Facility')
     model = OpenStudio::Model::Model.new
-    
-    photovoltaics = instance.create_photovoltaics(feature, 0, model)
+
+    photovoltaics = @gem_instance.create_photovoltaics(feature, 0, model)
     # TODO: make this test more specific
     expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
   end
-  
-  it 'creates a space per building' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    model = OpenStudio::Model::Model.new
-    building_json = {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
+
+  context "functions that take building_json" do
+    before(:each) do
+      @building_json = {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
             [
-              -105.1761558651924,
-              39.74217020021416
-            ],
-            [
-              -105.1763167977333,
-              39.74228982098384
-            ],
-            [
-              -105.17616927623748,
-              39.74240944154582
-            ],
-            [
-              -105.1760110259056,
-              39.74228775855852
-            ],
-            [
-              -105.1761558651924,
-              39.74217020021416
+              [
+                -105.1761558651924,
+                39.74217020021416
+              ],
+              [
+                -105.1763167977333,
+                39.74228982098384
+              ],
+              [
+                -105.17616927623748,
+                39.74240944154582
+              ],
+              [
+                -105.1760110259056,
+                39.74228775855852
+              ],
+              [
+                -105.1761558651924,
+                39.74217020021416
+              ]
             ]
           ]
-        ]
-      },
-      "properties": {
-        "id": "59a9ce2b42f7d007c059d302",
-        "source_id": "Vehicle Testing and Integration Facility",
-        "source_name": "NREL_GDS",
-        "project_id": "59a9ccdf42f7d007c059d2ed",
-        "stroke": "#555555",
-        "stroke-width": 2,
-        "stroke-opacity": 1,
-        "fill": "#555555",
-        "fill-opacity": 0.5,
-        "name": "Vehicle Testing and Integration Facility",
-        "maximum_roof_height": 10,
-        "floor_area": 3745.419332770663,
-        "number_of_stories": 1,
-        "number_of_stories_above_ground": 1,
-        "building_type": "Office",
-        "surface_elevation": 5198,
-        "type": "Building",
-        "footprint_area": 3750,
-        "footprint_perimeter": 245,
-        "updated_at": "2017-09-01T21:17:07.507Z",
-        "created_at": "2017-09-01T21:16:27.649Z",
-        "height": 3,
-        "geometryType": "Polygon"
+        },
+        "properties": {
+          "id": "59a9ce2b42f7d007c059d302",
+          "source_id": "Vehicle Testing and Integration Facility",
+          "source_name": "NREL_GDS",
+          "project_id": "59a9ccdf42f7d007c059d2ed",
+          "stroke": "#555555",
+          "stroke-width": 2,
+          "stroke-opacity": 1,
+          "fill": "#555555",
+          "fill-opacity": 0.5,
+          "name": "Vehicle Testing and Integration Facility",
+          "maximum_roof_height": 10,
+          "floor_area": 3745.419332770663,
+          "number_of_stories": 1,
+          "number_of_stories_above_ground": 1,
+          "building_type": "Office",
+          "surface_elevation": 5198,
+          "type": "Building",
+          "footprint_area": 3750,
+          "footprint_perimeter": 245,
+          "updated_at": "2017-09-01T21:17:07.507Z",
+          "created_at": "2017-09-01T21:16:27.649Z",
+          "height": 3,
+          "geometryType": "Polygon"
+        }
       }
-    }
+    end
 
-    building_spaces = instance.create_space_per_building(building_json, 1, 10, model)
-    puts Object.methods(building_spaces[0])
-    puts building_spaces[0].surfaces()
-    expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
-    expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
+    it 'creates a space per building' do
+      model = OpenStudio::Model::Model.new
+
+      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model)
+      # puts Object.methods(building_spaces[0])
+      # puts building_spaces[0].surfaces()
+      expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
+      expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
+    end
+
+    it 'creates space per floor' do
+
+    end
   end
 
 end
