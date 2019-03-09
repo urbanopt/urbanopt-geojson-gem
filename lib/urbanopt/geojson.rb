@@ -300,6 +300,55 @@ module URBANopt
         return result
       end
 
+
+      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model)
+        geometry = building_json[:geometry]
+        properties = building_json[:properties]
+        floor_prints = []
+        multi_polygons = get_multi_polygons(building_json)
+        multi_polygons.each do |multi_polygon|
+          if story_number == 1 && multi_polygon.size > 1
+            @runner.registerWarning("Ignoring holes in polygon")
+          end
+          multi_polygon.each do |polygon|
+            elevation = (story_number-1)*floor_to_floor_height
+            floor_print = floor_print_from_polygon(polygon, elevation)
+            if floor_print
+              floor_prints << floor_print
+            else
+              @runner.registerWarning("Cannot create story #{story_number}")
+            end
+            # subsequent polygons are holes, we do not support them
+            break
+          end
+        end
+        result = []
+        floor_prints.each do |floor_print|
+          space = OpenStudio::Model::Space.fromFloorPrint(floor_print, floor_to_floor_height, model)
+          if space.empty?
+            @runner.registerWarning("Cannot create space for story #{story_number}")
+            next
+          end
+          space = space.get
+          space.setName("Building Story #{story_number} Space")
+          space.surfaces.each do |surface|
+            if surface.surfaceType == "Wall"
+              if story_number < 1
+                surface.setOutsideBoundaryCondition("Ground")
+              end
+            end
+          end
+          building_story = OpenStudio::Model::BuildingStory.new(model)
+          building_story.setName("Building Story #{story_number}")
+          space.setBuildingStory(building_story)
+          thermal_zone = OpenStudio::Model::ThermalZone.new(model)
+          thermal_zone.setName("Building Story #{story_number} ThermalZone")
+          space.setThermalZone(thermal_zone)
+          result << space
+        end
+        return result
+      end
+
     end
   end
 end
