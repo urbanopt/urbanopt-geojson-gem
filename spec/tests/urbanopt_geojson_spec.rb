@@ -155,7 +155,6 @@ RSpec.describe URBANopt::GeoJSON do
     vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
     vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
     vertexes = [vertex1, vertex2, vertex3]
-
     vertexes.each_with_index {
       |vertex, idx|
       expect(floorprint[idx].x).to eq(vertex.x)
@@ -168,7 +167,6 @@ RSpec.describe URBANopt::GeoJSON do
     # NOTE: Need to write happy path test for this
     point = OpenStudio::Point3d.new(2, 4, 0)
     point2 = OpenStudio::Point3d.new(4, 8, 0)
-
     is_shadowed = @gem_instance.point_is_shadowed(point, point2)
     expect(is_shadowed).to eq(false)
   end
@@ -183,25 +181,21 @@ RSpec.describe URBANopt::GeoJSON do
       OpenStudio::Point3d.new(4, 8, 0),
       OpenStudio::Point3d.new(6, 12, 6),
     ]
-
     is_shadowed = @gem_instance.is_shadowed(points, points2)
     expect(is_shadowed).to eq(false)
   end
 
   it 'gets feature given a feature ID' do
     feature = @gem_instance.get_feature('Thermal Test Facility')
-
     expect(feature[:type]).to eq("Feature")
     expect(feature[:properties][:name]).to eq("Thermal Test Facility")
   end
 
   it 'defines the arguments that the user will input given a model' do
     model = OpenStudio::Model::Model.new
-
     # NOTE: currently only asserting the class
     args = @gem_instance.arguments(model)
     arg_map = OpenStudio::Measure::convertOSArgumentVectorToMap(args)
-
     expect(args.class()).to eq(OpenStudio::Measure::OSArgumentVector)
     expect(arg_map['feature_id'].class()).to eq(OpenStudio::Measure::OSArgument)
     expect(arg_map['geojson_file'].class()).to eq(OpenStudio::Measure::OSArgument)
@@ -211,7 +205,6 @@ RSpec.describe URBANopt::GeoJSON do
   it 'creates photovoltaics given a feaure, height and model' do
     feature = @gem_instance.get_feature('Thermal Test Facility')
     model = OpenStudio::Model::Model.new
-
     photovoltaics = @gem_instance.create_photovoltaics(feature, 0, model)
     # TODO: make this test more specific
     expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
@@ -278,7 +271,6 @@ RSpec.describe URBANopt::GeoJSON do
 
     it 'creates a space per building' do
       model = OpenStudio::Model::Model.new
-
       building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model)
       # puts Object.methods(building_spaces[0])
       # puts building_spaces[0].surfaces()
@@ -288,11 +280,38 @@ RSpec.describe URBANopt::GeoJSON do
 
     it 'creates space per floor' do
       model = OpenStudio::Model::Model.new
-
       floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model)
       expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
       expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
+    end
+
+    it 'creates building' do
+      # NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
+      model = OpenStudio::Model::Model.new
+      building = @gem_instance.create_building(@building_json, :space_per_floor, model)
+      expect(building[0].class()).to eq(OpenStudio::Model::Space)
      end
+
+     it 'creates other buildings' do
+      # NOTE: REPLACE OTHER BUILDING JSON
+      model = OpenStudio::Model::Model.new
+      other_buildings = @gem_instance.create_other_buildings(@building_json, @building_json, model)
+      expect(other_buildings).to eq([])
+     end
+
+
+     it 'converts to shading surface group' do
+      model = OpenStudio::Model::Model.new
+      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model)
+      group = @gem_instance.convert_to_shading_surface_group(floor_spaces[0])
+      expect(group[0].class()).to eq(OpenStudio::Model::ShadingSurfaceGroup)
+     end
+  end
+
+  it 'creates a space type' do
+    model = OpenStudio::Model::Model.new
+    space_type = @gem_instance.create_space_type("use", "use2", model)
+    expect(space_type.class()).to eq(OpenStudio::Model::SpaceType)
   end
 
 end
