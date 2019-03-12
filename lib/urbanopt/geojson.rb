@@ -302,6 +302,10 @@ module URBANopt
 
 
       def create_space_per_floor(building_json, story_number, floor_to_floor_height, model)
+        #NOTE replace this runner
+        @runner =  OpenStudio::Ruleset::OSRunner.new
+
+
         geometry = building_json[:geometry]
         properties = building_json[:properties]
         floor_prints = []
@@ -347,6 +351,220 @@ module URBANopt
           result << space
         end
         return result
+      end
+
+
+      def create_space_type(bldg_use, space_use, model)
+        name = "#{bldg_use}:#{space_use}"
+        # check if we already have this space type
+        model.getSpaceTypes.each do |s|
+          if s.name.get == name
+            return s
+          end
+        end
+        space_type = OpenStudio::Model::SpaceType.new(model)
+        space_type.setName(name)
+        space_type.setStandardsBuildingType(bldg_use)
+        space_type.setStandardsSpaceType(space_use)
+        return space_type
+      end
+
+
+      def create_building(building_json, create_method, model)
+        properties = building_json[:properties]
+        number_of_stories = properties[:number_of_stories]
+        number_of_stories_above_ground = properties[:number_of_stories_above_ground]
+        number_of_stories_below_ground = properties[:number_of_stories_below_ground]
+        number_of_residential_units = properties[:number_of_residential_units]
+        maximum_roof_height = properties[:maximum_roof_height]
+        space_type = properties[:building_type]
+        if space_type == "Mixed use"
+          mixed_types = []
+          if properties[:mixed_type_1] && properties[:mixed_type_1_percentage]
+            mixed_types << {type: properties[:mixed_type_1], percentage: properties[:mixed_type_1_percentage]}
+          end
+          if properties[:mixed_type_2] && properties[:mixed_type_2_percentage]
+            mixed_types << {type: properties[:mixed_type_2], percentage: properties[:mixed_type_2_percentage]}
+          end
+          if properties[:mixed_type_3] && properties[:mixed_type_3_percentage]
+            mixed_types << {type: properties[:mixed_type_3], percentage: properties[:mixed_type_3_percentage]}
+          end
+          if properties[:mixed_type_4] && properties[:mixed_type_4_percentage]
+            mixed_types << {type: properties[:mixed_type_4], percentage: properties[:mixed_type_4_percentage]}
+          end
+          if mixed_types.empty?
+            @runner.registerError("'Mixed use' building type requested but 'mixed_types' argument is empty")
+            return nil
+          end
+          mixed_types.sort! {|x,y| x[:percentage] <=> y[:percentage]}
+          # DLM: temp code
+          space_type = mixed_types[-1][:type]
+          @runner.registerWarning("'Mixed use' building type requested, using largest type '#{space_type}' for now")
+        end
+        if number_of_stories_above_ground.nil?
+          number_of_stories_above_ground = number_of_stories
+          number_of_stories_below_ground = 0
+        else
+          number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
+        end
+        floor_to_floor_height = 3
+        if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
+          floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
+          floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
+        end
+        if create_method == :space_per_floor
+          if space_type
+            # get the building use and fix any issues
+            building_space_type = create_space_type(space_type, space_type, model)
+            model.getBuilding.setSpaceType(building_space_type)
+            model.getBuilding.setStandardsBuildingType(space_type)
+            model.getBuilding.setRelocatable(false)
+          end
+          if number_of_residential_units
+            model.getBuilding.setStandardsNumberOfLivingUnits(number_of_residential_units)
+          end
+          model.getBuilding.setStandardsNumberOfStories(number_of_stories)
+          model.getBuilding.setStandardsNumberOfAboveGroundStories(number_of_stories_above_ground)
+          model.getBuilding.setNominalFloortoFloorHeight(floor_to_floor_height)
+          #model.getBuilding.setNominalFloortoCeilingHeight
+        end
+        spaces = []
+        if create_method == :space_per_floor
+          (-number_of_stories_below_ground+1..number_of_stories_above_ground).each do |story_number|
+            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model)
+            spaces.concat(new_spaces)
+          end
+        elsif create_method == :space_per_building
+          spaces = create_space_per_building(building_json, -number_of_stories_below_ground*floor_to_floor_height, number_of_stories_above_ground*floor_to_floor_height, model)
+        end
+        return spaces
+      end
+
+
+      def create_other_buildings(building_json, surrounding_buildings, model)
+        #NOTE replace this runner
+        @runner =  OpenStudio::Ruleset::OSRunner.new
+
+
+
+        project_id = building_json[:properties][:project_id]
+        feature_id = building_json[:properties][:id]
+        # nearby buildings to conver to shading
+        convert_to_shades = []
+        # query for nearby buildings
+        params = {}
+        params[:commit] = 'Proximity Search'
+        params[:feature_id] = feature_id
+        params[:distance] = 100
+        params[:proximity_feature_types] = ['Building']
+        feature_collection = get_feature_collection(params)
+        if feature_collection[:features].nil?
+          @runner.registerWarning("No features found in #{feature_collection}")
+          return []
+        end
+        # get first floor footprint points
+        building_points = []
+        multi_polygons = get_multi_polygons(building_json)
+        multi_polygons.each do |multi_polygon|
+          multi_polygon.each do |polygon|
+            elevation = 0
+            floor_print = floor_print_from_polygon(polygon, elevation)
+            floor_print.each do |point|
+              building_points << point
+            end
+            # subsequent polygons are holes, we do not support them
+            break
+          end
+        end
+        @runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
+        count = 0
+        feature_collection[:features].each do |other_building|
+          other_id = other_building[:properties][:id]
+          next if other_id == feature_id
+          if surrounding_buildings == "ShadingOnly"
+            # check if any building point is shaded by any other building point
+            roof_elevation	= other_building[:properties][:roof_elevation]
+            number_of_stories = other_building[:properties][:number_of_stories]
+            number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
+            maximum_roof_height = properties[:maximum_roof_height]
+            if number_of_stories_above_ground.nil?
+              if number_of_stories_below_ground.nil?
+                number_of_stories_above_ground = number_of_stories
+                number_of_stories_below_ground = 0
+              else
+                number_of_stories_above_ground = number_of_stories - number_of_stories_above_ground
+              end
+            end
+            floor_to_floor_height = 3
+            if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
+              floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
+              floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm')
+            end
+            other_height = number_of_stories_above_ground * floor_to_floor_height
+            # get first floor footprint points
+            other_building_points = []
+            multi_polygons = get_multi_polygons(other_building)
+            multi_polygons.each do |multi_polygon|
+              multi_polygon.each do |polygon|
+                floor_print = floor_print_from_polygon(polygon, other_height)
+                floor_print.each do |point|
+                  other_building_points << point
+                end
+                # subsequent polygons are holes, we do not support them
+                break
+              end
+            end
+            shadowed = is_shadowed(building_points, other_building_points)
+            if !shadowed
+              next
+            end
+          end
+          other_spaces = create_building(other_building, :space_per_building, model)
+          if other_spaces.nil? || other_spaces.empty?
+            @runner.registerWarning("Failed to create spaces for other building '#{name}'")
+          end
+          convert_to_shades.concat(other_spaces)
+        end
+        return convert_to_shades
+      end
+
+    def get_feature_collection(params)
+      #params[:commit] = 'Proximity Search'
+      #params[:feature_id] = feature_id
+      #params[:distance] = 100
+      #params[:proximity_feature_types] = ['Building']
+      return {}
+    end
+
+
+
+        def convert_to_shading_surface_group(space)
+        
+        name = space.name.to_s
+        model = space.model
+        shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
+        
+        space.surfaces.each do |surface|
+          shading_surface = OpenStudio::Model::ShadingSurface.new(surface.vertices, model)
+          shading_surface.setShadingSurfaceGroup(shading_group)
+        end
+        
+        thermal_zone = space.thermalZone
+        if !thermal_zone.empty?
+          thermal_zone.get.remove
+        end
+        
+        space_type = space.spaceType
+        
+        space.remove
+        
+        if !space_type.empty? && space_type.get.spaces.empty?
+          space_type.get.remove
+        end
+
+        shading_group.setName(name)
+        
+        return [shading_group]
       end
 
     end
