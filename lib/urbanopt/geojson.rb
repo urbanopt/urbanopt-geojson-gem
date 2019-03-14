@@ -33,6 +33,9 @@ module URBANopt
   module GeoJSON
     class GeoJSON < OpenStudio::Extension::Extension
       # include OpenStudio::Extension
+      def initialize()
+        @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+      end
       
       # Return the version of the OpenStudio Extension Gem
       def version
@@ -57,6 +60,24 @@ module URBANopt
 
 
       def get_multi_polygons(building_json)
+      # Returns MultiPolygon coordinates (coordinate pairs in double nested Array)
+      #
+      # Params:
+      # - building_json: can either be a polygon or a multipolygon (polygon's coordinates nested one layer less than multipolygon)
+      # e.g.
+        #  polygon = {
+        #     'geometry': {
+        #       'type': 'Polygon',
+        #       'coordinates': [
+        #         [
+        #           [0, 5],
+        #           [5, 5],
+        #           [5, 0],
+        #         ]
+        #       ]
+        #     }
+        #   }
+
         geometry_type = building_json[:geometry][:type]
         multi_polygons = nil
         if geometry_type == "Polygon"
@@ -70,6 +91,11 @@ module URBANopt
 
 
       def get_min_lon_lat(building_json)
+      ##
+      # Returns coordinate with the minimum longitute and latitude within given building_json
+      #
+      # Params:
+      # - building_json: contains multipolygons (example file: nrel_stm_footprints.geojson)
         min_lon = Float::MAX
         min_lat = Float::MAX
         # find min and max x coordinate
@@ -89,14 +115,18 @@ module URBANopt
       end
 
 
-      def get_feature(feature_id)
-        # NOTE: geoJSON path is harcoded TEMPORARILY (REMOVE ONCE ADDRESSED)
-        path = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
-        @geojson = nil
+      def get_feature(feature_id, path)
+      ##
+      # Returns feature object from specified geoJSON file
+      #
+      # Params:
+      # - feature_id: source_id affiliated with feature object
+      # - path: absolute path to geojson file
+        geojson = nil
         File.open(path, 'r') do |file|
-          @geojson = JSON.parse(file.read, {symbolize_names: true})
+          geojson = JSON.parse(file.read, {symbolize_names: true})
         end
-        @geojson[:features].each do |f|
+        geojson[:features].each do |f|
           if f[:properties] && f[:properties][:source_id] == feature_id
             return f
           end
@@ -105,7 +135,14 @@ module URBANopt
       end
 
 
-      def is_shadowed(building_points, other_building_points)
+      def is_shadowed(building_points, other_building_points, origin_lat_lon)
+      ##
+      # Returns Boolean indicating if specified building is shadowed
+      #
+      # Params:
+      # - building_points: array of instances of OpenStudio::Point3d
+      # - other_building_points: other array of instances of OpenStudio::Point3d
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         all_pairs = []
         building_points.each do |building_point|
           other_building_points.each do |other_building_point|
@@ -115,7 +152,7 @@ module URBANopt
         end
         all_pairs.sort! {|x, y| x[:distance] <=> y[:distance]}
         all_pairs.each do |pair|
-          if point_is_shadowed(pair[:building_point], pair[:other_building_point])
+          if point_is_shadowed(pair[:building_point], pair[:other_building_point], origin_lat_lon)
             return true
           end
         end
@@ -123,10 +160,14 @@ module URBANopt
       end
 
 
-      def point_is_shadowed(building_point, other_building_point)
-      # NOTE: DELETE THIS
-        @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
-
+      def point_is_shadowed(building_point, other_building_point, origin_lat_lon)
+      ##
+      # Returns Boolean indicating if specified building is shadowed
+      #
+      # Params:
+      # - building_point: nstance of OpenStudio::Point3d
+      # - other_building_point: other instance of OpenStudio::Point3d
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         vector = other_building_point - building_point
         height = vector.z
         distance = Math.sqrt(vector.x*vector.x + vector.y*vector.y)
@@ -135,7 +176,7 @@ module URBANopt
         end
         hour_angle_rad = Math.atan2(-vector.x, -vector.y)
         hour_angle = OpenStudio::radToDeg(hour_angle_rad)
-        lattitude_rad = OpenStudio::degToRad(@origin_lat_lon.lat)
+        lattitude_rad = OpenStudio::degToRad(origin_lat_lon.lat)
         result = false
         (-24..24).each do |declination|
           declination_rad = OpenStudio::degToRad(declination)
@@ -153,15 +194,24 @@ module URBANopt
       end
 
 
-      def floor_print_from_polygon(polygon, elevation)
-        # NOTE: DELETE THIS
-        @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
-
+      def floor_print_from_polygon(polygon, elevation, origin_lat_lon)
+      ##
+      # Returns Boolean indicating if specified building is shadowed
+      #
+      # Params:
+      # - polygon: array of coordinate pairs.
+      #   e.g. polygon = [
+              #   [1, 5],
+              #   [5, 5],
+              #   [5, 1],
+              # ]
+      # - elevation: number indicating elevation
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         floor_print = OpenStudio::Point3dVector.new
         polygon.each do |p|
           lon = p[0]
           lat = p[1]
-          point_3d = @origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
+          point_3d = origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
           point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
           floor_print << point_3d
         end
@@ -183,6 +233,11 @@ module URBANopt
 
 
       def arguments(model)
+      ##
+      # Returns OSArgumentVector containing list of OSArguments
+      #
+      # Params:
+      # - model: instance of OpenStudio::Model::Model.new
         args = OpenStudio::Measure::OSArgumentVector.new
         # geojson file
         geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
@@ -208,11 +263,16 @@ module URBANopt
       end
 
 
-      def create_photovoltaics(feature_json, height, model)
-        #NOTE replace this runner
-        @runner =  OpenStudio::Ruleset::OSRunner.new
-
-
+      def create_photovoltaics(feature_json, height, model, origin_lat_lon)
+      ##
+      # Returns array containing instance of OpenStudio::Model::ShadingSurface
+      # NOTE: UPDATE THIS RETURN VALUE ONCE TEST IS FINISHED
+      #
+      # Params:
+      # - feature_json: feature json object (return value of get_feature)
+      # - height: number indicating building height
+      # - model: instance of OpenStudio::Model::Model
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         properties = feature_json[:properties]
         feature_id = properties[:properties]
         name = properties[:name]
@@ -223,7 +283,7 @@ module URBANopt
             @runner.registerWarning("Ignoring holes in polygon")
           end
           multi_polygon.each do |polygon|
-            floor_print = floor_print_from_polygon(polygon, height)
+            floor_print = floor_print_from_polygon(polygon, height, origin_lat_lon)
             if floor_print
               floor_prints << OpenStudio::reverse(floor_print)
             else
@@ -259,11 +319,17 @@ module URBANopt
       end
 
 
-      def create_space_per_building(building_json, min_elevation, max_elevation, model)
-        #NOTE replace this runner
-        @runner =  OpenStudio::Ruleset::OSRunner.new
-
-
+      def create_space_per_building(building_json, min_elevation, max_elevation, model, origin_lat_lon)
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space per building
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
+      # - min_elevation: number indicating minimum elevation across all buildings
+      # - mix_elevation: number indicating maximum elevation across all buildings
+      # - model: instance of OpenStudio::Model::Model
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         geometry = building_json[:geometry]
         properties = building_json[:properties]
         name = properties[:name]
@@ -274,7 +340,7 @@ module URBANopt
             @runner.registerWarning("Ignoring holes in polygon")
           end
           multi_polygon.each do |polygon|
-            floor_print = floor_print_from_polygon(polygon, min_elevation)
+            floor_print = floor_print_from_polygon(polygon, min_elevation, origin_lat_lon)
             if floor_print
               floor_prints << floor_print
             else
@@ -301,11 +367,17 @@ module URBANopt
       end
 
 
-      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model)
-        #NOTE replace this runner
-        @runner =  OpenStudio::Ruleset::OSRunner.new
-
-
+      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon)
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space per floor
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
+      # - story_number: number amount of floors in building
+      # - floor_to_floor_height: number number indicating height of building stories
+      # - model: instance of OpenStudio::Model::Model
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         geometry = building_json[:geometry]
         properties = building_json[:properties]
         floor_prints = []
@@ -316,7 +388,7 @@ module URBANopt
           end
           multi_polygon.each do |polygon|
             elevation = (story_number-1)*floor_to_floor_height
-            floor_print = floor_print_from_polygon(polygon, elevation)
+            floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon)
             if floor_print
               floor_prints << floor_print
             else
@@ -355,6 +427,14 @@ module URBANopt
 
 
       def create_space_type(bldg_use, space_use, model)
+      ##
+      # Returns instance of OpenStudio::Model::SpaceType
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - bldg_use: string indicating building use (UPDATE THIS)
+      # - space_use: string indicating space use (UPDATE THIS)
+      # - model: instance of OpenStudio::Model::Model
         name = "#{bldg_use}:#{space_use}"
         # check if we already have this space type
         model.getSpaceTypes.each do |s|
@@ -370,7 +450,16 @@ module URBANopt
       end
 
 
-      def create_building(building_json, create_method, model)
+      def create_building(building_json, create_method, model, origin_lat_lon)
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
+      # - create_method: e.g. ":space_per_floor" (UPDATE THIS)
+      # - model: instance of OpenStudio::Model::Model
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
         properties = building_json[:properties]
         number_of_stories = properties[:number_of_stories]
         number_of_stories_above_ground = properties[:number_of_stories_above_ground]
@@ -431,7 +520,7 @@ module URBANopt
         spaces = []
         if create_method == :space_per_floor
           (-number_of_stories_below_ground+1..number_of_stories_above_ground).each do |story_number|
-            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model)
+            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon)
             spaces.concat(new_spaces)
           end
         elsif create_method == :space_per_building
@@ -442,11 +531,14 @@ module URBANopt
 
 
       def create_other_buildings(building_json, surrounding_buildings, model)
-        #NOTE replace this runner
-        @runner =  OpenStudio::Ruleset::OSRunner.new
-
-
-
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
+      # - surrounding_buildings: building json object for surrounding buildings
+      # - model: instance of OpenStudio::Model::Model
         project_id = building_json[:properties][:project_id]
         feature_id = building_json[:properties][:id]
         # nearby buildings to conver to shading
@@ -528,42 +620,38 @@ module URBANopt
         return convert_to_shades
       end
 
-    def get_feature_collection(params)
-      #params[:commit] = 'Proximity Search'
-      #params[:feature_id] = feature_id
-      #params[:distance] = 100
-      #params[:proximity_feature_types] = ['Building']
-      return {}
-    end
+      def get_feature_collection(params)
+        #params[:commit] = 'Proximity Search'
+        #params[:feature_id] = feature_id
+        #params[:distance] = 100
+        #params[:proximity_feature_types] = ['Building']
+        return {}
+      end
 
-
-
-        def convert_to_shading_surface_group(space)
-        
+      def convert_to_shading_surface_group(space)
+      ##
+      # Returns an array of instances of OpenStudio::Model::ShadingSurfaceGroup
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - space: instance of OpenStudio::Model::Space
         name = space.name.to_s
         model = space.model
         shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
-        
         space.surfaces.each do |surface|
           shading_surface = OpenStudio::Model::ShadingSurface.new(surface.vertices, model)
           shading_surface.setShadingSurfaceGroup(shading_group)
         end
-        
         thermal_zone = space.thermalZone
         if !thermal_zone.empty?
           thermal_zone.get.remove
         end
-        
         space_type = space.spaceType
-        
         space.remove
-        
         if !space_type.empty? && space_type.get.spaces.empty?
           space_type.get.remove
         end
-
         shading_group.setName(name)
-        
         return [shading_group]
       end
 
