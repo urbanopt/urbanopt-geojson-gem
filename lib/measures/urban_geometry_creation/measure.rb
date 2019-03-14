@@ -624,10 +624,9 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
     return false
   end
-  
-  
+
+
   def point_is_shadowed(building_point, other_building_point)
-  
     vector = other_building_point - building_point
 
     height = vector.z

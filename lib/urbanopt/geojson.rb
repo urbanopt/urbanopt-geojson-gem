@@ -621,6 +621,7 @@ module URBANopt
       end
 
       def get_feature_collection(params)
+        # NOTE: DELETE THIS
         #params[:commit] = 'Proximity Search'
         #params[:feature_id] = feature_id
         #params[:distance] = 100
