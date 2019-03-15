@@ -1,0 +1,17 @@
+{
+  "name": "urbanopt-geojson-gem-docs",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "author": "Brian Schiller",
+  "dependencies": {
+    "highlight.js": "^9.15.6",
+    "json-schema-ref-parser": "^6.1.0",
+    "json-schema-view-js": "^2.0.1",
+    "vuepress": "^0.14.10"
+  }
+}

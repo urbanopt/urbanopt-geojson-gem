@@ -1,0 +1,3 @@
+# Building Properties
+
+<BuildingProperties />
