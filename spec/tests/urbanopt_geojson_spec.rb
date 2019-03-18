@@ -332,21 +332,21 @@ RSpec.describe URBANopt::GeoJSON do
       building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon)
       expect(building[0].class()).to eq(OpenStudio::Model::Space)
       expect(building.length()).to eq(@building_json[:properties][:number_of_stories])
-     end
+    end
 
-     it 'creates other buildings' do
+    it 'creates other buildings' do
       # NOTE: REPLACE OTHER BUILDING JSON
       model = OpenStudio::Model::Model.new
       other_buildings = @gem_instance.create_other_buildings(@building_json, "ShadingOnly", model)
       expect(other_buildings).to eq([])
-     end
+    end
 
-     it 'converts to shading surface group' do
+    it 'converts to shading surface group' do
       model = OpenStudio::Model::Model.new
       floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon)
       group = @gem_instance.convert_to_shading_surface_group(floor_spaces[0])
       expect(group[0].class()).to eq(OpenStudio::Model::ShadingSurfaceGroup)
-     end
+    end
   end
 
   it 'creates a space type' do
@@ -356,6 +356,64 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   context 'zoning tests' do
+    before(:each) do
+      @building_json = {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -105.1761558651924,
+                39.74217020021416
+              ],
+              [
+                -105.1763167977333,
+                39.74228982098384
+              ],
+              [
+                -105.17616927623748,
+                39.74240944154582
+              ],
+              [
+                -105.1760110259056,
+                39.74228775855852
+              ],
+              [
+                -105.1761558651924,
+                39.74217020021416
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "id": "59a9ce2b42f7d007c059d302",
+          "source_id": "Vehicle Testing and Integration Facility",
+          "source_name": "NREL_GDS",
+          "project_id": "59a9ccdf42f7d007c059d2ed",
+          "stroke": "#555555",
+          "stroke-width": 2,
+          "stroke-opacity": 1,
+          "fill": "#555555",
+          "fill-opacity": 0.5,
+          "name": "Vehicle Testing and Integration Facility",
+          "maximum_roof_height": 10,
+          "floor_area": 3745.419332770663,
+          "number_of_stories": 2,
+          "number_of_stories_above_ground": 2,
+          "building_type": "Office",
+          "surface_elevation": 5198,
+          "type": "Building",
+          "footprint_area": 3750,
+          "footprint_perimeter": 245,
+          "updated_at": "2017-09-01T21:17:07.507Z",
+          "created_at": "2017-09-01T21:16:27.649Z",
+          "height": 3,
+          "geometryType": "Polygon"
+        }
+      }
+    end
+
     it 'divides floor print' do
       polygon = [
         [1, 5],
@@ -367,6 +425,53 @@ RSpec.describe URBANopt::GeoJSON do
       expect(divided_floorprint.length).to eq(4)
       expect(divided_floorprint[0].length).to eq(3)
       expect(divided_floorprint[0][0].class).to eq(OpenStudio::Point3d)
+    end
+
+    it 'creates a zoning floorprint from polygon' do
+      # REVISIT: WHY ZONING SET TO TRUE 
+      polygon = [
+        [1, 5],
+        [5, 5],
+        [5, 1],
+      ]
+      floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon, true)
+      vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
+      vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
+      vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
+      vertexes = [vertex1, vertex2, vertex3]
+      vertexes.each_with_index {
+        |vertex, idx|
+        expect(floorprint[idx].x).to eq(vertex.x)
+        expect(floorprint[idx].y).to eq(vertex.y)
+        expect(floorprint[idx].z).to eq(vertex.z)
+      }
+    end
+
+    it 'creates zoning building' do
+      # REVISIT: WHY ZONING SET TO TRUE
+      model = OpenStudio::Model::Model.new
+      building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon, true)
+      expect(building[0].class()).to eq(OpenStudio::Model::Space)
+      expect(building.length()).to eq(@building_json[:properties][:number_of_stories])
+    end
+
+    it 'creates zoning space per floor' do
+    # REVISIT: WHY ZONING SET TO TRUE
+      model = OpenStudio::Model::Model.new
+      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, true)
+      expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
+      expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
+    end
+
+    it 'creates a zoning space per building' do
+    # REVISIT: WHY ZONING SET TO TRUE
+      model = OpenStudio::Model::Model.new
+      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, false)
+      # puts Object.methods(building_spaces[0])
+      # puts building_spaces[0].surfaces()
+      expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
+      expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
+      expect(building_spaces.length()).to eq(1)
     end
   end
 
