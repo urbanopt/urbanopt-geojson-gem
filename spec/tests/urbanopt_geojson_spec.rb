@@ -203,6 +203,26 @@ RSpec.describe URBANopt::GeoJSON do
     expect(is_shadowed).to eq(true)
   end
 
+  it 'determines if building is not shadowed' do
+    # NOTE: Need to write happy path test for this
+    # SOUTH:
+    south_points = [
+      OpenStudio::Point3d.new(6, 2, 1),
+      OpenStudio::Point3d.new(10, 2, 1),
+      OpenStudio::Point3d.new(6, -2, 1),
+      OpenStudio::Point3d.new(10, -2, 1),
+    ]
+    north_points = [
+      OpenStudio::Point3d.new(-3, -2, 1),
+      OpenStudio::Point3d.new(-1, -2, 1),
+      OpenStudio::Point3d.new(-1, 0, 1),
+      OpenStudio::Point3d.new(-3, 0, 1),
+    ]
+
+    is_shadowed = @gem_instance.is_shadowed(south_points, north_points, @origin_lat_lon)
+    expect(is_shadowed).to eq(false)
+  end
+
   it 'gets true given a feature ID and path to geoJSON file' do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     feature = @gem_instance.get_feature('Thermal Test Facility', path)
