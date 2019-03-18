@@ -37,14 +37,14 @@ RSpec.describe URBANopt::GeoJSON do
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
   end
 
-  it "has a version number" do
-    expect(URBANopt::GeoJSON::VERSION).not_to be nil
-  end
+  # it "has a version number" do
+    # expect(URBANopt::GeoJSON::VERSION).not_to be nil
+  # end
 
-  it 'has a base version number' do
-    expect(@gem_instance.version).not_to be nil
-    expect(@gem_instance.version).to eq(URBANopt::GeoJSON::VERSION)
-  end
+  # it 'has a base version number' do
+  #   expect(@gem_instance.version).not_to be nil
+  #   expect(@gem_instance.version).to eq(URBANopt::GeoJSON::VERSION)
+  # end
 
   it 'has a measures directory' do
     expect(File.exists?(File.join(@gem_instance.measures_dir, 'urban_geometry_creation/'))).to be true
@@ -187,19 +187,18 @@ RSpec.describe URBANopt::GeoJSON do
     # NOTE: Need to write happy path test for this
     # SOUTH:
     south_points = [
-      OpenStudio::Point3d.new(-105.18606886007417, 39.78968078861752, 10),
-      OpenStudio::Point3d.new(-105.18606886007417, 39.78928891749186, 10),
-      OpenStudio::Point3d.new(-105.18570284299787, 39.78928891749186, 10),
-      OpenStudio::Point3d.new(-105.18570284299787, 39.78968078861752, 10),
-      OpenStudio::Point3d.new(-105.18606886007417, 39.78968078861752, 10),
+      OpenStudio::Point3d.new(1, 2, 3),
+      OpenStudio::Point3d.new(5, 2, 3),
+      OpenStudio::Point3d.new(1, -2, 3),
+      OpenStudio::Point3d.new(5, -2, 3),
     ]
     north_points = [
-      OpenStudio::Point3d.new(-105.18614372933006, 39.789712346762315, 10),
-      OpenStudio::Point3d.new(-105.18614372933006, 39.79019939734965, 10),
-      OpenStudio::Point3d.new(-105.18564172303113, 39.79019939734965, 10),
-      OpenStudio::Point3d.new(-105.18564172303113, 39.789712346762315, 10),
-      OpenStudio::Point3d.new(-105.18614372933006, 39.789712346762315, 10),
+      OpenStudio::Point3d.new(3, -2, 1),
+      OpenStudio::Point3d.new(1, -2, 1),
+      OpenStudio::Point3d.new(1, 0, 1),
+      OpenStudio::Point3d.new(3, 0, 1),
     ]
+
     is_shadowed = @gem_instance.is_shadowed(south_points, north_points, @origin_lat_lon)
     expect(is_shadowed).to eq(true)
   end
