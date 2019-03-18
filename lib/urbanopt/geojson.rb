@@ -35,11 +35,8 @@ module URBANopt
   module GeoJSON
     class GeoJSON < OpenStudio::Extension::Extension
       # include OpenStudio::Extension
-      def initialize()
-        @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
-      end
-      
       def initialize
+        @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..'))
       end
       
