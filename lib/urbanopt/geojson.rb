@@ -207,13 +207,16 @@ module URBANopt
               # ]
       # - elevation: number indicating elevation
       # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
         floor_print = OpenStudio::Point3dVector.new
+        all_points = OpenStudio::Point3dVector.new
         polygon.each do |p|
           lon = p[0]
           lat = p[1]
           point_3d = origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
           point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
-          floor_print << point_3d
+          curr_print = zoning ? OpenStudio::getCombinedPoint(point_3d, all_points, 1.0) : point_3d
+          floor_print << curr_print
         end
         if floor_print.size < 3
           @runner.registerWarning("Cannot create floor print, fewer than 3 points")
@@ -319,7 +322,7 @@ module URBANopt
       end
 
 
-      def create_space_per_building(building_json, min_elevation, max_elevation, model, origin_lat_lon)
+      def create_space_per_building(building_json, min_elevation, max_elevation, model, origin_lat_lon, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per building
       # NOTE: update this return value once test is made more specific
@@ -330,9 +333,14 @@ module URBANopt
       # - mix_elevation: number indicating maximum elevation across all buildings
       # - model: instance of OpenStudio::Model::Model
       # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
         geometry = building_json[:geometry]
         properties = building_json[:properties]
-        name = properties[:name]
+        if zoning
+          source_id = properties[:source_id]
+        else
+          name = properties[:name]
+        end
         floor_prints = []
         multi_polygons = get_multi_polygons(building_json)
         multi_polygons.each do |multi_polygon|
@@ -367,7 +375,7 @@ module URBANopt
       end
 
 
-      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon)
+      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per floor
       # NOTE: update this return value once test is made more specific
@@ -378,6 +386,7 @@ module URBANopt
       # - floor_to_floor_height: number number indicating height of building stories
       # - model: instance of OpenStudio::Model::Model
       # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
         geometry = building_json[:geometry]
         properties = building_json[:properties]
         floor_prints = []
@@ -390,7 +399,12 @@ module URBANopt
             elevation = (story_number-1)*floor_to_floor_height
             floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon)
             if floor_print
-              floor_prints << floor_print
+              if zoning
+                this_floor_prints = divide_floor_print(floor_print, 4.0)
+                floor_prints.concat(this_floor_prints)
+              else
+                floor_prints << floor_print
+              end
             else
               @runner.registerWarning("Cannot create story #{story_number}")
             end
@@ -450,7 +464,7 @@ module URBANopt
       end
 
 
-      def create_building(building_json, create_method, model, origin_lat_lon)
+      def create_building(building_json, create_method, model, origin_lat_lon, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space
       # NOTE: update this return value once test is made more specific
@@ -460,13 +474,20 @@ module URBANopt
       # - create_method: e.g. ":space_per_floor" (UPDATE THIS)
       # - model: instance of OpenStudio::Model::Model
       # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
         properties = building_json[:properties]
         number_of_stories = properties[:number_of_stories]
         number_of_stories_above_ground = properties[:number_of_stories_above_ground]
         number_of_stories_below_ground = properties[:number_of_stories_below_ground]
         number_of_residential_units = properties[:number_of_residential_units]
-        maximum_roof_height = properties[:maximum_roof_height]
         space_type = properties[:building_type]
+        if zoning
+          surface_elevation	= properties[:surface_elevation]
+          roof_elevation	= properties[:roof_elevation]
+          floor_to_floor_height = properties[:floor_to_floor_height]
+        else
+          maximum_roof_height = properties[:maximum_roof_height]
+        end
         if space_type == "Mixed use"
           mixed_types = []
           if properties[:mixed_type_1] && properties[:mixed_type_1_percentage]
@@ -496,8 +517,8 @@ module URBANopt
         else
           number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
         end
-        floor_to_floor_height = 3
-        if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
+        floor_to_floor_height = zoning ? 3.6 : 3
+        if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height && !zoning
           floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
           floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
         end
