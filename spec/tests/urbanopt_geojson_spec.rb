@@ -355,4 +355,19 @@ RSpec.describe URBANopt::GeoJSON do
     expect(space_type.class()).to eq(OpenStudio::Model::SpaceType)
   end
 
+  context 'zoning tests' do
+    it 'divides floor print' do
+      polygon = [
+        [1, 5],
+        [5, 5],
+        [5, 1],
+      ]
+      floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon)
+      divided_floorprint = @gem_instance.divide_floor_print(floorprint, 1)
+      expect(divided_floorprint.length).to eq(4)
+      expect(divided_floorprint[0].length).to eq(3)
+      expect(divided_floorprint[0][0].class).to eq(OpenStudio::Point3d)
+    end
+  end
+
 end
