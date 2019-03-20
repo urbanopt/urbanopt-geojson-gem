@@ -74,6 +74,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
   end
 
   def test_one_building
+    # Create an instance of geojson gem
     geojson_gem = URBANopt::GeoJSON::GeoJSON.new
     # create an instance of the measure
     measure = UrbanGeometryCreation.new
