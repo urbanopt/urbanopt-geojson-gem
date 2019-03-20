@@ -105,7 +105,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     # instance variables
     @runner = runner
     @origin_lat_lon = nil
-    @geojson = nil
 
     path = @runner.workflow.findFile(geojson_file)
     if path.nil? || path.empty?
@@ -119,9 +118,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    File.open(path, 'r') do |file|
-      @geojson = JSON.parse(file.read, {symbolize_names: true})
-    end
     feature = geojson_gem.get_feature(feature_id, path)
     if feature.nil? || feature.empty?
       @runner.registerError("Feature '#{feature_id}' could not be found")
