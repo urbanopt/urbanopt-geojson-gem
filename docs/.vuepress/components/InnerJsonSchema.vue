@@ -33,7 +33,7 @@ export default {
         .then(([$RefParser]) => $RefParser.default.dereference(this.schema))
         .then(
           s =>
-            new window.JSONSchemaView(s, Infinity, {
+            new window.JSONSchemaView(s, 2, {
               theme: "dark"
             })
         );
