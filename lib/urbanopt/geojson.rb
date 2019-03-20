@@ -522,7 +522,7 @@ module URBANopt
           floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
           floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
         end
-        if create_method == :space_per_floor
+        if create_method == :space_per_floor or create_method == :spaces_per_floor
           if space_type
             # get the building use and fix any issues
             building_space_type = create_space_type(space_type, space_type, model)
@@ -539,9 +539,9 @@ module URBANopt
           #model.getBuilding.setNominalFloortoCeilingHeight
         end
         spaces = []
-        if create_method == :space_per_floor
+        if create_method == :space_per_floor or create_method == :spaces_per_floor
           (-number_of_stories_below_ground+1..number_of_stories_above_ground).each do |story_number|
-            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon)
+            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, zoning)
             spaces.concat(new_spaces)
           end
         elsif create_method == :space_per_building
