@@ -6,6 +6,8 @@ rdoc_include:
 - "/Users/brian/code/urbanopt-geojson-gem/lib"
 charset: UTF-8
 exclude:
+- docs
+- node_modules
 hyperlink_all: false
 line_numbers: false
 locale:
