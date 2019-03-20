@@ -2,4 +2,3 @@
 
 <StaticLink href="/rdoc/">Rdocs</StaticLink>
 
-<BuildingProperties />
