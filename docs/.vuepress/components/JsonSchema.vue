@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import JSONSchemaView from "json-schema-view-js";
+import "json-schema-view-js";
 import $RefParser from "json-schema-ref-parser/dist/ref-parser.js";
 import "json-schema-view-js/dist/style.css";
 import "highlight.js/styles/railscasts.css";
@@ -25,7 +25,7 @@ export default {
     view() {
       return $RefParser.dereference(this.schema).then(
         s =>
-          new JSONSchemaView(s, Infinity, {
+          new window.JSONSchemaView(s, Infinity, {
             theme: "dark"
           })
       );
