@@ -206,7 +206,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     if feature_type == 'Building'
     
       # make requested building
-      spaces = geojson_gem.create_building(feature, :space_per_floor, model, @origin_lat_lon)
+      spaces = geojson_gem.create_building(feature, :space_per_floor, model, @origin_lat_lon, @runner)
       if spaces.nil? 
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
@@ -220,7 +220,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           bb = space.boundingBox
           max_z = [max_z, bb.maxZ.get].max
         end
-        shading_surfaces = geojson_gem.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon)
+        shading_surfaces = geojson_gem.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon, @runner)
       end
       
       # make other buildings to convert to shading
@@ -228,7 +228,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       if surrounding_buildings == "None"
         # no-op
       else
-        convert_to_shades = geojson_gem.create_other_buildings(feature, surrounding_buildings, model)
+        convert_to_shades = geojson_gem.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
       end
       
       # intersect surfaces in this building with others
@@ -298,7 +298,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       district_system_type = feature[:properties][:district_system_type]
       
       if district_system_type == 'Community Photovoltaic'
-        shading_surfaces = create_photovoltaics(feature, 0, model)
+        shading_surfaces = create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
       end
 
     else
