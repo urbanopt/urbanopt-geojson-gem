@@ -44,7 +44,6 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
   # end
   
   def test_is_shadowed
-  
     geojson_gem = URBANopt::GeoJSON::GeoJSON.new
     meas = UrbanGeometryCreation.new
     meas.origin_lat_lon = OpenStudio::PointLatLon.new(40, -120, 0)
@@ -94,7 +93,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
     #surrounding_buildings = "All"
    
     # get arguments
-    arguments = geojson_gem.arguments(model)
+    arguments = measure.arguments(model)
     argument_map = OpenStudio::Ruleset.convertOSArgumentVectorToMap(arguments)
 
     # create hash of argument values.
