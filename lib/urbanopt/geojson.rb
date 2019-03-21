@@ -235,37 +235,6 @@ module URBANopt
       end
 
 
-      def arguments(model)
-      ##
-      # Returns OSArgumentVector containing list of OSArguments
-      #
-      # Params:
-      # - model: instance of OpenStudio::Model::Model.new
-        args = OpenStudio::Measure::OSArgumentVector.new
-        # geojson file
-        geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
-        geojson_file.setDisplayName("GeoJSON File")
-        geojson_file.setDescription("GeoJSON File.")
-        args << geojson_file
-        # feature id of the building to create
-        feature_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("feature_id", true)
-        feature_id.setDisplayName("Feature ID")
-        feature_id.setDescription("Feature ID.")
-        args << feature_id
-        # which surrounding buildings to include
-        chs = OpenStudio::StringVector.new
-        chs << "None"
-        chs << "ShadingOnly"
-        chs << "All"
-        surrounding_buildings = OpenStudio::Ruleset::OSArgument.makeChoiceArgument("surrounding_buildings", chs, true)
-        surrounding_buildings.setDisplayName("Surrounding Buildings")
-        surrounding_buildings.setDescription("Select which surrounding buildings to include.")
-        surrounding_buildings.setDefaultValue("ShadingOnly")
-        args << surrounding_buildings
-        return args
-      end
-
-
       def create_photovoltaics(feature_json, height, model, origin_lat_lon)
       ##
       # Returns array containing instance of OpenStudio::Model::ShadingSurface
