@@ -43,35 +43,6 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
   # def teardown
   # end
   
-  def test_is_shadowed
-    geojson_gem = URBANopt::GeoJSON::GeoJSON.new
-    meas = UrbanGeometryCreation.new
-    meas.origin_lat_lon = OpenStudio::PointLatLon.new(40, -120, 0)
-
-    # y is north, x is east, z is up
-    
-    # points on ground
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(10, 0, 0), meas.origin_lat_lon)) # West
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(Math.sqrt(50), -Math.sqrt(50), 0), meas.origin_lat_lon))  # South West
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(0, -10, 0), meas.origin_lat_lon)) # South
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(-Math.sqrt(50), -Math.sqrt(50), 0), meas.origin_lat_lon)) # South East
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(-10, 0, 0), meas.origin_lat_lon)) # East
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(-Math.sqrt(50), Math.sqrt(50), 0), meas.origin_lat_lon)) # North East
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(0, 10, 0), meas.origin_lat_lon)) # North
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(Math.sqrt(50), Math.sqrt(50), 0), meas.origin_lat_lon)) # North West
-    
-    # points 10 m up
-    assert(geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(10, 0, 10), meas.origin_lat_lon)) # West
-    assert(geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(Math.sqrt(50), -Math.sqrt(50), 10), meas.origin_lat_lon))  # South West
-    assert(geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(0, -10, 10), meas.origin_lat_lon)) # South
-    assert(geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(-Math.sqrt(50), -Math.sqrt(50), 10), meas.origin_lat_lon)) # South East
-    assert(geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(-10, 0, 10), meas.origin_lat_lon)) # East
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(-Math.sqrt(50), Math.sqrt(50), 10), meas.origin_lat_lon)) # North East
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(0, 10, 10), meas.origin_lat_lon)) # North
-    assert(!geojson_gem.point_is_shadowed(OpenStudio::Point3d.new(0, 0, 0), OpenStudio::Point3d.new(Math.sqrt(50), Math.sqrt(50), 10), meas.origin_lat_lon)) # North West
-
-  end
-
   def test_one_building
     # Create an instance of geojson gem
     geojson_gem = URBANopt::GeoJSON::GeoJSON.new
