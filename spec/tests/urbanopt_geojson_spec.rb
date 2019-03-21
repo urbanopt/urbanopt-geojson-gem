@@ -230,17 +230,6 @@ RSpec.describe URBANopt::GeoJSON do
     expect(feature[:properties][:name]).to eq("Thermal Test Facility")
   end
 
-  it 'defines the arguments that the user will input given a model' do
-    model = OpenStudio::Model::Model.new
-    # NOTE: currently only asserting the class
-    args = @gem_instance.arguments(model)
-    arg_map = OpenStudio::Measure::convertOSArgumentVectorToMap(args)
-    expect(args.class()).to eq(OpenStudio::Measure::OSArgumentVector)
-    expect(arg_map['feature_id'].class()).to eq(OpenStudio::Measure::OSArgument)
-    expect(arg_map['geojson_file'].class()).to eq(OpenStudio::Measure::OSArgument)
-    expect(arg_map['surrounding_buildings'].class()).to eq(OpenStudio::Measure::OSArgument)
-  end
-
   it 'creates photovoltaics given a feaure, height and model' do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     feature = @gem_instance.get_feature('Thermal Test Facility', path)
