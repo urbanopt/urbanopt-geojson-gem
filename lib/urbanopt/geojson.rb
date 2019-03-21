@@ -33,13 +33,31 @@ require "openstudio/extension"
 
 module URBANopt
   module GeoJSON
+    # def get_feature(feature_id, path)
+    # ##
+    # # Returns feature object from specified geoJSON file
+    # #
+    # # Params:
+    # # - feature_id: source_id affiliated with feature object
+    # # - path: absolute path to geojson file
+    #   geojson = nil
+    #   File.open(path, 'r') do |file|
+    #     geojson = JSON.parse(file.read, {symbolize_names: true})
+    #   end
+    #   geojson[:features].each do |f|
+    #     if f[:properties] && f[:properties][:source_id] == feature_id
+    #       return f
+    #     end
+    #   end
+    #   return nil
+    # end
+
     class GeoJSON < OpenStudio::Extension::Extension
       # include OpenStudio::Extension
       def initialize
-        @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..'))
       end
-      
+
       # Return the absolute path of the measures or nil if there is none, can be used when configuring OSWs
       def measures_dir
         return File.absolute_path(File.join(@root_dir, 'lib/measures/'))
@@ -194,7 +212,7 @@ module URBANopt
       end
 
 
-      def floor_print_from_polygon(polygon, elevation, origin_lat_lon, zoning=false)
+      def floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
       ##
       # Returns Boolean indicating if specified building is shadowed
       #
@@ -219,23 +237,23 @@ module URBANopt
           floor_print << curr_print
         end
         if floor_print.size < 3
-          @runner.registerWarning("Cannot create floor print, fewer than 3 points")
+          runner.registerWarning("Cannot create floor print, fewer than 3 points")
           return nil
         end
         floor_print = OpenStudio::removeCollinear(floor_print)
         normal = OpenStudio::getOutwardNormal(floor_print)
         if normal.empty?
-          @runner.registerWarning("Cannot create floor print, cannot compute outward normal")
+          runner.registerWarning("Cannot create floor print, cannot compute outward normal")
           return nil
         elsif normal.get.z > 0
           floor_print = OpenStudio::reverse(floor_print)
-          @runner.registerWarning("Reversing floor print")
+          runner.registerWarning("Reversing floor print")
         end
         return floor_print
       end
 
 
-      def create_photovoltaics(feature_json, height, model, origin_lat_lon)
+      def create_photovoltaics(feature_json, height, model, origin_lat_lon, runner)
       ##
       # Returns array containing instance of OpenStudio::Model::ShadingSurface
       # NOTE: UPDATE THIS RETURN VALUE ONCE TEST IS FINISHED
@@ -252,14 +270,14 @@ module URBANopt
         multi_polygons = get_multi_polygons(feature_json)
         multi_polygons.each do |multi_polygon|
           if multi_polygon.size > 1
-            @runner.registerWarning("Ignoring holes in polygon")
+            runner.registerWarning("Ignoring holes in polygon")
           end
           multi_polygon.each do |polygon|
-            floor_print = floor_print_from_polygon(polygon, height, origin_lat_lon)
+            floor_print = floor_print_from_polygon(polygon, height, origin_lat_lon, runner)
             if floor_print
               floor_prints << OpenStudio::reverse(floor_print)
             else
-              @runner.registerWarning("Cannot create footprint for '#{name}'")
+              runner.registerWarning("Cannot create footprint for '#{name}'")
             end
             # subsequent polygons are holes, we do not support them
             break
@@ -291,7 +309,7 @@ module URBANopt
       end
 
 
-      def create_space_per_building(building_json, min_elevation, max_elevation, model, origin_lat_lon, zoning=false)
+      def create_space_per_building(building_json, min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per building
       # NOTE: update this return value once test is made more specific
@@ -314,14 +332,14 @@ module URBANopt
         multi_polygons = get_multi_polygons(building_json)
         multi_polygons.each do |multi_polygon|
           if multi_polygon.size > 1
-            @runner.registerWarning("Ignoring holes in polygon")
+            runner.registerWarning("Ignoring holes in polygon")
           end
           multi_polygon.each do |polygon|
-            floor_print = floor_print_from_polygon(polygon, min_elevation, origin_lat_lon)
+            floor_print = floor_print_from_polygon(polygon, min_elevation, origin_lat_lon, runner, zoning)
             if floor_print
               floor_prints << floor_print
             else
-              @runner.registerWarning("Cannot get floor print for building '#{name}'")
+              runner.registerWarning("Cannot get floor print for building '#{name}'")
             end
             break
           end
@@ -330,7 +348,7 @@ module URBANopt
         floor_prints.each do |floor_print|
           space = OpenStudio::Model::Space.fromFloorPrint(floor_print, max_elevation-min_elevation, model)
           if space.empty?
-            @runner.registerWarning("Cannot create building space")
+            runner.registerWarning("Cannot create building space")
             next
           end
           space = space.get
@@ -344,7 +362,7 @@ module URBANopt
       end
 
 
-      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, zoning=false)
+      def create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per floor
       # NOTE: update this return value once test is made more specific
@@ -362,20 +380,20 @@ module URBANopt
         multi_polygons = get_multi_polygons(building_json)
         multi_polygons.each do |multi_polygon|
           if story_number == 1 && multi_polygon.size > 1
-            @runner.registerWarning("Ignoring holes in polygon")
+            runner.registerWarning("Ignoring holes in polygon")
           end
           multi_polygon.each do |polygon|
             elevation = (story_number-1)*floor_to_floor_height
-            floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon)
+            floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
             if floor_print
               if zoning
-                this_floor_prints = divide_floor_print(floor_print, 4.0)
+                this_floor_prints = divide_floor_print(floor_print, 4.0, runner)
                 floor_prints.concat(this_floor_prints)
               else
                 floor_prints << floor_print
               end
             else
-              @runner.registerWarning("Cannot create story #{story_number}")
+              runner.registerWarning("Cannot create story #{story_number}")
             end
             # subsequent polygons are holes, we do not support them
             break
@@ -385,7 +403,7 @@ module URBANopt
         floor_prints.each do |floor_print|
           space = OpenStudio::Model::Space.fromFloorPrint(floor_print, floor_to_floor_height, model)
           if space.empty?
-            @runner.registerWarning("Cannot create space for story #{story_number}")
+            runner.registerWarning("Cannot create space for story #{story_number}")
             next
           end
           space = space.get
@@ -433,7 +451,7 @@ module URBANopt
       end
 
 
-      def create_building(building_json, create_method, model, origin_lat_lon, zoning=false)
+      def create_building(building_json, create_method, model, origin_lat_lon, runner, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space
       # NOTE: update this return value once test is made more specific
@@ -472,13 +490,13 @@ module URBANopt
             mixed_types << {type: properties[:mixed_type_4], percentage: properties[:mixed_type_4_percentage]}
           end
           if mixed_types.empty?
-            @runner.registerError("'Mixed use' building type requested but 'mixed_types' argument is empty")
+            runner.registerError("'Mixed use' building type requested but 'mixed_types' argument is empty")
             return nil
           end
           mixed_types.sort! {|x,y| x[:percentage] <=> y[:percentage]}
           # DLM: temp code
           space_type = mixed_types[-1][:type]
-          @runner.registerWarning("'Mixed use' building type requested, using largest type '#{space_type}' for now")
+          runner.registerWarning("'Mixed use' building type requested, using largest type '#{space_type}' for now")
         end
         if number_of_stories_above_ground.nil?
           number_of_stories_above_ground = number_of_stories
@@ -510,17 +528,17 @@ module URBANopt
         spaces = []
         if create_method == :space_per_floor or create_method == :spaces_per_floor
           (-number_of_stories_below_ground+1..number_of_stories_above_ground).each do |story_number|
-            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, zoning)
+            new_spaces = create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning)
             spaces.concat(new_spaces)
           end
         elsif create_method == :space_per_building
-          spaces = create_space_per_building(building_json, -number_of_stories_below_ground*floor_to_floor_height, number_of_stories_above_ground*floor_to_floor_height, model)
+          spaces = create_space_per_building(building_json, -number_of_stories_below_ground*floor_to_floor_height, number_of_stories_above_ground*floor_to_floor_height, model, runner, zoning)
         end
         return spaces
       end
 
 
-      def create_other_buildings(building_json, surrounding_buildings, model)
+      def create_other_buildings(building_json, surrounding_buildings, model, origin_lat_lon, runner)
       ##
       # Returns an array of instances of OpenStudio::Model::Space
       # NOTE: update this return value once test is made more specific
@@ -541,7 +559,7 @@ module URBANopt
         params[:proximity_feature_types] = ['Building']
         feature_collection = get_feature_collection(params)
         if feature_collection[:features].nil?
-          @runner.registerWarning("No features found in #{feature_collection}")
+          runner.registerWarning("No features found in #{feature_collection}")
           return []
         end
         # get first floor footprint points
@@ -550,7 +568,7 @@ module URBANopt
         multi_polygons.each do |multi_polygon|
           multi_polygon.each do |polygon|
             elevation = 0
-            floor_print = floor_print_from_polygon(polygon, elevation)
+            floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner)
             floor_print.each do |point|
               building_points << point
             end
@@ -558,7 +576,7 @@ module URBANopt
             break
           end
         end
-        @runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
+        runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
         count = 0
         feature_collection[:features].each do |other_building|
           other_id = other_building[:properties][:id]
@@ -588,7 +606,7 @@ module URBANopt
             multi_polygons = get_multi_polygons(other_building)
             multi_polygons.each do |multi_polygon|
               multi_polygon.each do |polygon|
-                floor_print = floor_print_from_polygon(polygon, other_height)
+                floor_print = floor_print_from_polygon(polygon, other_height, origin_lat_lon, runner)
                 floor_print.each do |point|
                   other_building_points << point
                 end
@@ -601,9 +619,9 @@ module URBANopt
               next
             end
           end
-          other_spaces = create_building(other_building, :space_per_building, model)
+          other_spaces = create_building(other_building, :space_per_building, model, runner)
           if other_spaces.nil? || other_spaces.empty?
-            @runner.registerWarning("Failed to create spaces for other building '#{name}'")
+            runner.registerWarning("Failed to create spaces for other building '#{name}'")
           end
           convert_to_shades.concat(other_spaces)
         end
@@ -651,7 +669,7 @@ module URBANopt
 # URBAN GEOMETRY CREATION ZONING FUNCTIONS (MOVE IF NECESSARY)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      def divide_floor_print(floor_print, perimeter_depth)
+      def divide_floor_print(floor_print, perimeter_depth, runner)
         result = []
         t_inv = OpenStudio::Transformation.alignFace(floor_print)
         t = t_inv.inverse
@@ -686,7 +704,7 @@ module URBANopt
         end
         normal = OpenStudio::getOutwardNormal(new_vertices)
         if normal.empty? || normal.get.z < 0
-          @runner.registerWarning("Wrong direction for resulting normal, will not divide")
+          runner.registerWarning("Wrong direction for resulting normal, will not divide")
           return [floor_print]
         end
         self_intersects = OpenStudio::selfIntersects(OpenStudio::reverse(new_vertices), 0.01)
@@ -695,7 +713,7 @@ module URBANopt
           self_intersects = !self_intersects
         end
         if self_intersects
-          @runner.registerWarning("Self intersecting surface result, will not divide")
+          runner.registerWarning("Self intersecting surface result, will not divide")
           #return [floor_print]
         end
         # good to go
