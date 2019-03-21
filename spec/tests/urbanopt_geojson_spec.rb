@@ -35,6 +35,7 @@ RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     @gem_instance = URBANopt::GeoJSON::GeoJSON.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
   end
 
   # it "has a version number" do
@@ -154,7 +155,7 @@ RSpec.describe URBANopt::GeoJSON do
             [5, 5],
             [5, 1],
           ]
-    floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon)
+    floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner)
     vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
     vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
     vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
@@ -234,7 +235,7 @@ RSpec.describe URBANopt::GeoJSON do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     feature = @gem_instance.get_feature('Thermal Test Facility', path)
     model = OpenStudio::Model::Model.new
-    photovoltaics = @gem_instance.create_photovoltaics(feature, 0, model, @origin_lat_lon)
+    photovoltaics = @gem_instance.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
     # TODO: make this test more specific
     expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
   end
@@ -300,7 +301,7 @@ RSpec.describe URBANopt::GeoJSON do
 
     it 'creates a space per building' do
       model = OpenStudio::Model::Model.new
-      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon)
+      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, @runner)
       # puts Object.methods(building_spaces[0])
       # puts building_spaces[0].surfaces()
       expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
@@ -310,7 +311,7 @@ RSpec.describe URBANopt::GeoJSON do
 
     it 'creates space per floor' do
       model = OpenStudio::Model::Model.new
-      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon)
+      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner)
       expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
       expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
     end
@@ -318,7 +319,7 @@ RSpec.describe URBANopt::GeoJSON do
     it 'creates building' do
       # NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
       model = OpenStudio::Model::Model.new
-      building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon)
+      building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon, @runner)
       expect(building[0].class()).to eq(OpenStudio::Model::Space)
       expect(building.length()).to eq(@building_json[:properties][:number_of_stories])
     end
@@ -326,13 +327,13 @@ RSpec.describe URBANopt::GeoJSON do
     it 'creates other buildings' do
       # NOTE: REPLACE OTHER BUILDING JSON
       model = OpenStudio::Model::Model.new
-      other_buildings = @gem_instance.create_other_buildings(@building_json, "ShadingOnly", model)
+      other_buildings = @gem_instance.create_other_buildings(@building_json, "ShadingOnly", model, @origin_lat_lon, @runner)
       expect(other_buildings).to eq([])
     end
 
     it 'converts to shading surface group' do
       model = OpenStudio::Model::Model.new
-      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon)
+      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner)
       group = @gem_instance.convert_to_shading_surface_group(floor_spaces[0])
       expect(group[0].class()).to eq(OpenStudio::Model::ShadingSurfaceGroup)
     end
@@ -409,8 +410,8 @@ RSpec.describe URBANopt::GeoJSON do
         [5, 5],
         [5, 1],
       ]
-      floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon)
-      divided_floorprint = @gem_instance.divide_floor_print(floorprint, 1)
+      floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner)
+      divided_floorprint = @gem_instance.divide_floor_print(floorprint, 1, @runner)
       expect(divided_floorprint.length).to eq(4)
       expect(divided_floorprint[0].length).to eq(3)
       expect(divided_floorprint[0][0].class).to eq(OpenStudio::Point3d)
@@ -423,7 +424,7 @@ RSpec.describe URBANopt::GeoJSON do
         [5, 5],
         [5, 1],
       ]
-      floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon, true)
+      floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, true)
       vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
       vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
       vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
@@ -439,7 +440,7 @@ RSpec.describe URBANopt::GeoJSON do
     it 'creates zoning building' do
       # REVISIT: WHY ZONING SET TO TRUE
       model = OpenStudio::Model::Model.new
-      building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon, true)
+      building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon, @runner, true)
       expect(building[0].class()).to eq(OpenStudio::Model::Space)
       expect(building.length()).to eq(@building_json[:properties][:number_of_stories])
     end
@@ -447,7 +448,7 @@ RSpec.describe URBANopt::GeoJSON do
     it 'creates zoning space per floor' do
     # REVISIT: WHY ZONING SET TO TRUE
       model = OpenStudio::Model::Model.new
-      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, true)
+      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner, true)
       expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
       expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
     end
@@ -455,7 +456,7 @@ RSpec.describe URBANopt::GeoJSON do
     it 'creates a zoning space per building' do
     # REVISIT: WHY ZONING SET TO TRUE
       model = OpenStudio::Model::Model.new
-      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, false)
+      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, @runner, false)
       # puts Object.methods(building_spaces[0])
       # puts building_spaces[0].surfaces()
       expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
