@@ -63,7 +63,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
     #surrounding_buildings = "All"
    
     # get arguments
-    arguments = geojson_gem.arguments(model)
+    arguments = measure.arguments(model)
     argument_map = OpenStudio::Ruleset.convertOSArgumentVectorToMap(arguments)
 
     # create hash of argument values.
