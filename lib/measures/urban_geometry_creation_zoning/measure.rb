@@ -174,7 +174,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
     # make requested building
     # spaces = create_building(building_json, :spaces_per_floor, model)
-    spaces = geojson_gem.create_building(building_json, :spaces_per_floor, model, @origin_lat_lon, true)
+    spaces = geojson_gem.create_building(building_json, :spaces_per_floor, model, @origin_lat_lon, @runner, true)
     if spaces.nil? || spaces.empty?
       @runner.registerError("Failed to create spaces for building #{source_id}")
       return false
@@ -186,7 +186,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     multi_polygons.each do |multi_polygon|
       multi_polygon.each do |polygon|
         elevation = 0
-        floor_print =  geojson_gem.floor_print_from_polygon(polygon, elevation, @origin_lat_lon, true)
+        floor_print =  geojson_gem.floor_print_from_polygon(polygon, elevation, @origin_lat_lon, @runner, true)
         floor_print.each do |point|
           building_points << point
         end
@@ -255,7 +255,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           multi_polygons = geojson_gem.get_multi_polygons(other_building)
           multi_polygons.each do |multi_polygon|
             multi_polygon.each do |polygon|
-              floor_print = floor_print_from_polygon(polygon, other_height)
+              floor_print = geojson_gem.floor_print_from_polygon(polygon, other_height, @origin_lat_lon, @runner, true)
               floor_print.each do |point|
                 other_building_points << point
               end
@@ -271,7 +271,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           end
         end
        
-        other_spaces = geojson_gem.create_building(other_building, :space_per_building, model, @origin_lat_lon, true)
+        other_spaces = geojson_gem.create_building(other_building, :space_per_building, model, @origin_lat_lon, @runner, true)
         if other_spaces.nil? || other_spaces.empty?
           @runner.registerError("Failed to create spaces for other building #{other_source_id}")
           return false
