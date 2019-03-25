@@ -38,9 +38,9 @@ RSpec.describe URBANopt::GeoJSON do
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
   end
 
-  # it "has a version number" do
-    # expect(URBANopt::GeoJSON::VERSION).not_to be nil
-  # end
+  it "has a version number" do
+    expect(URBANopt::GeoJSON::VERSION).not_to be nil
+  end
 
   # it 'has a base version number' do
   #   expect(@gem_instance.version).not_to be nil
