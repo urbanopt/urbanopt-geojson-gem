@@ -148,7 +148,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    feature = geojson_gem.get_feature(feature_id, path)
+    feature = URBANopt::GeoJSON.get_feature(feature_id, path)
     if feature.nil? || feature.empty?
       @runner.registerError("Feature '#{feature_id}' could not be found")
       return false
@@ -290,7 +290,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
       # convert other buildings to shading surfaces
       convert_to_shades.each do |space|
-        geojson_gem.convert_to_shading_surface_group(space)
+        URBANopt::GeoJSON.convert_to_shading_surface_group(space)
       end
 
     elsif feature_type == 'District System'
