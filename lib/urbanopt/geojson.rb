@@ -33,27 +33,58 @@ require "openstudio/extension"
 
 module URBANopt
   module GeoJSON
-    # def get_feature(feature_id, path)
-    # ##
-    # # Returns feature object from specified geoJSON file
-    # #
-    # # Params:
-    # # - feature_id: source_id affiliated with feature object
-    # # - path: absolute path to geojson file
-    #   geojson = nil
-    #   File.open(path, 'r') do |file|
-    #     geojson = JSON.parse(file.read, {symbolize_names: true})
-    #   end
-    #   geojson[:features].each do |f|
-    #     if f[:properties] && f[:properties][:source_id] == feature_id
-    #       return f
-    #     end
-    #   end
-    #   return nil
-    # end
+    def self.get_feature(feature_id, path)
+      # NOTE: SHOULD LIVE IN GEOJSON FILE CLASS
+    ##
+    # Returns feature object from specified geoJSON file
+    #
+    # Params:
+    # - feature_id: source_id affiliated with feature object
+    # - path: absolute path to geojson file
+      geojson = nil
+      File.open(path, 'r') do |file|
+        geojson = JSON.parse(file.read, {symbolize_names: true})
+      end
+      geojson[:features].each do |f|
+        if f[:properties] && f[:properties][:source_id] == feature_id
+          return f
+        end
+      end
+      return nil
+    end
+
+    def self.convert_to_shading_surface_group(space)
+      # HELPER FUNCTION 
+      ##
+      # Returns an array of instances of OpenStudio::Model::ShadingSurfaceGroup
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - space: instance of OpenStudio::Model::Space
+        name = space.name.to_s
+        model = space.model
+        shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
+        space.surfaces.each do |surface|
+          shading_surface = OpenStudio::Model::ShadingSurface.new(surface.vertices, model)
+          shading_surface.setShadingSurfaceGroup(shading_group)
+        end
+        thermal_zone = space.thermalZone
+        if !thermal_zone.empty?
+          thermal_zone.get.remove
+        end
+        space_type = space.spaceType
+        space.remove
+        if !space_type.empty? && space_type.get.spaces.empty?
+          space_type.get.remove
+        end
+        shading_group.setName(name)
+        return [shading_group]
+    end
+
 
     class GeoJSON < OpenStudio::Extension::Extension
-      # include OpenStudio::Extension
+      # include GeoJSON
+
       def initialize
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..'))
       end
@@ -130,26 +161,6 @@ module URBANopt
           end
         end
         return [min_lon, min_lat]
-      end
-
-
-      def get_feature(feature_id, path)
-      ##
-      # Returns feature object from specified geoJSON file
-      #
-      # Params:
-      # - feature_id: source_id affiliated with feature object
-      # - path: absolute path to geojson file
-        geojson = nil
-        File.open(path, 'r') do |file|
-          geojson = JSON.parse(file.read, {symbolize_names: true})
-        end
-        geojson[:features].each do |f|
-          if f[:properties] && f[:properties][:source_id] == feature_id
-            return f
-          end
-        end
-        return nil
       end
 
 
@@ -428,6 +439,7 @@ module URBANopt
 
 
       def create_space_type(bldg_use, space_use, model)
+        # HELPER FUNCTION (or module method)
       ##
       # Returns instance of OpenStudio::Model::SpaceType
       # NOTE: update this return value once test is made more specific
@@ -635,33 +647,6 @@ module URBANopt
         #params[:distance] = 100
         #params[:proximity_feature_types] = ['Building']
         return {}
-      end
-
-      def convert_to_shading_surface_group(space)
-      ##
-      # Returns an array of instances of OpenStudio::Model::ShadingSurfaceGroup
-      # NOTE: update this return value once test is made more specific
-      #
-      # Params:
-      # - space: instance of OpenStudio::Model::Space
-        name = space.name.to_s
-        model = space.model
-        shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
-        space.surfaces.each do |surface|
-          shading_surface = OpenStudio::Model::ShadingSurface.new(surface.vertices, model)
-          shading_surface.setShadingSurfaceGroup(shading_group)
-        end
-        thermal_zone = space.thermalZone
-        if !thermal_zone.empty?
-          thermal_zone.get.remove
-        end
-        space_type = space.spaceType
-        space.remove
-        if !space_type.empty? && space_type.get.spaces.empty?
-          space_type.get.remove
-        end
-        shading_group.setName(name)
-        return [shading_group]
       end
 
 
