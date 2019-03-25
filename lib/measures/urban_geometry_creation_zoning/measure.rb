@@ -119,7 +119,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    feature = geojson_gem.get_feature(feature_id, path)
+    feature = URBANopt::GeoJSON.get_feature(feature_id, path)
     if feature.nil? || feature.empty?
       @runner.registerError("Feature '#{feature_id}' could not be found")
       return false
@@ -255,7 +255,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           multi_polygons = geojson_gem.get_multi_polygons(other_building)
           multi_polygons.each do |multi_polygon|
             multi_polygon.each do |polygon|
-              floor_print = geojson_gem.floor_print_from_polygon(polygon, other_height, @origin_lat_lon, @runner, true)
+              floor_print == geojson_gem.floor_print_from_polygon(polygon, other_height, @origin_lat_lon, @runner, true)
               floor_print.each do |point|
                 other_building_points << point
               end
@@ -333,7 +333,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
     # convert other buildings to shading surfaces
     convert_to_shades.each do |space|
-      geojson_gem.convert_to_shading_surface_group(space)
+      URBANopt::GeoJSON.convert_to_shading_surface_group(space)
     end
 
     return true
