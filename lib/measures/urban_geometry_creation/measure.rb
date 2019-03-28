@@ -36,7 +36,6 @@ require 'urbanopt/geojson'
 
 # start the measure
 class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
-
   attr_accessor :origin_lat_lon
   
   # human readable name
@@ -148,37 +147,13 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    feature = URBANopt::GeoJSON.get_feature(feature_id, path)
-    if feature.nil? || feature.empty?
-      @runner.registerError("Feature '#{feature_id}' could not be found")
-      return false
-    end
-
-    if feature[:geometry].nil?
-      @runner.registerError("No geometry found in '#{feature}'")
-      return false
-    end
-    
-    if feature[:properties].nil?
-      @runner.registerError("No properties found in '#{feature}'")
-      return false
-    end
-
-    name = feature[:properties][:name]
-    model.getBuilding.setName(name)
-
-    geometry_type = feature[:geometry][:type]
-    if geometry_type == "Polygon"
-      # ok
-    elsif geometry_type == "MultiPolygon"
-      # ok
-    else
-      @runner.registerError("Unknown geometry type '#{geometry_type}'")
-      return false
-    end
+    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    # EXPOSE NAME
+    # name = feature[:properties][:name]
+    # model.getBuilding.setName(name)
 
     # find min and max x coordinate
-    min_lon_lat = geojson_gem.get_min_lon_lat(feature)
+    min_lon_lat = feature.get_min_lon_lat()
     min_lon = min_lon_lat[0]
     min_lat = min_lon_lat[1]
 
@@ -195,32 +170,31 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
-    if feature[:properties][:surface_elevation]
-      surface_elevation = feature[:properties][:surface_elevation].to_f
+    if feature.get(:surface_elevation)
+      surface_elevation = feature.get(:surface_elevation).to_f
       surface_elevation = OpenStudio::convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
     end
 
-    feature_type = feature[:properties][:type]
+    feature_type = feature.get(:type)
 
     if feature_type == 'Building'
-    
       # make requested building
-      spaces = geojson_gem.create_building(feature, :space_per_floor, model, @origin_lat_lon, @runner)
+      spaces = URBANopt::GeoJSON::BuildingCreation.create_building(feature, :space_per_floor, model, @origin_lat_lon, @runner)
       if spaces.nil? 
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
       end
       
       # DLM: temp hack
-      building_type = feature[:properties][:building_type]
+      building_type = feature.get(:building_type)
       if building_type == 'Vacant'
         max_z = 0
         spaces.each do |space|
           bb = space.boundingBox
           max_z = [max_z, bb.maxZ.get].max
         end
-        shading_surfaces = geojson_gem.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon, @runner)
+        shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon, @runner)
       end
       
       # make other buildings to convert to shading
@@ -290,7 +264,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
       # convert other buildings to shading surfaces
       convert_to_shades.each do |space|
-        URBANopt::GeoJSON.convert_to_shading_surface_group(space)
+        URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(space)
       end
 
     elsif feature_type == 'District System'
