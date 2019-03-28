@@ -226,14 +226,16 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'gets true given a feature ID and path to geoJSON file' do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
-    feature = URBANopt::GeoJSON.get_feature('Thermal Test Facility', path)
+    geofile = URBANopt::GeoJSON::GeoFile.new(path)
+    feature = geofile.get_feature('Thermal Test Facility')
     expect(feature[:type]).to eq("Feature")
     expect(feature[:properties][:name]).to eq("Thermal Test Facility")
   end
 
   it 'creates photovoltaics given a feaure, height and model' do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
-    feature = URBANopt::GeoJSON.get_feature('Thermal Test Facility', path)
+    geofile = URBANopt::GeoJSON::GeoFile.new(path)
+    feature = geofile.get_feature('Thermal Test Facility')
     model = OpenStudio::Model::Model.new
     photovoltaics = @gem_instance.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
     # TODO: make this test more specific
@@ -334,14 +336,14 @@ RSpec.describe URBANopt::GeoJSON do
     it 'converts to shading surface group' do
       model = OpenStudio::Model::Model.new
       floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner)
-      group = URBANopt::GeoJSON.convert_to_shading_surface_group(floor_spaces[0])
+      group = URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(floor_spaces[0])
       expect(group[0].class()).to eq(OpenStudio::Model::ShadingSurfaceGroup)
     end
   end
 
   it 'creates a space type' do
     model = OpenStudio::Model::Model.new
-    space_type = @gem_instance.create_space_type("use", "use2", model)
+    space_type = URBANopt::GeoJSON::Helper.create_space_type("use", "use2", model)
     expect(space_type.class()).to eq(OpenStudio::Model::SpaceType)
   end
 
