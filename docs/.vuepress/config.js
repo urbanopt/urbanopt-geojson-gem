@@ -1,4 +1,5 @@
 module.exports = {
+  base: '/urbanopt-geojson-gem/',
   themeConfig: {
     navbar: false,
     sidebar: [
