@@ -40,6 +40,7 @@ require 'urbanopt/geojson'
 
 # start the measure
 class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
+  include GeoJSON
 
   attr_accessor :origin_lat_lon
   
