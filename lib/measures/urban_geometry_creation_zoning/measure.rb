@@ -40,8 +40,6 @@ require 'urbanopt/geojson'
 
 # start the measure
 class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
-  include GeoJSON
-
   attr_accessor :origin_lat_lon
   
   # human readable name
@@ -87,8 +85,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
   # define what happens when the measure is run
   def run(model, runner, user_arguments)
     super(model, runner, user_arguments)
-    geojson_gem = URBANopt::GeoJSON::GeoJSON.new
-
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(model), user_arguments)
       return false
@@ -115,37 +111,10 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    feature = URBANopt::GeoJSON.get_feature(feature_id, path)
-    if feature.nil? || feature.empty?
-      @runner.registerError("Feature '#{feature_id}' could not be found")
-      return false
-    end
-    
-    if feature[:geometry].nil?
-      @runner.registerError("No geometry found in '#{feature}'")
-      return false
-    end
-    
-    if feature[:properties].nil?
-      @runner.registerError("No properties found in '#{feature}'")
-      return false
-    end
-    
-    name = feature[:properties][:name]
-    model.getBuilding.setName(name)
-
-    geometry_type = feature[:geometry][:type]
-    if geometry_type == "Polygon"
-      # ok
-    elsif geometry_type == "MultiPolygon"
-      # ok
-    else
-      @runner.registerError("Unknown geometry type '#{geometry_type}'")
-      return false
-    end
+    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
 
     # find min and max x coordinate
-    min_lon_lat = geojson_gem.get_min_lon_lat(feature)
+    min_lon_lat = feature.get_min_lon_lat()
     min_lon = min_lon_lat[0]
     min_lat = min_lon_lat[1]
 
@@ -162,7 +131,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
     
-    building_json = feature
+    building_json = feature.feature_json
     if building_json[:properties][:surface_elevation]
       surface_elevation = building_json[:properties][:surface_elevation].to_f
       site.setElevation(surface_elevation)
@@ -170,7 +139,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
     # make requested building
     # spaces = create_building(building_json, :spaces_per_floor, model)
-    spaces = geojson_gem.create_building(building_json, :spaces_per_floor, model, @origin_lat_lon, @runner, true)
+    spaces = URBANopt::GeoJSON::BuildingCreation.create_building(feature, :spaces_per_floor, model, @origin_lat_lon, @runner, true)
     if spaces.nil? || spaces.empty?
       @runner.registerError("Failed to create spaces for building #{source_id}")
       return false
@@ -178,15 +147,14 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
     # get first floor footprint points
     building_points = []
-    multi_polygons = geojson_gem.get_multi_polygons(building_json)
+    multi_polygons = feature.get_multi_polygons()
     multi_polygons.each do |multi_polygon|
       multi_polygon.each do |polygon|
         elevation = 0
-        floor_print =  geojson_gem.floor_print_from_polygon(polygon, elevation, @origin_lat_lon, @runner, true)
+        floor_print =  URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, @origin_lat_lon, @runner, true)
         floor_print.each do |point|
           building_points << point
         end
-        
         # subsequent polygons are holes, we do not support them
         break
       end
@@ -198,83 +166,8 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     if surrounding_buildings == "None"
       # no-op
     else
-
-      # query database for nearby buildings
-      params = {}
-      params[:commit] = 'Proximity Search'
-      params[:project_id] = project_id
-      params[:building_id] = building_json[:properties][:id]
-      params[:distance] = 100
-      params[:proximity_feature_types] = ['Building']
-
-      feature_collection = get_feature_collection(params)
-      
-      if feature_collection[:features].nil?
-        @runner.registerError("No features found in #{feature_collection}")
-        return false
-      end
-
-      @runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
-      
-      count = 0
-      feature_collection[:features].each do |other_building|
-      
-        other_source_id = other_building[:properties][:source_id]
-        next if other_source_id == source_id
-      
-        if surrounding_buildings == "ShadingOnly"
-        
-          # check if any building point is shaded by any other building point
-          surface_elevation	= other_building[:properties][:surface_elevation]
-          roof_elevation	= other_building[:properties][:roof_elevation]
-          number_of_stories = other_building[:properties][:number_of_stories]
-          number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
-          floor_to_floor_height = other_building[:properties][:floor_to_floor_height]
-          
-          if number_of_stories_above_ground.nil?
-            if number_of_stories_below_ground.nil?
-              number_of_stories_above_ground = number_of_stories
-              number_of_stories_below_ground = 0
-            else
-              number_of_stories_above_ground = number_of_stories - number_of_stories_above_ground
-            end
-          end
-          
-          if floor_to_floor_height.nil?
-            floor_to_floor_height = (roof_elevation - surface_elevation) / number_of_stories_above_ground
-          end
-          
-          other_height = number_of_stories_above_ground * floor_to_floor_height
-          
-          # get first floor footprint points
-          other_building_points = []
-          multi_polygons = geojson_gem.get_multi_polygons(other_building)
-          multi_polygons.each do |multi_polygon|
-            multi_polygon.each do |polygon|
-              floor_print == geojson_gem.floor_print_from_polygon(polygon, other_height, @origin_lat_lon, @runner, true)
-              floor_print.each do |point|
-                other_building_points << point
-              end
-              
-              # subsequent polygons are holes, we do not support them
-              break
-            end
-          end
-        
-          shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, @origin_lat_lon)
-          if !shadowed
-            next
-          end
-        end
-       
-        other_spaces = geojson_gem.create_building(other_building, :space_per_building, model, @origin_lat_lon, @runner, true)
-        if other_spaces.nil? || other_spaces.empty?
-          @runner.registerError("Failed to create spaces for other building #{other_source_id}")
-          return false
-        end
-        
-        convert_to_shades.concat(other_spaces)
-      end
+      # THIS SCENARIO ISN'T CURRENTLY TESTED
+      URBANopt::GeoJSON::Zoning.handle_surrounding_buildings()
     end
     
     # intersect surfaces in this building with others
