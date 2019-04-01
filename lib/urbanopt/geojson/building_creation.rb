@@ -7,7 +7,7 @@ module URBANopt
       # NOTE: update this return value once test is made more specific
       #
       # Params:
-      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
+      # - feature: instance of Feature class built off of geojson file
       # - create_method: e.g. ":space_per_floor" (UPDATE THIS)
       # - model: instance of OpenStudio::Model::Model
       # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
@@ -82,9 +82,61 @@ module URBANopt
             spaces.concat(new_spaces)
           end
         elsif create_method == :space_per_building
-          spaces = create_space_per_building(feature.feature_json, -number_of_stories_below_ground*floor_to_floor_height, number_of_stories_above_ground*floor_to_floor_height, model, runner, zoning)
+          spaces = create_space_per_building(feature, -number_of_stories_below_ground*floor_to_floor_height, number_of_stories_above_ground*floor_to_floor_height, model, runner, zoning)
         end
         return spaces
+      end
+
+      def self.create_space_per_building(feature, min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false)
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space per building
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - feature: instance of Feature class built off of geojson file
+      # - min_elevation: number indicating minimum elevation across all buildings
+      # - mix_elevation: number indicating maximum elevation across all buildings
+      # - model: instance of OpenStudio::Model::Model
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
+        geometry = feature.feature_json[:geometry]
+        properties = feature.feature_json[:properties]
+        if zoning
+          source_id = properties[:source_id]
+        else
+          name = properties[:name]
+        end
+        floor_prints = []
+        multi_polygons = feature.get_multi_polygons()
+        multi_polygons.each do |multi_polygon|
+          if multi_polygon.size > 1
+            runner.registerWarning("Ignoring holes in polygon")
+          end
+          multi_polygon.each do |polygon|
+            floor_print = floor_print_from_polygon(polygon, min_elevation, origin_lat_lon, runner, zoning)
+            if floor_print
+              floor_prints << floor_print
+            else
+              runner.registerWarning("Cannot get floor print for building '#{name}'")
+            end
+            break
+          end
+        end
+        result = []
+        floor_prints.each do |floor_print|
+          space = OpenStudio::Model::Space.fromFloorPrint(floor_print, max_elevation-min_elevation, model)
+          if space.empty?
+            runner.registerWarning("Cannot create building space")
+            next
+          end
+          space = space.get
+          space.setName("Building #{name} Space")
+          thermal_zone = OpenStudio::Model::ThermalZone.new(model)
+          thermal_zone.setName("Building #{name} ThermalZone")
+          space.setThermalZone(thermal_zone)
+          result << space
+        end
+        return result
       end
 
       def self.create_space_per_floor(feature, story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false)
@@ -93,7 +145,7 @@ module URBANopt
       # NOTE: update this return value once test is made more specific
       #
       # Params:
-      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
+      # - feature: instance of Feature class built off of geojson file
       # - story_number: number amount of floors in building
       # - floor_to_floor_height: number number indicating height of building stories
       # - model: instance of OpenStudio::Model::Model
@@ -152,6 +204,7 @@ module URBANopt
       end
 
       class << self
+        private :create_space_per_building
         private :create_space_per_floor
       end
     end
