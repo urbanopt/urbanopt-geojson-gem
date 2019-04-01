@@ -217,7 +217,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       OpenStudio::Model.matchSurfaces(all_spaces)
       
       # make windows
-      window_to_wall_ratio = feature[:properties][:window_to_wall_ratio]
+      window_to_wall_ratio = feature.feature_json[:properties][:window_to_wall_ratio]
       if window_to_wall_ratio.nil?
         window_to_wall_ratio = 0.3
       end
