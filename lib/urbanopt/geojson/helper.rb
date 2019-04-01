@@ -146,6 +146,67 @@ module URBANopt
         end
         return floor_print
       end
+
+      def self.is_shadowed(building_points, other_building_points, origin_lat_lon)
+      ##
+      # Returns Boolean indicating if specified building is shadowed
+      #
+      # Params:
+      # - building_points: array of instances of OpenStudio::Point3d
+      # - other_building_points: other array of instances of OpenStudio::Point3d
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+        all_pairs = []
+        building_points.each do |building_point|
+          other_building_points.each do |other_building_point|
+            vector = other_building_point - building_point
+            all_pairs << {:building_point => building_point, :other_building_point => other_building_point, :vector => vector, :distance => vector.length}
+          end
+        end
+        all_pairs.sort! {|x, y| x[:distance] <=> y[:distance]}
+        all_pairs.each do |pair|
+          if point_is_shadowed(pair[:building_point], pair[:other_building_point], origin_lat_lon)
+            return true
+          end
+        end
+        return false
+      end
+
+      def self.point_is_shadowed(building_point, other_building_point, origin_lat_lon)
+      ##
+      # Returns Boolean indicating if specified building is shadowed
+      #
+      # Params:
+      # - building_point: nstance of OpenStudio::Point3d
+      # - other_building_point: other instance of OpenStudio::Point3d
+      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+        vector = other_building_point - building_point
+        height = vector.z
+        distance = Math.sqrt(vector.x*vector.x + vector.y*vector.y)
+        if distance < 1
+          return true
+        end
+        hour_angle_rad = Math.atan2(-vector.x, -vector.y)
+        hour_angle = OpenStudio::radToDeg(hour_angle_rad)
+        lattitude_rad = OpenStudio::degToRad(origin_lat_lon.lat)
+        result = false
+        (-24..24).each do |declination|
+          declination_rad = OpenStudio::degToRad(declination)
+          zenith_angle_rad = Math.acos(Math.sin(lattitude_rad)*Math.sin(declination_rad) + Math.cos(lattitude_rad)*Math.cos(declination_rad)*Math.cos(hour_angle_rad))
+          zenith_angle = OpenStudio::radToDeg(zenith_angle_rad)
+          elevation_angle = 90-zenith_angle
+          apparent_angle_rad = Math.atan2(height, distance)
+          apparent_angle = OpenStudio::radToDeg(apparent_angle_rad)
+          if (elevation_angle > 0 && elevation_angle < apparent_angle)
+            result = true
+            break
+          end
+        end
+        return result
+      end
+
+      class << self
+        private :point_is_shadowed
+      end
     end
   end
 end
