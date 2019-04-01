@@ -261,7 +261,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
             end
           end
         
-          shadowed = is_shadowed(building_points, other_building_points)
+          shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, @origin_lat_lon)
           if !shadowed
             next
           end
