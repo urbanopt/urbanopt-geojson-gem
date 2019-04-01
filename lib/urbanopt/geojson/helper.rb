@@ -1,7 +1,6 @@
 module URBANopt
   module GeoJSON
     module Helper
-
       def self.convert_to_shading_surface_group(space)
       # HELPER FUNCTION 
       ##
