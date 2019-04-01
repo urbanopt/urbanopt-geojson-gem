@@ -84,71 +84,30 @@ module URBANopt
         return shading_surfaces
       end
 
-      def self.create_space_per_floor(building_json, story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false)
+      def self.create_space_type(bldg_use, space_use, model)
       ##
-      # Returns an array of instances of OpenStudio::Model::Space per floor
+      # Returns instance of OpenStudio::Model::SpaceType
       # NOTE: update this return value once test is made more specific
       #
       # Params:
-      # - building_json: building json object (examples in nrel_stm_footprints.geojson)
-      # - story_number: number amount of floors in building
-      # - floor_to_floor_height: number number indicating height of building stories
+      # - bldg_use: string indicating building use (UPDATE THIS)
+      # - space_use: string indicating space use (UPDATE THIS)
       # - model: instance of OpenStudio::Model::Model
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
-        geometry = building_json[:geometry]
-        properties = building_json[:properties]
-        floor_prints = []
-        multi_polygons = get_multi_polygons(building_json)
-        multi_polygons.each do |multi_polygon|
-          if story_number == 1 && multi_polygon.size > 1
-            runner.registerWarning("Ignoring holes in polygon")
-          end
-          multi_polygon.each do |polygon|
-            elevation = (story_number-1)*floor_to_floor_height
-            floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
-            if floor_print
-              if zoning
-                this_floor_prints = divide_floor_print(floor_print, 4.0, runner)
-                floor_prints.concat(this_floor_prints)
-              else
-                floor_prints << floor_print
-              end
-            else
-              runner.registerWarning("Cannot create story #{story_number}")
-            end
-            # subsequent polygons are holes, we do not support them
-            break
+        name = "#{bldg_use}:#{space_use}"
+        # check if we already have this space type
+        model.getSpaceTypes.each do |s|
+          if s.name.get == name
+            return s
           end
         end
-        result = []
-        floor_prints.each do |floor_print|
-          space = OpenStudio::Model::Space.fromFloorPrint(floor_print, floor_to_floor_height, model)
-          if space.empty?
-            runner.registerWarning("Cannot create space for story #{story_number}")
-            next
-          end
-          space = space.get
-          space.setName("Building Story #{story_number} Space")
-          space.surfaces.each do |surface|
-            if surface.surfaceType == "Wall"
-              if story_number < 1
-                surface.setOutsideBoundaryCondition("Ground")
-              end
-            end
-          end
-          building_story = OpenStudio::Model::BuildingStory.new(model)
-          building_story.setName("Building Story #{story_number}")
-          space.setBuildingStory(building_story)
-          thermal_zone = OpenStudio::Model::ThermalZone.new(model)
-          thermal_zone.setName("Building Story #{story_number} ThermalZone")
-          space.setThermalZone(thermal_zone)
-          result << space
-        end
-        return result
+        space_type = OpenStudio::Model::SpaceType.new(model)
+        space_type.setName(name)
+        space_type.setStandardsBuildingType(bldg_use)
+        space_type.setStandardsSpaceType(space_use)
+        return space_type
       end
 
-      def floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
+      def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
       ##
       # Returns Boolean indicating if specified building is shadowed
       #
@@ -186,29 +145,6 @@ module URBANopt
           runner.registerWarning("Reversing floor print")
         end
         return floor_print
-      end
-
-      def self.create_space_type(bldg_use, space_use, model)
-      ##
-      # Returns instance of OpenStudio::Model::SpaceType
-      # NOTE: update this return value once test is made more specific
-      #
-      # Params:
-      # - bldg_use: string indicating building use (UPDATE THIS)
-      # - space_use: string indicating space use (UPDATE THIS)
-      # - model: instance of OpenStudio::Model::Model
-        name = "#{bldg_use}:#{space_use}"
-        # check if we already have this space type
-        model.getSpaceTypes.each do |s|
-          if s.name.get == name
-            return s
-          end
-        end
-        space_type = OpenStudio::Model::SpaceType.new(model)
-        space_type.setName(name)
-        space_type.setStandardsBuildingType(bldg_use)
-        space_type.setStandardsSpaceType(space_use)
-        return space_type
       end
     end
   end
