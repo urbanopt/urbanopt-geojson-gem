@@ -87,6 +87,96 @@ module URBANopt
         return spaces
       end
 
+      def self.create_other_buildings(feature, surrounding_buildings, model, origin_lat_lon, runner)
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space
+      # NOTE: update this return value once test is made more specific
+      #
+      # Params:
+      # - feature: instance of Feature class madde with geojson file
+      # - surrounding_buildings: building json object for surrounding buildings
+      # - model: instance of OpenStudio::Model::Model
+        project_id = feature.feature_json[:properties][:project_id]
+        feature_id = feature.feature_json[:properties][:id]
+        # nearby buildings to conver to shading
+        convert_to_shades = []
+        # query for nearby buildings
+        params = {}
+        params[:commit] = 'Proximity Search'
+        params[:feature_id] = feature_id
+        params[:distance] = 100
+        params[:proximity_feature_types] = ['Building']
+        feature_collection = get_feature_collection(params)
+        if feature_collection[:features].nil?
+          runner.registerWarning("No features found in #{feature_collection}")
+          return []
+        end
+        # get first floor footprint points
+        building_points = []
+        multi_polygons = feature.get_multi_polygons(feature)
+        multi_polygons.each do |multi_polygon|
+          multi_polygon.each do |polygon|
+            elevation = 0
+            floor_print = floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner)
+            floor_print.each do |point|
+              building_points << point
+            end
+            # subsequent polygons are holes, we do not support them
+            break
+          end
+        end
+        runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
+        count = 0
+        feature_collection[:features].each do |other_building|
+          other_id = other_building[:properties][:id]
+          next if other_id == feature_id
+          if surrounding_buildings == "ShadingOnly"
+            # check if any building point is shaded by any other building point
+            roof_elevation	= other_building[:properties][:roof_elevation]
+            number_of_stories = other_building[:properties][:number_of_stories]
+            number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
+            maximum_roof_height = properties[:maximum_roof_height]
+            if number_of_stories_above_ground.nil?
+              if number_of_stories_below_ground.nil?
+                number_of_stories_above_ground = number_of_stories
+                number_of_stories_below_ground = 0
+              else
+                number_of_stories_above_ground = number_of_stories - number_of_stories_above_ground
+              end
+            end
+            floor_to_floor_height = 3
+            if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
+              floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
+              floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm')
+            end
+            other_height = number_of_stories_above_ground * floor_to_floor_height
+            # get first floor footprint points
+            other_building_points = []
+            multi_polygons = get_multi_polygons(other_building)
+            multi_polygons.each do |multi_polygon|
+              multi_polygon.each do |polygon|
+                floor_print = floor_print_from_polygon(polygon, other_height, origin_lat_lon, runner)
+                floor_print.each do |point|
+                  other_building_points << point
+                end
+                # subsequent polygons are holes, we do not support them
+                break
+              end
+            end
+            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon)
+            if !shadowed
+              next
+            end
+          end
+          other_spaces = URBANopt::GeoJSON::Helper.create_building(other_building, :space_per_building, model, runner)
+          if other_spaces.nil? || other_spaces.empty?
+            runner.registerWarning("Failed to create spaces for other building '#{name}'")
+          end
+          convert_to_shades.concat(other_spaces)
+        end
+        return convert_to_shades
+      end
+
       def self.create_space_per_building(feature, min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per building
