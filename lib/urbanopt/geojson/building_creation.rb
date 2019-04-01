@@ -254,7 +254,7 @@ module URBANopt
             floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
             if floor_print
               if zoning
-                this_floor_prints = divide_floor_print(floor_print, 4.0, runner)
+                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)
                 floor_prints.concat(this_floor_prints)
               else
                 floor_prints << floor_print
