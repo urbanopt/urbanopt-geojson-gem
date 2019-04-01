@@ -197,7 +197,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       if surrounding_buildings == "None"
         # no-op
       else
-        convert_to_shades = geojson_gem.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
+        convert_to_shades = URBANopt::GeoJSON::BuildingCreation.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
       end
       
       # intersect surfaces in this building with others
