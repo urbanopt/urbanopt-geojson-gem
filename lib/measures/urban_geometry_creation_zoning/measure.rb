@@ -60,11 +60,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
   end
 
   def arguments(model)
-  ##
-  # Returns OSArgumentVector containing list of OSArguments
-  #
-  # Params:
-  # - model: instance of OpenStudio::Model::Model.new
     args = OpenStudio::Measure::OSArgumentVector.new
     # geojson file
     geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
