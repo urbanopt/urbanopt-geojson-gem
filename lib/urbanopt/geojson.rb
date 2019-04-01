@@ -38,6 +38,7 @@ module URBANopt
     autoload :Feature, "urbanopt/geojson/feature"
     autoload :GeoFile, "urbanopt/geojson/geo_file"
     autoload :Helper, "urbanopt/geojson/helper"
+    autoload :Zoning, "urbanopt/geojson/zoning"
 
     class GeoJSON < OpenStudio::Extension::Extension
       def initialize
@@ -70,78 +71,6 @@ module URBANopt
         #params[:proximity_feature_types] = ['Building']
         return {}
       end
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# URBAN GEOMETRY CREATION ZONING FUNCTIONS (MOVE IF NECESSARY)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      def divide_floor_print(floor_print, perimeter_depth, runner)
-        result = []
-        t_inv = OpenStudio::Transformation.alignFace(floor_print)
-        t = t_inv.inverse
-        vertices = t * floor_print
-        new_vertices = OpenStudio::Point3dVector.new
-        n = vertices.size
-        (0...n).each do |i|
-          vertex_1 = nil
-          vertex_2 = nil
-          vertex_3 = nil
-          if (i==0)
-            vertex_1 = vertices[n-1]
-            vertex_2 = vertices[i]
-            vertex_3 = vertices[i+1]
-          elsif (i==(n-1))
-            vertex_1 = vertices[i-1]
-            vertex_2 = vertices[i]
-            vertex_3 = vertices[0]
-          else
-            vertex_1 = vertices[i-1]
-            vertex_2 = vertices[i]
-            vertex_3 = vertices[i+1]
-          end
-          vector_1 = (vertex_2 - vertex_1)
-          vector_2 = (vertex_3 - vertex_2)
-          angle_1 = Math.atan2(vector_1.y, vector_1.x) + Math::PI/2.0
-          angle_2 = Math.atan2(vector_2.y, vector_2.x) + Math::PI/2.0
-          vector = OpenStudio::Vector3d.new(Math.cos(angle_1) + Math.cos(angle_2), Math.sin(angle_1) + Math.sin(angle_2), 0)
-          vector.setLength(perimeter_depth)
-          new_point = vertices[i] + vector
-          new_vertices << new_point
-        end
-        normal = OpenStudio::getOutwardNormal(new_vertices)
-        if normal.empty? || normal.get.z < 0
-          runner.registerWarning("Wrong direction for resulting normal, will not divide")
-          return [floor_print]
-        end
-        self_intersects = OpenStudio::selfIntersects(OpenStudio::reverse(new_vertices), 0.01)
-        if OpenStudio::VersionString.new(OpenStudio::openStudioVersion()) < OpenStudio::VersionString.new("1.12.4")
-          # bug in selfIntersects method
-          self_intersects = !self_intersects
-        end
-        if self_intersects
-          runner.registerWarning("Self intersecting surface result, will not divide")
-          #return [floor_print]
-        end
-        # good to go
-        result << t_inv * new_vertices
-        (0...n).each do |i|
-          perim_vertices = OpenStudio::Point3dVector.new
-          if (i==(n-1))
-            perim_vertices << vertices[i]
-            perim_vertices << vertices[0]
-            perim_vertices << new_vertices[0]
-            perim_vertices << new_vertices[i]
-          else
-            perim_vertices << vertices[i]
-            perim_vertices << vertices[i+1]
-            perim_vertices << new_vertices[i+1]
-            perim_vertices << new_vertices[i]
-          end
-          result << t_inv * perim_vertices
-        end
-        return result
-      end
-
     end
   end
 end
