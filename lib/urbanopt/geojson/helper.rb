@@ -1,14 +1,12 @@
 module URBANopt
   module GeoJSON
     module Helper
-      def self.convert_to_shading_surface_group(space)
-      # HELPER FUNCTION 
       ##
       # Returns an array of instances of OpenStudio::Model::ShadingSurfaceGroup
-      # NOTE: update this return value once test is made more specific
       #
-      # Params:
-      # - space: instance of OpenStudio::Model::Space
+      # [Params]
+      # * +space+ instance of OpenStudio::Model::Space
+      def self.convert_to_shading_surface_group(space)
         name = space.name.to_s
         model = space.model
         shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
@@ -29,16 +27,15 @@ module URBANopt
         return [shading_group]
       end
 
-      def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
       ##
       # Returns array containing instance of OpenStudio::Model::ShadingSurface
-      # NOTE: UPDATE THIS RETURN VALUE ONCE TEST IS FINISHED
       #
-      # Params:
-      # - feature: instance of Feature class
-      # - height: number indicating building height
-      # - model: instance of OpenStudio::Model::Model
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # [Params]
+      # * +feature+ instance of Feature class
+      # * +height+  indicating building height
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
         feature_id = feature.get(:properties)
         name = feature.get(:name)
         floor_prints = []
@@ -83,15 +80,15 @@ module URBANopt
         return shading_surfaces
       end
 
-      def self.create_space_type(bldg_use, space_use, model)
       ##
       # Returns instance of OpenStudio::Model::SpaceType
       # NOTE: update this return value once test is made more specific
       #
-      # Params:
-      # - bldg_use: string indicating building use (UPDATE THIS)
-      # - space_use: string indicating space use (UPDATE THIS)
-      # - model: instance of OpenStudio::Model::Model
+      # [Params]
+      # * +bldg_use+ string indicating building use (UPDATE THIS)
+      # * +space_use+ string indicating space use (UPDATE THIS)
+      # * +model+ instance of OpenStudio::Model::Model
+      def self.create_space_type(bldg_use, space_use, model)
         name = "#{bldg_use}:#{space_use}"
         # check if we already have this space type
         model.getSpaceTypes.each do |s|
@@ -106,20 +103,20 @@ module URBANopt
         return space_type
       end
 
-      def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
       ##
       # Returns Boolean indicating if specified building is shadowed
       #
-      # Params:
-      # - polygon: array of coordinate pairs.
+      # [Params]
+      # * +polygon+ array of coordinate pairs.
       #   e.g. polygon = [
               #   [1, 5],
               #   [5, 5],
               #   [5, 1],
               # ]
-      # - elevation: number indicating elevation
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
+      # * +elevation+ number indicating elevation
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +zoning+ zoning is true if you'd like to utilize aspects of function that are specific to zoning
+      def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
         floor_print = OpenStudio::Point3dVector.new
         all_points = OpenStudio::Point3dVector.new
         polygon.each do |p|
@@ -146,14 +143,14 @@ module URBANopt
         return floor_print
       end
 
-      def self.is_shadowed(building_points, other_building_points, origin_lat_lon)
       ##
       # Returns Boolean indicating if specified building is shadowed
       #
-      # Params:
-      # - building_points: array of instances of OpenStudio::Point3d
-      # - other_building_points: other array of instances of OpenStudio::Point3d
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # [Params]
+      # * +building_points+ array of instances of OpenStudio::Point3d
+      # * +other_building_points+ other array of instances of OpenStudio::Point3d
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      def self.is_shadowed(building_points, other_building_points, origin_lat_lon)
         all_pairs = []
         building_points.each do |building_point|
           other_building_points.each do |other_building_point|
@@ -170,14 +167,14 @@ module URBANopt
         return false
       end
 
-      def self.point_is_shadowed(building_point, other_building_point, origin_lat_lon)
       ##
       # Returns Boolean indicating if specified building is shadowed
       #
-      # Params:
-      # - building_point: nstance of OpenStudio::Point3d
-      # - other_building_point: other instance of OpenStudio::Point3d
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # [Params]
+      # * +building_point+ nstance of OpenStudio::Point3d
+      # * +other_building_point+ other instance of OpenStudio::Point3d
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      def self.point_is_shadowed(building_point, other_building_point, origin_lat_lon)
         vector = other_building_point - building_point
         height = vector.z
         distance = Math.sqrt(vector.x*vector.x + vector.y*vector.y)
