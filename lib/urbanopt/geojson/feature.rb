@@ -11,9 +11,9 @@ module URBANopt
         return @feature_json[:properties][name]
       end
 
-      def get_min_lon_lat()
       ##
       # Returns coordinate with the minimum longitute and latitude within given building_json
+      def get_min_lon_lat()
         min_lon = Float::MAX
         min_lat = Float::MAX
         # find min and max x coordinate
@@ -32,21 +32,21 @@ module URBANopt
         return [min_lon, min_lat]
       end
 
-      def get_multi_polygons()
       # Returns MultiPolygon coordinates (coordinate pairs in double nested Array)
       # e.g.
-        #  polygon = {
-        #     'geometry': {
-        #       'type': 'Polygon',
-        #       'coordinates': [
-        #         [
-        #           [0, 5],
-        #           [5, 5],
-        #           [5, 0],
-        #         ]
-        #       ]
-        #     }
-        #   }
+      #  polygon = {
+      #     'geometry': {
+      #       'type': 'Polygon',
+      #       'coordinates': [
+      #         [
+      #           [0, 5],
+      #           [5, 5],
+      #           [5, 0],
+      #         ]
+      #       ]
+      #     }
+      #   }
+      def get_multi_polygons()
         geometry_type = @feature_json[:geometry][:type]
         multi_polygons = nil
         if geometry_type == "Polygon"
@@ -59,6 +59,8 @@ module URBANopt
       end
 
       private
+
+        # TODO: force rdoc documentation for private methood
         def validate_feat(feature)
           if feature.nil? || feature.empty?
             raise("Feature '#{feature_id}' could not be found")

@@ -3,7 +3,7 @@ module URBANopt
     module Helper
 
       ##
-      # Returns an array of instances of OpenStudio::Model::ShadingSurfaceGroup
+      # Returns an Array of instances of OpenStudio::Model::ShadingSurfaceGroup
       #
       # [Params]
       # * +space+ instance of OpenStudio::Model::Space
@@ -36,6 +36,7 @@ module URBANopt
       # * +height+  indicating building height
       # * +model+ instance of OpenStudio::Model::Model
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
         feature_id = feature.get(:properties)
         name = feature.get(:name)
@@ -109,14 +110,16 @@ module URBANopt
       #
       # [Params]
       # * +polygon+ array of coordinate pairs.
-      #   e.g. polygon = [
-              #   [1, 5],
-              #   [5, 5],
-              #   [5, 1],
-              # ]
-      # * +elevation+ number indicating elevation
+      #   e.g.
+      #     polygon = [
+      #       [1, 5],
+      #       [5, 5],
+      #       [5, 1],
+      #     ]
+      # * +elevation+ integer indicating elevation
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # * +zoning+ zoning is true if you'd like to utilize aspects of function that are specific to zoning
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +zoning+ Boolean, is true if you'd like to utilize aspects of function that are specific to zoning
       def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
         floor_print = OpenStudio::Point3dVector.new
         all_points = OpenStudio::Point3dVector.new
