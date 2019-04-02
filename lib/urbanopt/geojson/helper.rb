@@ -1,6 +1,7 @@
 module URBANopt
   module GeoJSON
     module Helper
+
       ##
       # Returns an array of instances of OpenStudio::Model::ShadingSurfaceGroup
       #

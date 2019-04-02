@@ -1,7 +1,7 @@
 module URBANopt
   module GeoJSON
     module BuildingCreation
-      def self.create_building(feature, create_method, model, origin_lat_lon, runner, zoning=false)
+
       ##
       # Returns an array of instances of OpenStudio::Model::Space
       # NOTE: update this return value once test is made more specific
@@ -13,6 +13,7 @@ module URBANopt
       # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
       # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
         # properties = feature.get[:properties]
+      def self.create_building(feature, create_method, model, origin_lat_lon, runner, zoning=false)
         number_of_stories = feature.get(:number_of_stories)
         number_of_stories_above_ground = feature.get(:number_of_stories_above_ground)
         number_of_stories_below_ground = feature.get(:number_of_stories_below_ground)
