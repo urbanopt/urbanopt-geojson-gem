@@ -4,15 +4,14 @@ module URBANopt
 
       ##
       # Returns an array of instances of OpenStudio::Model::Space
-      # NOTE: update this return value once test is made more specific
       #
-      # Params:
-      # - feature: instance of Feature class built off of geojson file
-      # - create_method: e.g. ":space_per_floor" (UPDATE THIS)
-      # - model: instance of OpenStudio::Model::Model
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
-        # properties = feature.get[:properties]
+      # [Params]
+      # * +feature+ instance of Feature class built off of geojson file
+      # * +create_method+ e.g. ":space_per_floor" (UPDATE THIS)
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +zoning+ Boolean, is true if you'd like to utilize aspects of function that are specific to zoning
       def self.create_building(feature, create_method, model, origin_lat_lon, runner, zoning=false)
         number_of_stories = feature.get(:number_of_stories)
         number_of_stories_above_ground = feature.get(:number_of_stories_above_ground)
@@ -88,15 +87,16 @@ module URBANopt
         return spaces
       end
 
-      def self.create_other_buildings(feature, surrounding_buildings, model, origin_lat_lon, runner)
       ##
       # Returns an array of instances of OpenStudio::Model::Space
-      # NOTE: update this return value once test is made more specific
       #
-      # Params:
-      # - feature: instance of Feature class madde with geojson file
-      # - surrounding_buildings: building json object for surrounding buildings
-      # - model: instance of OpenStudio::Model::Model
+      # [Params]
+      # * +feature+ instance of Feature class madde with geojson file
+      # * +surrounding_buildings+ building json object for surrounding buildings
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      def self.create_other_buildings(feature, surrounding_buildings, model, origin_lat_lon, runner)
         project_id = feature.feature_json[:properties][:project_id]
         feature_id = feature.feature_json[:properties][:id]
         # nearby buildings to conver to shading
@@ -178,18 +178,18 @@ module URBANopt
         return convert_to_shades
       end
 
-      def self.create_space_per_building(feature, min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per building
-      # NOTE: update this return value once test is made more specific
       #
-      # Params:
-      # - feature: instance of Feature class built off of geojson file
-      # - min_elevation: number indicating minimum elevation across all buildings
-      # - mix_elevation: number indicating maximum elevation across all buildings
-      # - model: instance of OpenStudio::Model::Model
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
+      # [Params]
+      # * +feature+ instance of Feature class built off of geojson file
+      # * +min_elevation+ Integer indicating minimum elevation across all buildings
+      # * +mix_elevation+ Integer indicating maximum elevation across all buildings
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +zoning+ Boolean, true if you'd like to utilize aspects of function that are specific to zoning
+      def self.create_space_per_building(feature, min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false)
         geometry = feature.feature_json[:geometry]
         properties = feature.feature_json[:properties]
         if zoning
@@ -230,18 +230,18 @@ module URBANopt
         return result
       end
 
-      def self.create_space_per_floor(feature, story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false)
       ##
       # Returns an array of instances of OpenStudio::Model::Space per floor
-      # NOTE: update this return value once test is made more specific
       #
-      # Params:
-      # - feature: instance of Feature class built off of geojson file
-      # - story_number: number amount of floors in building
-      # - floor_to_floor_height: number number indicating height of building stories
-      # - model: instance of OpenStudio::Model::Model
-      # - origin_lat_lon: instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # - zoning: zoning is true if you'd like to utilize aspects of function that are specific to zoning
+      # [Params]
+      # * +feature+ instance of Feature class built off of geojson file
+      # * +story_number+ Integer amount of floors in building
+      # * +floor_to_floor_height+ Integer indicating height of building stories
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +zoning+ Boolean, true if you'd like to utilize aspects of function that are specific to zoning
+      def self.create_space_per_floor(feature, story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false)
         geometry = feature.feature_json[:geometry]
         properties = feature.feature_json[:properties]
         floor_prints = []
