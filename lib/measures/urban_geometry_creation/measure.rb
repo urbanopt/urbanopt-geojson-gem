@@ -164,24 +164,22 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
-    if feature.get(:surface_elevation)
-      surface_elevation = feature.get(:surface_elevation).to_f
+    if feature.surface_elevation
+      surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio::convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
     end
 
-    feature_type = feature.get(:type)
-
-    if feature_type == 'Building'
+    if feature.type == 'Building'
       # make requested building
-      spaces = URBANopt::GeoJSON::BuildingCreation.create_building(feature, :space_per_floor, model, @origin_lat_lon, @runner)
+      spaces = URBANopt::GeoJSON::Building.create_building(feature, :space_per_floor, model, @origin_lat_lon, @runner)
       if spaces.nil? 
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
       end
       
       # DLM: temp hack
-      building_type = feature.get(:building_type)
+      building_type = feature.building_type
       if building_type == 'Vacant'
         max_z = 0
         spaces.each do |space|
@@ -196,7 +194,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       if surrounding_buildings == "None"
         # no-op
       else
-        convert_to_shades = URBANopt::GeoJSON::BuildingCreation.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
+        convert_to_shades = URBANopt::GeoJSON::Building.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
       end
       
       # intersect surfaces in this building with others
@@ -261,7 +259,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(space)
       end
 
-    elsif feature_type == 'District System'
+    elsif feature.type == 'District System'
     
       district_system_type = feature[:properties][:district_system_type]
       
@@ -270,7 +268,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       end
 
     else
-      @runner.registerError("Unknown feature type '#{feature_type}'")
+      @runner.registerError("Unknown feature type '#{feature.type}'")
       return false
     end
     
