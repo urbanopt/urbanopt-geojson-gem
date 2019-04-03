@@ -7,8 +7,12 @@ module URBANopt
         @feature_json = validate_feat(feature)
       end
 
-      def get(name)
-        return @feature_json[:properties][name]
+      def method_missing(name, *args, &blk)
+        if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
+          return @feature_json[:properties][name.to_sym]
+        else
+          super
+        end
       end
 
       ##
@@ -32,6 +36,7 @@ module URBANopt
         return [min_lon, min_lat]
       end
 
+      ##
       # Returns MultiPolygon coordinates (coordinate pairs in double nested Array)
       # e.g.
       #  polygon = {
