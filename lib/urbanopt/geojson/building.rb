@@ -1,6 +1,6 @@
 module URBANopt
   module GeoJSON
-    module BuildingCreation
+    module Building
 
       ##
       # Returns an array of instances of OpenStudio::Model::Space
@@ -13,31 +13,31 @@ module URBANopt
       # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       # * +zoning+ Boolean, is true if you'd like to utilize aspects of function that are specific to zoning
       def self.create_building(feature, create_method, model, origin_lat_lon, runner, zoning=false)
-        number_of_stories = feature.get(:number_of_stories)
-        number_of_stories_above_ground = feature.get(:number_of_stories_above_ground)
-        number_of_stories_below_ground = feature.get(:number_of_stories_below_ground)
-        number_of_residential_units = feature.get(:number_of_residential_units)
-        space_type = feature.get(:building_type)
+        number_of_stories = feature.number_of_stories
+        number_of_stories_above_ground = feature.number_of_stories_above_ground
+        number_of_stories_below_ground = feature.number_of_stories_below_ground
+        number_of_residential_units = feature.number_of_residential_units
+        space_type = feature.building_type
         if zoning
-          surface_elevation	= feature.get(:surface_elevation)
-          roof_elevation	= feature.get(:roof_elevation)
-          floor_to_floor_height = feature.get(:floor_to_floor_height)
+          surface_elevation	= feature.surface_elevation
+          roof_elevation	= feature.roof_elevation
+          floor_to_floor_height = feature.floor_to_floor_height
         else
-          maximum_roof_height = feature.get(:maximum_roof_height)
+          maximum_roof_height = feature.maximum_roof_height
         end
         if space_type == "Mixed use"
           mixed_types = []
-          if feature.get(:mixed_type_1) && feature.get(:mixed_type_1_percentage)
-            mixed_types << {type: feature.get(:mixed_type_1), percentage: feature.get(:mixed_type_1_percentage)}
+          if feature.mixed_type_1 && feature.mixed_type_1_percentage
+            mixed_types << {type: feature.mixed_type_1, percentage: feature.mixed_type_1_percentage}
           end
-          if feature.get(:mixed_type_2) && feature.get(:mixed_type_2_percentage)
-            mixed_types << {type: feature.get(:mixed_type_2), percentage: feature.get(:mixed_type_2_percentage)}
+          if feature.mixed_type_2 && feature.mixed_type_2_percentage
+            mixed_types << {type: feature.mixed_type_2, percentage: feature.mixed_type_2_percentage}
           end
-          if feature.get(:mixed_type_3) && feature.get(:mixed_type_3_percentage)
-            mixed_types << {type: feature.get(:mixed_type_3), percentage: feature.get(:mixed_type_3_percentage)}
+          if feature.mixed_type_3 && feature.mixed_type_3_percentage
+            mixed_types << {type: feature.mixed_type_3, percentage: feature.mixed_type_3_percentage}
           end
-          if feature.get(:mixed_type_4) && feature.get(:mixed_type_4_percentage)
-            mixed_types << {type: feature.get(:mixed_type_4), percentage: feature.get(:mixed_type_4_percentage)}
+          if feature.mixed_type_4 && feature.mixed_type_4_percentage
+            mixed_types << {type: feature.mixed_type_4, percentage: feature.mixed_type_4_percentage}
           end
           if mixed_types.empty?
             runner.registerError("'Mixed use' building type requested but 'mixed_types' argument is empty")
@@ -169,7 +169,7 @@ module URBANopt
               next
             end
           end
-          other_spaces = URBANopt::GeoJSON::Helper.create_building(other_building, :space_per_building, model, runner)
+          other_spaces = create_building(other_building, :space_per_building, model, runner)
           if other_spaces.nil? || other_spaces.empty?
             runner.registerWarning("Failed to create spaces for other building '#{name}'")
           end
