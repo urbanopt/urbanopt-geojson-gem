@@ -34,7 +34,7 @@ require "openstudio/extension"
 module URBANopt
   module GeoJSON
     # AUTOLOAD is like require but it only loads the module the first time it's used
-    autoload :BuildingCreation, "urbanopt/geojson/building_creation"
+    autoload :Building, "urbanopt/geojson/building"
     autoload :Feature, "urbanopt/geojson/feature"
     autoload :GeoFile, "urbanopt/geojson/geo_file"
     autoload :Helper, "urbanopt/geojson/helper"
