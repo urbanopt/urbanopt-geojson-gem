@@ -15,8 +15,8 @@ module URBANopt
       def self.create_building(feature, create_method, model, origin_lat_lon, runner, zoning=false)
         number_of_stories = feature.number_of_stories
         number_of_stories_above_ground = feature.number_of_stories_above_ground
-        number_of_stories_below_ground = feature.number_of_stories_below_ground
-        number_of_residential_units = feature.number_of_residential_units
+        number_of_stories_below_ground = feature.feature_json[:properties][:number_of_stories_below_ground]
+        number_of_residential_units = feature.feature_json[:properties][:number_of_residential_units]
         space_type = feature.building_type
         if zoning
           surface_elevation	= feature.surface_elevation
