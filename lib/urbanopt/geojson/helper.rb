@@ -38,7 +38,7 @@ module URBANopt
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
       # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
-        feature_id = feature.properties
+        feature_id = feature.feature_json[:properties][:properties]
         name = feature.name
         floor_prints = []
         multi_polygons = feature.get_multi_polygons()
