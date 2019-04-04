@@ -30,9 +30,6 @@
 
 require_relative '../../../spec_helper'
 
-    # feature_id = 'Energy Systems Integration Facility'
-    # path = '/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson'
-
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     @model = OpenStudio::Model::Model.new
