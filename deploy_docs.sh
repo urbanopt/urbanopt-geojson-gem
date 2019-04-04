@@ -1,4 +1,4 @@
 set -e
-bundle exec rdoc
+bundle exec rdoc --template-stylesheets ./docs/.vuepress/public/custom_rdoc_styles.css
 npm run build --prefix docs
 npm run deploy --prefix docs

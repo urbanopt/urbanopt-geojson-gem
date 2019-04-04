@@ -3,7 +3,6 @@ encoding: UTF-8
 static_path: []
 rdoc_include:
 - lib
-- "/Users/brian/code/urbanopt-geojson-gem/lib"
 charset: UTF-8
 exclude:
 - docs
@@ -44,7 +43,7 @@ output_decoration: true
 op_dir: ./docs/.vuepress/public/rdoc
 show_hash: false
 tab_width: 8
-template_stylesheets: []
+template_stylesheets: ["./docs/.vuepress/public/custom_rdoc_styles.css"]
 title:
 visibility: :protected
 webcvs:
