@@ -148,62 +148,6 @@ RSpec.describe URBANopt::GeoJSON do
     expect(min_lon_and_lat).to eq([1, 1])
   end
 
-  # it 'determines if a point is not shadowed' do
-  #   # NOTE: Need to write happy path test for this
-  #   point = OpenStudio::Point3d.new(7, 2, 0)
-  #   point2 = OpenStudio::Point3d.new(6, 5, 0)
-  #   is_shadowed = @gem_instance.point_is_shadowed(point, point2, @origin_lat_lon)
-  #   expect(is_shadowed).to eq(false)
-  # end
-
-  # it 'determines if a point is shadowed' do
-  #   # NOTE: Need to write happy path test for this
-  #   point = OpenStudio::Point3d.new(-105.18606886007417, 39.78968078861752, 10)
-  #   point2 = OpenStudio::Point3d.new(-105.18614372933006, 39.789712346762315, 10)
-  #   is_shadowed = @gem_instance.point_is_shadowed(point, point2, @origin_lat_lon)
-  #   expect(is_shadowed).to eq(true)
-  # end
-
-  it 'determines if building is shadowed' do
-    # NOTE: Need to write happy path test for this
-    # SOUTH:
-    south_points = [
-      OpenStudio::Point3d.new(1, 2, 3),
-      OpenStudio::Point3d.new(5, 2, 3),
-      OpenStudio::Point3d.new(1, -2, 3),
-      OpenStudio::Point3d.new(5, -2, 3),
-    ]
-    north_points = [
-      OpenStudio::Point3d.new(3, -2, 1),
-      OpenStudio::Point3d.new(1, -2, 1),
-      OpenStudio::Point3d.new(1, 0, 1),
-      OpenStudio::Point3d.new(3, 0, 1),
-    ]
-
-    is_shadowed = @gem_instance.is_shadowed(south_points, north_points, @origin_lat_lon)
-    expect(is_shadowed).to eq(true)
-  end
-
-  it 'determines if building is not shadowed' do
-    # NOTE: Need to write happy path test for this
-    # SOUTH:
-    south_points = [
-      OpenStudio::Point3d.new(6, 2, 1),
-      OpenStudio::Point3d.new(10, 2, 1),
-      OpenStudio::Point3d.new(6, -2, 1),
-      OpenStudio::Point3d.new(10, -2, 1),
-    ]
-    north_points = [
-      OpenStudio::Point3d.new(-3, -2, 1),
-      OpenStudio::Point3d.new(-1, -2, 1),
-      OpenStudio::Point3d.new(-1, 0, 1),
-      OpenStudio::Point3d.new(-3, 0, 1),
-    ]
-
-    is_shadowed = @gem_instance.is_shadowed(south_points, north_points, @origin_lat_lon)
-    expect(is_shadowed).to eq(false)
-  end
-
   it 'gets true given a feature ID and path to geoJSON file' do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     geofile = URBANopt::GeoJSON::GeoFile.new(path)
@@ -271,37 +215,7 @@ RSpec.describe URBANopt::GeoJSON do
       }
     end
 
-    it 'creates a space per building' do
-      model = OpenStudio::Model::Model.new
-      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, @runner)
-      # puts Object.methods(building_spaces[0])
-      # puts building_spaces[0].surfaces()
-      expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
-      expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
-      expect(building_spaces.length()).to eq(1)
-    end
 
-    it 'creates space per floor' do
-      model = OpenStudio::Model::Model.new
-      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner)
-      expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
-      expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
-    end
-
-    it 'creates building' do
-      # NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
-      model = OpenStudio::Model::Model.new
-      building = @gem_instance.create_building(@building_json, :space_per_floor, model, @origin_lat_lon, @runner)
-      expect(building[0].class()).to eq(OpenStudio::Model::Space)
-      expect(building.length()).to eq(@building_json[:properties][:number_of_stories])
-    end
-
-    it 'creates other buildings' do
-      # NOTE: REPLACE OTHER BUILDING JSON
-      model = OpenStudio::Model::Model.new
-      other_buildings = @gem_instance.create_other_buildings(@building_json, "ShadingOnly", model, @origin_lat_lon, @runner)
-      expect(other_buildings).to eq([])
-    end
   end
 
   context 'zoning tests' do
