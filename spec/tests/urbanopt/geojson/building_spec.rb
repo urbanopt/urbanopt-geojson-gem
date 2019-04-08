@@ -47,6 +47,12 @@ RSpec.describe URBANopt::GeoJSON do
     expect(building.length()).to eq(@feature.number_of_stories)
   end
 
+  it 'creates zoning building' do
+    # REVISIT: WHY ZONING SET TO TRUE MAKES BUILDING LENGTH 69 INSTEAD OF 3!
+    building = URBANopt::GeoJSON::Building.create_building(@feature, :space_per_floor, @model, @origin_lat_lon, @runner, true)
+    expect(building[0].class()).to eq(OpenStudio::Model::Space)
+  end
+
   # TODO: address this when create_other_buildings is refactored
   # it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
   #   # NOTE: REPLACE OTHER BUILDING JSON
