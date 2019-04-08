@@ -19,9 +19,9 @@ module URBANopt
         number_of_residential_units = feature.feature_json[:properties][:number_of_residential_units]
         space_type = feature.building_type
         if zoning
-          surface_elevation	= feature.surface_elevation
-          roof_elevation	= feature.roof_elevation
-          floor_to_floor_height = feature.floor_to_floor_height
+          surface_elevation	= feature.feature_json[:properties][:surface_elevation]
+          roof_elevation	= feature.feature_json[:properties][:roof_elevation]
+          floor_to_floor_height = feature.feature_json[:properties][:floor_to_floor_height]
         else
           maximum_roof_height = feature.maximum_roof_height
         end
