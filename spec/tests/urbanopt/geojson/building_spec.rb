@@ -77,4 +77,23 @@ RSpec.describe URBANopt::GeoJSON do
   #   expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
   #   expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
   # end
+
+#   -    it 'creates zoning space per floor' do
+# -    # REVISIT: WHY ZONING SET TO TRUE
+# -      model = OpenStudio::Model::Model.new
+# -      floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner, true)
+# -      expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
+# -      expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
+# -    end
+
+# -    it 'creates a zoning space per building' do
+# -    # REVISIT: WHY ZONING SET TO TRUE
+# -      model = OpenStudio::Model::Model.new
+# -      building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, @runner, false)
+# -      # puts Object.methods(building_spaces[0])
+# -      # puts building_spaces[0].surfaces()
+# -      expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
+# -      expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
+# -      expect(building_spaces.length()).to eq(1)
+# -    end
 end
