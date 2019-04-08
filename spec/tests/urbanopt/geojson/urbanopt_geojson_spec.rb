@@ -49,5 +49,4 @@ RSpec.describe URBANopt::GeoJSON do
   # it 'has a measures directory' do
   #   expect(File.exists?(File.join(URBANopt::GeoJSON::GeoJSON.measures_dir, 'urban_geometry_creation/'))).to be true
   # end
-  end
 end
