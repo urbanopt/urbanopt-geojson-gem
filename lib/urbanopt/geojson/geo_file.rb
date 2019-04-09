@@ -15,8 +15,11 @@ module URBANopt
       def get_feature(feature_id)
         @geojson[:features].each do |f|
           if f[:properties] && f[:properties][:source_id] == feature_id
-            # return f
-            return URBANopt::GeoJSON::Feature.new(f)
+            if f[:properties][:type] == 'Building'
+              return URBANopt::GeoJSON::Building.new(f)
+            else
+              return URBANopt::GeoJSON::DistrictSystem.new(f)
+            end
           end
         end
         return nil
