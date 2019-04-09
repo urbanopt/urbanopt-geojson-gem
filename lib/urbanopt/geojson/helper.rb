@@ -154,7 +154,7 @@ module URBANopt
       # * +building_points+ array of instances of OpenStudio::Point3d
       # * +other_building_points+ other array of instances of OpenStudio::Point3d
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
-      def self.is_shadowed(building_points, other_building_points, origin_lat_lon)
+      def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
         all_pairs = []
         building_points.each do |building_point|
           other_building_points.each do |other_building_point|
