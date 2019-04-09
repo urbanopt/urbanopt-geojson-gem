@@ -91,8 +91,8 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     feature_id = runner.getStringArgumentValue("feature_id", user_arguments)
     surrounding_buildings = runner.getStringArgumentValue("surrounding_buildings", user_arguments)
 
-    # pull information from the previous model 
-    #model.save('initial.osm', true)
+    # pull information from the previous model
+    # model.save('initial.osm', true)
 
     default_construction_set = model.getBuilding.defaultConstructionSet
     if !default_construction_set.is_initialized
@@ -172,7 +172,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
 
     if feature.type == 'Building'
       # make requested building
-      spaces = URBANopt::GeoJSON::Building.create_building(feature, :space_per_floor, model, @origin_lat_lon, @runner)
+      spaces = feature.create_building(:space_per_floor, model, @origin_lat_lon, @runner)
       if spaces.nil? 
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
@@ -194,7 +194,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       if surrounding_buildings == "None"
         # no-op
       else
-        convert_to_shades = URBANopt::GeoJSON::Building.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
+        convert_to_shades = feature.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
       end
       
       # intersect surfaces in this building with others
@@ -260,11 +260,11 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       end
 
     elsif feature.type == 'District System'
-    
+
       district_system_type = feature[:properties][:district_system_type]
       
       if district_system_type == 'Community Photovoltaic'
-        shading_surfaces = create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
+        shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
       end
 
     else
