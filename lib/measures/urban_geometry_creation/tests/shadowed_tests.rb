@@ -26,7 +26,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
             OpenStudio::Point3d.new(-10, 15, 30),
         ]
 
-        courtyard_shadows_emu = URBANopt::GeoJSON::Helper.is_shadowed(red_kangaroo_emu, courtyard, denver_zoo)
+        courtyard_shadows_emu = URBANopt::GeoJSON::Helper.is_shadowed(courtyard, red_kangaroo_emu, denver_zoo)
         assert courtyard_shadows_emu, "Expected courtyard at 30m tall to shadow the emu"
     end
 end
