@@ -34,7 +34,7 @@ RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     feature_id = 'Energy Systems Integration Facility'
-    @feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    @building = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -42,14 +42,14 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates building given a feature, create_method, model, origin_lat_lon, runner and zoning(false)' do
     # NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
-    building = URBANopt::GeoJSON::Building.create_building(@feature, :space_per_floor, @model, @origin_lat_lon, @runner)
+    building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner)
     expect(building[0].class()).to eq(OpenStudio::Model::Space)
-    expect(building.length()).to eq(@feature.number_of_stories)
+    expect(building.length()).to eq(@building.number_of_stories)
   end
 
   it 'creates zoning building' do
     # REVISIT: WHY ZONING SET TO TRUE MAKES BUILDING LENGTH 69 INSTEAD OF 3!
-    building = URBANopt::GeoJSON::Building.create_building(@feature, :space_per_floor, @model, @origin_lat_lon, @runner, true)
+    building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(building[0].class()).to eq(OpenStudio::Model::Space)
   end
 
