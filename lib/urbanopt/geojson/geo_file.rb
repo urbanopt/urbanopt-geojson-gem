@@ -1,18 +1,33 @@
+require 'urbanopt/core/feature_file'
+
 module URBANopt
   module GeoJSON
-    class GeoFile
+    class GeoFile < URBANopt::Core::FeatureFile
+    
       def initialize(path)
+        @path = path
         @geojson = File.open(path, 'r') do |file|
           geojson = JSON.parse(file.read, {symbolize_names: true})
         end
       end
-
+      
+      def path
+        @path
+      end
+      
+      ##
+      # Returns all feature objects from specified geoJSON file
+      #
+      def features
+        return [] # TODO: implement me
+      end
+      
       ##
       # Returns feature object from specified geoJSON file
       #
       # [Params]
       # * +feature_id+ source_id affiliated with feature object
-      def get_feature(feature_id)
+      def get_feature_by_id(feature_id)
         @geojson[:features].each do |f|
           if f[:properties] && f[:properties][:source_id] == feature_id
             if f[:properties][:type] == 'Building'

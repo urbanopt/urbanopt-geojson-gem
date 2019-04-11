@@ -141,7 +141,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature_by_id(feature_id)
     # EXPOSE NAME
     # name = feature[:properties][:name]
     # model.getBuilding.setName(name)

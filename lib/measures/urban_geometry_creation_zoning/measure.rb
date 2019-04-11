@@ -111,7 +111,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       return false
     end
 
-    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature_by_id(feature_id)
 
     # find min and max x coordinate
     min_lon_lat = feature.get_min_lon_lat()

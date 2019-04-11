@@ -47,7 +47,7 @@ RSpec.describe URBANopt::GeoJSON do
   it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     feature_id = 'Energy Systems Integration Facility'
-    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature_by_id(feature_id)
     photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
     # TODO: make this test more specific
     expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
