@@ -6,9 +6,9 @@ module URBANopt
   module GeoJSON
     class GeoFile
       @@geojson_schema = nil
+      @@schema_file_lock = Mutex.new
 
       def initialize(path)
-        @@schema_file_lock ||= Mutex.new
 
         @geojson = File.open(path, 'r') do |file|
           geojson = JSON.parse(file.read, {symbolize_names: true})
