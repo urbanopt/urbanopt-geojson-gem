@@ -151,13 +151,13 @@ module URBANopt
       # Returns Boolean indicating if specified building is shadowed
       #
       # [Params]
-      # * +building_points+ array of instances of OpenStudio::Point3d
-      # * +other_building_points+ other array of instances of OpenStudio::Point3d
+      # * +potentially_shaded+ array of instances of OpenStudio::Point3d
+      # * +potential_shader+ other array of instances of OpenStudio::Point3d
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
       def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
         all_pairs = []
-        building_points.each do |building_point|
-          other_building_points.each do |other_building_point|
+        potentially_shaded.each do |building_point|
+          potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
             all_pairs << {:building_point => building_point, :other_building_point => other_building_point, :vector => vector, :distance => vector.length}
           end
