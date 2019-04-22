@@ -24,10 +24,10 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
         ]
 
         blocky_shadows_rector = URBANopt::GeoJSON::Helper.is_shadowed(rector, blocky, denver_zoo)
-        assert blocky_shadows_rector, "Expected courtyard at 30m tall to shadow the emu"
+        assert blocky_shadows_rector, "Expected blocky to shadow the rector"
     end
 
-    def test_flat_courtyard_does_not_shadow
+    def test_flat_blocky_does_not_shadow
         denver_zoo = OpenStudio::PointLatLon.new(39.749242, -104.951024, 0);
         blocky = [
             OpenStudio::Point3d.new(0, 0, 0),
