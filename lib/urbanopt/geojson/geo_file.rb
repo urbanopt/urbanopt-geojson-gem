@@ -1,7 +1,15 @@
+require 'json'
+require 'json-schema'
+
+
 module URBANopt
   module GeoJSON
     class GeoFile
+      @@geojson_schema = nil
+
       def initialize(path)
+        @@schema_file_lock ||= Mutex.new
+
         @geojson = File.open(path, 'r') do |file|
           geojson = JSON.parse(file.read, {symbolize_names: true})
         end
@@ -23,6 +31,30 @@ module URBANopt
           end
         end
         return nil
+      end
+
+      def schema_file
+        return File.join(File.dirname(__FILE__), 'schema', 'geojson_schema.json')
+      end
+
+      def schema
+        if @@geojson_schema.nil?
+          @@schema_file_lock.synchronize do
+            File.open(schema_file, 'r') do |file|
+              @@geojson_schema = JSON::parse(file.read, { symbolize_names: true })
+            end
+          end
+        end
+
+        return @@geojson_schema
+      end
+
+      def valid?
+        return JSON::Validator.validate(schema, @geojson)
+      end
+
+      def validation_errors
+        return JSON::Validator.fully_validate(schema, @geojson)
       end
 
     end
