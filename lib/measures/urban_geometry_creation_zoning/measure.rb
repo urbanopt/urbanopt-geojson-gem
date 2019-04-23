@@ -139,7 +139,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     
     # make requested building
     # spaces = create_building(building_json, :spaces_per_floor, model)
-    spaces = URBANopt::GeoJSON::Building.create_building(feature, :spaces_per_floor, model, @origin_lat_lon, @runner, true)
+    spaces = feature.create_building(:spaces_per_floor, model, @origin_lat_lon, @runner, true)
     if spaces.nil? || spaces.empty?
       @runner.registerError("Failed to create spaces for building #{source_id}")
       return false
@@ -167,7 +167,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       # no-op
     else
       # THIS SCENARIO ISN'T CURRENTLY TESTED
-      URBANopt::GeoJSON::Zoning.handle_surrounding_buildings()
+      URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon)
     end
     
     # intersect surfaces in this building with others

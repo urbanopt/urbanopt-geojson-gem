@@ -177,7 +177,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
       end
-      
+
       # DLM: temp hack
       building_type = feature.building_type
       if building_type == 'Vacant'
@@ -188,15 +188,15 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         end
         shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon, @runner)
       end
-      
+
       # make other buildings to convert to shading
       convert_to_shades = []
       if surrounding_buildings == "None"
         # no-op
       else
-        convert_to_shades = feature.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
+        convert_to_shades = feature.create_other_buildings(surrounding_buildings, model, @origin_lat_lon, @runner)
       end
-      
+
       # intersect surfaces in this building with others
       @runner.registerInfo("Intersecting surfaces")
       spaces.each do |space|
@@ -212,7 +212,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         all_spaces << space
       end
       OpenStudio::Model.matchSurfaces(all_spaces)
-      
+
       # make windows
       window_to_wall_ratio = feature.feature_json[:properties][:window_to_wall_ratio]
       if window_to_wall_ratio.nil?
@@ -226,7 +226,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           end
         end
       end
-      
+
       # change adjacent surfaces to adiabatic
       @runner.registerInfo("Changing adjacent surfaces to adiabatic")
       model.getSurfaces.each do |surface|
@@ -241,7 +241,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
             #return false
           end
           surface.setOutsideBoundaryCondition('Adiabatic')
-          
+
           adjacent_surface_construction = adjacent_surface.get.construction
           if !adjacent_surface_construction.empty?
             adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
@@ -253,16 +253,14 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
           adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
         end
       end
-    
+
       # convert other buildings to shading surfaces
-      convert_to_shades.each do |space|
+      convert_to_shades.map do |space|
         URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(space)
       end
 
     elsif feature.type == 'District System'
-
       district_system_type = feature[:properties][:district_system_type]
-      
       if district_system_type == 'Community Photovoltaic'
         shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
       end
@@ -271,7 +269,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       @runner.registerError("Unknown feature type '#{feature.type}'")
       return false
     end
-    
     # transfer data from previous model
     stories = []
     model.getBuildingStorys.each { |story| stories << story }
@@ -280,16 +277,13 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     stories.each_index do |i|
       space_type = space_types[i]
       next if space_type.nil?
-      
       stories[i].spaces.each do |space|
         space.setSpaceType(space_type)
       end
     end
-    
-
     return true
-
   end
+
 end
 
 # register the measure to be used by the application

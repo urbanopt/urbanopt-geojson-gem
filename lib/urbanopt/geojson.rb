@@ -62,15 +62,6 @@ module URBANopt
       def doc_templates_dir
         return File.absolute_path(File.join(@root_dir, 'doc_templates'))
       end
-
-      def get_feature_collection(params)
-        # NOTE: DELETE THIS
-        #params[:commit] = 'Proximity Search'
-        #params[:feature_id] = feature_id
-        #params[:distance] = 100
-        #params[:proximity_feature_types] = ['Building']
-        return {}
-      end
     end
   end
 end
