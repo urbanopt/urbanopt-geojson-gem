@@ -68,40 +68,28 @@ module URBANopt
         return result
       end
 
-
-      def self.handle_surrounding_buildings()
+      def self.handle_surrounding_buildings(runner, origin_lat_lon)
       # query database for nearby buildings
         # NEED TEST SCENARIO FOR THIS. ISN'T CURRENTLY USED.
-        params = {}
-        params[:commit] = 'Proximity Search'
-        params[:project_id] = project_id
-        params[:building_id] = building_json[:properties][:id]
-        params[:distance] = 100
-        params[:proximity_feature_types] = ['Building']
-
-        feature_collection = get_feature_collection(params)
-        
+        # feature_collection = get_feature_collection(params)
+        # NOTE: STUBBED FEATURE COLLECTION
+        # feature_collection =
         if feature_collection[:features].nil?
-          @runner.registerError("No features found in #{feature_collection}")
+          runner.registerError("No features found in #{feature_collection}")
           return false
         end
-
-        @runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
-        
+        runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
         count = 0
         feature_collection[:features].each do |other_building|
           other_source_id = other_building[:properties][:source_id]
           next if other_source_id == source_id
-        
           if surrounding_buildings == "ShadingOnly"
-          
             # check if any building point is shaded by any other building point
             surface_elevation	= other_building[:properties][:surface_elevation]
             roof_elevation	= other_building[:properties][:roof_elevation]
             number_of_stories = other_building[:properties][:number_of_stories]
             number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
             floor_to_floor_height = other_building[:properties][:floor_to_floor_height]
-            
             if number_of_stories_above_ground.nil?
               if number_of_stories_below_ground.nil?
                 number_of_stories_above_ground = number_of_stories
@@ -110,40 +98,33 @@ module URBANopt
                 number_of_stories_above_ground = number_of_stories - number_of_stories_above_ground
               end
             end
-            
             if floor_to_floor_height.nil?
               floor_to_floor_height = (roof_elevation - surface_elevation) / number_of_stories_above_ground
             end
-            
             other_height = number_of_stories_above_ground * floor_to_floor_height
-            
             # get first floor footprint points
             other_building_points = []
             multi_polygons = feature.get_multi_polygons(other_building)
             multi_polygons.each do |multi_polygon|
               multi_polygon.each do |polygon|
-                floor_print == URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, other_height, @origin_lat_lon, @runner, true)
+                floor_print == URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, other_height, origin_lat_lon, runner, true)
                 floor_print.each do |point|
                   other_building_points << point
                 end
-                
                 # subsequent polygons are holes, we do not support them
                 break
               end
             end
-          
-            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, @origin_lat_lon)
+            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon)
             if !shadowed
               next
             end
           end
-        
-          other_spaces = geojson_gem.create_building(other_building, :space_per_building, model, @origin_lat_lon, @runner, true)
+          other_spaces = geojson_gem.create_building(other_building, :space_per_building, model, origin_lat_lon, runner, true)
           if other_spaces.nil? || other_spaces.empty?
-            @runner.registerError("Failed to create spaces for other building #{other_source_id}")
+            runner.registerError("Failed to create spaces for other building #{other_source_id}")
             return false
           end
-          
           convert_to_shades.concat(other_spaces)
         end
       end
