@@ -51,14 +51,14 @@ module URBANopt
       #       ]
       #     }
       #   }
-      def get_multi_polygons()
-        geometry_type = @feature_json[:geometry][:type]
+      def get_multi_polygons(json=@feature_json)
+        geometry_type = json[:geometry][:type]
         multi_polygons = nil
         if geometry_type == "Polygon"
-          polygons = @feature_json[:geometry][:coordinates]
+          polygons = json[:geometry][:coordinates]
           multi_polygons = [polygons]
         elsif geometry_type == "MultiPolygon"
-          multi_polygons = @feature_json[:geometry][:coordinates]
+          multi_polygons = json[:geometry][:coordinates]
         end
         return multi_polygons
       end
