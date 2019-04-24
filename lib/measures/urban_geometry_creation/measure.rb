@@ -143,8 +143,8 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
 
     feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     # EXPOSE NAME
-    # name = feature[:properties][:name]
-    # model.getBuilding.setName(name)
+    name = feature.feature_json[:properties][:name]
+    model.getBuilding.setName(name)
 
     # find min and max x coordinate
     min_lon_lat = feature.get_min_lon_lat()
