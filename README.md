@@ -1,6 +1,6 @@
 # URBANopt GeoJSON Gem
 
-Library and measures to translate URBANopt GeoJSON format to OpenStudio.
+Library and measures to translate URBANopt GeoJSON format to OpenStudio. See the [developer documentation](https://urbanopt.github.io/urbanopt-geojson-gem/) for more details.
 
 ## Installation
 
