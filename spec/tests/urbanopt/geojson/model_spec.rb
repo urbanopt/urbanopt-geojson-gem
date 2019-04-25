@@ -41,4 +41,10 @@ RSpec.describe URBANopt::GeoJSON do
     default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(@model, @runner)
     expect(default_construction_set.class()).to eq(OpenStudio::Model::DefaultConstructionSet)
   end
+
+  it 'changes adjacent surfaces to adiabatic' do
+    # TODO: make this test more specific
+    adiabatic = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(@model, @runner)
+    expect(adiabatic.class()).to eq(OpenStudio::Model::Model)
+  end
 end
