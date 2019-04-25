@@ -168,18 +168,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       OpenStudio::Model.matchSurfaces(all_spaces)
 
       # make windows
-      window_to_wall_ratio = feature.feature_json[:properties][:window_to_wall_ratio]
-      if window_to_wall_ratio.nil?
-        window_to_wall_ratio = 0.3
-      end
-
-      spaces.each do |space|
-        space.surfaces.each do |surface|
-          if surface.surfaceType == "Wall" && surface.outsideBoundaryCondition == "Outdoors"
-            surface.setWindowToWallRatio(window_to_wall_ratio)
-          end
-        end
-      end
+      spaces = feature.create_windows(spaces)
 
       # change adjacent surfaces to adiabatic
       model = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(model, @runner)
