@@ -68,6 +68,22 @@ module URBANopt
         return result
       end
 
+      def self.get_first_floor_points(multi_polygons, origin_lat_lon, runner)
+        building_points = []
+        multi_polygons.each do |multi_polygon|
+          multi_polygon.each do |polygon|
+            elevation = 0
+            floor_print =  URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, true)
+            floor_print.each do |point|
+              building_points << point
+            end
+            # subsequent polygons are holes, we do not support them
+            break
+          end
+        end
+        return building_points
+      end
+
       def self.handle_surrounding_buildings(runner, origin_lat_lon, feature)
       # query database for nearby buildings
         # NEED TEST SCENARIO FOR THIS. ISN'T CURRENTLY USED.
