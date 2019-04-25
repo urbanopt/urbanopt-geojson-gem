@@ -32,7 +32,8 @@ require_relative '../../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
-    @geofile = URBANopt::GeoJSON::GeoFile.new("/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson")
+    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @geofile = URBANopt::GeoJSON::GeoFile.new("/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson", @runner)
   end
 
   it 'gets feature, given a feature_id' do
