@@ -44,18 +44,27 @@ RSpec.describe URBANopt::GeoJSON do
     expect(group[0].class()).to eq(OpenStudio::Model::ShadingSurfaceGroup)
   end
 
-  # NOTE: move to MODEL SPEC
-  # it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
-  #   path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
-  #   feature_id = 'Energy Systems Integration Facility'
-  #   feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature(feature_id)
-  #   photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
-  #   # TODO: make this test more specific
-  #   expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
-  # end
+  it 'creates shading surfaces' do
+    path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
+    feature_id = 'Energy Systems Integration Facility'
+    feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature(feature_id)
+    spaces = feature.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
+    surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
+    expect(surfaces[0].class()).to eq(OpenStudio::Model::ShadingSurface)
+  end
 
-  # it 'creates a space type' do
-  #   space_type = URBANopt::GeoJSON::Helper.create_space_type("use", "use2", @model)
+  it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
+    path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
+    feature_id = 'Energy Systems Integration Facility'
+    feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature(feature_id)
+    photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
+    # TODO: make this test more specific
+    expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
+  end
+
+  # it 'creates a space types' do
+  # TODO: update tests when you figure out what stories are
+  #   space_type = URBANopt::GeoJSON::Helper.create_space_types(stories)
   #   expect(space_type.class()).to eq(OpenStudio::Model::SpaceType)
   # end
 
