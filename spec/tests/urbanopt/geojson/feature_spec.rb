@@ -71,6 +71,12 @@ RSpec.describe URBANopt::GeoJSON do
     expect(multi_polygon.class()).to eq(Array)
   end
 
+  it 'creates an origin_lat_lon' do
+    origin_lat_lon = @feature.create_origin_lat_lon(@runner)
+
+    expect(origin_lat_lon.class()).to eq(OpenStudio::PointLatLon)
+  end
+
 #   -  it 'creates a multi polygon out of a polygon' do
 # -    polygon = {
 # -      'geometry': {
