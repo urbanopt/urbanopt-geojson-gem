@@ -29,6 +29,49 @@ module URBANopt
       end
 
       ##
+      # Returns validated path as a string
+      #
+      # [Params]
+      # * +geofile+ path to file containing geojson
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      def self.validate_path(geofile, runner)
+        path = runner.workflow.findFile(geofile)
+        if path.nil? || path.empty?
+          runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
+          return false
+        end
+
+        path = path.get.to_s
+        if !File.exists?(path)
+          runner.registerError("GeoJSON file '#{path}' could not be found")
+          return false
+        end
+        return path
+      end
+
+      ##
+      # Returns instance of OpenStudio::PointLatLon of feature lat lon
+      #
+      # [Params]
+      # * +feature+ instance of Feature class
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      def self.create_origin_lat_lon(feature, runner)
+        # find min and max x coordinate
+        min_lon_lat = feature.get_min_lon_lat()
+        min_lon = min_lon_lat[0]
+        min_lat = min_lon_lat[1]
+
+        if min_lon == Float::MAX || min_lat == Float::MAX 
+          runner.registerError("Could not determine min_lat and min_lon")
+          return false
+        else
+          runner.registerInfo("Min_lat = #{min_lat}, min_lon = #{min_lon}")
+        end
+
+        return OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
+      end
+
+      ##
       # Returns array containing instance of OpenStudio::Model::ShadingSurface
       #
       # [Params]
@@ -103,6 +146,27 @@ module URBANopt
         space_type.setStandardsBuildingType(bldg_use)
         space_type.setStandardsSpaceType(space_use)
         return space_type
+      end
+
+      ##
+      # Returns array of OpenStudio::Model::SpaceTypes
+      #
+      # [Params]
+      # * +stories+ array of model/building stories
+      def self.create_space_types(stories)
+        space_types = []
+        stories.each_index do |i|
+          space_type = nil
+          space = stories[i].spaces.first
+          if space && space.spaceType.is_initialized
+            space_type = space.spaceType.get
+          else
+            space_type = OpenStudio::Model::SpaceType.new(model)
+            runner.registerInfo("Story #{i} does not have a space type, creating new one")
+          end
+          space_types[i] = space_type
+        end
+        return space_types
       end
 
       ##
