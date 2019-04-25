@@ -94,30 +94,13 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     # pull information from the previous model
     # model.save('initial.osm', true)
 
-    default_construction_set = model.getBuilding.defaultConstructionSet
-    if !default_construction_set.is_initialized
-      runner.registerInfo("Starting model does not have a default construction set, creating new one")
-      default_construction_set = OpenStudio::Model::DefaultConstructionSet.new(model)
-    else
-      default_construction_set = default_construction_set.get
-    end
+    default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
 
     stories = []
     model.getBuildingStorys.each { |story| stories << story }
     stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    space_types = []
-    stories.each_index do |i|
-      space_type = nil
-      space = stories[i].spaces.first
-      if space && space.spaceType.is_initialized
-        space_type = space.spaceType.get
-      else
-        space_type = OpenStudio::Model::SpaceType.new(model)
-        runner.registerInfo("Story #{i} does not have a space type, creating new one")
-      end
-      space_types[i] = space_type
-    end
+    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories)
 
     # delete the previous building
     model.getBuilding.remove
@@ -129,41 +112,20 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     @runner = runner
     @origin_lat_lon = nil
 
-    path = @runner.workflow.findFile(geojson_file)
-    if path.nil? || path.empty?
-      @runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
-      return false
-    end
-
-    path = path.get.to_s
-    if !File.exists?(path)
-      @runner.registerError("GeoJSON file '#{path}' could not be found")
-      return false
-    end
+    path = URBANopt::GeoJSON::Helper.validate_path(geojson_file, @runner)
 
     feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
     model.getBuilding.setName(name)
 
-    # find min and max x coordinate
-    min_lon_lat = feature.get_min_lon_lat()
-    min_lon = min_lon_lat[0]
-    min_lat = min_lon_lat[1]
-
-    if min_lon == Float::MAX || min_lat == Float::MAX 
-      @runner.registerError("Could not determine min_lat and min_lon")
-      return false
-    else
-      @runner.registerInfo("Min_lat = #{min_lat}, min_lon = #{min_lon}")
-    end
-
-    @origin_lat_lon = OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
+    @origin_lat_lon = URBANopt::GeoJSON::Helper.create_origin_lat_lon(feature, @runner)
 
     site = model.getSite
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
+    puts "SURFACE ELE", feature.surface_elevation
     if feature.surface_elevation
       surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio::convert(surface_elevation, 'ft', 'm').get
@@ -264,7 +226,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       if district_system_type == 'Community Photovoltaic'
         shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
       end
-
     else
       @runner.registerError("Unknown feature type '#{feature.type}'")
       return false
