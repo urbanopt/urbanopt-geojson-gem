@@ -184,6 +184,20 @@ module URBANopt
         return convert_to_shades
       end
 
+      def create_windows(spaces)
+        window_to_wall_ratio = @feature_json[:properties][:window_to_wall_ratio]
+        if window_to_wall_ratio.nil?
+          window_to_wall_ratio = 0.3
+        end
+        spaces.each do |space|
+          space.surfaces.each do |surface|
+            if surface.surfaceType == "Wall" && surface.outsideBoundaryCondition == "Outdoors"
+              surface.setWindowToWallRatio(window_to_wall_ratio)
+            end
+          end
+        end
+      end
+
       private
 
         ##
