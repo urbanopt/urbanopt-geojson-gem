@@ -28,6 +28,35 @@ module URBANopt
         return [shading_group]
       end
 
+      def self.change_adjacent_surfaces_to_adiabatic(model, runner)
+        runner.registerInfo("Changing adjacent surfaces to adiabatic")
+        model.getSurfaces.each do |surface|
+          adjacent_surface = surface.adjacentSurface
+          if !adjacent_surface.empty?
+            surface_construction = surface.construction
+            if !surface_construction.empty?
+              surface.setConstruction(surface_construction.get)
+            else
+              #@runner.registerError("Surface '#{surface.nameString}' does not have a construction")
+              #model.save('error.osm', true)
+              #return false
+            end
+            surface.setOutsideBoundaryCondition('Adiabatic')
+
+            adjacent_surface_construction = adjacent_surface.get.construction
+            if !adjacent_surface_construction.empty?
+              adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
+            else
+              #@runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
+              #model.save('error.osm', true)
+              #return false
+            end
+            adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
+          end
+        end
+        return model
+      end
+
       ##
       # Returns validated path as a string
       #
@@ -149,6 +178,23 @@ module URBANopt
       end
 
       ##
+      # DLM: temp hack- Returns array containing instance of OpenStudio::Model::ShadingSurface
+      #
+      # [Params]
+      # * +feature+ instance of Feature class
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +spaces+ Array of OpenStudio::Model::Space(s)
+      def self.create_shading_surfaces(feature, model, origin_lat_lon, runner, spaces)
+        max_z = 0
+        spaces.each do |space|
+          bb = space.boundingBox
+          max_z = [max_z, bb.maxZ.get].max
+        end
+        return create_photovoltaics(feature, max_z + 1, model, origin_lat_lon, runner)
+      end
+
       # Returns array of OpenStudio::Model::SpaceTypes
       #
       # [Params]
@@ -233,6 +279,21 @@ module URBANopt
           end
         end
         return false
+      end
+
+      def self.transfer_prev_model_data(model, space_types)
+        stories = []
+        model.getBuildingStorys.each { |story| stories << story }
+        stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
+
+        stories.each_index do |i|
+          space_type = space_types[i]
+          next if space_type.nil?
+          stories[i].spaces.each do |space|
+            space.setSpaceType(space_type)
+          end
+        end
+        return stories
       end
 
       ##
