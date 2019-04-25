@@ -28,78 +28,6 @@ module URBANopt
         return [shading_group]
       end
 
-      def self.change_adjacent_surfaces_to_adiabatic(model, runner)
-        runner.registerInfo("Changing adjacent surfaces to adiabatic")
-        model.getSurfaces.each do |surface|
-          adjacent_surface = surface.adjacentSurface
-          if !adjacent_surface.empty?
-            surface_construction = surface.construction
-            if !surface_construction.empty?
-              surface.setConstruction(surface_construction.get)
-            else
-              #@runner.registerError("Surface '#{surface.nameString}' does not have a construction")
-              #model.save('error.osm', true)
-              #return false
-            end
-            surface.setOutsideBoundaryCondition('Adiabatic')
-
-            adjacent_surface_construction = adjacent_surface.get.construction
-            if !adjacent_surface_construction.empty?
-              adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
-            else
-              #@runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
-              #model.save('error.osm', true)
-              #return false
-            end
-            adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
-          end
-        end
-        return model
-      end
-
-      ##
-      # Returns validated path as a string
-      #
-      # [Params]
-      # * +geofile+ path to file containing geojson
-      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
-      def self.validate_path(geofile, runner)
-        path = runner.workflow.findFile(geofile)
-        if path.nil? || path.empty?
-          runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
-          return false
-        end
-
-        path = path.get.to_s
-        if !File.exists?(path)
-          runner.registerError("GeoJSON file '#{path}' could not be found")
-          return false
-        end
-        return path
-      end
-
-      ##
-      # Returns instance of OpenStudio::PointLatLon of feature lat lon
-      #
-      # [Params]
-      # * +feature+ instance of Feature class
-      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
-      def self.create_origin_lat_lon(feature, runner)
-        # find min and max x coordinate
-        min_lon_lat = feature.get_min_lon_lat()
-        min_lon = min_lon_lat[0]
-        min_lat = min_lon_lat[1]
-
-        if min_lon == Float::MAX || min_lat == Float::MAX 
-          runner.registerError("Could not determine min_lat and min_lon")
-          return false
-        else
-          runner.registerInfo("Min_lat = #{min_lat}, min_lon = #{min_lon}")
-        end
-
-        return OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
-      end
-
       ##
       # Returns array containing instance of OpenStudio::Model::ShadingSurface
       #
@@ -152,29 +80,6 @@ module URBANopt
           elcd.addGenerator(panel)
         end
         return shading_surfaces
-      end
-
-      ##
-      # Returns instance of OpenStudio::Model::SpaceType
-      # NOTE: update this return value once test is made more specific
-      #
-      # [Params]
-      # * +bldg_use+ string indicating building use (UPDATE THIS)
-      # * +space_use+ string indicating space use (UPDATE THIS)
-      # * +model+ instance of OpenStudio::Model::Model
-      def self.create_space_type(bldg_use, space_use, model)
-        name = "#{bldg_use}:#{space_use}"
-        # check if we already have this space type
-        model.getSpaceTypes.each do |s|
-          if s.name.get == name
-            return s
-          end
-        end
-        space_type = OpenStudio::Model::SpaceType.new(model)
-        space_type.setName(name)
-        space_type.setStandardsBuildingType(bldg_use)
-        space_type.setStandardsSpaceType(space_use)
-        return space_type
       end
 
       ##
@@ -279,21 +184,6 @@ module URBANopt
           end
         end
         return false
-      end
-
-      def self.transfer_prev_model_data(model, space_types)
-        stories = []
-        model.getBuildingStorys.each { |story| stories << story }
-        stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
-
-        stories.each_index do |i|
-          space_type = space_types[i]
-          next if space_type.nil?
-          stories[i].spaces.each do |space|
-            space.setSpaceType(space_type)
-          end
-        end
-        return stories
       end
 
       ##
