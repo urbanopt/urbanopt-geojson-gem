@@ -61,7 +61,7 @@ module URBANopt
         if create_method == :space_per_floor or create_method == :spaces_per_floor
           if space_type
             # get the building use and fix any issues
-            building_space_type = URBANopt::GeoJSON::Helper.create_space_type(space_type, space_type, model)
+            building_space_type = URBANopt::GeoJSON::Model.create_space_type(space_type, space_type, model)
             model.getBuilding.setSpaceType(building_space_type)
             model.getBuilding.setStandardsBuildingType(space_type)
             model.getBuilding.setRelocatable(false)
