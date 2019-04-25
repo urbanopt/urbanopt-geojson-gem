@@ -1,13 +1,13 @@
-# OpenStudio ModelArticulation
+# URBANopt GeoJSON Gem
 
-Library and measures for OpenStudio Model Articulation.
+Library and measures to translate URBANopt GeoJSON format to OpenStudio. See the [developer documentation](https://urbanopt.github.io/urbanopt-geojson-gem/) for more details.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'openstudio-model-articulation'
+gem 'urbanopt-geojson'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install 'openstudio-model-articulation'
+    $ gem install 'urbanopt-geojson'
 
 ## Usage
 
@@ -24,14 +24,10 @@ To be filled out later.
 
 ## TODO
 
-- [ ] Move articulation measures from openstudio-measures
-- [ ] Move articulation measure lib files to openstudio-extension lib
-- [ ] Update measures to correct naming conventions 
-
 # Releasing
 
 * Update change log
-* Update version in `/lib/openstudio/model-articulation/version.rb`
+* Update version in `/lib/urbanopt/geojson/version.rb`
 * Merge down to master
 * Release via github
 * run `rake release` from master

@@ -113,6 +113,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     @origin_lat_lon = nil
 
     feature = URBANopt::GeoJSON::GeoFile.new(geojson_file, runner).get_feature(feature_id)
+
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
     model.getBuilding.setName(name)
