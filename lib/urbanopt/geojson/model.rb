@@ -3,7 +3,7 @@ module URBANopt
     module Model
 
       ##
-      # Returns a default construction set
+      # Returns an instance of OpenStudio::Model::DefaultConstructionSet
       #
       # [Params]
       # * +model+ instance of OpenStudio::Model::Model
@@ -19,6 +19,12 @@ module URBANopt
         return default_construction_set
       end
 
+      ##
+      # Returns an instance of OpenStudio::Model::Model with surfaces changed to adiabatic
+      #
+      # [Params]
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.change_adjacent_surfaces_to_adiabatic(model, runner)
         runner.registerInfo("Changing adjacent surfaces to adiabatic")
         model.getSurfaces.each do |surface|
