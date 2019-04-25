@@ -184,6 +184,11 @@ module URBANopt
         return convert_to_shades
       end
 
+      ##
+      # Returns an array of instances of OpenStudio::Model::Space but with windows
+      #
+      # [Params]
+      # * +spaces+ Array containing instances of OpenStudio::Model::Space
       def create_windows(spaces)
         window_to_wall_ratio = @feature_json[:properties][:window_to_wall_ratio]
         if window_to_wall_ratio.nil?
