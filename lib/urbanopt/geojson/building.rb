@@ -90,7 +90,7 @@ module URBANopt
       # Returns an array of instances of OpenStudio::Model::Space
       #
       # [Params]
-      # * +surrounding_buildings+ building json object for surrounding buildings
+      # * +surrounding_buildings+ string describing surrounding buildings
       # * +model+ instance of OpenStudio::Model::Model
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
       # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
