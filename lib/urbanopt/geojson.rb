@@ -39,6 +39,7 @@ module URBANopt
     autoload :GeoFile, "urbanopt/geojson/geo_file"
     autoload :Helper, "urbanopt/geojson/helper"
     autoload :Zoning, "urbanopt/geojson/zoning"
+    autoload :Model, "urbanopt/geojson/model"
 
     class GeoJSON < OpenStudio::Extension::Extension
       def initialize
