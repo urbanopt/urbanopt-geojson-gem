@@ -47,4 +47,10 @@ RSpec.describe URBANopt::GeoJSON do
     adiabatic = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(@model, @runner)
     expect(adiabatic.class()).to eq(OpenStudio::Model::Model)
   end
+
+  it 'creates space types' do
+    # TODO: make this test more specific
+    space_types = URBANopt::GeoJSON::Model.create_space_type("Office", "Office", @model)
+    expect(space_types.class()).to eq(OpenStudio::Model::SpaceType)
+  end
 end
