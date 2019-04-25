@@ -125,7 +125,6 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
-    puts "SURFACE ELE", feature.surface_elevation
     if feature.surface_elevation
       surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio::convert(surface_elevation, 'ft', 'm').get
@@ -143,12 +142,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       # DLM: temp hack
       building_type = feature.building_type
       if building_type == 'Vacant'
-        max_z = 0
-        spaces.each do |space|
-          bb = space.boundingBox
-          max_z = [max_z, bb.maxZ.get].max
-        end
-        shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon, @runner)
+        shading_surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, model, @origin_lat_lon, @runner, spaces)
       end
 
       # make other buildings to convert to shading
@@ -190,31 +184,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       end
 
       # change adjacent surfaces to adiabatic
-      @runner.registerInfo("Changing adjacent surfaces to adiabatic")
-      model.getSurfaces.each do |surface|
-        adjacent_surface = surface.adjacentSurface
-        if !adjacent_surface.empty?
-          surface_construction = surface.construction
-          if !surface_construction.empty?
-            surface.setConstruction(surface_construction.get)
-          else
-            #@runner.registerError("Surface '#{surface.nameString}' does not have a construction")
-            #model.save('error.osm', true)
-            #return false
-          end
-          surface.setOutsideBoundaryCondition('Adiabatic')
-
-          adjacent_surface_construction = adjacent_surface.get.construction
-          if !adjacent_surface_construction.empty?
-            adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
-          else
-            #@runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
-            #model.save('error.osm', true)
-            #return false
-          end
-          adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
-        end
-      end
+      model = URBANopt::GeoJSON::Helper.change_adjacent_surfaces_to_adiabatic(model, @runner)
 
       # convert other buildings to shading surfaces
       convert_to_shades.map do |space|
@@ -230,18 +200,10 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       @runner.registerError("Unknown feature type '#{feature.type}'")
       return false
     end
-    # transfer data from previous model
-    stories = []
-    model.getBuildingStorys.each { |story| stories << story }
-    stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    stories.each_index do |i|
-      space_type = space_types[i]
-      next if space_type.nil?
-      stories[i].spaces.each do |space|
-        space.setSpaceType(space_type)
-      end
-    end
+    # transfer data from previous model
+    stories = URBANopt::GeoJSON::Helper.transfer_prev_model_data(model, space_types)
+
     return true
   end
 
