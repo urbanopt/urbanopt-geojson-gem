@@ -89,62 +89,38 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     if !runner.validateUserArguments(arguments(model), user_arguments)
       return false
     end
-     
+
     # assign the user inputs to variables
     geojson_file = runner.getStringArgumentValue("geojson_file", user_arguments)
     feature_id = runner.getStringArgumentValue("feature_id", user_arguments)
     surrounding_buildings = runner.getStringArgumentValue("surrounding_buildings", user_arguments)
-    
+
     # instance variables
     @runner = runner
     @origin_lat_lon = nil
     
-    path = @runner.workflow.findFile(geojson_file)
-    if path.nil? || path.empty?
-      @runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
-      return false
-    end
-    
-    path = path.get.to_s
-    if !File.exists?(path)
-      @runner.registerError("GeoJSON file '#{path}' could not be found")
-      return false
-    end
-
-    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    feature = URBANopt::GeoJSON::GeoFile.new(geojson_file, @runner).get_feature(feature_id)
 
     # find min and max x coordinate
-    min_lon_lat = feature.get_min_lon_lat()
-    min_lon = min_lon_lat[0]
-    min_lat = min_lon_lat[1]
+    @origin_lat_lon = feature.create_origin_lat_lon(@runner)
 
-    if min_lon == Float::MAX || min_lat == Float::MAX 
-      @runner.registerError("Could not determine min_lat and min_lon")
-      return false
-    else
-      @runner.registerInfo("Min_lat = #{min_lat}, min_lon = #{min_lon}")
-    end
-
-    @origin_lat_lon = OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
-    
     site = model.getSite
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
-    
+
     building_json = feature.feature_json
     if building_json[:properties][:surface_elevation]
       surface_elevation = building_json[:properties][:surface_elevation].to_f
       site.setElevation(surface_elevation)
     end
-    
+
     # make requested building
-    # spaces = create_building(building_json, :spaces_per_floor, model)
     spaces = feature.create_building(:spaces_per_floor, model, @origin_lat_lon, @runner, true)
     if spaces.nil? || spaces.empty?
       @runner.registerError("Failed to create spaces for building #{source_id}")
       return false
     end
-    
+
     # get first floor footprint points
     building_points = []
     multi_polygons = feature.get_multi_polygons()
@@ -159,7 +135,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         break
       end
     end
-      
+
     # nearby buildings to conver to shading
     convert_to_shades = []
     
@@ -167,9 +143,9 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       # no-op
     else
       # THIS SCENARIO ISN'T CURRENTLY TESTED
-      URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon)
+      URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
     end
-    
+
     # intersect surfaces in this building with others
     @runner.registerInfo("Intersecting surfaces")
     spaces.each do |space|
@@ -185,14 +161,12 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       all_spaces << space
     end
     OpenStudio::Model.matchSurfaces(all_spaces)
-    
+
     # make windows
     window_to_wall_ratio = building_json[:properties][:window_to_wall_ratio]
-    
     if window_to_wall_ratio.nil?
       window_to_wall_ratio = 0.3
     end
-
     spaces.each do |space|
       space.surfaces.each do |surface|
         if surface.surfaceType == "Wall" && surface.outsideBoundaryCondition == "Outdoors"
@@ -200,35 +174,17 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         end
       end
     end
-    
+
     # change adjacent surfaces to adiabatic
-    @runner.registerInfo("Changing adjacent surfaces to adiabatic")
-    model.getSurfaces.each do |surface|
-      adjacent_surface = surface.adjacentSurface
-      if !adjacent_surface.empty?
-        surface_construction = surface.construction
-        if !surface_construction.empty?
-          surface.setConstruction(surface_construction.get)
-        end
-        surface.setOutsideBoundaryCondition('Adiabatic')
-        
-        adjacent_surface_construction = adjacent_surface.get.construction
-        if !adjacent_surface_construction.empty?
-          adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
-        end
-        adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
-      end
-    end
-    
+    model = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(model, @runner)
+
     # convert other buildings to shading surfaces
     convert_to_shades.each do |space|
       URBANopt::GeoJSON.convert_to_shading_surface_group(space)
     end
 
     return true
-
   end
-  
 end
 
 # register the measure to be used by the application
