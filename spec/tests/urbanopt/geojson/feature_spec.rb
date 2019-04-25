@@ -34,10 +34,10 @@ RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
     feature_id = 'Energy Systems Integration Facility'
-    @feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature(feature_id)
   end
 
   it 'creates minimum longitute and latitude given a polygon' do
