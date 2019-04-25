@@ -59,6 +59,13 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings[0].class()).to eq(OpenStudio::Model::Space)
   end
 
+  it 'creates windows given an array of spaces' do
+    # NOTE: Figure out a way to test if windows were created
+    spaces = @building.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
+    windows = @building.create_windows(spaces)
+    expect(windows[0].class()).to eq(OpenStudio::Model::Space)
+  end
+
 # TODO: uncomment tests when you find a way to test module private methods
   # it 'creates a space per building' do
   #   model = OpenStudio::Model::Model.new
