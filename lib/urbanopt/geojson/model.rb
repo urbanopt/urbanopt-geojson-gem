@@ -21,20 +21,12 @@ module URBANopt
             surface_construction = surface.construction
             if !surface_construction.empty?
               surface.setConstruction(surface_construction.get)
-            else
-              #@runner.registerError("Surface '#{surface.nameString}' does not have a construction")
-              #model.save('error.osm', true)
-              #return false
             end
             surface.setOutsideBoundaryCondition('Adiabatic')
 
             adjacent_surface_construction = adjacent_surface.get.construction
             if !adjacent_surface_construction.empty?
               adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
-            else
-              #@runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
-              #model.save('error.osm', true)
-              #return false
             end
             adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
           end
