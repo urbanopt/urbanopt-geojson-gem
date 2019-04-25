@@ -112,14 +112,12 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     @runner = runner
     @origin_lat_lon = nil
 
-    path = URBANopt::GeoJSON::Helper.validate_path(geojson_file, @runner)
-
-    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
+    feature = URBANopt::GeoJSON::GeoFile.new(geojson_file, runner).get_feature(feature_id)
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
     model.getBuilding.setName(name)
 
-    @origin_lat_lon = URBANopt::GeoJSON::Helper.create_origin_lat_lon(feature, @runner)
+    @origin_lat_lon = feature.create_origin_lat_lon(@runner)
 
     site = model.getSite
     site.setLatitude(@origin_lat_lon.lat)
@@ -184,7 +182,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
       end
 
       # change adjacent surfaces to adiabatic
-      model = URBANopt::GeoJSON::Helper.change_adjacent_surfaces_to_adiabatic(model, @runner)
+      model = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(model, @runner)
 
       # convert other buildings to shading surfaces
       convert_to_shades.map do |space|
@@ -202,7 +200,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     end
 
     # transfer data from previous model
-    stories = URBANopt::GeoJSON::Helper.transfer_prev_model_data(model, space_types)
+    stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(model, space_types)
 
     return true
   end
