@@ -1,8 +1,8 @@
 module URBANopt
   module GeoJSON
     class GeoFile
-      def initialize(path)
-        @geojson = File.open(path, 'r') do |file|
+      def initialize(path, runner)
+        @geojson = File.open(validate_path(path, runner), 'r') do |file|
           geojson = JSON.parse(file.read, {symbolize_names: true})
         end
       end
@@ -25,6 +25,27 @@ module URBANopt
         return nil
       end
 
+      private
+        ##
+        # Returns validated path as a string
+        #
+        # [Params]
+        # * +geofile+ path to file containing geojson
+        # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+        def validate_path(geofile, runner)
+          path = runner.workflow.findFile(geofile)
+          if path.nil? || path.empty?
+            runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
+            return false
+          end
+
+          path = path.get.to_s
+          if !File.exists?(path)
+            runner.registerError("GeoJSON file '#{path}' could not be found")
+            return false
+          end
+          return path
+        end
     end
   end
 end
