@@ -63,6 +63,27 @@ module URBANopt
         return multi_polygons
       end
 
+      ##
+      # Returns instance of OpenStudio::PointLatLon of feature lat lon
+      #
+      # [Params]
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      def create_origin_lat_lon(runner)
+        # find min and max x coordinate
+        min_lon_lat = get_min_lon_lat()
+        min_lon = min_lon_lat[0]
+        min_lat = min_lon_lat[1]
+
+        if min_lon == Float::MAX || min_lat == Float::MAX 
+          runner.registerError("Could not determine min_lat and min_lon")
+          return false
+        else
+          runner.registerInfo("Min_lat = #{min_lat}, min_lon = #{min_lon}")
+        end
+
+        return OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
+      end
+
       private
 
         # TODO: force rdoc documentation for private methood
