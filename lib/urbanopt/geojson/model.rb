@@ -2,6 +2,12 @@ module URBANopt
   module GeoJSON
     module Model
 
+      ##
+      # Returns a default construction set
+      #
+      # [Params]
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.create_construction_set(model, runner)
         default_construction_set = model.getBuilding.defaultConstructionSet
         if !default_construction_set.is_initialized
