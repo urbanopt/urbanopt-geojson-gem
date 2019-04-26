@@ -1,0 +1,49 @@
+--- !ruby/object:RDoc::Options
+encoding: UTF-8
+static_path: []
+rdoc_include:
+- lib
+charset: UTF-8
+exclude:
+- docs
+- node_modules
+- Gemfile
+- Gemfile.lock
+- LICENSE
+- README.md
+- Rakefile
+- measure.xml
+- nrel_stm_footprints.geojson
+- building_properties.json
+- connector_properties.json
+- datapoint_properties.json
+- district_system_properties.json
+- geojson_properties.json
+- geojson_schema.json
+- option_set_properties.json
+- project_properties.json
+- region_properties.json
+- scenario_properties.json
+- taxlot_properties.json
+- building.osw
+- building.osw.out
+- district_system.osw
+- district_system.osw.out
+- urbanopt-geojson-gem.gemspec
+- JSON
+- Object
+hyperlink_all: false
+line_numbers: false
+locale:
+locale_dir: locale
+locale_name:
+main_page: RDOC_MAIN.md
+markup: markdown
+output_decoration: true
+op_dir: ./docs/.vuepress/public/rdoc
+show_hash: false
+tab_width: 8
+template_stylesheets: ["./docs/.vuepress/public/custom_rdoc_styles.css"]
+title:
+visibility: :protected
+webcvs:

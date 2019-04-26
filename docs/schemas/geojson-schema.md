@@ -1,0 +1,3 @@
+# Geojson Schema
+
+<GeojsonSchema />
