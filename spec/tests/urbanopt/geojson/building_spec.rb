@@ -37,7 +37,7 @@ RSpec.describe URBANopt::GeoJSON do
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
-    @building = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature(feature_id)
+    @building = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
   end
 
   it 'creates building given a feature, create_method, model, origin_lat_lon, runner and zoning(false)' do

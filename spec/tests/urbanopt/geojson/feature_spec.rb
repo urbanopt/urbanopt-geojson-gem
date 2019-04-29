@@ -37,7 +37,7 @@ RSpec.describe URBANopt::GeoJSON do
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
-    @feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature(feature_id)
+    @feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
   end
 
   it 'creates minimum longitute and latitude given a polygon' do
