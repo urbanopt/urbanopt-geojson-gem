@@ -104,7 +104,9 @@ module URBANopt
       #
       # [Params]
       # * +stories+ array of model/building stories
-      def self.create_space_types(stories)
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      def self.create_space_types(stories, model, runner)
         space_types = []
         stories.each_index do |i|
           space_type = nil
