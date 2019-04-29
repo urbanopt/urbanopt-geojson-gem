@@ -1,5 +1,5 @@
-require "urbanopt/geojson/building"
 require "urbanopt/geojson/feature"
+require "urbanopt/geojson/building"
 require "urbanopt/geojson/geo_file"
 require "urbanopt/geojson/helper"
 require "urbanopt/geojson/zoning"
