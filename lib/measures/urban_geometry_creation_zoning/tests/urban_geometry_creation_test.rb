@@ -37,8 +37,6 @@ require 'fileutils'
 class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
 
   def test_one_building
-    # Create an instance of geojson gem
-    geojson_gem = URBANopt::GeoJSON::GeoJSON.new
     # create an instance of the measure
     measure = UrbanGeometryCreation.new
 
@@ -93,8 +91,6 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
 
   def test_one_building_w_surrounding_buildings
     # NOTE: UPDATE THIS TEST TO MAKE MORE SPECIFIC ASSERTIONS
-    # Create an instance of geojson gem
-    geojson_gem = URBANopt::GeoJSON::GeoJSON.new
     # create an instance of the measure
     measure = UrbanGeometryCreation.new
 
