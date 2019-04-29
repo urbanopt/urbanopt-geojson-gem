@@ -100,7 +100,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     model.getBuildingStorys.each { |story| stories << story }
     stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories)
+    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories, model, runner)
 
     # delete the previous building
     model.getBuilding.remove
