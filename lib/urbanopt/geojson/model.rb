@@ -46,6 +46,12 @@ module URBANopt
         return model
       end
 
+      ##
+      # Returns an Array of instances of OpenStudio::Model::Story
+      #
+      # [Params]
+      # * +model+ instance of OpenStudio::Model::Model
+      # * +space_types+ Array of instances of OpenStudio::Model::SpaceType
       def self.transfer_prev_model_data(model, space_types)
         stories = []
         model.getBuildingStorys.each { |story| stories << story }
