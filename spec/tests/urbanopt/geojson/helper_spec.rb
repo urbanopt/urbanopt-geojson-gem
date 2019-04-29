@@ -62,11 +62,12 @@ RSpec.describe URBANopt::GeoJSON do
     expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
   end
 
-  # it 'creates a space types' do
+  it 'creates a space types' do
   # TODO: update tests when you figure out what stories are
-  #   space_type = URBANopt::GeoJSON::Helper.create_space_types(stories)
-  #   expect(space_type.class()).to eq(OpenStudio::Model::SpaceType)
-  # end
+    stories = [OpenStudio::Model::BuildingStory.new(@model)]
+    space_type = URBANopt::GeoJSON::Helper.create_space_types(stories, @model, @runner)
+    expect(space_type[0].class()).to eq(OpenStudio::Model::SpaceType)
+  end
 
   it 'creates a floorprint from polygon' do
     polygon = [
