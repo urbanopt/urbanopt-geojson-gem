@@ -1,3 +1,5 @@
+require 'urbanopt/geojson/feature'
+
 module URBANopt
   module GeoJSON
     class Building < Feature
@@ -153,7 +155,7 @@ module URBANopt
             floor_to_floor_height = 3
             if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
               floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
-              # COMMENTED OUT THIS LINE: CAN'T TREAT OPENSTUDIO INSTANCE LIKE FIXNUM 
+              # COMMENTED OUT THIS LINE: CAN'T TREAT OPENSTUDIO INSTANCE LIKE FIXNUM
               # floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm')
             end
             other_height = number_of_stories_above_ground * floor_to_floor_height
