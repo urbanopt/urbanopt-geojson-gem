@@ -1,6 +1,14 @@
 module URBANopt
   module GeoJSON
     module Zoning
+
+      ##
+      # Returns an Array of Arrays containing instances of OpenStudio::Point3d
+      #
+      # [Params]
+      # * +floor_print+ instance of OpenStudio::Point3dVector.new
+      # * +perimeter_depth+ Float representing perimeter depth
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.divide_floor_print(floor_print, perimeter_depth, runner)
         result = []
         t_inv = OpenStudio::Transformation.alignFace(floor_print)
@@ -68,12 +76,19 @@ module URBANopt
         return result
       end
 
+      ##
+      # Returns an Array containing instances of OpenStudio::Point3d
+      #
+      # [Params]
+      # * +multi_polygons+ coordinate pairs in double nested Array
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.get_first_floor_points(multi_polygons, origin_lat_lon, runner)
         building_points = []
         multi_polygons.each do |multi_polygon|
           multi_polygon.each do |polygon|
             elevation = 0
-            floor_print =  URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, true)
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, true)
             floor_print.each do |point|
               building_points << point
             end
