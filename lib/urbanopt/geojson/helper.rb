@@ -83,26 +83,41 @@ module URBANopt
       end
 
       ##
-      # Returns instance of OpenStudio::Model::SpaceType
-      # NOTE: update this return value once test is made more specific
+      # DLM: temp hack- Returns array containing instance of OpenStudio::Model::ShadingSurface
       #
       # [Params]
-      # * +bldg_use+ string indicating building use (UPDATE THIS)
-      # * +space_use+ string indicating space use (UPDATE THIS)
+      # * +feature+ instance of Feature class
       # * +model+ instance of OpenStudio::Model::Model
-      def self.create_space_type(bldg_use, space_use, model)
-        name = "#{bldg_use}:#{space_use}"
-        # check if we already have this space type
-        model.getSpaceTypes.each do |s|
-          if s.name.get == name
-            return s
-          end
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +spaces+ Array of OpenStudio::Model::Space(s)
+      def self.create_shading_surfaces(feature, model, origin_lat_lon, runner, spaces)
+        max_z = 0
+        spaces.each do |space|
+          bb = space.boundingBox
+          max_z = [max_z, bb.maxZ.get].max
         end
-        space_type = OpenStudio::Model::SpaceType.new(model)
-        space_type.setName(name)
-        space_type.setStandardsBuildingType(bldg_use)
-        space_type.setStandardsSpaceType(space_use)
-        return space_type
+        return create_photovoltaics(feature, max_z + 1, model, origin_lat_lon, runner)
+      end
+
+      # Returns array of OpenStudio::Model::SpaceTypes
+      #
+      # [Params]
+      # * +stories+ array of model/building stories
+      def self.create_space_types(stories)
+        space_types = []
+        stories.each_index do |i|
+          space_type = nil
+          space = stories[i].spaces.first
+          if space && space.spaceType.is_initialized
+            space_type = space.spaceType.get
+          else
+            space_type = OpenStudio::Model::SpaceType.new(model)
+            runner.registerInfo("Story #{i} does not have a space type, creating new one")
+          end
+          space_types[i] = space_type
+        end
+        return space_types
       end
 
       ##

@@ -94,30 +94,13 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     # pull information from the previous model
     # model.save('initial.osm', true)
 
-    default_construction_set = model.getBuilding.defaultConstructionSet
-    if !default_construction_set.is_initialized
-      runner.registerInfo("Starting model does not have a default construction set, creating new one")
-      default_construction_set = OpenStudio::Model::DefaultConstructionSet.new(model)
-    else
-      default_construction_set = default_construction_set.get
-    end
+    default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
 
     stories = []
     model.getBuildingStorys.each { |story| stories << story }
     stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    space_types = []
-    stories.each_index do |i|
-      space_type = nil
-      space = stories[i].spaces.first
-      if space && space.spaceType.is_initialized
-        space_type = space.spaceType.get
-      else
-        space_type = OpenStudio::Model::SpaceType.new(model)
-        runner.registerInfo("Story #{i} does not have a space type, creating new one")
-      end
-      space_types[i] = space_type
-    end
+    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories)
 
     # delete the previous building
     model.getBuilding.remove
@@ -129,36 +112,13 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     @runner = runner
     @origin_lat_lon = nil
 
-    path = @runner.workflow.findFile(geojson_file)
-    if path.nil? || path.empty?
-      @runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
-      return false
-    end
+    feature = URBANopt::GeoJSON::GeoFile.new(geojson_file, runner).get_feature_by_id(feature_id)
 
-    path = path.get.to_s
-    if !File.exists?(path)
-      @runner.registerError("GeoJSON file '#{path}' could not be found")
-      return false
-    end
-
-    feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     # EXPOSE NAME
-    # name = feature[:properties][:name]
-    # model.getBuilding.setName(name)
+    name = feature.feature_json[:properties][:name]
+    model.getBuilding.setName(name)
 
-    # find min and max x coordinate
-    min_lon_lat = feature.get_min_lon_lat()
-    min_lon = min_lon_lat[0]
-    min_lat = min_lon_lat[1]
-
-    if min_lon == Float::MAX || min_lat == Float::MAX 
-      @runner.registerError("Could not determine min_lat and min_lon")
-      return false
-    else
-      @runner.registerInfo("Min_lat = #{min_lat}, min_lon = #{min_lon}")
-    end
-
-    @origin_lat_lon = OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
+    @origin_lat_lon = feature.create_origin_lat_lon(@runner)
 
     site = model.getSite
     site.setLatitude(@origin_lat_lon.lat)
@@ -177,26 +137,21 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
       end
-      
+
       # DLM: temp hack
       building_type = feature.building_type
       if building_type == 'Vacant'
-        max_z = 0
-        spaces.each do |space|
-          bb = space.boundingBox
-          max_z = [max_z, bb.maxZ.get].max
-        end
-        shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, max_z + 1, model, @origin_lat_lon, @runner)
+        shading_surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, model, @origin_lat_lon, @runner, spaces)
       end
-      
+
       # make other buildings to convert to shading
       convert_to_shades = []
       if surrounding_buildings == "None"
         # no-op
       else
-        convert_to_shades = feature.create_other_buildings(feature, surrounding_buildings, model, @origin_lat_lon, @runner)
+        convert_to_shades = feature.create_other_buildings(surrounding_buildings, model, @origin_lat_lon, @runner)
       end
-      
+
       # intersect surfaces in this building with others
       @runner.registerInfo("Intersecting surfaces")
       spaces.each do |space|
@@ -212,84 +167,34 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
         all_spaces << space
       end
       OpenStudio::Model.matchSurfaces(all_spaces)
-      
-      # make windows
-      window_to_wall_ratio = feature.feature_json[:properties][:window_to_wall_ratio]
-      if window_to_wall_ratio.nil?
-        window_to_wall_ratio = 0.3
-      end
 
-      spaces.each do |space|
-        space.surfaces.each do |surface|
-          if surface.surfaceType == "Wall" && surface.outsideBoundaryCondition == "Outdoors"
-            surface.setWindowToWallRatio(window_to_wall_ratio)
-          end
-        end
-      end
-      
+      # make windows
+      spaces = feature.create_windows(spaces)
+
       # change adjacent surfaces to adiabatic
-      @runner.registerInfo("Changing adjacent surfaces to adiabatic")
-      model.getSurfaces.each do |surface|
-        adjacent_surface = surface.adjacentSurface
-        if !adjacent_surface.empty?
-          surface_construction = surface.construction
-          if !surface_construction.empty?
-            surface.setConstruction(surface_construction.get)
-          else
-            #@runner.registerError("Surface '#{surface.nameString}' does not have a construction")
-            #model.save('error.osm', true)
-            #return false
-          end
-          surface.setOutsideBoundaryCondition('Adiabatic')
-          
-          adjacent_surface_construction = adjacent_surface.get.construction
-          if !adjacent_surface_construction.empty?
-            adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
-          else
-            #@runner.registerError("Surface '#{adjacent_surface.get.nameString}' does not have a construction")
-            #model.save('error.osm', true)
-            #return false
-          end
-          adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')
-        end
-      end
-    
+      model = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(model, @runner)
+
       # convert other buildings to shading surfaces
-      convert_to_shades.each do |space|
+      convert_to_shades.map do |space|
         URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(space)
       end
 
     elsif feature.type == 'District System'
-
       district_system_type = feature[:properties][:district_system_type]
-      
       if district_system_type == 'Community Photovoltaic'
         shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
       end
-
     else
       @runner.registerError("Unknown feature type '#{feature.type}'")
       return false
     end
-    
-    # transfer data from previous model
-    stories = []
-    model.getBuildingStorys.each { |story| stories << story }
-    stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    stories.each_index do |i|
-      space_type = space_types[i]
-      next if space_type.nil?
-      
-      stories[i].spaces.each do |space|
-        space.setSpaceType(space_type)
-      end
-    end
-    
+    # transfer data from previous model
+    stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(model, space_types)
 
     return true
-
   end
+
 end
 
 # register the measure to be used by the application

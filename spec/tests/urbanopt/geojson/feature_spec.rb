@@ -34,10 +34,10 @@ RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
     feature_id = 'Energy Systems Integration Facility'
-    @feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
   end
 
   it 'creates minimum longitute and latitude given a polygon' do
@@ -69,6 +69,12 @@ RSpec.describe URBANopt::GeoJSON do
     expect(multi_polygon[0][0].length()).to eq(23)
     expect(multi_polygon[0][0][22]).to eq([-105.1712420582771, 39.743195219730666])
     expect(multi_polygon.class()).to eq(Array)
+  end
+
+  it 'creates an origin_lat_lon' do
+    origin_lat_lon = @feature.create_origin_lat_lon(@runner)
+
+    expect(origin_lat_lon.class()).to eq(OpenStudio::PointLatLon)
   end
 
 #   -  it 'creates a multi polygon out of a polygon' do

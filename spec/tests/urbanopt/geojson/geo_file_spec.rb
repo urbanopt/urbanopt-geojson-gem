@@ -33,23 +33,34 @@ require_relative '../../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     @spec_files_dir = File.join(File.dirname(__FILE__), '..', '..', '..', 'files')
+    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+
   end
 
   it 'gets feature, given a feature_id' do
-    geofile = URBANopt::GeoJSON::GeoFile.new(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson'))
+    geofile = URBANopt::GeoJSON::GeoFile.new(
+      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson'),
+      @runner
+    )
 
-    feature = geofile.get_feature('Thermal Test Facility')
+    feature = geofile.get_feature_by_id('Thermal Test Facility')
     expect(feature.feature_json[:type]).to eq("Feature")
     expect(feature.feature_json[:properties][:name]).to eq("Thermal Test Facility")
   end
 
   it 'validates correct geojson files' do
-    geofile = URBANopt::GeoJSON::GeoFile.new(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson'))
+    geofile = URBANopt::GeoJSON::GeoFile.new(
+      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson'),
+      @runner
+    )
     expect(geofile.valid?).to be_truthy
   end
 
   it 'complains about invalid geojson' do
-    geofile = URBANopt::GeoJSON::GeoFile.new(File.join(@spec_files_dir, 'invalid.geojson'))
+    geofile = URBANopt::GeoJSON::GeoFile.new(
+      File.join(@spec_files_dir, 'invalid.geojson'),
+      @runner
+    )
 
     expect(geofile.valid?).to be_falsey
   end

@@ -34,10 +34,10 @@ RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
     feature_id = 'Energy Systems Integration Facility'
-    @building = URBANopt::GeoJSON::GeoFile.new(path).get_feature(feature_id)
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @building = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
   end
 
   it 'creates building given a feature, create_method, model, origin_lat_lon, runner and zoning(false)' do
@@ -53,12 +53,18 @@ RSpec.describe URBANopt::GeoJSON do
     expect(building[0].class()).to eq(OpenStudio::Model::Space)
   end
 
-  # TODO: address this when create_other_buildings is refactored
-  # it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
-  #   # NOTE: REPLACE OTHER BUILDING JSON
-  #   other_buildings = URBANopt::GeoJSON::Building.create_other_buildings(@feature, "ShadingOnly", @model, @origin_lat_lon, @runner)
-  #   expect(other_buildings).to eq([])
-  # end
+  it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
+    # NOTE: REPLACE OTHER BUILDING JSON
+    other_buildings = @building.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
+    expect(other_buildings[0].class()).to eq(OpenStudio::Model::Space)
+  end
+
+  it 'creates windows given an array of spaces' do
+    # NOTE: Figure out a way to test if windows were created
+    spaces = @building.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
+    windows = @building.create_windows(spaces)
+    expect(windows[0].class()).to eq(OpenStudio::Model::Space)
+  end
 
 # TODO: uncomment tests when you find a way to test module private methods
   # it 'creates a space per building' do
