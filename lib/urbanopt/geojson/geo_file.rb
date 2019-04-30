@@ -34,6 +34,9 @@ module URBANopt
         @path
       end
 
+      def json
+        @geojson
+      end
       ##
       # Returns all feature objects from specified geoJSON file
       #
