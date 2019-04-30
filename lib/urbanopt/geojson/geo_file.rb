@@ -1,5 +1,6 @@
 require 'json-schema'
 require 'urbanopt/core/feature_file'
+require 'urbanopt/geojson/logging'
 require 'json'
 
 
@@ -9,10 +10,23 @@ module URBANopt
       @@geojson_schema = nil
       @@schema_file_lock = Mutex.new
 
-      def initialize(path, runner)
-        @path = path
-        @geojson = File.open(validate_path(path, runner), 'r') do |file|
-          geojson = JSON.parse(file.read, {symbolize_names: true})
+      def initialize(path_or_file_or_hash, runner)
+        if path_or_file_or_hash.class.to_s == 'Hash'
+          @path = nil
+          @geojson = path_or_file_or_hash
+        elsif path_or_file_or_hash.respond_to?(:read)
+          @path = path_or_file_or_hash.respond_to(:path) ? path_or_file_or_hash.path : nil
+          @geojson = JSON.parse(path_or_file_or_hash.read, { symbolize_names: true })
+        elsif path_or_file_or_hash.respond_to(:path)
+          @path = path_or_file_or_hash
+          @geojson = JSON.parse(
+            File.open(validate_path(@path, runner), 'r') { |f| f.read },
+            { symbolize_names: true }
+          )
+        else
+          URBANopt::GeoJSON.logger.error "could not read as GeoFile: #{path_or_file_or_hash.class.name}: #{path_or_file_or_hash.inspect}"
+          @path = nil
+          @geojson = nil
         end
       end
 
