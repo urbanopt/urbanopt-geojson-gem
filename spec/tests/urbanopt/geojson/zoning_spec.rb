@@ -49,6 +49,22 @@ RSpec.describe URBANopt::GeoJSON do
     expect(divided_floorprint[0][0].class).to eq(OpenStudio::Point3d)
   end
 
+  it 'gets first floor prints' do
+    multipolygons = [
+      [
+        [
+          [-105.1712420582771, 39.743195219730666],
+          [-105.17083168029784, 39.74345301902031],
+          [-105.16999751329422, 39.74261774582203],
+          [-105.17005383968352, 39.7425641229992],
+          [-105.169957280159, 39.742469251748986]
+        ],
+      ]
+    ]
+    first_floor_points = URBANopt::GeoJSON::Zoning.get_first_floor_points(multipolygons, @origin_lat_lon, @runner)
+    expect(first_floor_points[0].class()).to eq(OpenStudio::Point3d)
+  end
+
     #   it 'creates a zoning floorprint from polygon' do
     #   # REVISIT: WHY ZONING SET TO TRUE 
     #   polygon = [
