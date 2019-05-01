@@ -99,6 +99,13 @@ module URBANopt
         return building_points
       end
 
+      ##
+      # Returns an Array containing instances of OpenStudio::Point3d
+      #
+      # [Params]
+      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # * +feature+ instance of Feature class built off of geojson file
       def self.handle_surrounding_buildings(runner, origin_lat_lon, feature)
       # query database for nearby buildings
         # NEED TEST SCENARIO FOR THIS. ISN'T CURRENTLY USED.
