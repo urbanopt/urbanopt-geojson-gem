@@ -32,32 +32,28 @@ require_relative '../../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
+    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = 'Energy Systems Integration Facility'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
   end
 
   it 'converts floor space to shading surface group' do
     floor_space = OpenStudio::Model::Space.new(@model)
-
     group = URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(floor_space)
     expect(group[0].class()).to eq(OpenStudio::Model::ShadingSurfaceGroup)
   end
 
   it 'creates shading surfaces' do
-    path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
-    feature_id = 'Energy Systems Integration Facility'
-    feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
-    spaces = feature.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
-    surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
+    spaces = @feature.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
+    surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(@feature, @model, @origin_lat_lon, @runner, spaces)
     expect(surfaces[0].class()).to eq(OpenStudio::Model::ShadingSurface)
   end
 
   it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
-    path = "/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson"
-    feature_id = 'Energy Systems Integration Facility'
-    feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
-    photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
+    photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(@feature, 0, @model, @origin_lat_lon, @runner)
     # TODO: make this test more specific
     expect(photovoltaics[0].class()).to eq(OpenStudio::Model::ShadingSurface)
   end
