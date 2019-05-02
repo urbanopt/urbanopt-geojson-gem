@@ -35,7 +35,7 @@ module URBANopt
   module GeoJSON
     class Extension < OpenStudio::Extension::Extension
       def initialize
-        @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..'))
+        @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
       end
 
       # Return the absolute path of the measures or nil if there is none, can be used when configuring OSWs

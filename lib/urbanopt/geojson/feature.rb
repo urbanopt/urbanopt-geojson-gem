@@ -1,6 +1,8 @@
+require 'urbanopt/core/feature'
+
 module URBANopt
   module GeoJSON
-    class Feature
+    class Feature < URBANopt::Core::Feature
       attr_reader :feature_json
 
       def initialize(feature)
@@ -14,7 +16,20 @@ module URBANopt
           super
         end
       end
-
+      
+      # base methods declared in URBANopt::Core::Feature
+      def id
+        return @feature_json[:properties][:source_id]
+      end
+      
+      def name
+        return @feature_json[:properties][:name]
+      end
+      
+      def feature_type
+        raise "feature_type not implemented for Feature, override in your class"
+      end
+      
       ##
       # Returns coordinate with the minimum longitute and latitude within given building_json
       def get_min_lon_lat()

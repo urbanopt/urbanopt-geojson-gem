@@ -1,4 +1,6 @@
 require 'urbanopt/core/feature_file'
+require 'urbanopt/geojson/building'
+require 'urbanopt/geojson/district_system'
 
 module URBANopt
   module GeoJSON
@@ -6,8 +8,8 @@ module URBANopt
     
       def initialize(path, runner)
         @path = path
-        @geojson = File.open(validate_path(path, runner), 'r') do |file|
-          geojson = JSON.parse(file.read, {symbolize_names: true})
+        File.open(validate_path(path), 'r') do |file|
+          @geojson = JSON.parse(file.read, {symbolize_names: true})
         end
       end
       
@@ -46,18 +48,13 @@ module URBANopt
         #
         # [Params]
         # * +geofile+ path to file containing geojson
-        # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
-        def validate_path(geofile, runner)
-          path = runner.workflow.findFile(geofile)
+        def validate_path(path)
           if path.nil? || path.empty?
-            runner.registerError("GeoJSON file '#{geojson_file}' could not be found")
-            return false
+            raise "GeoJSON file '#{path}' could not be found"
           end
 
-          path = path.get.to_s
           if !File.exists?(path)
-            runner.registerError("GeoJSON file '#{path}' could not be found")
-            return false
+            raise "GeoJSON file '#{path}' does not exist"
           end
           return path
         end

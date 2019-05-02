@@ -1,6 +1,11 @@
 module URBANopt
   module GeoJSON
     class Building < Feature
+
+      def feature_type
+        'Building'
+      end
+      
       ##
       # Returns an array of instances of OpenStudio::Model::Space
       #
