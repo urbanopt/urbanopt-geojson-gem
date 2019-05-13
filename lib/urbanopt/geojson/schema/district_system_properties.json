@@ -66,6 +66,34 @@
       "items": {
         "type": "string"
       }
+    },
+    "power_factor": {
+      "type": "number"
+    },
+    "transformer": {
+      "description": "For non-transformers",
+      "type": "string"
+    },
+    "transformer_rating": {
+      "description": "kVA for transformers",
+      "type": "number"
+    },
+    "transformer_phase": {
+      "type": "string",
+      "enum": [
+        "Single-Phase",
+        "3-Phase"
+      ]
+    },
+    "transformer_voltage": {
+      "type": "number"
+    },
+    "transformer_type": {
+      "type": "string",
+      "enum": [
+        "Dry-Type",
+        "Liquid-Filled"
+      ]
     }
   },
   "required": [
