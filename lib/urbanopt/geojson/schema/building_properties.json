@@ -69,12 +69,16 @@
       "description": "Include this building's energy use and cost in the analysis. Defaults to true.",
       "type": "boolean"
     },
+    "detailed_model_filename": {
+      "description": "Name of a detailed model which can be loaded from disk as a seed model or complete model. Mapper class decides which measures to disable if this is present.",
+      "type": "string"
+    },
     "weather_filename": {
-      "description": "Name of the EPW weather file for this building.  Defaults to site's weather_filename.",
+      "description": "Name of EPW weather file for this building.  Defaults to site's weather_filename.",
       "type": "string"
     },
     "tariff_filename": {
-      "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
+      "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename. ",
       "type": "string"
     },
     "surface_elevation": {
@@ -84,6 +88,42 @@
     "floor_area": {
       "description": "Usable floor area (ft^2).",
       "type": "number"
+    },
+    "number_of_stories": {
+      "description": "The maximum number of building stories, sum of number of above and below ground stories.",
+      "type": "integer"
+    },
+    "number_of_stories_above_ground": {
+      "description": "The number of building stories above ground. Defaults to number_of_stories.",
+      "type": "integer"
+    },
+    "maximum_roof_height": {
+      "description": "Maximum height of the roof relative to surface elevation (ft)",
+      "type": "number"
+    },
+    "roof_type": {
+      "description": "The basic roof geometry. Defaults to flat.",
+      "type": "string",
+      "enum": [
+        "Flat",
+        "Gable",
+        "Hip"
+      ]
+    },
+    "footprint_area": {
+      "description": "Area of the footprint (ft^2).  Calculated on export.",
+      "type": "number"
+    },
+    "footprint_perimeter": {
+      "description": "Perimeter of the footprint (ft). Calculated on export.",
+      "type": "number"
+    },
+    "year_built": {
+      "description": "The year construction of the building was completed. Can be in the future to indicate future build out. Defaults to current year. ",
+      "type": "integer"
+    },
+    "template": {
+      "$ref": "#/definitions/templateType"
     },
     "building_type": {
       "$ref": "#/definitions/buildingType"
@@ -143,51 +183,9 @@
       "minimum": 0,
       "maximum": 100
     },
-    "number_of_stories": {
-      "description": "The maximum number of building stories, sum of number of above and below ground stories.",
-      "type": "integer"
-    },
-    "number_of_stories_above_ground": {
-      "description": "The number of building stories above ground. Defaults to number_of_stories.",
-      "type": "integer"
-    },
     "number_of_residential_units": {
       "description": "Total number of residential units in the building. Required for residential buildings or mixed-use buildings with residential use types.",
       "type": "integer"
-    },
-    "maximum_roof_height": {
-      "description": "Maximum height of the roof relative to surface elevation (ft)",
-      "type": "number"
-    },
-    "roof_type": {
-      "description": "The basic roof geometry. Defaults to flat.",
-      "type": "string",
-      "enum": [
-        "Flat",
-        "Gable",
-        "Hip"
-      ]
-    },
-    "year_built": {
-      "description": "The year construction of the building was completed. Defaults to current year.",
-      "type": "integer"
-    },
-    "footprint_area": {
-      "description": "Area of the footprint (ft^2).  Calculated on export.",
-      "type": "number"
-    },
-    "footprint_perimeter": {
-      "description": "Perimeter of the footprint (ft). Calculated on export.",
-      "type": "number"
-    },
-    "power_factor": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1
-    },
-    "transformer": {
-      "description": "Id of the transformer this building is connected to. We might want to use connectors for this.",
-      "type": "string"
     },
     "exterior_lighting_zone": {
       "description": "Choice of exterior lighting zone.",
@@ -205,14 +203,24 @@
       "type": "number",
       "minimum": 0,
       "maximum": 1
+    },
+    "power_factor": {
+      "description": "Ratio of the real power used by building to the apparent power seen by grid.",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "transformer": {
+      "description": "Id of the transformer this building is connected to. We might want to use connectors for this.",
+      "type": "string"
     }
   },
   "required": [
     "type",
     "floor_area",
+    "number_of_stories",
     "building_type",
-    "system_type",
-    "number_of_stories"
+    "system_type"
   ],
   "definitions": {
     "buildingType": {
@@ -328,6 +336,40 @@
         "Forced air furnace direct evap cooler",
         "Residential AC with no heat",
         "Residential AC with electric baseboard heat"
+      ]
+    },
+    "templateType": {
+      "description": "Standard template applied to building.",
+      "type": "string",
+      "enum": [
+        "DOE Ref Pre-1980",
+        "DOE Ref 1980-2004",
+        "90.1-2004",
+        "90.1-2007",
+        "90.1-2010",
+        "90.1-2013",
+        "NREL ZNE Ready 2017",
+        "DEER Pre-1975",
+        "DEER 1985",
+        "DEER 1996",
+        "DEER 2003",
+        "DEER 2007",
+        "DEER 2011",
+        "DEER 2014",
+        "DEER 2015",
+        "DEER 2017",
+        "DEER 2020",
+        "DEER 2025",
+        "DEER 2030",
+        "DEER 2035",
+        "DEER 2040",
+        "DEER 2045",
+        "DEER 2050",
+        "DEER 2055",
+        "DEER 2060",
+        "DEER 2065",
+        "DEER 2070",
+        "DEER 2075"
       ]
     }
   }
