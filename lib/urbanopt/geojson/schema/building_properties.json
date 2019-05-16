@@ -160,6 +160,30 @@
     "footprint_perimeter": {
       "description": "Perimeter of the footprint (ft). Calculated on export.",
       "type": "number"
+    },
+    "power_factor": {
+      "type": "number"
+    },
+    "transformer": {
+      "type": "string"
+    },
+    "hvac_heating_source": {
+      "type": "string",
+      "enum": [
+        "Electricity",
+        "NaturalGas",
+        "None"
+      ]
+    },
+    "hvac_cooling_source": {
+      "type": "string",
+      "enum": [
+        "Electricity",
+        "None"
+      ]
+    },
+    "exclude_hvac": {
+      "type": "boolean"
     }
   },
   "required": [
