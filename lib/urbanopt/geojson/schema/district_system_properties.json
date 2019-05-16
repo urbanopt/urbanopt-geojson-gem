@@ -67,9 +67,21 @@
 				"type": "string"
 			}
 		},
-		"primary_equipment_1": {
-		   "description": "First piece of primary equipment",
-				"$ref": "#/definitions/primaryEquipmentType"
+		"primary_equipment": {
+		   "description": "Primary equipment used in this plant",
+		   	"$ref": "#/definitions/primaryEquipmentType",
+		   "type": "array",
+		   "items":{
+		     "type": "string"
+		   }
+		},
+		"primary_equipment_2": {
+		   "description": "Secondary equipment used in this plant",
+				"$ref": "#/definitions/secondaryEquipmentType",
+			    "type": "array",
+		       "items":{
+		       "type": "string"
+		        }
 		},
 		"secondary_equipment_1": {
 		  "description": "Secondary equipment, such as heat rejection equipment, supporting primary equipment 1",
