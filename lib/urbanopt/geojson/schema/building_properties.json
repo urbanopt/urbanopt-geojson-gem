@@ -88,6 +88,25 @@
     "building_type": {
       "$ref": "#/definitions/buildingType"
     },
+    "system_type": {
+      "$ref": "#/definitions/systemType"
+    },
+    "weekday_start_time": {
+      "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave black to use default. Should this be part of a mixed type struct?",
+      "type": "string"
+    },
+    "weekday_duration": {
+      "description": "Length of weekend operating hours in 08:30 format, up to 24:00.",
+      "type": "string"
+    },
+    "weekend_start_time": {
+      "description": "Weekend operating hours start time in 08:30 format, using 24-hr clock. Leave black to use default. Should this be part of a mixed type struct?",
+      "type": "string"
+    },
+    "weekend_duration": {
+      "description": "Length of weekend operating hours in 08:30 format, up to 24:00.",
+      "type": "string"
+    },
     "mixed_type_1": {
       "$ref": "#/definitions/buildingType"
     },
@@ -162,34 +181,37 @@
       "type": "number"
     },
     "power_factor": {
-      "type": "number"
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
     },
     "transformer": {
+      "description": "Id of the transformer this building is connected to. We might want to use connectors for this.",
       "type": "string"
     },
-    "hvac_heating_source": {
+    "exterior_lighting_zone": {
+      "description": "Choice of exterior lighting zone.",
       "type": "string",
       "enum": [
-        "Electricity",
-        "NaturalGas",
-        "None"
+        "0 - Undeveloped Areas Parks",
+        "1 - Developed Areas Parks",
+        "2 - Neighborhood",
+        "3 - All Other Areas",
+        "4 - High Activity"
       ]
     },
-    "hvac_cooling_source": {
-      "type": "string",
-      "enum": [
-        "Electricity",
-        "None"
-      ]
-    },
-    "exclude_hvac": {
-      "type": "boolean"
+    "onsite_parking_fraction": {
+      "description": "Fraction of building parking to include in this model.  Choose 1 to include exterior lights for parking in this building model.  Choose 0 if parking is modeled separately.",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
     }
   },
   "required": [
     "type",
     "floor_area",
     "building_type",
+    "system_type",
     "number_of_stories"
   ],
   "definitions": {
@@ -221,6 +243,91 @@
         "Retail other than mall",
         "Service",
         "Mixed use"
+      ]
+    },
+    "systemType": {
+      "description": "Building HVAC system type. Should this be part of a mixed type struct?",
+      "type": "string",
+      "enum": [
+        "Ideal Air Loads",
+        "PTAC with hot water heat",
+        "PTAC with hot water heat with central air source heat pump",
+        "PTAC with gas coil heat",
+        "PTAC with electric baseboard heat",
+        "PTAC with no heat",
+        "PTAC with district hot water heat",
+        "PTAC with central air source heat pump heat",
+        "PTHP",
+        "PSZ-AC with gas coil heat",
+        "PSZ-AC with electric baseboard heat",
+        "PSZ-AC with no heat",
+        "PSZ-AC with district hot water heat",
+        "PSZ-AC with central air source heat pump heat",
+        "PSZ-HP",
+        "Fan coil district chilled water with no heat",
+        "Fan coil district chilled water and boiler",
+        "Fan coil district chilled water and central air source heat pump",
+        "Fan coil district chilled water unit heaters",
+        "Fan coil district chilled water electric baseboard heat",
+        "Fan coil district hot and chilled water",
+        "Fan coil district hot water and chiller",
+        "Fan coil district hot water and air-cooled chiller",
+        "Fan coil chiller and boiler",
+        "Fan coil air-cooled chiller and boiler",
+        "Fan coil chiller and central air source heat pump",
+        "Fan coil air-cooled chiller and central air source heat pump",
+        "Fan coil chiller with no heat",
+        "DOAS with fan coil district chilled water with no heat",
+        "DOAS with fan coil district chilled water and boiler",
+        "DOAS with fan coil district chilled water and central air source heat pump",
+        "DOAS with fan coil district chilled water unit heaters",
+        "DOAS with fan coil district chilled water electric baseboard heat",
+        "DOAS with fan coil district hot and chilled water",
+        "DOAS with fan coil district hot water and chiller",
+        "DOAS with fan coil district hot water and air-cooled chiller",
+        "DOAS with fan coil chiller and boiler",
+        "DOAS with fan coil air-cooled chiller and boiler",
+        "DOAS with fan coil chiller and central air source heat pump",
+        "DOAS with fan coil air-cooled chiller and central air source heat pump",
+        "DOAS with fan coil chiller with no heat",
+        "VRF with DOAS",
+        "Ground Source Heat Pumps with DOAS",
+        "Baseboard district hot water heat",
+        "Baseboard district hot water heat with direct evap coolers",
+        "Baseboard electric heat",
+        "Baseboard electric heat with direct evap coolers",
+        "Baseboard hot water heat",
+        "Baseboard hot water heat with direct evap coolers",
+        "Window AC with no heat",
+        "Window AC with forced air furnace",
+        "Window AC with district hot water baseboard heat",
+        "Window AC with hot water baseboard heat",
+        "Window AC with electric baseboard heat",
+        "Window AC with unit heaters",
+        "Direct evap coolers",
+        "Direct evap coolers with unit heaters",
+        "Unit heaters",
+        "Heat pump heat with no cooling",
+        "Heat pump heat with direct evap cooler",
+        "VAV with reheat",
+        "VAV with reheat central air source heat pump",
+        "VAV with PFP boxes",
+        "VAV with gas reheat",
+        "VAV with zone unit heaters",
+        "VAV with electric baseboard heat",
+        "VAV cool with zone heat pump heat",
+        "PVAV with reheat",
+        "PVAV with reheat with central air source heat pump",
+        "PVAV with PFP boxes",
+        "Residential forced air",
+        "Residential forced air cooling hot water baseboard heat",
+        "Residential forced air with district hot water",
+        "Residential heat pump",
+        "Forced air furnace",
+        "Forced air furnace district chilled water fan coil",
+        "Forced air furnace direct evap cooler",
+        "Residential AC with no heat",
+        "Residential AC with electric baseboard heat"
       ]
     }
   }
