@@ -46,19 +46,19 @@
       "type": "string"
     },
     "name": {
-      "description": "Feature name. Informational only.",
+      "description": "Feature name.",
       "type": "string"
     },
     "legal_name": {
-      "description": "Legal name used to identify this feature. Informational only.",
+      "description": "Legal name used to identify this feature.",
       "type": "string"
     },
     "address": {
-      "description": "Street address. Informational only.",
+      "description": "Street address.",
       "type": "string"
     },
     "building_status": {
-      "description": "Building status. Informational only.",
+      "description": "Building status.",
       "type": "string",
       "enum": [
         "Proposed",
@@ -66,23 +66,23 @@
       ]
     },
     "include_in_energy_analysis": {
-      "description": "Include this building's energy use and cost in the analysis. Defaults to true. Fixed parameter.",
+      "description": "Include this building's energy use and cost in the analysis. Defaults to true.",
       "type": "boolean"
     },
     "weather_filename": {
-      "description": "Name of the EPW weather file for this building.  Defaults to site's weather_filename. Fixed parameter.",
+      "description": "Name of the EPW weather file for this building.  Defaults to site's weather_filename.",
       "type": "string"
     },
     "tariff_filename": {
-      "description": "Name of the IDF tariff file for this building.  Defaults to site's tariff_filename.  Fixed parameter. ",
+      "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
       "type": "string"
     },
     "surface_elevation": {
-      "description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to project's surface_elevation.  Fixed parameter.",
+      "description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
       "type": "number"
     },
     "floor_area": {
-      "description": "Usable floor area (ft^2). Fixed parameter.",
+      "description": "Usable floor area (ft^2).",
       "type": "number"
     },
     "building_type": {
@@ -92,7 +92,7 @@
       "$ref": "#/definitions/buildingType"
     },
     "mixed_type_1_percentage": {
-      "description": "Percentage of 1st mixed building space type. Fixed parameter. Only used when building_type is Mixed use.",
+      "description": "Percentage of 1st mixed building space type. Only used when building_type is Mixed use.",
       "type": "number",
       "minimum": 0,
       "maximum": 100
@@ -101,7 +101,7 @@
       "$ref": "#/definitions/buildingType"
     },
     "mixed_type_2_percentage": {
-      "description": "Percentage of 2nd mixed building space type. Fixed parameter. Only used when building_type is Mixed use.",
+      "description": "Percentage of 2nd mixed building space type. Only used when building_type is Mixed use.",
       "type": "number",
       "minimum": 0,
       "maximum": 100
@@ -110,7 +110,7 @@
       "$ref": "#/definitions/buildingType"
     },
     "mixed_type_3_percentage": {
-      "description": "Percentage of 3rd mixed building space type. Fixed parameter. Only used when building_type is Mixed use.",
+      "description": "Percentage of 3rd mixed building space type. Only used when building_type is Mixed use.",
       "type": "number",
       "minimum": 0,
       "maximum": 100
@@ -119,21 +119,21 @@
       "$ref": "#/definitions/buildingType"
     },
     "mixed_type_4_percentage": {
-      "description": "Percentage of 4th mixed building space type. Fixed parameter. Only used when building_type is Mixed use.",
+      "description": "Percentage of 4th mixed building space type. Only used when building_type is Mixed use.",
       "type": "number",
       "minimum": 0,
       "maximum": 100
     },
     "number_of_stories": {
-      "description": "The maximum number of building stories, sum of number of above and below ground stories. Fixed parameter.",
+      "description": "The maximum number of building stories, sum of number of above and below ground stories.",
       "type": "integer"
     },
     "number_of_stories_above_ground": {
-      "description": "The number of building stories above ground. Defaults to number_of_stories.  Fixed parameter.",
+      "description": "The number of building stories above ground. Defaults to number_of_stories.",
       "type": "integer"
     },
     "number_of_residential_units": {
-      "description": "Total number of residential units in the building. Required for residential buildings or mixed-use buildings with residential use types. Fixed parameter.",
+      "description": "Total number of residential units in the building. Required for residential buildings or mixed-use buildings with residential use types.",
       "type": "integer"
     },
     "maximum_roof_height": {
@@ -141,7 +141,7 @@
       "type": "number"
     },
     "roof_type": {
-      "description": "The basic roof geometry. Defaults to flat.  Fixed parameter.",
+      "description": "The basic roof geometry. Defaults to flat.",
       "type": "string",
       "enum": [
         "Flat",
@@ -150,7 +150,7 @@
       ]
     },
     "year_built": {
-      "description": "The year construction of the building was completed. Defaults to current year. Fixed parameter. ",
+      "description": "The year construction of the building was completed. Defaults to current year.",
       "type": "integer"
     },
     "footprint_area": {
@@ -170,7 +170,7 @@
   ],
   "definitions": {
     "buildingType": {
-      "description": "Primary building space type. Fixed parameter. .",
+      "description": "Primary building space type.",
       "type": "string",
       "enum": [
         "Single-Family",
