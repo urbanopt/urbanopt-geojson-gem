@@ -67,14 +67,22 @@
 				"type": "string"
 			}
 		},
-		"equipment_1": {
-				"$ref": "#/definitions/equipmentType"
+		"primary_equipment_1": {
+		   "description": "First piece of primary equipment",
+				"$ref": "#/definitions/primaryEquipmentType"
+		},
+		"secondary_equipment_1": {
+		  "description": "Secondary equipment, such as heat rejection equipment, supporting primary equipment 1",
+				"$ref": "#/definitions/secondaryEquipmentType"
 		}
+		
 	},
 	"required": [
 		"type",
 		"district_system_type",
-		"equipment_Type"
+		"primary_Equipment_Type",
+		"secondary_Equipment_Type",
+		"fuel_Type"
 		
 	],
 	"definitions": {
@@ -88,18 +96,23 @@
 				"Community Photovoltaic"
 			]
 		},
-			"equipmentType": {
+			"primaryEquipmentType": {
 			"type": "string",
 			"enum": [
 				"Air-Cooled Chiller",
 				"Water-Cooled Chiller",
 				"Boiler",
-				"Cooling Tower",
 				"Water to Water Heat Pump",
 				"Air to Water Heat Pump",
 				"Ground Source Heat Pump",
 				"Solar Thermal Array",
 				"Waste Heat Source"
+			]
+		},
+					"secondaryEquipmentType": {
+			"type": "string",
+			"enum": [
+		      "Cooling Tower"
 			]
 		}
 	}
