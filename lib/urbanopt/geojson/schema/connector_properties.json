@@ -147,10 +147,7 @@
 							"const": "Junction"
 						},
 						"junction": {
-							"$id": "#/properties/origin",
-							"type": "object",
-							"$ref": "#/definitions/Junction",
-							"description": "If the connectorEndpoint type is 'Junction', said connectorEndpoint's schema now includes connector_id: foreign key associating this Connectorendpoint with said connector."
+							// TODO: add separate schema for this
 						}
 					},
 					"required": [
