@@ -146,12 +146,13 @@
 						"connection_endpoint_type": {
 							"const": "Junction"
 						},
-						"junction": {
-							// TODO: add separate schema for this
+						"junction_id": {
+							"type": "string",
+							"description": "If the connectorEndpoint type is 'Junction', said connectorEndpoint's schema now includes junction_id: foreign key associating this endpoint with said junction
 						}
 					},
 					"required": [
-						"junction"
+						"junction_id"
 					]
 				}
 			]
