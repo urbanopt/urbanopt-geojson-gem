@@ -148,7 +148,7 @@
 						},
 						"junction_id": {
 							"type": "string",
-							"description": "If the connectorEndpoint type is 'Junction', said connectorEndpoint's schema now includes junction_id: foreign key associating this endpoint with said junction
+							"description": "If the connectorEndpoint type is 'Junction', said connectorEndpoint's schema now includes junction_id: foreign key associating this endpoint with said junction"
 						}
 					},
 					"required": [
