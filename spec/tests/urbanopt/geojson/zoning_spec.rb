@@ -69,7 +69,7 @@ RSpec.describe URBANopt::GeoJSON do
   #   # NOTE: MAKE THIS MORE SPECIFIC. 
   #   path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
   #   feature_id = 'Energy Systems Integration Facility'
-  #   feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
+  #   feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature_by_id(feature_id)
   #   feature_2 = URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
   #   expect(feature_2[0][]).to eq(feature.feature_json)
   # end

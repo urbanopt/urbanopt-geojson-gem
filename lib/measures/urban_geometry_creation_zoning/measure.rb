@@ -99,7 +99,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     @runner = runner
     @origin_lat_lon = nil
     
-    feature = URBANopt::GeoJSON::GeoFile.new(geojson_file, @runner).get_feature_by_id(feature_id)
+    feature = URBANopt::GeoJSON::GeoFile.new(geojson_file).get_feature_by_id(feature_id)
 
     # find min and max x coordinate
     @origin_lat_lon = feature.create_origin_lat_lon(@runner)
