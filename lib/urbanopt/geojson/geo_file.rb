@@ -19,7 +19,7 @@ module URBANopt
         elsif path_or_file_or_hash.respond_to?(:read)
           @path = path_or_file_or_hash.respond_to(:path) ? path_or_file_or_hash.path : nil
           @geojson = JSON.parse(path_or_file_or_hash.read, { symbolize_names: true })
-        elsif path_or_file_or_hash.respond_to(:path)
+        elsif path_or_file_or_hash.respond_to?(:path)
           @path = path_or_file_or_hash
           @geojson = JSON.parse(
             File.open(validate_path(@path), 'r') { |f| f.read },
