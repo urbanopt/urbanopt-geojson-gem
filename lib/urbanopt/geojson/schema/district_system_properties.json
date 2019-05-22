@@ -133,6 +133,9 @@
 				"Ground Source Heat Pump--Hot Water",
 				"Solar Thermal Array--Ambient Water",
 				"Solar Thermal Array--Hot Water",
+				"Storage--Hot Water",
+				"Storage--Cold Water",
+				"Storage--Ambient Water",
 				"Waste Heat Source--Hot Water",
 				"Waste Heat Source--Ambient Water"
 			]
