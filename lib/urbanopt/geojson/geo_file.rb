@@ -2,10 +2,16 @@ require 'urbanopt/core/feature_file'
 require 'urbanopt/geojson/building'
 require 'urbanopt/geojson/district_system'
 
+require 'json'
+require 'json-schema'
+
+
 module URBANopt
   module GeoJSON
     class GeoFile < URBANopt::Core::FeatureFile
-    
+      @@geojson_schema = nil
+      @@schema_file_lock = Mutex.new
+
       def initialize(path, runner)
         @path = path
         File.open(validate_path(path), 'r') do |file|
@@ -42,6 +48,29 @@ module URBANopt
         return nil
       end
 
+      def schema_file
+        return File.join(File.dirname(__FILE__), 'schema', 'geojson_schema.json')
+      end
+
+      def schema
+        if @@geojson_schema.nil?
+          @@schema_file_lock.synchronize do
+            File.open(schema_file, 'r') do |file|
+              @@geojson_schema = JSON::parse(file.read, { symbolize_names: true })
+            end
+          end
+        end
+
+        return @@geojson_schema
+      end
+
+      def valid?
+        return JSON::Validator.validate(schema, @geojson)
+      end
+
+      def validation_errors
+        return JSON::Validator.fully_validate(schema, @geojson)
+      end
       private
         ##
         # Returns validated path as a string
