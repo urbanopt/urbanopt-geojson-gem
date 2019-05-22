@@ -28,21 +28,17 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 #*********************************************************************************
 
-require_relative '../spec_helper'
+require_relative '../../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
-  it "has a version number" do
-    expect(URBANopt::GeoJSON::VERSION).not_to be nil
+  before(:each) do
+    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @geofile = URBANopt::GeoJSON::GeoFile.new("/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson", @runner)
   end
 
-  it 'has a base version number' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    expect(instance.version).not_to be nil
-    expect(instance.version).to eq(URBANopt::GeoJSON::VERSION)
-  end
-
-  it 'has a measures directory' do
-    instance = URBANopt::GeoJSON::GeoJSON.new
-    expect(File.exists?(File.join(instance.measures_dir, 'urban_geometry_creation/'))).to be true
+  it 'gets feature, given a feature_id' do
+    feature = @geofile.get_feature_by_id('Thermal Test Facility')
+    expect(feature.feature_json[:type]).to eq("Feature")
+    expect(feature.feature_json[:properties][:name]).to eq("Thermal Test Facility")
   end
 end

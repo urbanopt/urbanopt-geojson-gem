@@ -124,7 +124,7 @@ Dir.glob("denver_district*.geojson").each do |p|
       if /building/i.match(type)
         errors = validate(building_schema, data)
       elsif /district system/i.match(type)
-        errors = validate(district_system_schema, data)       
+        errors = validate(district_system_schema, data)
       elsif /taxlot/i.match(type)
         errors = validate(taxlot_schema, data)
       elsif /region/i.match(type)
@@ -144,7 +144,7 @@ Dir.glob("denver_district*.geojson").each do |p|
       all_errors[p].pop
     end
   end
-          
+
 end
 
 puts all_errors

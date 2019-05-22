@@ -28,15 +28,16 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 #*********************************************************************************
 
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require_relative '../../../spec_helper'
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec.describe URBANopt::GeoJSON do
+  it "has a version number" do
+    expect(URBANopt::GeoJSON::VERSION).not_to be nil
+  end
 
-# Load in the rake tasks from the base extension gem
-require "openstudio/extension/rake_task"
-require "urbanopt/geojson"
-rake_task = OpenStudio::Extension::RakeTask.new
-rake_task.set_extension_class(URBANopt::GeoJSON::GeoJSON)
-
-task :default => :spec
+  # it 'has a base version number' do
+  #   instance = URBANopt::GeoJSON::GeoJSON.new
+  #   expect(instance.version).not_to be nil
+  #   expect(instance.version).to eq(URBANopt::GeoJSON::VERSION)
+  # end
+end
