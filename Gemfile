@@ -22,5 +22,8 @@ end
 group :test do
   gem "nyan-cat-formatter"
 end
+
+gem 'json_pure'
+
 # simplecov has an unneccesary dependency on native json gem, use fork that does not require this
 gem 'simplecov', github: 'NREL/simplecov'

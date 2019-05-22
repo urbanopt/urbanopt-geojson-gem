@@ -2,7 +2,7 @@
 
 ###### (Automatically generated documentation)
 
-# UrbanGeometryCreation
+# UrbanGeometryCreationZoning
 
 ## Description
 This measure reads an URBANopt GeoJSON and creates geometry for a particular building.  Surrounding buildings are included as shading structures.

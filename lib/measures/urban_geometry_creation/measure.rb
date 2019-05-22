@@ -35,7 +35,7 @@ require 'openssl'
 require 'urbanopt/geojson'
 
 # start the measure
-class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
+class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
   attr_accessor :origin_lat_lon
   
   # human readable name
@@ -56,12 +56,12 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
   def arguments(model)
     args = OpenStudio::Measure::OSArgumentVector.new
     # geojson file
-    geojson_file = OpenStudio::Ruleset::OSArgument.makeStringArgument("geojson_file", true)
+    geojson_file = OpenStudio::Measure::OSArgument.makeStringArgument("geojson_file", true)
     geojson_file.setDisplayName("GeoJSON File")
     geojson_file.setDescription("GeoJSON File.")
     args << geojson_file
     # feature id of the building to create
-    feature_id = OpenStudio::Ruleset::OSArgument.makeStringArgument("feature_id", true)
+    feature_id = OpenStudio::Measure::OSArgument.makeStringArgument("feature_id", true)
     feature_id.setDisplayName("Feature ID")
     feature_id.setDescription("Feature ID.")
     args << feature_id
@@ -70,7 +70,7 @@ class UrbanGeometryCreation < OpenStudio::Ruleset::ModelUserScript
     chs << "None"
     chs << "ShadingOnly"
     chs << "All"
-    surrounding_buildings = OpenStudio::Ruleset::OSArgument.makeChoiceArgument("surrounding_buildings", chs, true)
+    surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument("surrounding_buildings", chs, true)
     surrounding_buildings.setDisplayName("Surrounding Buildings")
     surrounding_buildings.setDescription("Select which surrounding buildings to include.")
     surrounding_buildings.setDefaultValue("ShadingOnly")
