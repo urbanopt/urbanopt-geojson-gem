@@ -47,8 +47,11 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates shading surfaces' do
-    spaces = @feature.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
-    surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(@feature, @model, @origin_lat_lon, @runner, spaces)
+    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = 'Energy Systems Integration Facility'
+    feature = URBANopt::GeoJSON::GeoFile.new(path, @runner).get_feature_by_id(feature_id)
+    spaces = feature.create_other_buildings("ShadingOnly", @model, @origin_lat_lon, @runner)
+    surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
     expect(surfaces[0].class()).to eq(OpenStudio::Model::ShadingSurface)
   end
 
