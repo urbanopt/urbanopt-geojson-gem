@@ -67,38 +67,53 @@
 				"type": "string"
 			}
 		},
-		"primary_equipment_1": {
-		   "description": "Primary equipment used in this plant",
-		   	"$ref": "#/definitions/primaryEquipmentType",
+		"equipment_1": {
+		   "description": "First piece of equipment used in this plant",
+		   	"$ref": "#/definitions/equipmentType",
 		   "type": "array",
 		   "items":{
 		     "type": "string"
 		   }
 		},
-		"primary_equipment_2": {
-		   "description": "Secondary equipment used in this plant",
-				"$ref": "#/definitions/secondaryEquipmentType",
+		"equipment_2": {
+		   "description": "Second piece of equipment used in this plant",
+				"$ref": "#/definitions/equipmentType",
 			    "type": "array",
 		       "items":{
 		       "type": "string"
 		        }
 		},
-		"secondary_equipment_1": {
-		  "description": "Secondary equipment, such as heat rejection equipment, supporting primary equipment 1",
-				"$ref": "#/definitions/secondaryEquipmentType"
+		"equipment_3": {
+		  "description": "Third piece of equipment used in this plant",
+				"$ref": "#/definitions/equipmentType",
+					"type": "array",
+		       "items":{
+		       "type": "string"
+		        }
 		},
 		
-			"secondary_equipment_2": {
-		  "description": "Secondary equipment, such as heat rejection equipment, supporting primary equipment 2",
-				"$ref": "#/definitions/secondaryEquipmentType"
+			"equipment_4": {
+		  "description": "Fourth piece of equipment used in this plant",
+				"$ref": "#/definitions/equipmentType",
+					"type": "array",
+		       "items":{
+		       "type": "string"
+		        }
+		},
+					"equipment_5": {
+		  "description": "Fifth piece of equipment used in this plant",
+				"$ref": "#/definitions/equipmentType",
+					"type": "array",
+		       "items":{
+		       "type": "string"
+		        }
 		}
 		
 	},
 	"required": [
 		"type",
 		"district_system_type",
-		"primary_Equipment_Type",
-		"secondary_Equipment_Type",
+		"equipment_Type",
 		"fuel_Type"
 		
 	],
@@ -106,20 +121,18 @@
 		"districtSystemType": {
 			"type": "string",
 			"enum": [
-				"Central Chilled Water",
-				"Central Hot Water",
-				"Central Hot and Chilled Water",
-				"Central Ambient Water",
+				"District Thermal",
 				"Community Photovoltaic"
 			]
 		},
-			"primaryEquipmentType": {
+			"equipmentType": {
 			"type": "string",
 			"enum": [
 				"Air-Cooled Chiller--Cold Water",
 				"Air-Cooled Chiller--Ambient Water",
 				"Water-Cooled Chiller--Cold Water",
 				"Water-Cooled Chiller---Ambient Water",
+				"Cooling Tower",
 				"Boiler--Hot Water",
 				"Boiler--Ambient Water",
 				"Water to Water Heat Pump--Ambient Water",
@@ -138,12 +151,6 @@
 				"Storage--Ambient Water",
 				"Waste Heat Source--Hot Water",
 				"Waste Heat Source--Ambient Water"
-			]
-		},
-					"secondaryEquipmentType": {
-			"type": "string",
-			"enum": [
-		      "Cooling Tower"
 			]
 		}
 	}
