@@ -12,28 +12,31 @@ module URBANopt
       @@geojson_schema = nil
       @@schema_file_lock = Mutex.new
 
-      def initialize(path_or_file_or_hash)
-        if path_or_file_or_hash.class.to_s == 'Hash'
-          @path = nil
-          @geojson = path_or_file_or_hash
-        elsif path_or_file_or_hash.respond_to?(:read)
-          @path = path_or_file_or_hash.respond_to(:path) ? path_or_file_or_hash.path : nil
-          @geojson = JSON.parse(path_or_file_or_hash.read, { symbolize_names: true })
-        elsif path_or_file_or_hash.respond_to?(:path)
-          @path = path_or_file_or_hash
-          @geojson = JSON.parse(
-            File.open(validate_path(@path), 'r') { |f| f.read },
-            { symbolize_names: true }
-          )
-        else
-          URBANopt::GeoJSON.logger.error "could not read as GeoFile: #{path_or_file_or_hash.class.name}: #{path_or_file_or_hash.inspect}"
-          @path = nil
-          @geojson = nil
-        end
+      ##
+      # [Params]
+      # * +data+ a hash containing the geojson
+      def initialize(data)
+        @geojson = data
       end
 
-      def path
-        @path
+      ##
+
+      # [Params]
+      #
+      def self.from_file(path)
+        if path.nil? || path.empty?
+          raise "GeoJSON file '#{path}' could not be found"
+        end
+
+        if !File.exists?(path)
+          raise "GeoJSON file '#{path}' does not exist"
+        end
+
+        geojson = JSON.parse(
+          File.open(path, 'r') { |f| f.read },
+          { symbolize_names: true }
+        )
+        return self.new(geojson)
       end
 
       def json
@@ -88,22 +91,6 @@ module URBANopt
         return JSON::Validator.fully_validate(schema, @geojson)
       end
 
-      private
-        ##
-        # Returns validated path as a string
-        #
-        # [Params]
-        # * +geofile+ path to file containing geojson
-        def validate_path(path)
-          if path.nil? || path.empty?
-            raise "GeoJSON file '#{path}' could not be found"
-          end
-
-          if !File.exists?(path)
-            raise "GeoJSON file '#{path}' does not exist"
-          end
-          return path
-        end
     end
   end
 end
