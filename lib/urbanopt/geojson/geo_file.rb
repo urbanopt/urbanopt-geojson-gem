@@ -12,7 +12,7 @@ module URBANopt
       @@geojson_schema = nil
       @@schema_file_lock = Mutex.new
 
-      def initialize(path_or_file_or_hash, runner)
+      def initialize(path_or_file_or_hash)
         if path_or_file_or_hash.class.to_s == 'Hash'
           @path = nil
           @geojson = path_or_file_or_hash
@@ -22,7 +22,7 @@ module URBANopt
         elsif path_or_file_or_hash.respond_to(:path)
           @path = path_or_file_or_hash
           @geojson = JSON.parse(
-            File.open(validate_path(@path, runner), 'r') { |f| f.read },
+            File.open(validate_path(@path), 'r') { |f| f.read },
             { symbolize_names: true }
           )
         else
