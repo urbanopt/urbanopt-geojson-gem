@@ -111,14 +111,25 @@
 			"primaryEquipmentType": {
 			"type": "string",
 			"enum": [
-				"Air-Cooled Chiller",
-				"Water-Cooled Chiller",
-				"Boiler",
-				"Water to Water Heat Pump",
-				"Air to Water Heat Pump",
-				"Ground Source Heat Pump",
-				"Solar Thermal Array",
-				"Waste Heat Source"
+				"Air-Cooled Chiller--Cold Water",
+				"Air-Cooled Chiller--Ambient Water",
+				"Water-Cooled Chiller--Cold Water",
+				"Water-Cooled Chiller---Ambient Water",
+				"Boiler--Hot Water",
+				"Boiler--Ambient Water",
+				"Water to Water Heat Pump--Ambient Water",
+				"Water to Water Heat Pump--Cold Water",
+				"Water to Water Heat Pump--Hot Water",
+				"Air to Water Heat Pump--Ambient Water",
+				"Air to Water Heat Pump--Cold Water",
+				"Air to Water Heat Pump--Hot Water",
+				"Ground Source Heat Pump--Ambient Water",
+				"Ground Source Heat Pump--Cold Water",
+				"Ground Source Heat Pump--Hot Water",
+				"Solar Thermal Array--Ambient Water",
+				"Solar Thermal Array--Hot Water",
+				"Waste Heat Source--Hot Water",
+				"Waste Heat Source--Ambient Water"
 			]
 		},
 					"secondaryEquipmentType": {
