@@ -53,10 +53,8 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
   end
 
   it 'complains about invalid geojson' do
-    geofile = URBANopt::GeoJSON::GeoFile.from_file(
+    expect{ URBANopt::GeoJSON::GeoFile.from_file(
       File.join(@spec_files_dir, 'invalid.geojson')
-    )
-
-    expect(geofile.valid?).to be_falsey
+    )}.to raise_error("GeoJSON file does not adhere to schema")
   end
 end

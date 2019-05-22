@@ -17,6 +17,9 @@ module URBANopt
       # * +data+ a hash containing the geojson
       def initialize(data)
         @geojson = data
+        if !valid?
+          raise "GeoJSON file does not adhere to schema"
+        end
       end
 
       ##

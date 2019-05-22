@@ -62,7 +62,7 @@ module URBANopt
 
                 # get the feature from the scenario's feature_file
                 feature_file = scenario.feature_file
-                feature = feature_file.get_feature(feature_id)
+                feature = feature_file.get_feature_by_id(feature_id)
 
                 raise "Cannot find feature '#{feature_id}' in '#{scenario.geometry_file}'" if feature.nil?
 

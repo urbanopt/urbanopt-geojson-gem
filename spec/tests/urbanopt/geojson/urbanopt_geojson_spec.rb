@@ -34,15 +34,4 @@ RSpec.describe URBANopt::GeoJSON do
   it "has a version number" do
     expect(URBANopt::GeoJSON::VERSION).not_to be nil
   end
-
-  # it 'has a base version number' do
-  #   instance = URBANopt::GeoJSON::GeoJSON.new
-  #   expect(instance.version).not_to be nil
-  #   expect(instance.version).to eq(URBANopt::GeoJSON::VERSION)
-  # end
-
-  it 'has a measures directory' do
-    instance = URBANopt::GeoJSON::Extension.new
-    expect(File.exists?(File.join(instance.measures_dir, 'urban_geometry_creation/'))).to be true
-  end
 end
