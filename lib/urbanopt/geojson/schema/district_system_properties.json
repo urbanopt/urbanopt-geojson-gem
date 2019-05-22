@@ -92,7 +92,7 @@
 		        }
 		},
 		
-			"equipment_4": {
+		"equipment_4": {
 		  "description": "Fourth piece of equipment used in this plant",
 				"$ref": "#/definitions/equipmentType",
 					"type": "array",
@@ -100,7 +100,7 @@
 		       "type": "string"
 		        }
 		},
-					"equipment_5": {
+			"equipment_5": {
 		  "description": "Fifth piece of equipment used in this plant",
 				"$ref": "#/definitions/equipmentType",
 					"type": "array",
