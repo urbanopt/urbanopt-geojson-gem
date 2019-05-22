@@ -33,14 +33,14 @@ require_relative '../../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     @spec_files_dir = File.join(File.dirname(__FILE__), '..', '..', '..', 'files')
-    @geofile = URBANopt::GeoJSON::GeoFile.new("/Users/karinamzalez/workspace/nrel/urbanopt-geojson-gem/spec/files/nrel_stm_footprints.geojson")
+    @geofile =File.join(File.dirname(__FILE__), '..', '..', '..', "files/nrel_stm_footprints.geojson")
   end
 
   it 'gets feature, given a feature_id' do
     geofile = URBANopt::GeoJSON::GeoFile.new(
       File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
     )
-
+    puts geofile
     feature = geofile.get_feature('Thermal Test Facility')
     expect(feature.feature_json[:type]).to eq("Feature")
     expect(feature.feature_json[:properties][:name]).to eq("Thermal Test Facility")
