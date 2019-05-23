@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>urban_geometry_creation_zoning</name>
   <uid>96ea1317-76ac-4670-b51d-71ee3f4fdd65</uid>
-  <version_id>0aa689ed-fed0-48d4-8a16-491758081d1a</version_id>
-  <version_modified>20190522T225621Z</version_modified>
+  <version_id>63e08249-fcf1-4037-9cb4-b1188702b056</version_id>
+  <version_modified>20190523T021410Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreationZoning</class_name>
   <display_name>UrbanGeometryCreationZoning</display_name>
@@ -116,7 +116,7 @@
       <filename>urban_geometry_creation_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>2CDA5F9C</checksum>
+      <checksum>111178B3</checksum>
     </file>
     <file>
       <version>
@@ -127,7 +127,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>BEA19197</checksum>
+      <checksum>F9C7D6B2</checksum>
     </file>
   </files>
 </measure>
