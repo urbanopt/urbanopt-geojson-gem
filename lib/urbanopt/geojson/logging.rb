@@ -28,8 +28,19 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
+require 'logger'
+
 module URBANopt
   module GeoJSON
-    VERSION = '0.0.1'.freeze
+    @@logger = Logger.new(STDERR)
+    @@logger.progname = 'URBANopt::GeoJSON'
+
+    def self.logger
+      @@logger
+    end
+
+    def self.setLogger(l)
+      @@logger = l
+    end
   end
 end

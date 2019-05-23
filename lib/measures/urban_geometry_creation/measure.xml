@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>urban_geometry_creation</name>
   <uid>5ab85d6b-c9af-4361-8ab9-613ee99a5666</uid>
-  <version_id>97494dfd-d89b-468e-864c-b4eb314f8766</version_id>
-  <version_modified>20190206T032021Z</version_modified>
+  <version_id>0808dbbe-ec8a-46c7-b416-cbae39e2b06c</version_id>
+  <version_modified>20190523T021410Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreation</class_name>
   <display_name>UrbanGeometryCreation</display_name>
@@ -89,18 +89,6 @@
   </attributes>
   <files>
     <file>
-      <filename>urban_geometry_creation_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>0E6A1935</checksum>
-    </file>
-    <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>9640B6CB</checksum>
-    </file>
-    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -113,6 +101,30 @@
       <checksum>D339FA87</checksum>
     </file>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>B646B327</checksum>
+    </file>
+    <file>
+      <filename>nrel_stm_footprints.geojson</filename>
+      <filetype>geojson</filetype>
+      <usage_type>test</usage_type>
+      <checksum>21E06908</checksum>
+    </file>
+    <file>
+      <filename>shadowed_tests.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53A7DD48</checksum>
+    </file>
+    <file>
+      <filename>urban_geometry_creation_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>B55E2F27</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.9.0</identifier>
@@ -121,13 +133,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A5490952</checksum>
-    </file>
-    <file>
-      <filename>nrel_stm_footprints.geojson</filename>
-      <filetype>geojson</filetype>
-      <usage_type>test</usage_type>
-      <checksum>40290298</checksum>
+      <checksum>E152B533</checksum>
     </file>
   </files>
 </measure>

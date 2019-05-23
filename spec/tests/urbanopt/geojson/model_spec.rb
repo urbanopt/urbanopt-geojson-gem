@@ -28,8 +28,37 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-module URBANopt
-  module GeoJSON
-    VERSION = '0.0.1'.freeze
+require_relative '../../../spec_helper'
+
+RSpec.describe URBANopt::GeoJSON do
+  before(:each) do
+    @model = OpenStudio::Model::Model.new
+    @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+  end
+
+  it 'creates a default construction set' do
+    default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(@model, @runner)
+    expect(default_construction_set.class).to eq(OpenStudio::Model::DefaultConstructionSet)
+  end
+
+  it 'changes adjacent surfaces to adiabatic' do
+    # TODO: make this test more specific
+    adiabatic = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(@model, @runner)
+    expect(adiabatic.class).to eq(OpenStudio::Model::Model)
+  end
+
+  it 'transfers previous model data' do
+    # TODO: make this test more specific
+    space_types = [OpenStudio::Model::SpaceType.new(@model)]
+    OpenStudio::Model::BuildingStory.new(@model)
+    stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(@model, space_types)
+    expect(stories[0].class).to eq(OpenStudio::Model::BuildingStory)
+  end
+
+  it 'creates space types' do
+    # TODO: make this test more specific
+    space_types = URBANopt::GeoJSON::Model.create_space_type('Office', 'Office', @model)
+    expect(space_types.class).to eq(OpenStudio::Model::SpaceType)
   end
 end

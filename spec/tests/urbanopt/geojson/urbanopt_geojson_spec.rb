@@ -28,8 +28,10 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-module URBANopt
-  module GeoJSON
-    VERSION = '0.0.1'.freeze
+require_relative '../../../spec_helper'
+
+RSpec.describe URBANopt::GeoJSON do
+  it 'has a version number' do
+    expect(URBANopt::GeoJSON::VERSION).not_to be nil
   end
 end

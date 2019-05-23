@@ -21,3 +21,4 @@
 # Ignore IDE files
 /.idea
 .DS_Store
+urbanopt-geojson-*.gem

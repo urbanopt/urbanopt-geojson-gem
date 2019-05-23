@@ -28,8 +28,14 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
+require 'urbanopt/geojson/feature'
+
 module URBANopt
   module GeoJSON
-    VERSION = '0.0.1'.freeze
+    class DistrictSystem < Feature
+      def feature_type
+        'District System'
+      end
+    end
   end
 end
