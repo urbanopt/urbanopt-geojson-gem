@@ -12,7 +12,7 @@ before_install:
   - gem install bundler -v '~> 1.17'
 install:
   - bundle install
-  - bash -c 'cd docs && npm ci'
+  - bash -c 'cd docs && npm i'
 before_script:
   - curl -sLO https://raw.githubusercontent.com/NREL/OpenStudio-server/develop/docker/deployment/scripts/install_openstudio.sh
   - chmod +x install_openstudio.sh
