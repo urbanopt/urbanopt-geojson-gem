@@ -1,37 +1,36 @@
-#*********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other 
+# *********************************************************************************
+# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
-# 
-# Redistribution and use in source and binary forms, with or without modification, 
+#
+# Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
-# 
-# Redistributions of source code must retain the above copyright notice, this list 
+#
+# Redistributions of source code must retain the above copyright notice, this list
 # of conditions and the following disclaimer.
-# 
-# Redistributions in binary form must reproduce the above copyright notice, this 
-# list of conditions and the following disclaimer in the documentation and/or other 
+#
+# Redistributions in binary form must reproduce the above copyright notice, this
+# list of conditions and the following disclaimer in the documentation and/or other
 # materials provided with the distribution.
-# 
-# Neither the name of the copyright holder nor the names of its contributors may be 
-# used to endorse or promote products derived from this software without specific 
+#
+# Neither the name of the copyright holder nor the names of its contributors may be
+# used to endorse or promote products derived from this software without specific
 # prior written permission.
-# 
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
-#*********************************************************************************
+# *********************************************************************************
 
 module URBANopt
   module GeoJSON
     module Model
-
       ##
       # Returns an instance of OpenStudio::Model::DefaultConstructionSet
       #
@@ -41,7 +40,7 @@ module URBANopt
       def self.create_construction_set(model, runner)
         default_construction_set = model.getBuilding.defaultConstructionSet
         if !default_construction_set.is_initialized
-          runner.registerInfo("Starting model does not have a default construction set, creating new one")
+          runner.registerInfo('Starting model does not have a default construction set, creating new one')
           default_construction_set = OpenStudio::Model::DefaultConstructionSet.new(model)
         else
           default_construction_set = default_construction_set.get
@@ -56,7 +55,7 @@ module URBANopt
       # * +model+ instance of OpenStudio::Model::Model
       # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       def self.change_adjacent_surfaces_to_adiabatic(model, runner)
-        runner.registerInfo("Changing adjacent surfaces to adiabatic")
+        runner.registerInfo('Changing adjacent surfaces to adiabatic')
         model.getSurfaces.each do |surface|
           adjacent_surface = surface.adjacentSurface
           if !adjacent_surface.empty?
@@ -85,7 +84,7 @@ module URBANopt
       def self.transfer_prev_model_data(model, space_types)
         stories = []
         model.getBuildingStorys.each { |story| stories << story }
-        stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
+        stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
         stories.each_index do |i|
           space_type = space_types[i]
@@ -119,7 +118,6 @@ module URBANopt
         space_type.setStandardsSpaceType(space_use)
         return space_type
       end
-
     end
   end
 end

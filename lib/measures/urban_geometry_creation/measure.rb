@@ -1,32 +1,32 @@
-#*********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other 
+# *********************************************************************************
+# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
-# 
-# Redistribution and use in source and binary forms, with or without modification, 
+#
+# Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
-# 
-# Redistributions of source code must retain the above copyright notice, this list 
+#
+# Redistributions of source code must retain the above copyright notice, this list
 # of conditions and the following disclaimer.
-# 
-# Redistributions in binary form must reproduce the above copyright notice, this 
-# list of conditions and the following disclaimer in the documentation and/or other 
+#
+# Redistributions in binary form must reproduce the above copyright notice, this
+# list of conditions and the following disclaimer in the documentation and/or other
 # materials provided with the distribution.
-# 
-# Neither the name of the copyright holder nor the names of its contributors may be 
-# used to endorse or promote products derived from this software without specific 
+#
+# Neither the name of the copyright holder nor the names of its contributors may be
+# used to endorse or promote products derived from this software without specific
 # prior written permission.
-# 
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
-#*********************************************************************************
+# *********************************************************************************
 
 require 'json'
 require 'net/http'
@@ -37,43 +37,43 @@ require 'urbanopt/geojson'
 # start the measure
 class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
   attr_accessor :origin_lat_lon
-  
+
   # human readable name
   def name
-    return "UrbanGeometryCreation"
+    return 'UrbanGeometryCreation'
   end
 
   # human readable description
   def description
-    return "This measure reads an URBANopt GeoJSON and creates geometry for a particular building.  Surrounding buildings are included as shading structures."
+    return 'This measure reads an URBANopt GeoJSON and creates geometry for a particular building.  Surrounding buildings are included as shading structures.'
   end
 
   # human readable description of modeling approach
   def modeler_description
-    return ""
+    return ''
   end
 
   def arguments(model)
     args = OpenStudio::Measure::OSArgumentVector.new
     # geojson file
-    geojson_file = OpenStudio::Measure::OSArgument.makeStringArgument("geojson_file", true)
-    geojson_file.setDisplayName("GeoJSON File")
-    geojson_file.setDescription("GeoJSON File.")
+    geojson_file = OpenStudio::Measure::OSArgument.makeStringArgument('geojson_file', true)
+    geojson_file.setDisplayName('GeoJSON File')
+    geojson_file.setDescription('GeoJSON File.')
     args << geojson_file
     # feature id of the building to create
-    feature_id = OpenStudio::Measure::OSArgument.makeStringArgument("feature_id", true)
-    feature_id.setDisplayName("Feature ID")
-    feature_id.setDescription("Feature ID.")
+    feature_id = OpenStudio::Measure::OSArgument.makeStringArgument('feature_id', true)
+    feature_id.setDisplayName('Feature ID')
+    feature_id.setDescription('Feature ID.')
     args << feature_id
     # which surrounding buildings to include
     chs = OpenStudio::StringVector.new
-    chs << "None"
-    chs << "ShadingOnly"
-    chs << "All"
-    surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument("surrounding_buildings", chs, true)
-    surrounding_buildings.setDisplayName("Surrounding Buildings")
-    surrounding_buildings.setDescription("Select which surrounding buildings to include.")
-    surrounding_buildings.setDefaultValue("ShadingOnly")
+    chs << 'None'
+    chs << 'ShadingOnly'
+    chs << 'All'
+    surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
+    surrounding_buildings.setDisplayName('Surrounding Buildings')
+    surrounding_buildings.setDescription('Select which surrounding buildings to include.')
+    surrounding_buildings.setDefaultValue('ShadingOnly')
     args << surrounding_buildings
     return args
   end
@@ -87,9 +87,9 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     end
 
     # assign the user inputs to variables
-    geojson_file = runner.getStringArgumentValue("geojson_file", user_arguments)
-    feature_id = runner.getStringArgumentValue("feature_id", user_arguments)
-    surrounding_buildings = runner.getStringArgumentValue("surrounding_buildings", user_arguments)
+    geojson_file = runner.getStringArgumentValue('geojson_file', user_arguments)
+    feature_id = runner.getStringArgumentValue('feature_id', user_arguments)
+    surrounding_buildings = runner.getStringArgumentValue('surrounding_buildings', user_arguments)
 
     # pull information from the previous model
     # model.save('initial.osm', true)
@@ -98,7 +98,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
     stories = []
     model.getBuildingStorys.each { |story| stories << story }
-    stories.sort! { |x,y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
+    stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
     space_types = URBANopt::GeoJSON::Helper.create_space_types(stories, model, runner)
 
@@ -126,14 +126,14 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
     if feature.surface_elevation
       surface_elevation = feature.surface_elevation.to_f
-      surface_elevation = OpenStudio::convert(surface_elevation, 'ft', 'm').get
+      surface_elevation = OpenStudio.convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
     end
 
     if feature.type == 'Building'
       # make requested building
       spaces = feature.create_building(:space_per_floor, model, @origin_lat_lon, @runner)
-      if spaces.nil? 
+      if spaces.nil?
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false
       end
@@ -146,14 +146,14 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
       # make other buildings to convert to shading
       convert_to_shades = []
-      if surrounding_buildings == "None"
+      if surrounding_buildings == 'None'
         # no-op
       else
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, model, @origin_lat_lon, @runner)
       end
 
       # intersect surfaces in this building with others
-      @runner.registerInfo("Intersecting surfaces")
+      @runner.registerInfo('Intersecting surfaces')
       spaces.each do |space|
         convert_to_shades.each do |other_space|
           space.intersectSurfaces(other_space)
@@ -161,7 +161,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
       end
 
       # match surfaces
-      @runner.registerInfo("Matching surfaces")
+      @runner.registerInfo('Matching surfaces')
       all_spaces = OpenStudio::Model::SpaceVector.new
       model.getSpaces.each do |space|
         all_spaces << space
@@ -194,7 +194,6 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
     return true
   end
-
 end
 
 # register the measure to be used by the application

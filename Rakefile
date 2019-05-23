@@ -1,4 +1,4 @@
-#*********************************************************************************
+# *********************************************************************************
 # URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
@@ -26,17 +26,20 @@
 # LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
-#*********************************************************************************
+# *********************************************************************************
 
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
 
 RSpec::Core::RakeTask.new(:spec)
 
 # Load in the rake tasks from the base extension gem
-require "openstudio/extension/rake_task"
-require "urbanopt/geojson"
+require 'openstudio/extension/rake_task'
+require 'urbanopt/geojson'
 rake_task = OpenStudio::Extension::RakeTask.new
 rake_task.set_extension_class(URBANopt::GeoJSON::Extension)
 
-task :default => :spec
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new
+
+task default: :spec

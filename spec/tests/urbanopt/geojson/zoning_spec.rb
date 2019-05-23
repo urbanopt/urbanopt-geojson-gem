@@ -1,32 +1,32 @@
-#*********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other 
+# *********************************************************************************
+# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
-# 
-# Redistribution and use in source and binary forms, with or without modification, 
+#
+# Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
-# 
-# Redistributions of source code must retain the above copyright notice, this list 
+#
+# Redistributions of source code must retain the above copyright notice, this list
 # of conditions and the following disclaimer.
-# 
-# Redistributions in binary form must reproduce the above copyright notice, this 
-# list of conditions and the following disclaimer in the documentation and/or other 
+#
+# Redistributions in binary form must reproduce the above copyright notice, this
+# list of conditions and the following disclaimer in the documentation and/or other
 # materials provided with the distribution.
-# 
-# Neither the name of the copyright holder nor the names of its contributors may be 
-# used to endorse or promote products derived from this software without specific 
+#
+# Neither the name of the copyright holder nor the names of its contributors may be
+# used to endorse or promote products derived from this software without specific
 # prior written permission.
-# 
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
-#*********************************************************************************
+# *********************************************************************************
 
 require_relative '../../../spec_helper'
 
@@ -40,7 +40,7 @@ RSpec.describe URBANopt::GeoJSON do
     polygon = [
       [1, 5],
       [5, 5],
-      [5, 1],
+      [5, 1]
     ]
     floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner)
     divided_floorprint = URBANopt::GeoJSON::Zoning.divide_floor_print(floorprint, 1, @runner)
@@ -58,15 +58,15 @@ RSpec.describe URBANopt::GeoJSON do
           [-105.16999751329422, 39.74261774582203],
           [-105.17005383968352, 39.7425641229992],
           [-105.169957280159, 39.742469251748986]
-        ],
+        ]
       ]
     ]
     first_floor_points = URBANopt::GeoJSON::Zoning.get_first_floor_points(multipolygons, @origin_lat_lon, @runner)
-    expect(first_floor_points[0].class()).to eq(OpenStudio::Point3d)
+    expect(first_floor_points[0].class).to eq(OpenStudio::Point3d)
   end
 
   # it 'gets first floor prints' do
-  #   # NOTE: MAKE THIS MORE SPECIFIC. 
+  #   # NOTE: MAKE THIS MORE SPECIFIC.
   #   path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
   #   feature_id = 'Energy Systems Integration Facility'
   #   feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature_by_id(feature_id)
@@ -75,7 +75,7 @@ RSpec.describe URBANopt::GeoJSON do
   # end
 
   # it 'creates a zoning floorprint from polygon' do
-  # # REVISIT: WHY ZONING SET TO TRUE 
+  # # REVISIT: WHY ZONING SET TO TRUE
   #   polygon = [
   #     [1, 5],
   #     [5, 5],
@@ -93,5 +93,4 @@ RSpec.describe URBANopt::GeoJSON do
   #     expect(floorprint[idx].z).to eq(vertex.z)
   #   }
   # end
-
 end

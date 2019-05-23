@@ -1,37 +1,36 @@
-#*********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other 
+# *********************************************************************************
+# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
-# 
-# Redistribution and use in source and binary forms, with or without modification, 
+#
+# Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
-# 
-# Redistributions of source code must retain the above copyright notice, this list 
+#
+# Redistributions of source code must retain the above copyright notice, this list
 # of conditions and the following disclaimer.
-# 
-# Redistributions in binary form must reproduce the above copyright notice, this 
-# list of conditions and the following disclaimer in the documentation and/or other 
+#
+# Redistributions in binary form must reproduce the above copyright notice, this
+# list of conditions and the following disclaimer in the documentation and/or other
 # materials provided with the distribution.
-# 
-# Neither the name of the copyright holder nor the names of its contributors may be 
-# used to endorse or promote products derived from this software without specific 
+#
+# Neither the name of the copyright holder nor the names of its contributors may be
+# used to endorse or promote products derived from this software without specific
 # prior written permission.
-# 
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
-#*********************************************************************************
+# *********************************************************************************
 
 module URBANopt
   module GeoJSON
     module Helper
-
       ##
       # Returns an Array of instances of OpenStudio::Model::ShadingSurfaceGroup
       #
@@ -71,15 +70,15 @@ module URBANopt
         feature_id = feature.feature_json[:properties][:properties]
         name = feature.name
         floor_prints = []
-        multi_polygons = feature.get_multi_polygons()
+        multi_polygons = feature.get_multi_polygons
         multi_polygons.each do |multi_polygon|
           if multi_polygon.size > 1
-            runner.registerWarning("Ignoring holes in polygon")
+            runner.registerWarning('Ignoring holes in polygon')
           end
           multi_polygon.each do |polygon|
             floor_print = floor_print_from_polygon(polygon, height, origin_lat_lon, runner)
             if floor_print
-              floor_prints << OpenStudio::reverse(floor_print)
+              floor_prints << OpenStudio.reverse(floor_print)
             else
               runner.registerWarning("Cannot create footprint for '#{name}'")
             end
@@ -92,7 +91,7 @@ module URBANopt
           shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
           shading_surface = OpenStudio::Model::ShadingSurface.new(floor_print, model)
           shading_surface.setShadingSurfaceGroup(shading_group)
-          shading_surface.setName("Photovoltaic Panel")
+          shading_surface.setName('Photovoltaic Panel')
           shading_surfaces << shading_surface
         end
         # create the inverter
@@ -102,7 +101,7 @@ module URBANopt
         elcd = OpenStudio::Model::ElectricLoadCenterDistribution.new(model)
         elcd.setInverter(inverter)
         shading_surfaces.each do |shading_surface|
-          panel = OpenStudio::Model::GeneratorPhotovoltaic::simple(model)
+          panel = OpenStudio::Model::GeneratorPhotovoltaic.simple(model)
           panel.setSurface(shading_surface)
           performance = panel.photovoltaicPerformance.to_PhotovoltaicPerformanceSimple.get
           performance.setFractionOfSurfaceAreaWithActiveSolarCells(1.0)
@@ -167,7 +166,7 @@ module URBANopt
       # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
       # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
       # * +zoning+ Boolean, is true if you'd like to utilize aspects of function that are specific to zoning
-      def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning=false)
+      def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning = false)
         floor_print = OpenStudio::Point3dVector.new
         all_points = OpenStudio::Point3dVector.new
         polygon.each do |p|
@@ -175,21 +174,21 @@ module URBANopt
           lat = p[1]
           point_3d = origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
           point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
-          curr_print = zoning ? OpenStudio::getCombinedPoint(point_3d, all_points, 1.0) : point_3d
+          curr_print = zoning ? OpenStudio.getCombinedPoint(point_3d, all_points, 1.0) : point_3d
           floor_print << curr_print
         end
         if floor_print.size < 3
-          runner.registerWarning("Cannot create floor print, fewer than 3 points")
+          runner.registerWarning('Cannot create floor print, fewer than 3 points')
           return nil
         end
-        floor_print = OpenStudio::removeCollinear(floor_print)
-        normal = OpenStudio::getOutwardNormal(floor_print)
+        floor_print = OpenStudio.removeCollinear(floor_print)
+        normal = OpenStudio.getOutwardNormal(floor_print)
         if normal.empty?
-          runner.registerWarning("Cannot create floor print, cannot compute outward normal")
+          runner.registerWarning('Cannot create floor print, cannot compute outward normal')
           return nil
         elsif normal.get.z > 0
-          floor_print = OpenStudio::reverse(floor_print)
-          runner.registerWarning("Reversing floor print")
+          floor_print = OpenStudio.reverse(floor_print)
+          runner.registerWarning('Reversing floor print')
         end
         return floor_print
       end
@@ -206,10 +205,10 @@ module URBANopt
         potentially_shaded.each do |building_point|
           potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
-            all_pairs << {:building_point => building_point, :other_building_point => other_building_point, :vector => vector, :distance => vector.length}
+            all_pairs << { building_point: building_point, other_building_point: other_building_point, vector: vector, distance: vector.length }
           end
         end
-        all_pairs.sort! {|x, y| x[:distance] <=> y[:distance]}
+        all_pairs.sort! { |x, y| x[:distance] <=> y[:distance] }
         all_pairs.each do |pair|
           if point_is_shadowed(pair[:building_point], pair[:other_building_point], origin_lat_lon)
             return true
@@ -228,22 +227,22 @@ module URBANopt
       def self.point_is_shadowed(building_point, other_building_point, origin_lat_lon)
         vector = other_building_point - building_point
         height = vector.z
-        distance = Math.sqrt(vector.x*vector.x + vector.y*vector.y)
+        distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
         if distance < 1
           return true
         end
         hour_angle_rad = Math.atan2(-vector.x, -vector.y)
-        hour_angle = OpenStudio::radToDeg(hour_angle_rad)
-        lattitude_rad = OpenStudio::degToRad(origin_lat_lon.lat)
+        hour_angle = OpenStudio.radToDeg(hour_angle_rad)
+        lattitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)
         result = false
         (-24..24).each do |declination|
-          declination_rad = OpenStudio::degToRad(declination)
-          zenith_angle_rad = Math.acos(Math.sin(lattitude_rad)*Math.sin(declination_rad) + Math.cos(lattitude_rad)*Math.cos(declination_rad)*Math.cos(hour_angle_rad))
-          zenith_angle = OpenStudio::radToDeg(zenith_angle_rad)
-          elevation_angle = 90-zenith_angle
+          declination_rad = OpenStudio.degToRad(declination)
+          zenith_angle_rad = Math.acos(Math.sin(lattitude_rad) * Math.sin(declination_rad) + Math.cos(lattitude_rad) * Math.cos(declination_rad) * Math.cos(hour_angle_rad))
+          zenith_angle = OpenStudio.radToDeg(zenith_angle_rad)
+          elevation_angle = 90 - zenith_angle
           apparent_angle_rad = Math.atan2(height, distance)
-          apparent_angle = OpenStudio::radToDeg(apparent_angle_rad)
-          if (elevation_angle > 0 && elevation_angle < apparent_angle)
+          apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
+          if elevation_angle > 0 && elevation_angle < apparent_angle
             result = true
             break
           end
