@@ -17,7 +17,7 @@
       "description": "Type of feature.",
       "type": "string",
       "enum": [
-        "Connector"
+        "Junction"
       ]
     },
     "source_name": {
@@ -33,49 +33,29 @@
       "type": "string"
     },
     "connector_type": {
-      "$ref": "#/definitions/connectorType"
-    },
-    "lengths": {
-      "description": "Length of each segment in ft, generated on export.",
-      "type": "array",
-      "items": {
-        "type": "number"
-      }
-    },
-    "total_length": {
-      "description": "Total length of the connector in ft, generated on export.",
-      "type": "number"
-    },
-    "start_junction_id": {
-      "description": "Id of the junction that this connector starts at.",
-      "type": "string"
-    },
-    "end_junction_id": {
-      "type": "string"
+      "$ref": "#/definitions/junctionType"
     },
     "todo_pump_stuff": {},
+    "todo_series_or_parallel": {},
+    "todo_supply_or_return": {},
     "todo_pressure_drop": {},
-    "todo_hot_or_cold": {},
-    "todo_number_of_pipes": {},
-    "todo_pipe_diameter": {},
-    "todo_pipe_insulation_underground": {},
     "user_data": {
       "description": "Arbitrary user data"
     }
   },
   "required": [
     "type",
-    "connector_type",
-    "start_junction_id",
-    "end_junction_id"
+    "connector_type"
   ],
   "additionalProperties": false,
   "definitions": {
-    "connectorType": {
+    "junctionType": {
       "type": "string",
       "enum": [
-        "Pipe",
-        "Wire"
+        "DES",
+        "ETS",
+        "Valve",
+        "Electrical"
       ]
     }
   }
