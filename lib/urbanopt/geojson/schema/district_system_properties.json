@@ -43,6 +43,10 @@
     "district_system_type": {
       "$ref": "#/definitions/districtSystemType"
     },
+    "detailed_model_filename": {
+      "description": "Name of a detailed model which can be loaded from disk as a seed model or complete model. Mapper class decides which measures to disable if this is present.",
+      "type": "string"
+    },
     "equipment_1": {
       "description": "First piece of equipment used in this plant",
       "$ref": "#/definitions/equipmentType",

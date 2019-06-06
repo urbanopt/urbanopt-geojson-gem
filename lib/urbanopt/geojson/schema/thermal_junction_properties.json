@@ -17,7 +17,7 @@
       "description": "Type of feature.",
       "type": "string",
       "enum": [
-        "Junction"
+        "ThermalJunction"
       ]
     },
     "source_name": {
@@ -33,7 +33,7 @@
       "type": "string"
     },
     "connector_type": {
-      "$ref": "#/definitions/junctionType"
+      "$ref": "#/definitions/ThermalJunctionType"
     },
     "building_id": {
       "type": "string"
@@ -55,13 +55,12 @@
   ],
   "additionalProperties": false,
   "definitions": {
-    "junctionType": {
+    "ThermalJunctionType": {
       "type": "string",
       "enum": [
         "DES",
         "ETS",
-        "Valve",
-        "Electrical"
+        "Valve"
       ]
     }
   }

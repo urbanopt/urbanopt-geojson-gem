@@ -17,7 +17,7 @@
       "description": "Type of feature.",
       "type": "string",
       "enum": [
-        "Connector"
+        "ThermalConnector"
       ]
     },
     "source_name": {
@@ -33,7 +33,7 @@
       "type": "string"
     },
     "connector_type": {
-      "$ref": "#/definitions/connectorType"
+      "$ref": "#/definitions/ThermalConnectorType"
     },
     "lengths": {
       "description": "Length of each segment in ft, generated on export.",
@@ -71,11 +71,13 @@
   ],
   "additionalProperties": false,
   "definitions": {
-    "connectorType": {
+    "ThermalConnectorType": {
       "type": "string",
       "enum": [
-        "Pipe",
-        "Wire"
+        "OnePipe",
+        "TwoPipe",
+        "ThreePipe",
+        "FourPipe"
       ]
     }
   }
