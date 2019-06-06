@@ -41,10 +41,11 @@
     "district_system_id": {
       "type": "string"
     },
-    "todo_pump_stuff": {},
+    "pump_presence": {
+     "description": "Presence of pump: true if present, false if absent",
+      "type": "boolean"
+  },
     "todo_series_or_parallel": {},
-    "todo_supply_or_return": {},
-    "todo_pressure_drop": {},
     "user_data": {
       "description": "Arbitrary user data"
     }
