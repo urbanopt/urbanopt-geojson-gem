@@ -35,6 +35,12 @@
     "connector_type": {
       "$ref": "#/definitions/junctionType"
     },
+    "building_id": {
+      "type": "string"
+    },
+    "district_system_id": {
+      "type": "string"
+    },
     "todo_pump_stuff": {},
     "todo_series_or_parallel": {},
     "todo_supply_or_return": {},

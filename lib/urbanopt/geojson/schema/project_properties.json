@@ -33,6 +33,29 @@
       "description": "The surface elevation (above NAVD88 datum) of the project (m).  ",
       "type": "number"
     },
+    "import_surrounding_buildings_as_shading": {
+      "type": "boolean"
+    },
+    "timesteps_per_hour": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "begin_date": {
+      "type": "string"
+    },
+    "end_date": {
+      "type": "string"
+    },
+    "climate_zone": {
+      "type": "string"
+    },
+    "cec_climate_zone": {
+      "type": "string"
+    },
+    "default_template": {
+      "type": "string"
+    },
     "weather_filename": {
       "type": "string"
     },

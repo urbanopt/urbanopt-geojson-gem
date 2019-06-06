@@ -186,8 +186,7 @@
     "power_factor": {
       "description": "Ratio of the real power used by building to the apparent power seen by grid.",
       "type": "number",
-      "minimum": 0,
-      "maximum": 1
+      "minimum": 0
     },
     "user_data": {
       "description": "Arbitrary user data"
@@ -229,7 +228,9 @@
         "Enclosed mall",
         "Retail other than mall",
         "Service",
-        "Mixed use"
+        "Mixed use",
+        "Uncovered Parking",
+        "Covered Parking"
       ]
     },
     "systemType": {
