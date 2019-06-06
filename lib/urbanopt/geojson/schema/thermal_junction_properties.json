@@ -45,14 +45,18 @@
      "description": "Presence of pump: true if present, false if absent",
       "type": "boolean"
   },
-    "todo_series_or_parallel": {},
+    "connection_type": {
+     "description": "Characterize the connection as series or parallel",
+      "$ref": "#/definitions/ThermalJunctionConnectionType"
+    },
     "user_data": {
       "description": "Arbitrary user data"
     }
   },
   "required": [
     "type",
-    "connector_type"
+    "connector_type",
+    "connection_type"
   ],
   "additionalProperties": false,
   "definitions": {
@@ -62,6 +66,13 @@
         "DES",
         "ETS",
         "Valve"
+      ]
+    },
+        "ThermalJunctionConnectionType": {
+      "type": "string",
+      "enum": [
+        "Series",
+        "Parallel"
       ]
     }
   }
