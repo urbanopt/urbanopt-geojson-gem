@@ -47,12 +47,11 @@
       "description": "Name of a detailed model which can be loaded from disk as a seed model or complete model. Mapper class decides which measures to disable if this is present.",
       "type": "string"
     },
-    "equipment_array":{
+    "equipment_array": {
       "description": "array of equipment",
-      "$ref": "#/definitions/equipmentType",
       "type": "array",
       "items": {
-        "type": "string"
+        "$ref": "#/definitions/equipmentType"
       }
     },
     "equipment_1": {
