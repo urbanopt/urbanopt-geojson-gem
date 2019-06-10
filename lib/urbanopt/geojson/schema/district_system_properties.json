@@ -47,45 +47,38 @@
       "description": "Name of a detailed model which can be loaded from disk as a seed model or complete model. Mapper class decides which measures to disable if this is present.",
       "type": "string"
     },
-    "equipment_1": {
-      "description": "First piece of equipment used in this plant",
+    "equipment_array":{
+      "description": "array of equipment",
       "$ref": "#/definitions/equipmentType",
       "type": "array",
       "items": {
         "type": "string"
       }
+    },
+    "equipment_1": {
+      "description": "First piece of equipment used in this plant",
+      "$ref": "#/definitions/equipmentType",
+      "type": "string"
     },
     "equipment_2": {
       "description": "Second piece of equipment used in this plant",
       "$ref": "#/definitions/equipmentType",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "type": "string"
     },
     "equipment_3": {
       "description": "Third piece of equipment used in this plant",
       "$ref": "#/definitions/equipmentType",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "type": "string"
     },
     "equipment_4": {
       "description": "Fourth piece of equipment used in this plant",
       "$ref": "#/definitions/equipmentType",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "type": "string"
     },
     "equipment_5": {
       "description": "Fifth piece of equipment used in this plant",
       "$ref": "#/definitions/equipmentType",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "type": "string"
     },
     "user_data": {
       "description": "Arbitrary user data"
