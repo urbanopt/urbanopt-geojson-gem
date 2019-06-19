@@ -6,7 +6,6 @@
   "type": "object",
   "properties": {
     "id": {
-      "FIXME": "may be there, type not known (string? number?)",
       "description": "Unique id used to refer to this feature within this dataset.",
       "type": "string"
     },
@@ -24,12 +23,11 @@
     "region_type": {
       "type": "string",
       "enum": [
-        "State",
-        "County",
-        "CensusTract",
-        "CensusBlockGroup",
-        "CensusBlock",
-        "Custom"
+        "Taxlot",
+        "Park",
+        "Road",
+        "Lake",
+        "Obstacle"
       ]
     },
     "source_name": {
@@ -40,60 +38,50 @@
       "description": "Id of the feature in original data source.",
       "type": "string"
     },
-    "country_code": {
-      "description": "3 digit ISO country code, e.g. 'USA'.",
+    "name": {
+      "description": "Feature name.",
       "type": "string"
     },
-    "country_name": {
-      "description": "Country name.",
+    "legal_name": {
+      "description": "Legal name used to identify this feature.",
       "type": "string"
     },
-    "state_code": {
-      "description": "Two character state code, e.g. 'CA'",
+    "address": {
+      "description": "Street address.",
       "type": "string"
     },
-    "state_name": {
-      "description": "State name",
-      "type": "string"
-    },
-    "city_name": {
-      "description": "City name",
-      "type": "string"
-    },
-    "fips_code": {
-      "description": "Five digit FIPS code.",
-      "type": "string"
-    },
-    "county_name": {
-      "description": "County name",
-      "type": "string"
-    },
-    "census_tract": {
-      "description": "Four to six digit census tract id.",
-      "type": "string"
-    },
-    "census_block_group": {
-      "description": "Census block group within the census tract.",
-      "type": "string"
-    },
-    "census_block": {
-      "description": "Census block within the census block group.",
-      "type": "string"
-    },
-    "zip_code": {
-      "description": "Five digit zip code.",
-      "type": "string"
-    },
-    "weather_file_name": {
+    "weather_filename": {
+      "description": "Name of EPW weather file for this building.  Defaults to site's weather_filename.",
       "type": "string"
     },
     "footprint_area": {
-      "description": "Area of the footprint (m^2)",
+      "description": "Area of the footprint (ft^2).  Calculated on export.",
       "type": "number"
     },
     "footprint_perimeter": {
-      "description": "Perimeter of the footprint (m)",
+      "description": "Perimeter of the footprint (ft). Calculated on export.",
       "type": "number"
+    },
+    "exterior_lighting_zone": {
+      "description": "Choice of exterior lighting zone.",
+      "type": "string",
+      "enum": [
+        "0 - Undeveloped Areas Parks",
+        "1 - Developed Areas Parks",
+        "2 - Neighborhood",
+        "3 - All Other Areas",
+        "4 - High Activity"
+      ]
+    },    
+    "taxlot_zoning": {
+      "type": "string",
+      "enum": [
+        "Vacant",
+        "Mixed",
+        "Residential",
+        "Commercial",
+        "OpenSpace"
+      ]
     },
     "user_data": {
       "description": "Arbitrary user data"
@@ -101,9 +89,7 @@
   },
   "required": [
     "type",
-    "region_type",
-    "source_name",
-    "source_id"
+    "region_type"
   ],
   "additionalProperties": false
 }
