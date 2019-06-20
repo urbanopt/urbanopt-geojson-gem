@@ -50,10 +50,6 @@
       "description": "Street address.",
       "type": "string"
     },
-    "weather_filename": {
-      "description": "Name of EPW weather file for this building.  Defaults to site's weather_filename.",
-      "type": "string"
-    },
     "footprint_area": {
       "description": "Area of the footprint (ft^2).  Calculated on export.",
       "type": "number"
@@ -72,7 +68,7 @@
         "3 - All Other Areas",
         "4 - High Activity"
       ]
-    },    
+    },
     "taxlot_zoning": {
       "type": "string",
       "enum": [
