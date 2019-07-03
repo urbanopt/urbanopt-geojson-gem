@@ -1,0 +1,3 @@
+# Electrical Connector Properties
+
+<ElectricalConnectorProperties />

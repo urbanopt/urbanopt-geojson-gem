@@ -2,9 +2,9 @@
   <JsonSchema :schema="schema"/>
 </template>
 <script>
-import { default as schema } from "../../../lib/urbanopt/geojson/schema/connector_properties.json";
+import { default as schema } from "../../../lib/urbanopt/geojson/schema/site_properties.json";
 export default {
-  name: "ConnectorProperties",
+  name: "SiteProperties",
   data() {
     return { schema };
   }
