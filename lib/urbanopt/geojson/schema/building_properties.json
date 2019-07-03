@@ -57,7 +57,7 @@
       "type": "string"
     },
     "tariff_filename": {
-      "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename. ",
+      "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
       "type": "string"
     },
     "surface_elevation": {
@@ -81,7 +81,7 @@
       "type": "number"
     },
     "roof_type": {
-      "description": "The basic roof geometry. Defaults to flat.",
+      "description": "The type of roof. Defaults to flat.",
       "type": "string",
       "enum": [
         "Flat",
@@ -98,7 +98,7 @@
       "type": "number"
     },
     "year_built": {
-      "description": "The year construction of the building was completed. Can be in the future to indicate future build out. Defaults to current year. ",
+      "description": "The year construction of the building was completed. Can be in the future to indicate future build out. Defaults to current year.",
       "type": "integer"
     },
     "template": {

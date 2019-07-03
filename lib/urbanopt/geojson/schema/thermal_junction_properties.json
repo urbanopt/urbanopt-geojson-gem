@@ -42,11 +42,11 @@
       "type": "string"
     },
     "pump_presence": {
-     "description": "Presence of pump: true if present, false if absent",
+      "description": "Presence of pump: true if present, false if absent",
       "type": "boolean"
-  },
+    },
     "connection_type": {
-     "description": "Characterize the connection as series or parallel",
+      "description": "Characterize the connection as series or parallel",
       "$ref": "#/definitions/ThermalJunctionConnectionType"
     },
     "user_data": {
@@ -68,7 +68,7 @@
         "Valve"
       ]
     },
-        "ThermalJunctionConnectionType": {
+    "ThermalJunctionConnectionType": {
       "type": "string",
       "enum": [
         "Series",
