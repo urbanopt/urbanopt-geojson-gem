@@ -1,0 +1,3 @@
+# Thermal Junction Properties
+
+<ThermalJunctionProperties />

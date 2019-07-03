@@ -1,3 +1,0 @@
-# Datapoint Properties
-
-<DatapointProperties />

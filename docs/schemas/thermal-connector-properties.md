@@ -1,0 +1,3 @@
+# Thermal Connector Properties
+
+<ThermalConnectorProperties />

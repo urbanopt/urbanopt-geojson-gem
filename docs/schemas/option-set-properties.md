@@ -1,3 +1,0 @@
-# Option Set Properties
-
-<OptionSetProperties />

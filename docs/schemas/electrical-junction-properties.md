@@ -1,0 +1,3 @@
+# Electrical Junction Properties
+
+<ElectricalJunctionProperties />
