@@ -1,3 +1,0 @@
-# Taxlot Properties
-
-<TaxlotProperties />

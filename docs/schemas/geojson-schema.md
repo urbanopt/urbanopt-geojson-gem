@@ -1,3 +1,0 @@
-# Geojson Schema
-
-<GeojsonSchema />

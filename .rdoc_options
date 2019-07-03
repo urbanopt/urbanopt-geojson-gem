@@ -10,28 +10,22 @@ exclude:
 - Gemfile
 - Gemfile.lock
 - LICENSE
-- README.md
 - Rakefile
-- measure.xml
-- nrel_stm_footprints.geojson
-- building_properties.json
-- connector_properties.json
-- datapoint_properties.json
-- district_system_properties.json
-- geojson_properties.json
-- geojson_schema.json
-- option_set_properties.json
-- project_properties.json
-- region_properties.json
-- scenario_properties.json
-- taxlot_properties.json
-- building.osw
-- building.osw.out
-- district_system.osw
-- district_system.osw.out
+- Jenkinsfile
+- README.md
+- !ruby/regexp /(copyright)/
+- !ruby/regexp /(\.css)/
+- !ruby/regexp /(\.erb)/
+- !ruby/regexp /(\.html)/
+- !ruby/regexp /(\.geojson)/
+- !ruby/regexp /(\.json)/
+- !ruby/regexp /(\.js)/
+- !ruby/regexp /(\.osw)/
+- !ruby/regexp /(\.osw.out)/
+- !ruby/regexp /(\.osm)/
+- !ruby/regexp /(\.xml)/
+- !ruby/regexp /(lib\/measures)/
 - urbanopt-geojson-gem.gemspec
-- JSON
-- Object
 hyperlink_all: false
 line_numbers: false
 locale:
