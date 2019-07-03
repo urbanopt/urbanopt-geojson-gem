@@ -34,7 +34,7 @@
       "type": "number"
     },
     "surface_elevation": {
-      "description": "The surface elevation (above NAVD88 datum) of the project (m).  ",
+      "description": "The surface elevation (above NAVD88 datum) of the project (ft).  ",
       "type": "number"
     },
     "import_surrounding_buildings_as_shading": {
