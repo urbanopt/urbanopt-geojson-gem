@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://json-schema.org/openstudio-urban-modeling/district_system_properties.json#",
-  "title": "Properties of a District System object",
-  "description": "Schema for a District System object",
+  "title": "URBANopt Electrical Connector",
+  "description": "Schema for an URBANopt Electrical Connector object",
   "type": "object",
   "properties": {
     "id": {
@@ -51,6 +51,7 @@
       "type": "string"
     },
     "end_junction_id": {
+      "description": "Id of the junction that this connector ends at.",
       "type": "string"
     },
     "user_data": {
@@ -66,6 +67,7 @@
   "additionalProperties": false,
   "definitions": {
     "ElectricalConnectorType": {
+      "description": "Type of electrical connector",
       "type": "string",
       "enum": [
         "Wire"
