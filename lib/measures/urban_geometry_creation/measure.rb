@@ -124,10 +124,12 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
-    if feature.surface_elevation
+    begin
       surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio.convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
+    rescue
+      @runner.registerWarning("Surface elevation not set for building '#{name}'")
     end
 
     if feature.type == 'Building'
