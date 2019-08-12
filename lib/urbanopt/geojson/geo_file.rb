@@ -44,7 +44,8 @@ module URBANopt
       ##
       # [Params]
       # * +data+ a hash containing the geojson
-      def initialize(data)
+      def initialize(data, path = nil)
+        @path = path
         @geojson = data
         if !valid?
           raise 'GeoJSON file does not adhere to schema'
@@ -68,13 +69,17 @@ module URBANopt
           File.open(path, 'r', &:read),
           symbolize_names: true
         )
-        return new(geojson)
+        return new(geojson, path)
       end
 
       def json
         @geojson
       end
 
+      def path
+        @path
+      end
+      
       ##
       # Returns all feature objects from specified geoJSON file
       #
@@ -86,10 +91,10 @@ module URBANopt
       # Returns feature object from specified geoJSON file
       #
       # [Params]
-      # * +feature_id+ source_id affiliated with feature object
+      # * +feature_id+ id affiliated with feature object
       def get_feature_by_id(feature_id)
         @geojson[:features].each do |f|
-          if f[:properties] && f[:properties][:source_id] == feature_id
+          if f[:properties] && f[:properties][:id] == feature_id
             if f[:properties][:type] == 'Building'
               return URBANopt::GeoJSON::Building.new(f)
             else

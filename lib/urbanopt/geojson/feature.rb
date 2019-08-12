@@ -49,7 +49,7 @@ module URBANopt
 
       # base methods declared in URBANopt::Core::Feature
       def id
-        return @feature_json[:properties][:source_id]
+        return @feature_json[:properties][:id]
       end
 
       def name
