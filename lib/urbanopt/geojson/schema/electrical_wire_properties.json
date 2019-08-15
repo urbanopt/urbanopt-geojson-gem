@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://json-schema.org/openstudio-urban-modeling/district_system_properties.json#",
-  "title": "URBANopt Electrical Junction",
-  "description": "Schema for an URBANopt Electrical Junction object",
+  "title": "URBANopt Electrical Wire",
+  "description": "Schema for an URBANopt Electrical Wire object",
   "type": "object",
   "properties": {
     "id": {
@@ -17,49 +17,55 @@
       "description": "Type of feature.",
       "type": "string",
       "enum": [
-        "ElectricalJunction"
+        "ElectricalWire"
       ]
     },
     "source_name": {
       "description": "Name of the original data source.",
       "type": "string"
     },
-    "source_id": {
-      "description": "Id of the feature in original data source.",
-      "type": "string"
-    },
     "name": {
       "description": "Feature name",
       "type": "string"
     },
-    "connector_type": {
-      "$ref": "#/definitions/ElectricalJunctionType"
+    "gmr": {
+      "description": "Geometric mean radius of the wire",
+      "type": "number"
     },
-    "building_id": {
-      "description": "Id of building if this junction is inside a building.",
-      "type": "string"
+    "ampacity": {
+      "description": "Ampacity of the wire",
+      "type": "number"
     },
-    "district_system_id": {
-      "description": "Id of district system if this junction is inside a district system.",
-      "type": "string"
+    "diameter": {
+      "description": "Diameter of the wire",
+      "type": "number"
     },
-    "user_data": {
-      "description": "Arbitrary user data"
+    "resistance": {
+      "description": "per unit resistance of the wire",
+      "type": "number"
+    },
+
+    "information_type": {
+      "$ref": "#/definitions/ElectricalWireType"
     }
   },
-  "required": [
-    "type",
-    "id",
-    "connector_type"
-  ],
+  "required":[
+      "type",
+      "id",
+      "information_type"
+  ]
   "additionalProperties": false,
   "definitions": {
-    "ElectricalJunctionType": {
-      "description": "Type of electrical junction",
+    "ElectricalWireType": {
+      "description": "Type of electrical wire",
       "type": "string",
       "enum": [
-        "ElectricalJunction"
+        "Wire"
       ]
     }
   }
 }
+
+
+
+

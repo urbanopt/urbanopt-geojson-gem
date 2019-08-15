@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/district_system_properties.json#",
+  "title": "URBANopt Electrical Line",
+  "description": "Schema for an URBANopt Electrical Line object",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique id used to refer to this feature within this dataset.",
+      "type": "string"
+    },
+    "project_id": {
+      "description": "Project which this feature belongs to.",
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of feature.",
+      "type": "string",
+      "enum": [
+        "ElectricalLine"
+      ]
+    },
+    "source_name": {
+      "description": "Name of the original data source.",
+      "type": "string"
+    },
+    "source_id": {
+      "description": "Id of the feature in original data source.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Feature name",
+      "type": "string"
+    },
+    "connector_type": {
+      "$ref": "#/definitions/ElectricalLineType"
+    },
+    "lengths": {
+      "description": "Length (ft) of each segment, generated on export.",
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "total_length": {
+      "description": "Total length (ft) of the line, generated on export.",
+      "type": "number"
+    },
+    "start_junction_id": {
+      "description": "Id of the junction that this line starts at.",
+      "type": "string"
+    },
+    "wire_1_phase": {
+      "description": "Phase of wire number 1 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
+      "type": "string"
+    },
+
+    "wire_2_phase": {
+      "description": "Phase of wire number 2 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
+      "type": "string"
+    },
+
+    "wire_3_phase": {
+      "description": "Phase of wire number 3 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
+      "type": "string"
+    },
+
+    "wire_4_phase": {
+      "description": "Phase of wire number 4 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
+      "type": "string"
+    },
+
+    "wire_1_id": {
+      "description": "identifier of wire 1",
+      "type": "string"
+    },
+
+    "wire_2_id": {
+      "description": "identifier of wire 2",
+      "type": "string"
+    },
+
+    "wire_3_id": {
+      "description": "identifier of wire 3",
+      "type": "string"
+    },
+
+    "wire_4_id": {
+      "description": "identifier of wire 4",
+      "type": "string"
+    },
+
+    "wire_1_height": {
+      "description": "Height of wire 1 in feet. Negative if underground",
+      "type": "number"
+    },
+
+    "wire_2_height": {
+      "description": "Height of wire 2 in feet. Negative if underground",
+      "type": "number"
+    },
+
+    "wire_3_height": {
+      "description": "Height of wire 3 in feet. Negative if underground",
+      "type": "number"
+    },
+
+    "wire_4_height": {
+      "description": "Height of wire 4 in feet. Negative if underground",
+      "type": "number"
+    },
+
+    "wire_1_x": {
+      "description": "Horizontal displacement of wire 1 in feet.",
+      "type": "number"
+    },
+
+    "wire_2_x": {
+      "description": "Horizontal displacement of wire 2 in feet.",
+      "type": "number"
+    },
+
+    "wire_3_x": {
+      "description": "Horizontal displacement of wire 3 in feet.",
+      "type": "number"
+    },
+
+    "wire_4_x": {
+      "description": "Horizontal displacement of wire 4 in feet.",
+      "type": "number"
+    },
+
+
+    "end_junction_id": {
+      "description": "Id of the junction that this line ends at.",
+      "type": "string"
+    },
+    "user_data": {
+      "description": "Arbitrary user data"
+    }
+  },
+  "required": [
+    "type",
+    "id",
+    "connector_type",
+    "start_junction_id",
+    "end_junction_id"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "ElectricalLineType": {
+      "description": "Type of electrical line",
+      "type": "string",
+      "enum": [
+        "Line"
+      ]
+    }
+  }
+}
