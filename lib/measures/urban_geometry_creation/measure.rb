@@ -95,13 +95,25 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     # model.save('initial.osm', true)
 
     default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
-
+#
     stories = []
     model.getBuildingStorys.each { |story| stories << story }
     stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories, model, runner)
+    space_types = []
+    stories.each_index do |i|
+      space_type = nil
+      space = stories[i].spaces.first
+      if space && space.spaceType.is_initialized
+        space_type = space.spaceType.get
+      else
+        space_type = OpenStudio::Model::SpaceType.new(model)
+        runner.registerInfo("Story #{i} does not have a space type, creating new one") #
+      end
+      space_type[i] = space_type
+    end 
 
+    puts "1HELLO = #{space_type}"
     # delete the previous building
     model.getBuilding.remove
 
@@ -190,9 +202,20 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
       @runner.registerError("Unknown feature type '#{feature.type}'")
       return false
     end
-
+#
     # transfer data from previous model
-    stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(model, space_types)
+    stories = []
+    model.getBuildingStorys.each { |story| stories << story }
+    stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
+
+    stories.each_index do |i|
+      space_type = space_types[i]
+      next if space_type.nil?
+
+      stories[i].spaces.each do |space|
+        space.setSpaceType(space_type)
+      end
+    end
 
     return true
   end
