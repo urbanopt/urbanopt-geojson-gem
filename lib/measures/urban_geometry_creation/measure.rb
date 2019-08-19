@@ -31,7 +31,6 @@
 require 'json'
 require 'net/http'
 require 'uri'
-require 'openssl'
 require 'urbanopt/geojson'
 
 # start the measure
