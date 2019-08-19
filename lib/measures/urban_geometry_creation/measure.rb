@@ -94,13 +94,17 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     # pull information from the previous model
     # model.save('initial.osm', true)
 
+    puts "4HELLO"
     default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
 #
     stories = []
     model.getBuildingStorys.each { |story| stories << story }
     stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
+    puts "5HELLO = #{model.getBuildingStorys}"
+
     space_types = []
+    puts "6HELLO = #{space_types}"
     stories.each_index do |i|
       space_type = nil
       space = stories[i].spaces.first
@@ -110,10 +114,10 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
         space_type = OpenStudio::Model::SpaceType.new(model)
         runner.registerInfo("Story #{i} does not have a space type, creating new one") #
       end
-      space_type[i] = space_type
+      space_types[i] = space_type
+      puts "7HELLO = #{space_types[1]}"
     end 
 
-    puts "1HELLO = #{space_type}"
     # delete the previous building
     model.getBuilding.remove
 

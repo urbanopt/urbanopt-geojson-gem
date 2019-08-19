@@ -104,13 +104,13 @@ module URBANopt
           floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
         end
         if create_method == :space_per_floor or create_method == :spaces_per_floor
-          if space_type
+         # if space_type
             # get the building use and fix any issues
-            building_space_type = URBANopt::GeoJSON::Model.create_space_type(standards_building_type, standards_space_type, model)
-            model.getBuilding.setSpaceType(building_space_type)
-            model.getBuilding.setStandardsBuildingType(standards_building_type)
-            model.getBuilding.setRelocatable(false)
-          end
+         #   building_space_type = URBANopt::GeoJSON::Model.create_space_type(standards_building_type, standards_space_type, model)
+         #   model.getBuilding.setSpaceType(building_space_type)
+         #   model.getBuilding.setStandardsBuildingType(standards_building_type)
+         #   model.getBuilding.setRelocatable(false)
+         # end
           #if space_type
             # get the building use and fix any issues
           #  building_space_type = URBANopt::GeoJSON::Model.create_space_type(space_type, space_type, model)
