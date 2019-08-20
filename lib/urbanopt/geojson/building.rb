@@ -53,6 +53,11 @@ module URBANopt
         number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
         number_of_stories_below_ground = other_building[:properties][:number_of_stories_below_ground]
         number_of_residential_units = other_building[:properties][:number_of_residential_units]
+        
+        ##
+        # Model has space types definded which are blended for each story
+
+
         #space_type = other_building[:properties][:building_type]
         #case space_type
         #when other_building[:properties][:building_type] = "Multifamily (5 or more units)"
