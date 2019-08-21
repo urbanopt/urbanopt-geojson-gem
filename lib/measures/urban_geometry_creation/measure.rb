@@ -31,7 +31,6 @@
 require 'json'
 require 'net/http'
 require 'uri'
-require 'openssl'
 require 'urbanopt/geojson'
 
 # start the measure
@@ -100,7 +99,19 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     model.getBuildingStorys.each { |story| stories << story }
     stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
 
-    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories, model, runner)
+
+    space_types = []
+    stories.each_index do |i|
+      space_type = nil
+      space = stories[i].spaces.first
+      if space && space.spaceType.is_initialized
+        space_type = space.spaceType.get
+      else
+        space_type = OpenStudio::Model::SpaceType.new(model)
+        runner.registerInfo("Story #{i} does not have a space type, creating new one") #
+      end
+      space_types[i] = space_type
+    end 
 
     # delete the previous building
     model.getBuilding.remove
@@ -124,10 +135,12 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
-    if feature.surface_elevation
+    begin
       surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio.convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
+    rescue
+      @runner.registerWarning("Surface elevation not set for building '#{name}'")
     end
 
     if feature.type == 'Building'
@@ -191,7 +204,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
     # transfer data from previous model
     stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(model, space_types)
-
+    
     return true
   end
 end

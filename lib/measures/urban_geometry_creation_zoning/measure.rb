@@ -116,7 +116,7 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     # make requested building
     spaces = feature.create_building(:spaces_per_floor, model, @origin_lat_lon, @runner, true)
     if spaces.nil? || spaces.empty?
-      @runner.registerError("Failed to create spaces for building #{source_id}")
+      @runner.registerError("Failed to create building spaces for feature #{feature_id}")
       return false
     end
 
