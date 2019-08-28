@@ -71,6 +71,9 @@ module URBANopt
           @@schema_file_lock.synchronize do
             File.open(schema_file, 'r') do |file|
               @@feature_schema[feature_type] = JSON.parse(file.read, symbolize_names: true)
+              
+              # allow additional properties
+              @@feature_schema[feature_type][:additionalProperties] = true
             end
           end
         end
