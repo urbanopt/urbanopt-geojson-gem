@@ -32,18 +32,18 @@ require 'urbanopt/geojson/feature'
 
 module URBANopt
   module GeoJSON
-    class DistrictSystem < Feature
+    class Region < Feature
       
       def initialize(feature)
         super(feature)
       end
       
       def feature_type
-        'District System'
+        'Region'
       end     
       
       def schema_file
-        return File.join(File.dirname(__FILE__), 'schema', 'district_system_properties.json')
+        return File.join(File.dirname(__FILE__), 'schema', 'region_properties.json')
       end
       
     end

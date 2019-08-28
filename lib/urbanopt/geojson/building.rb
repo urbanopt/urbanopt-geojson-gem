@@ -33,9 +33,17 @@ require 'urbanopt/geojson/feature'
 module URBANopt
   module GeoJSON
     class Building < Feature
-
+    
+      def initialize(feature)
+        super(feature)
+      end
+      
       def feature_type
         'Building'
+      end
+      
+      def schema_file
+        return File.join(File.dirname(__FILE__), 'schema', 'building_properties.json')
       end
       
       ##

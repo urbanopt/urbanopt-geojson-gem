@@ -34,7 +34,9 @@ module URBANopt
   module GeoJSON
     class Feature < URBANopt::Core::Feature
       attr_reader :feature_json
-
+      @@feature_schema = {}
+      @@schema_file_lock = Mutex.new
+      
       def initialize(feature)
         @feature_json = validate_feat(feature)
       end
@@ -59,7 +61,23 @@ module URBANopt
       def feature_type
         raise 'feature_type not implemented for Feature, override in your class'
       end
+      
+      def schema_file
+        raise 'schema_file not implemented for Feature, override in your class'
+      end
+      
+      def schema
+        if @@feature_schema[feature_type].nil?
+          @@schema_file_lock.synchronize do
+            File.open(schema_file, 'r') do |file|
+              @@feature_schema[feature_type] = JSON.parse(file.read, symbolize_names: true)
+            end
+          end
+        end
 
+        return @@feature_schema[feature_type]
+      end
+      
       ##
       # Returns coordinate with the minimum longitute and latitude within given building_json
       def get_min_lon_lat
@@ -147,9 +165,12 @@ module URBANopt
           raise("No properties found in '#{feature}'")
           return false
         end
-
-        # name = feature[:properties][:name]
-        # model.getBuilding.setName(name)
+        
+        errors = JSON::Validator.fully_validate(schema, feature[:properties])
+        if !errors.empty?
+          raise("Invalid properties for '#{feature}'\n  #{errors.join('\n  ')}")
+          return false
+        end
 
         geometry_type = feature[:geometry][:type]
         if geometry_type == 'Polygon'

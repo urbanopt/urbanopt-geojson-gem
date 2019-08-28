@@ -84,7 +84,15 @@ module URBANopt
       # Returns all feature objects from specified geoJSON file
       #
       def features
-        return [] # TODO: implement me
+        result = []
+        @geojson[:features].each do |f|
+          if f[:properties] && f[:properties][:type] == 'Building'
+            result << URBANopt::GeoJSON::Building.new(f)
+          elsif f[:properties] && f[:properties][:type] == 'District System'
+            result << URBANopt::GeoJSON::DistrictSystem.new(f)
+          end
+        end
+        return result
       end
 
       ##
@@ -97,7 +105,7 @@ module URBANopt
           if f[:properties] && f[:properties][:id] == feature_id
             if f[:properties][:type] == 'Building'
               return URBANopt::GeoJSON::Building.new(f)
-            else
+            elsif f[:properties] && f[:properties][:type] == 'District System'
               return URBANopt::GeoJSON::DistrictSystem.new(f)
             end
           end
