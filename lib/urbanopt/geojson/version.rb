@@ -30,6 +30,8 @@
 
 module URBANopt
   module GeoJSON
+    ##
+    # Set version and disallow changes
     VERSION = '0.0.1'.freeze
   end
 end

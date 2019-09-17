@@ -33,11 +33,15 @@ require 'json'
 
 module URBANopt
     module GeoJSON
+        ##
+        # `Mapper` class inherits from `MapperBase`
         class Mapper < MapperBase
             # class level variables
             @@instance_lock = Mutex.new
             @@osw = nil
 
+            ##
+            # Set up baseline OpenStudio Workflow
             def initialize()
 
                 # do initialization of class variables in thread safe way
@@ -59,6 +63,8 @@ module URBANopt
                 end
             end
 
+            ##
+            # Create new OpenStudio Workflow to examine changes
             def create_osw(scenario, feature_id, feature_name)
 
                 # get the feature from the scenario's feature_file

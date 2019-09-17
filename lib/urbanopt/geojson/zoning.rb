@@ -30,6 +30,8 @@
 
 module URBANopt
   module GeoJSON
+    ##
+    # Create `zoning` module
     module Zoning
 
       ##

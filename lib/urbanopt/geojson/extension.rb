@@ -33,7 +33,12 @@ require 'openstudio/extension'
 
 module URBANopt
   module GeoJSON
+    ##
+    # Define `Extension` class, inherits from `OpenStudio::Extension::Extension`
     class Extension < OpenStudio::Extension::Extension
+
+      ##
+      # Set up, define path to root directory
       def initialize
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
       end

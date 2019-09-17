@@ -30,7 +30,10 @@
 
 module URBANopt
   module GeoJSON
+    ##
+    # Create `Model` module
     module Model
+
       ##
       # Returns an instance of OpenStudio::Model::DefaultConstructionSet
       #

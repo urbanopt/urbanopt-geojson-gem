@@ -32,8 +32,12 @@ require 'urbanopt/geojson/feature'
 
 module URBANopt
   module GeoJSON
+    ##
+    # Define class `Building`, inherits from `Feature`
     class Building < Feature
 
+      ##
+      # Declares the `feature_type` to be `Building`
       def feature_type
         'Building'
       end
@@ -42,12 +46,18 @@ module URBANopt
       # Returns an array of instances of OpenStudio::Model::Space
       #
       # [Params]
-      # * +feature+ instance of Feature class built off of geojson file
-      # * +create_method+ e.g. ":space_per_floor" (UPDATE THIS)
-      # * +model+ instance of OpenStudio::Model::Model
-      # * +origin_lat_lon+ instance of OpenStudio::PointLatLon indicating origin lat & lon
-      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
-      # * +zoning+ Boolean, is true if you'd like to utilize aspects of function that are specific to zoning
+      # feature::
+      #   instance of Feature class built off of geojson file
+      # create_method::
+      #   e.g. ":space_per_floor"  # TODO: Update this
+      # model::
+      #   instance of OpenStudio::Model::Model
+      # origin_lat_lon::
+      #   instance of OpenStudio::PointLatLon indicating origin lat & lon
+      # runner::
+      #   measure run's instance of OpenStudio::Measure::OSRunner
+      # zoning::
+      #   Boolean, is true if you'd like to utilize aspects of function that are specific to zoning
       def create_building(create_method, model, origin_lat_lon, runner, zoning=false, other_building=@feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
         number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]

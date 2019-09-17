@@ -28,6 +28,8 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
+# TODO: document what this file is doing
+
 require 'urbanopt/geojson/feature'
 require 'urbanopt/geojson/building'
 require 'urbanopt/geojson/geo_file'

@@ -37,13 +37,17 @@ require 'json'
 
 module URBANopt
   module GeoJSON
+    ##
+    # Define `GeoFile` class, inherits from `Core::FeatureFile`
     class GeoFile < URBANopt::Core::FeatureFile
       @@geojson_schema = nil
       @@schema_file_lock = Mutex.new
 
       ##
+      # Returns nothing. Raises error if geojson file does not adhere to schema
       # [Params]
       # * +data+ a hash containing the geojson
+      # * +path+ a string representation of the location of the geojson file
       def initialize(data, path = nil)
         @path = path
         @geojson = data
@@ -53,9 +57,9 @@ module URBANopt
       end
 
       ##
-
+      # Returns parsed geojson file and path
       # [Params]
-      #
+      # * `path` a string representation of the location of the geojson file
       def self.from_file(path)
         if path.nil? || path.empty?
           raise "GeoJSON file '#{path}' could not be found"
@@ -72,10 +76,14 @@ module URBANopt
         return new(geojson, path)
       end
 
+      ##
+      # Declare `json` to be the geojson data
       def json
         @geojson
       end
 
+      ##
+      # Declare `path` to be the filepath to the geojson data
       def path
         @path
       end
@@ -89,7 +97,6 @@ module URBANopt
 
       ##
       # Returns feature object from specified geoJSON file
-      #
       # [Params]
       # * +feature_id+ id affiliated with feature object
       def get_feature_by_id(feature_id)
@@ -105,10 +112,14 @@ module URBANopt
         return nil
       end
 
+      ##
+      # Returns the geojson schema file
       def schema_file
         return File.join(File.dirname(__FILE__), 'schema', 'geojson_schema.json')
       end
 
+      ##
+      # Returns the geojson schema
       def schema
         if @@geojson_schema.nil?
           @@schema_file_lock.synchronize do
@@ -121,10 +132,14 @@ module URBANopt
         return @@geojson_schema
       end
 
+      ##
+      # Returns validation of geojson to schema
       def valid?
         return JSON::Validator.validate(schema, @geojson)
       end
 
+      ##
+      # Returns full validation of geojson to schema
       def validation_errors
         return JSON::Validator.fully_validate(schema, @geojson)
       end

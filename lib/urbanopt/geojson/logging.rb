@@ -35,11 +35,14 @@ module URBANopt
     @@logger = Logger.new(STDERR)
     @@logger.progname = 'URBANopt::GeoJSON'
 
+    ##
+    # Define this logger instance
     def self.logger
       @@logger
     end
 
-    def self.setLogger(l)
+    ##
+    def self.setLogger(l)  # TODO: add documentation
       @@logger = l
     end
   end

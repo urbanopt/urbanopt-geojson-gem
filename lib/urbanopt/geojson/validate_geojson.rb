@@ -31,6 +31,8 @@
 require 'json'
 require 'json-schema'
 
+##
+# Read building schema
 def get_building_schema(strict)
   result = nil
   File.open(File.dirname(__FILE__) + '/../schema/building_properties.json') do |f|
@@ -44,6 +46,8 @@ def get_building_schema(strict)
   return result
 end
 
+##
+# Read tax lot schema
 def get_taxlot_schema(strict)
   result = nil
   File.open(File.dirname(__FILE__) + '/../schema/taxlot_properties.json') do |f|
@@ -57,6 +61,8 @@ def get_taxlot_schema(strict)
   return result
 end
 
+##
+# Read district system schema
 def get_district_system_schema(strict)
   result = nil
   File.open(File.dirname(__FILE__) + '/../schema/district_system_properties.json') do |f|
@@ -70,6 +76,8 @@ def get_district_system_schema(strict)
   return result
 end
 
+##
+# Read region schema
 def get_region_schema(strict)
   result = nil
   File.open(File.dirname(__FILE__) + '/../schema/region_properties.json') do |f|
@@ -83,6 +91,8 @@ def get_region_schema(strict)
   return result
 end
 
+##
+# Validate data against schema
 def validate(schema, data)
   # validate
   errors = JSON::Validator.fully_validate(schema, data, errors_as_objects: true)

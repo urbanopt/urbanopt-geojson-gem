@@ -32,7 +32,12 @@ require 'urbanopt/geojson/feature'
 
 module URBANopt
   module GeoJSON
+    ##
+    # Define class `DistrictSystem`, inherits from `Feature`
     class DistrictSystem < Feature
+
+      ##
+      # Declare `feature_type` to be `District System`
       def feature_type
         'District System'
       end

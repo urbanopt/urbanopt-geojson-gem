@@ -32,13 +32,26 @@ require 'urbanopt/core/feature'
 
 module URBANopt
   module GeoJSON
+    ##
+    # Define `Feature` class, inherits from `Core::Feature`
     class Feature < URBANopt::Core::Feature
+      # TODO: What is this doing? Needs documentation
       attr_reader :feature_json
 
+      ##
+      # [params]
+      # `feature` *object*: a feature to be used
+      # Validates and sets up a feature to be used
       def initialize(feature)
         @feature_json = validate_feat(feature)
       end
 
+      ##
+      # [params]
+      # `name` *string*: Name of feature
+      # TODO: document `args` and `blk`
+      # TODO: clarify what this function actually does
+      # Returns feature name if exists, otherwise uses the default from URBANopt::Core::Feature
       def method_missing(name, *args, &blk)
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
           return @feature_json[:properties][name.to_sym]
@@ -52,12 +65,15 @@ module URBANopt
         return @feature_json[:properties][:id]
       end
 
+      ##
+      # Returns *string* name of the feature from json data
       def name
         return @feature_json[:properties][:name]
       end
 
+      ##
       def feature_type
-        raise 'feature_type not implemented for Feature, override in your class'
+        raise 'feature_type not implemented for Feature, override in your class'  # TODO: What does this mean?
       end
 
       ##
@@ -129,9 +145,9 @@ module URBANopt
         return OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
       end
 
-      private
+      private  # When calling `rdoc` include the `-a` flag to write docs for private methods
 
-      # TODO: force rdoc documentation for private methood
+      
       def validate_feat(feature)
         if feature.nil? || feature.empty?
           raise("Feature '#{feature_id}' could not be found")
