@@ -83,7 +83,8 @@ module URBANopt
 
       ##
       # Returns MultiPolygon coordinates (coordinate pairs in double nested Array)
-      # e.g.
+      # :arg: json
+      # e.g. 
       #  polygon = {
       #     'geometry': {
       #       'type': 'Polygon',

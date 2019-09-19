@@ -32,7 +32,7 @@ locale:
 locale_dir: locale
 locale_name:
 main_page: RDOC_MAIN.md
-markup: markdown
+#markup: markdown
 output_decoration: true
 op_dir: ./docs/.vuepress/public/rdoc
 show_hash: false

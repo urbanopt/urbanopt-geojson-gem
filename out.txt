@@ -1,0 +1,7 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.2, pytest-4.4.0, py-1.8.0, pluggy-0.9.0
+rootdir: C:\Gitrepos\urbanopt-geojson-gem
+plugins: dependency-0.4.0
+collected 0 items
+
+======================== no tests ran in 11.39 seconds ========================
