@@ -32,11 +32,11 @@ module URBANopt
   module GeoJSON
     module Model
       ##
-      # Returns an instance of OpenStudio::Model::DefaultConstructionSet
+      # Returns an instance of +OpenStudio::Model::DefaultConstructionSet+ . 
       #
-      # [Params]
-      # * +model+ instance of OpenStudio::Model::Model
-      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # [Parameters]
+      # * +model+ - An instance of OpenStudio::Model::Model.
+      # * +runner+ - Measure run's instance of OpenStudio::Measure::OSRunner
       def self.create_construction_set(model, runner)
         default_construction_set = model.getBuilding.defaultConstructionSet
         if !default_construction_set.is_initialized
@@ -49,11 +49,11 @@ module URBANopt
       end
 
       ##
-      # Returns an instance of OpenStudio::Model::Model with surfaces changed to adiabatic
+      # Returns an instance of +OpenStudio::Model::Model+ with surfaces changed to adiabatic
       #
-      # [Params]
-      # * +model+ instance of OpenStudio::Model::Model
-      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # [Parameters]
+      # * +model+ - An instance of +OpenStudio::Model::Model+ .
+      # * +runner+ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
       def self.change_adjacent_surfaces_to_adiabatic(model, runner)
         runner.registerInfo('Changing adjacent surfaces to adiabatic')
         model.getSurfaces.each do |surface|
@@ -76,11 +76,11 @@ module URBANopt
       end
 
       ##
-      # Returns an Array of instances of OpenStudio::Model::Story
+      # Returns an Array of instances of +OpenStudio::Model::Story+ .
       #
-      # [Params]
-      # * +model+ instance of OpenStudio::Model::Model
-      # * +space_types+ Array of instances of OpenStudio::Model::SpaceType
+      # [Parameters]
+      # * +model+ - An instance of +OpenStudio::Model::Model+ .
+      # * +space_types+ - _Type:Array_ Instances of +OpenStudio::Model::SpaceType+ .
       def self.transfer_prev_model_data(model, space_types)
         stories = []
         model.getBuildingStorys.each { |story| stories << story }
@@ -97,16 +97,15 @@ module URBANopt
       end
 
       ##
-      # Returns instance of OpenStudio::Model::SpaceType
+      # Returns instance of +OpenStudio::Model::SpaceType+ .
       # NOTE: update this return value once test is made more specific
       #
-      # [Params]
-      # * +bldg_use+ string indicating building use (UPDATE THIS)
-      # * +space_use+ string indicating space use (UPDATE THIS)
-      # * +model+ instance of OpenStudio::Model::Model
+      # [Parameters]
+      # * +bldg_use+ - _Type:String_ Indicating building use (UPDATE THIS)
+      # * +space_use+ - _Type:String_ Indicating space use (UPDATE THIS)
+      # * +model+ - An instance of +OpenStudio::Model::Model+ . 
       def self.create_space_type(bldg_use, space_use, model)
         name = "#{bldg_use}:#{space_use}"
-        # check if we already have this space type
         model.getSpaceTypes.each do |s|
           if s.name.get == name
             return s

@@ -35,10 +35,14 @@ module URBANopt
     class Feature < URBANopt::Core::Feature
       attr_reader :feature_json
 
+      ##
+      # Used to validate the feature using the validate_feat method.
+      
       def initialize(feature)
         @feature_json = validate_feat(feature)
       end
 
+      
       def method_missing(name, *args, &blk)
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
           return @feature_json[:properties][name.to_sym]
@@ -47,25 +51,32 @@ module URBANopt
         end
       end
 
-      # base methods declared in URBANopt::Core::Feature
+      ##
+      # Returns the id of the feature. 
+
       def id
         return @feature_json[:properties][:id]
       end
 
+      ##
+      # Returns the id of the feature.    
+
       def name
         return @feature_json[:properties][:name]
       end
+
+      ##
+      # Raises an error if the +feature_type+ is not specified the the Feature's class.  
 
       def feature_type
         raise 'feature_type not implemented for Feature, override in your class'
       end
 
       ##
-      # Returns coordinate with the minimum longitute and latitude within given building_json
+      # Returns coordinate with the minimum longitute and latitude within a given +building_json+ .
       def get_min_lon_lat
         min_lon = Float::MAX
         min_lat = Float::MAX
-        # find min and max x coordinate
         multi_polygons = get_multi_polygons
         multi_polygons.each do |multi_polygon|
           multi_polygon.each do |polygon|
@@ -73,8 +84,6 @@ module URBANopt
               min_lon = point[0] if point[0] < min_lon
               min_lat = point[1] if point[1] < min_lat
             end
-            # QUESTION: is this a different scenario? should I be testing it?
-            # subsequent polygons are holes, we do not support them
             break
           end
         end
@@ -83,19 +92,33 @@ module URBANopt
 
       ##
       # Returns MultiPolygon coordinates (coordinate pairs in double nested Array)
-      # :arg: json
-      # e.g. 
+      # [Parameters]
+      # +json+
+      #
+      # For example: 
+      #
       #  polygon = {
+      #
       #     'geometry': {
+      #
       #       'type': 'Polygon',
+      #
       #       'coordinates': [
+      #
       #         [
+      #
       #           [0, 5],
+      #
       #           [5, 5],
-      #           [5, 0],
+      #
+      #           [5, 0]
+      #
       #         ]
+      #
       #       ]
+      #
       #     }
+      #
       #   }
       def get_multi_polygons(json = @feature_json)
         geometry_type = json[:geometry][:type]
@@ -110,12 +133,11 @@ module URBANopt
       end
 
       ##
-      # Returns instance of OpenStudio::PointLatLon of feature lat lon
+      # Returns instance of OpenStudio::PointLatLon for latitude and longitude of feature.
       #
-      # [Params]
-      # * +runner+ measure run's instance of OpenStudio::Measure::OSRunner
+      # [Parameters]
+      # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       def create_origin_lat_lon(runner)
-        # find min and max x coordinate
         min_lon_lat = get_min_lon_lat
         min_lon = min_lon_lat[0]
         min_lat = min_lon_lat[1]
@@ -132,8 +154,11 @@ module URBANopt
 
       private
 
-      # TODO: force rdoc documentation for private methood
-      def validate_feat(feature)
+      ## 
+      # Used to validate the feature by checking +feature_id+ , +geometry+, +properties+
+      # and +geometry_type+
+
+      def validate_feat(feature) #:doc:
         if feature.nil? || feature.empty?
           raise("Feature '#{feature_id}' could not be found")
           return false
@@ -149,14 +174,9 @@ module URBANopt
           return false
         end
 
-        # name = feature[:properties][:name]
-        # model.getBuilding.setName(name)
-
         geometry_type = feature[:geometry][:type]
         if geometry_type == 'Polygon'
-          # ok
         elsif geometry_type == 'MultiPolygon'
-          # ok
         else
           raise("Unknown geometry type '#{geometry_type}'")
           return false

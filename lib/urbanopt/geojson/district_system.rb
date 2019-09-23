@@ -31,11 +31,15 @@
 require 'urbanopt/geojson/feature'
 
 module URBANopt
-  module GeoJSON
+  module GeoJSON # :nodoc: all
     class DistrictSystem < Feature
+
+      ##
+      # Used to describe the feature type using the base method from the Feature class. 
       def feature_type
         'District System'
       end
+
     end
   end
 end

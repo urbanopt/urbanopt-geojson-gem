@@ -38,20 +38,23 @@ module URBANopt
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
       end
 
-      # Return the absolute path of the measures or nil if there is none, can be used when configuring OSWs
+      ## 
+      # Returns the absolute path of the measures or returns nil, in case no measures are
+      # added. It can be used while configuring OSWs.
       def measures_dir
         return File.absolute_path(File.join(@root_dir, 'lib/measures'))
       end
 
-      # Relevant files such as weather data, design days, etc.
-      # Return the absolute path of the files or nil if there is none, used when configuring OSWs
+      ##
+      # The directory containign relevant files such as weather data, design days, etc.
+      # The method returns nil if no files are present. It is used while configuring OSWs.
       def files_dir
         return nil
       end
 
-      # Doc templates are common files like copyright files which are used to update measures and other code
-      # Doc templates will only be applied to measures in the current repository
-      # Return the absolute path of the doc templates dir or nil if there is none
+      # The directory containing common files like copyright and license notices which are used to update measures and other code.
+      # This method will only be applied to measures in the current repository and
+      # returns the absolute path of the +doc_templates_dir+ or nil if there is none. 
       def doc_templates_dir
         return File.absolute_path(File.join(@root_dir, 'doc_templates'))
       end
