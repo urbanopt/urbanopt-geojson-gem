@@ -29,13 +29,23 @@
 # *********************************************************************************
 
 require 'urbanopt/geojson/feature'
-require 'urbanopt/geojson/building'
-require 'urbanopt/geojson/region'
-require 'urbanopt/geojson/district_system'
-require 'urbanopt/geojson/geo_file'
-require 'urbanopt/geojson/helper'
-require 'urbanopt/geojson/model'
-require 'urbanopt/geojson/zoning'
-require 'urbanopt/geojson/model'
-require 'urbanopt/geojson/extension'
-require 'urbanopt/geojson/logging'
+
+module URBANopt
+  module GeoJSON
+    class Region < Feature
+      
+      def initialize(feature)
+        super(feature)
+      end
+      
+      def feature_type
+        'Region'
+      end     
+      
+      def schema_file
+        return File.join(File.dirname(__FILE__), 'schema', 'region_properties.json')
+      end
+      
+    end
+  end
+end

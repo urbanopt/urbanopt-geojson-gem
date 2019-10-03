@@ -34,12 +34,20 @@ module URBANopt
   module GeoJSON # :nodoc: all
     class DistrictSystem < Feature
 
+      def initialize(feature)
+        super(feature)
+      end
+
       ##
       # Used to describe the feature type using the base method from the Feature class. 
       def feature_type
         'District System'
+      end     
+      
+      def schema_file
+        return File.join(File.dirname(__FILE__), 'schema', 'district_system_properties.json')
       end
-
+      
     end
   end
 end

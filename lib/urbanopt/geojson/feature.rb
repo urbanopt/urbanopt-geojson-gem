@@ -35,9 +35,12 @@ module URBANopt
     class Feature < URBANopt::Core::Feature
       attr_reader :feature_json
 
+
+      @@feature_schema = {}
+      @@schema_file_lock = Mutex.new
+
       ##
       # Used to validate the feature using the validate_feat method.
-      
       def initialize(feature)
         @feature_json = validate_feat(feature)
       end
@@ -71,7 +74,26 @@ module URBANopt
       def feature_type
         raise 'feature_type not implemented for Feature, override in your class'
       end
+      
+      def schema_file
+        raise 'schema_file not implemented for Feature, override in your class'
+      end
+      
+      def schema
+        if @@feature_schema[feature_type].nil?
+          @@schema_file_lock.synchronize do
+            File.open(schema_file, 'r') do |file|
+              @@feature_schema[feature_type] = JSON.parse(file.read, symbolize_names: true)
+              
+              # allow additional properties
+              @@feature_schema[feature_type][:additionalProperties] = true
+            end
+          end
+        end
 
+        return @@feature_schema[feature_type]
+      end
+      
       ##
       # Returns coordinate with the minimum longitute and latitude within a given +building_json+ .
       def get_min_lon_lat
@@ -171,6 +193,12 @@ module URBANopt
 
         if feature[:properties].nil?
           raise("No properties found in '#{feature}'")
+          return false
+        end
+        
+        errors = JSON::Validator.fully_validate(schema, feature[:properties])
+        if !errors.empty?
+          raise("Invalid properties for '#{feature}'\n  #{errors.join('\n  ')}")
           return false
         end
 
