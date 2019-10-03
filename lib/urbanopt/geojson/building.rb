@@ -60,7 +60,7 @@ module URBANopt
       # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ Value is +True+ if you'd like to utilize aspects of the
       #   function that are specific to zoning, else +False+.
-      # * +other_building+ Sets other_building to an instance of +URBANopt::Core::Feature+.
+      # * +other_building+ - Sets other_building to an instance of +URBANopt::Core::Feature+.
 
       def create_building(create_method, model, origin_lat_lon, runner, zoning=false, other_building=@feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
@@ -128,11 +128,7 @@ module URBANopt
         params[:feature_id] = feature_id
         params[:distance] = 100
         params[:proximity_feature_types] = ['Building']
-        feature_collection = {
-          "features": [
-            "type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-105.1712420582771,39.743195219730666],[-105.17083168029784,39.74345301902031],[-105.16999751329422,39.74261774582203],[-105.17005383968352,39.7425641229992],[-105.169957280159,39.742469251748986],[-105.16988754272462,39.742491938364225],[-105.16976416110992,39.74227332157966],[-105.16981244087218,39.742254759745265],[-105.16978025436399,39.74207120355811],[-105.16938596963882,39.74213307648483],[-105.16932964324953,39.74194951997353],[-105.170314013958,39.74180514934022],[-105.17034888267514,39.74198251893293],[-105.16999751329422,39.74204439193929],[-105.17002433538435,39.742159888069125],[-105.1701021194458,39.74212688919465],[-105.1703569293022,39.74207326598989],[-105.17048299312592,39.74223001062495],[-105.17037034034726,39.742306320384046],[-105.17020672559738,39.742380567636104],[-105.17024427652358,39.74243212818075],[-105.17038106918336,39.742343444020094],[-105.1712420582771,39.743195219730666]]]},"properties":{"id":"5caf78834b5dca7c6d8f3e3b","source_id":"Energy Systems Integration Facility","source_name":"NREL_GDS","project_id":"5caf78404b5dca7c6d8f3e0a","stroke":"#555555","stroke-width":2,"stroke-opacity":1,"fill":"#555555","fill-opacity":0.5,"name":"Energy Systems Integration Facility","maximum_roof_height":30,"floor_area":296826.11368011055,"number_of_stories":3,"number_of_stories_above_ground":3,"building_type":"Office","surface_elevation":5198,"type":"Building","footprint_area":99064,"footprint_perimeter":2194,"updated_at":"2017-09-01T21:17:07.447Z","created_at":"2017-09-01T21:16:27.579Z","height":9,"geometryType":"Polygon"}
-          ]
-        }
+        feature_collection = @feature_json
 
         if feature_collection[:features].nil?
           runner.registerWarning("No features found in #{feature_collection}")

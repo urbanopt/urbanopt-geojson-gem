@@ -82,7 +82,7 @@ module URBANopt
       end
       
       ##
-      # Returns all feature objects from specified GeoJSON file
+      # Returns all feature objects from specified GeoJSON file.
       #
       def features
         result = []
