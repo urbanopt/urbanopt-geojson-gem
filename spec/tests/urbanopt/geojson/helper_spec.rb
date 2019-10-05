@@ -33,7 +33,7 @@ require_relative '../../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    feature_id = '59a9ce2b42f7d007c059d2ee'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -48,7 +48,7 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates shading surfaces' do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    feature_id = '59a9ce2b42f7d007c059d2ee'
     feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
     spaces = feature.create_other_buildings('ShadingOnly', @model, @origin_lat_lon, @runner)
     surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
@@ -57,7 +57,7 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    feature_id = '59a9ce2b42f7d007c059d2ee'
     feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
     photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
     # TODO: make this test more specific

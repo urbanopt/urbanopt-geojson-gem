@@ -33,7 +33,7 @@ require_relative '../../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    feature_id = '59a9ce2b42f7d007c059d32e'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -42,7 +42,7 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates minimum longitute and latitude given a polygon' do
     min_lon_and_lat = @feature.get_min_lon_lat
-    expect(min_lon_and_lat).to eq([-105.1712420582771, 39.74180514934022])
+    expect(min_lon_and_lat).to eq([-105.17263278365134, 39.74200726814212])
   end
 
   # -  it 'creates minimum longitute and latitude given a polygon' do
@@ -65,9 +65,9 @@ RSpec.describe URBANopt::GeoJSON do
   it 'creates a multi polygon out of a polygon' do
     multi_polygon = @feature.get_multi_polygons
 
-    expect(multi_polygon[0][0][0]).to eq([-105.1712420582771, 39.743195219730666])
-    expect(multi_polygon[0][0].length).to eq(23)
-    expect(multi_polygon[0][0][22]).to eq([-105.1712420582771, 39.743195219730666])
+    expect(multi_polygon[0][0][0]).to eq([-105.17262205481528, 39.74200726814212])
+    expect(multi_polygon[0][0].length).to eq(5)
+    expect(multi_polygon[0][0][3]).to eq([-105.17263278365134, 39.7420423295066])
     expect(multi_polygon.class).to eq(Array)
   end
 

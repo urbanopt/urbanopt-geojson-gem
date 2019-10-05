@@ -45,7 +45,6 @@ module URBANopt
         @feature_json = validate_feat(feature)
       end
 
-      
       def method_missing(name, *args, &blk)
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
           return @feature_json[:properties][name.to_sym]

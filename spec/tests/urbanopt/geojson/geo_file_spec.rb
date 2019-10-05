@@ -40,7 +40,7 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
       File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
     )
 
-    feature = geofile.get_feature_by_id('Thermal Test Facility')
+    feature = geofile.get_feature_by_id('59a9ce2b42f7d007c059d306')
     expect(feature.feature_json[:type]).to eq('Feature')
     expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
   end

@@ -34,7 +34,6 @@ module URBANopt
   module GeoJSON
     class Building < Feature
 
-
       def initialize(feature)
         super(feature)
       end
@@ -123,12 +122,15 @@ module URBANopt
         project_id = @feature_json[:properties][:project_id]
         feature_id = @feature_json[:properties][:id]
         convert_to_shades = []
-        params = {}
-        params[:commit] = 'Proximity Search'
-        params[:feature_id] = feature_id
-        params[:distance] = 100
-        params[:proximity_feature_types] = ['Building']
+        params = {
+          commit: "Proximity Search",
+          feature_id: feature_id,
+          distance: 100,
+          proximity_feature_types: ["Building"]
+        }
+
         feature_collection = @feature_json
+
 
         if feature_collection[:features].nil?
           runner.registerWarning("No features found in #{feature_collection}")

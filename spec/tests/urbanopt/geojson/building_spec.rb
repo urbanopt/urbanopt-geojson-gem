@@ -33,7 +33,7 @@ require_relative '../../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    feature_id = '59a9ce2b42f7d007c059d32e'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
