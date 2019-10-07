@@ -53,6 +53,9 @@ module URBANopt
       end
       
       ##
+      # This method creates a building for a given feature specified in the
+      # feature_json as per the create_method.
+      #
       # Returns an array of instances of OpenStudio::Model::Space.
       #
       # [Parameters]
@@ -62,22 +65,14 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
-      #   function that are specific to zoning, else +False+.
+      #   function that are specific to zoning, else +False+. Zoning is set to False by default.
       # * +other_building+ - _Type:String_ - Sets other_building to an instance of +URBANopt::Core::Feature+.
 
       def create_building(create_method, model, origin_lat_lon, runner, zoning=false, other_building=@feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
         number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
         number_of_stories_below_ground = other_building[:properties][:number_of_stories_below_ground]
-        number_of_residential_units = other_building[:properties][:number_of_residential_units]
-        
-        if zoning
-          surface_elevation	= other_building[:properties][:surface_elevation]
-          roof_elevation	= other_building[:properties][:roof_elevation]
-          floor_to_floor_height = other_building[:properties][:floor_to_floor_height]
-        else
-          maximum_roof_height = other_building[:properties][:maximum_roof_height]
-        end
+        number_of_residential_units = other_building[:properties][:number_of_residential_units]      
         
         if number_of_stories_above_ground.nil?
           number_of_stories_above_ground = number_of_stories
@@ -114,6 +109,8 @@ module URBANopt
       end
 
       ##
+      # This method is used to create the surrounding buildings as shading objects.
+      #
       # Returns an array of instances of +OpenStudio::Model::Space+ .
       #
       # [Parameters]
@@ -125,16 +122,18 @@ module URBANopt
       def create_other_buildings(surrounding_buildings, model, origin_lat_lon, runner, zoning=false)
         project_id = @feature_json[:properties][:project_id]
         feature_id = @feature_json[:properties][:id]
+        #Nearby buildings to be converted to shading.        
         convert_to_shades = []
+        #Query for nearby buildings.
         params = {
           commit: "Proximity Search",
           feature_id: feature_id,
           distance: 100,
           proximity_feature_types: ["Building"]
         }
-
-        feature_collection = @feature_json
-
+        path = File.join(File.dirname(__FILE__), '..', '..', '..', 'spec','files', 'nrel_stm_footprints.geojson')
+        feature_collection = URBANopt::GeoJSON::GeoFile.from_file(path).json
+        #TODO: Add geojson file here for surrounding buildings features.
 
         if feature_collection[:features].nil?
           runner.registerWarning("No features found in #{feature_collection}")
@@ -150,6 +149,7 @@ module URBANopt
             floor_print.each do |point|
               building_points << point
             end
+            #Subsequent polygons are holes, and are not supported. 
             break
           end
         end
@@ -160,23 +160,25 @@ module URBANopt
           other_id = other_building[:properties][:id]
           next if other_id == feature_id
           if surrounding_buildings == "ShadingOnly"
+            #Checks if any building point is shaded by any other building point.
             roof_elevation	= other_building[:properties][:roof_elevation]
             number_of_stories = other_building[:properties][:number_of_stories]
             number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
             maximum_roof_height = other_building[:properties][:maximum_roof_height]
-            if number_of_stories_above_ground.nil?
-              if number_of_stories_below_ground.nil?
-                number_of_stories_above_ground = number_of_stories
-                number_of_stories_below_ground = 0
-              else
-                number_of_stories_above_ground = number_of_stories - number_of_stories_above_ground
-              end
+            
+            if number_of_stories_above_ground.nil?  
+              number_of_stories_above_ground = number_of_stories
+              number_of_stories_below_ground = 0
+            else
+              number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
             end
+                        
             floor_to_floor_height = 3
             if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
               floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
             end
             other_height = number_of_stories_above_ground * floor_to_floor_height
+            #Gets first floor footprint points.            
             other_building_points = []
             multi_polygons = get_multi_polygons(other_building)
             multi_polygons.each do |multi_polygon|
@@ -185,6 +187,7 @@ module URBANopt
                 floor_print.each do |point|
                   other_building_points << point
                 end
+                #Subsequent polygons are holes, and are not supported. 
                 break
               end
             end
@@ -205,6 +208,10 @@ module URBANopt
       end
 
       ##
+      # This method loops through all the spaces of the building and for each Wall
+      # surface with Outdoors boundary condition, sets the window to wall ratio as per
+      # the specified value or as a default value of 0.3.
+      #
       # Returns an array of instances of +OpenStudio::Model::Space+ with windows.
       #
       # [Parameters]
@@ -312,6 +319,7 @@ module URBANopt
               else
                 runner.registerWarning("Cannot create story #{story_number}")
               end
+              #Subsequent polygons are holes, and are not supported. 
               break
             end
           end

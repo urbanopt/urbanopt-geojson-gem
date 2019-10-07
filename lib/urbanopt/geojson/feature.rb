@@ -87,7 +87,7 @@ module URBANopt
             File.open(schema_file, 'r') do |file|
               @@feature_schema[feature_type] = JSON.parse(file.read, symbolize_names: true)
               
-              #Allow additional properties. # :nodoc: 
+              #Allows additional properties.
               @@feature_schema[feature_type][:additionalProperties] = true
             end
           end

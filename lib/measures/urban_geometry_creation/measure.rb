@@ -49,7 +49,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
   # human readable description of modeling approach
   def modeler_description
-    return ''
+    return 'TODO'
   end
 
   def arguments(model)

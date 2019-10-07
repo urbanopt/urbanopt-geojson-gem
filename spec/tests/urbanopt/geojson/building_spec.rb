@@ -40,27 +40,34 @@ RSpec.describe URBANopt::GeoJSON do
     @building = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
   end
 
-  it 'creates building given a feature, create_method, model, origin_lat_lon, runner and zoning(false)' do
-    # NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
+  it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning(false)' do
+    # TODO :NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
     building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(@building.number_of_stories)
   end
 
+  it 'creates building given a feature, space_per_building create_method, model, origin_lat_lon, runner and zoning(false)' do
+    building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
+    expect(building[0].class).to eq(OpenStudio::Model::Space)
+    expect(building.length).to eq(1)
+    expect(@building.number_of_stories).to eq(2)
+  end
+  
   it 'creates zoning building' do
-    # REVISIT: WHY ZONING SET TO TRUE MAKES BUILDING LENGTH 69 INSTEAD OF 3!
+    # TODO: REVISIT: WHY ZONING SET TO TRUE MAKES BUILDING LENGTH 69 INSTEAD OF 3!
     building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
   end
 
   it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
-    # NOTE: REPLACE OTHER BUILDING JSON
+    # TODO : NOTE: REPLACE OTHER BUILDING JSON
     other_buildings = @building.create_other_buildings('ShadingOnly', @model, @origin_lat_lon, @runner)
     expect(other_buildings[0].class).to eq(OpenStudio::Model::Space)
   end
 
   it 'creates windows given an array of spaces' do
-    # NOTE: Figure out a way to test if windows were created
+    # TODO: NOTE: Figure out a way to test if windows were created
     spaces = @building.create_other_buildings('ShadingOnly', @model, @origin_lat_lon, @runner)
     windows = @building.create_windows(spaces)
     expect(windows[0].class).to eq(OpenStudio::Model::Space)
