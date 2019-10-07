@@ -37,6 +37,11 @@ module URBANopt
             @@instance_lock = Mutex.new
             @@osw = nil
 
+            ##
+            # This class inherits from the +MapperBase+ . 
+            # Used to perform initializing functions, used to define the osw_path for
+            # baseline.osw for the URBANopt GeoJSON example project and the weather file. 
+
             def initialize()
                 @@instance_lock.synchronize do
                 if @@osw.nil?
@@ -50,19 +55,24 @@ module URBANopt
             end
 
             ##
-            # 
+            # Creates an OpenStudio Workflow file for a given ScenarioBase object,
+            # feature id and feature name.
+            #
             # [Parameters]
-            # * +scenario+ - 
-            # * +feature_id+ - 
-            # * +feature_name+ -
+            # * +scenario+ - _Type:String_ - Used to define the Scenario for the osw. 
+
+            # * +feature_id+ - _Type:String/Number_ - Used to define the feature_id for
+            #   which the osw is implemented.
+            # 
+            # * +feature_name+ - _Type:String_ - The name of the feature. 
             def create_osw(scenario, feature_id, feature_name)
-                # get the feature from the scenario's feature_file
+                # get the feature from the scenario's feature_file #:nodoc:
                 feature_file = scenario.feature_file
                 feature = feature_file.get_feature_by_id(feature_id)
 
                 raise "Cannot find feature '#{feature_id}' in '#{scenario.geometry_file}'" if feature.nil?
 
-                # deep clone of @@osw before we configure it
+                # deep clone of @@osw before we configure it #:nodoc:
                 osw = Marshal.load(Marshal.dump(@@osw))
 
                 osw[:name] = feature_name

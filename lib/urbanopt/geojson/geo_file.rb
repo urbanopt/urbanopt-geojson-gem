@@ -44,7 +44,7 @@ module URBANopt
       ##
       # Raises an error in case the GeoJSON file is not valid. 
       # [Parameters]
-      # * +data+ - A hash containing the GeoJSON.
+      # * +data+ - _Type:Hash_ Contains the GeoJSON.
       def initialize(data, path = nil)
         @path = path
         @geojson = data
@@ -57,7 +57,7 @@ module URBANopt
       ##
       # [Parameters]
       # Used to check the GeoJSON file path.
-      # * +path+ - GeoJSON file path. 
+      # * +path+ - _Type:String_ - GeoJSON file path. 
       def self.from_file(path)
         if path.nil? || path.empty?
           raise "GeoJSON file '#{path}' could not be found"
@@ -103,7 +103,7 @@ module URBANopt
       # feature type.
       #
       # [Parameters]
-      # * +feature_id+ - Id affiliated with feature object.
+      # * +feature_id+ - _Type:String/Number_ - Id affiliated with feature object.
       def get_feature_by_id(feature_id)
         @geojson[:features].each do |f|
           if f[:properties] && f[:properties][:id] == feature_id
@@ -143,6 +143,8 @@ module URBANopt
         return JSON::Validator.validate(schema, @geojson)
       end
 
+      ##
+      # Returns detailed validation results. 
       def validation_errors
         return JSON::Validator.fully_validate(schema, @geojson)
       end

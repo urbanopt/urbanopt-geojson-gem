@@ -43,7 +43,9 @@ module URBANopt
       def feature_type
         'District System'
       end     
-      
+
+      ##
+      # Returns the district system properties schema.
       def schema_file
         return File.join(File.dirname(__FILE__), 'schema', 'district_system_properties.json')
       end

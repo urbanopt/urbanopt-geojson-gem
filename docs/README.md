@@ -21,12 +21,10 @@ in URBANopt GeoJSON are shown under Schemas.
 
 The current functionalities of the URBANopt GeoJSON gem include:
 
-- Validate a GeoJSON file
-- Identify nearby features for shading calculations (currently stubbed out?)
-- Calculate available roof area for photovoltaics
-- Translate Building Feature to an OpenStudio Model
-- Translate Building Feature to OpenStudio Shading Objects
+- Validate a GeoJSON file.
+- Calculate available roof area for photovoltaics.
+- Translate Building Feature to an OpenStudio Model.
+- Translate Building Feature to OpenStudio Shading Objects.
 
-The Rdocs link contains more information about the URBANopt GeoJSON Gem architecture. 
+The <StaticLink href="rdoc/">Rdocs</StaticLink> contain more information about the URBANopt GeoJSON Gem architecture. 
 
-(edit at docs/Readme.md)

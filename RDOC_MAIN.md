@@ -15,11 +15,11 @@ The main components of the gem are:
     - _measures_dir_
     - _files_dir_
     - _doc_templates_dir_
-- Gemfile and .gemspec : Describes the extension dependencies on other gems. 
+- Gemfile and .gemspec : Describe the extension dependencies on other gems. 
 - Classes and Modules within +lib/urbanopt/geojson+ -
 
 
-    Modules that do not require instances for calling the methods:
+    *Modules that do not require instances for calling the methods:*
 
     - URBANopt::GeoJSON::Helper : Contains methods extracted from the two measures to
       perform utility-like tasks like - +point_is_shadowed+ and +is_shadowed+.
@@ -28,8 +28,8 @@ The main components of the gem are:
     - URBANopt::GeoJSON::Model : Contains methods that perform tasks on an instance of
       +OpenStudio::Model::Model+. 
 
-    Classes and subclasses that contain instance-dependant methods and private methods
-    that perform tasks on the given feature.
+    *Classes and subclasses that contain instance-dependant methods and private methods
+    that perform tasks on the given feature.*
 
     - URBANopt::GeoJSON::GeoFile : Contains a +get_feature+ method that returns an
       instance of a Feature Subclass for the the feature type. Also contains methods to validate the GeoJSON
@@ -40,5 +40,3 @@ The main components of the gem are:
       are specific to handling features of the Building type. 
     - URBANopt::GeoJSON::DistrictSystem : A subclass of Feature, contains class methods
       that are specific to handling features of District System type. *Note: This subclass does not contain any methods yet*. 
-
-(edit using RDOC_MAIN.md)

@@ -61,7 +61,7 @@ module URBANopt
       end
 
       ##
-      # Returns the id of the feature.    
+      # Returns the name of the feature.    
 
       def name
         return @feature_json[:properties][:name]
@@ -74,6 +74,9 @@ module URBANopt
         raise 'feature_type not implemented for Feature, override in your class'
       end
       
+      ##
+      # Raises an error if the +schema_file+ is not specified the the Feature's class.  
+    
       def schema_file
         raise 'schema_file not implemented for Feature, override in your class'
       end
@@ -84,7 +87,7 @@ module URBANopt
             File.open(schema_file, 'r') do |file|
               @@feature_schema[feature_type] = JSON.parse(file.read, symbolize_names: true)
               
-              # allow additional properties
+              #Allow additional properties. # :nodoc: 
               @@feature_schema[feature_type][:additionalProperties] = true
             end
           end

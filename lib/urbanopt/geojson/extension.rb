@@ -34,7 +34,9 @@ require 'openstudio/extension'
 module URBANopt
   module GeoJSON
     class Extension < OpenStudio::Extension::Extension
-      def initialize
+     
+     
+      def initialize # :nodoc:
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
       end
 

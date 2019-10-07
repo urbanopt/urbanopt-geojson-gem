@@ -34,16 +34,20 @@ module URBANopt
   module GeoJSON
     class Building < Feature
 
-      def initialize(feature)
+      ##
+      # Used to initialize the feature. This method is inherited from the Feature class. 
+      def initialize(feature) 
         super(feature)
       end
  
       ##
-      # Used to describe the feature type using the base method from the Feature class.         
+      # Used to describe the Building feature type using the base method from the Feature class.         
       def feature_type
         'Building'
       end
       
+      ##
+      # Returns the building_properties schema. 
       def schema_file
         return File.join(File.dirname(__FILE__), 'schema', 'building_properties.json')
       end
@@ -52,14 +56,14 @@ module URBANopt
       # Returns an array of instances of OpenStudio::Model::Space.
       #
       # [Parameters]
-      # * +create_method+ - +:space_per_floor+ or +:space_per_building+ methods can be
+      # * +create_method+ - _Type:Symbol_ - +:space_per_floor+ or +:space_per_building+ methods can be
       #   used. 
-      # * +model+ - An instance of +OpenStudio::Model::Model+.
-      # * +origin_lat_lon+ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
-      # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-      # * +zoning+ - _Type:Boolean_ Value is +True+ if you'd like to utilize aspects of the
+      # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+_ .
+      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
+      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
       #   function that are specific to zoning, else +False+.
-      # * +other_building+ - Sets other_building to an instance of +URBANopt::Core::Feature+.
+      # * +other_building+ - _Type:String_ - Sets other_building to an instance of +URBANopt::Core::Feature+.
 
       def create_building(create_method, model, origin_lat_lon, runner, zoning=false, other_building=@feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
@@ -110,13 +114,13 @@ module URBANopt
       end
 
       ##
-      # Returns an array of instances of OpenStudio::Model::Space
+      # Returns an array of instances of +OpenStudio::Model::Space+ .
       #
       # [Parameters]
-      # * +surrounding_buildings+ - _Type: String_ Describes the surrounding buildings.
-      # * +model+ - An instance of +OpenStudio::Model::Model+.
-      # * +origin_lat_lon+ - An instance of +OpenStudio::PointLatLon+ indicating the latidude and longitude of the origin.
-      # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +surrounding_buildings+ - _Type:String_ - Describes the surrounding buildings.
+      # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+.
+      # * +origin_lat_lon+ - _Type-String_ - An instance of +OpenStudio::PointLatLon+ indicating the latidude and longitude of the origin.
+      # * +runner+ - _Type-String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
 
       def create_other_buildings(surrounding_buildings, model, origin_lat_lon, runner, zoning=false)
         project_id = @feature_json[:properties][:project_id]
@@ -204,7 +208,7 @@ module URBANopt
       # Returns an array of instances of +OpenStudio::Model::Space+ with windows.
       #
       # [Parameters]
-      # * +spaces+ - _Type:Array_ Contains instances of OpenStudio::Model::Space.
+      # * +spaces+ - _Type:Array_ - Contains instances of OpenStudio::Model::Space.
       def create_windows(spaces)
         window_to_wall_ratio = @feature_json[:properties][:window_to_wall_ratio]
         if window_to_wall_ratio.nil?
@@ -225,12 +229,12 @@ module URBANopt
         # Returns an array of instances of OpenStudio::Model::Space per building
         #
         # [Parameters]
-        # * +min_elevation+ - _Type:Integer_ Indicates minimum elevation across all buildings.
-        # * +mix_elevation+ - _Type:Integer_ Indicates maximum elevation across all buildings.
-        # * +model+ - An instance of +OpenStudio::Model::Model+ .
-        # * +origin_lat_lon+ - An instance of +OpenStudio::PointLatLon+ indicating the latidude and longitude of the origin.
-        # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-        # * +zoning+ - _Type:Boolean_ Value is +True+ if you'd like to utilize aspects of the
+        # * +min_elevation+ - _Type:Integer_ - Indicates minimum elevation across all buildings.
+        # * +max_elevation+ - _Type:Integer_ - Indicates maximum elevation across all buildings.
+        # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
+        # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latidude and longitude of the origin.
+        # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+        # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
         #   function that are specific to zoning, else +False+.
       def create_space_per_building(min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false) #:doc:
           geometry = @feature_json[:geometry]
@@ -277,14 +281,14 @@ module URBANopt
         # Returns an array of instances of OpenStudio::Model::Space per floor
         #
         # [Parameters]
-        # * +feature+ - An instance of Feature class built off of the GeoJSON file.
-        # * +story_number+ - _Type:Integer_ Number of floors in the building.
-        # * +floor_to_floor_height+ - _Type:Integer_ Height of the building stories. 
-        # * +model+ - An instance of +OpenStudio::Model::Model+.
-        # * +origin_lat_lon+ - An instance of +OpenStudio::PointLatLon+ indicating the
+        # * +feature+ - _Type:String_ - An instance of Feature class built off of the GeoJSON file.
+        # * +story_number+ - _Type:Integer_ - Number of floors in the building.
+        # * +floor_to_floor_height+ - _Type:Integer_ - Height of the building stories. 
+        # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+.
+        # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the
         #   origin's latitude and longitude.
-        # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-        # * +zoning+ - _Type:Boolean_ Value is +True+ if you'd like to utilize aspects of the
+        # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+        # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
         #   function that are specific to zoning, else +False+.
         def create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false) #:doc:
           geometry = @feature_json[:geometry]
