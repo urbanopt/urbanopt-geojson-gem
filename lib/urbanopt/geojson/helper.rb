@@ -168,13 +168,9 @@ module URBANopt
       # * +polygon+ - _Type:Array_ - An array of coordinate pairs.
       # e.g.
       #  polygon = [
-      #
       #   [1, 5],
-      #
       #   [5, 5],
-      #
       #   [5, 1],
-      #
       #  ]
       #
       # * +elevation+ - _Type:Integer_ - Indicates the elevation.
