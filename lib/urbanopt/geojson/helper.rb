@@ -222,7 +222,12 @@ module URBANopt
         potentially_shaded.each do |building_point|
           potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
-            all_pairs << { building_point: building_point, other_building_point: other_building_point, vector: vector, distance: vector.length }
+            all_pairs << {
+                building_point: building_point,
+                other_building_point: other_building_point,
+                vector: vector,
+                distance: vector.length
+            }
           end
         end
         all_pairs.sort! { |x, y| x[:distance] <=> y[:distance] }
