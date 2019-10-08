@@ -70,7 +70,6 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the
       #   origin's latitude & longitude. 
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-
       def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
         feature_id = feature.feature_json[:properties][:properties]
         name = feature.name
@@ -242,7 +241,8 @@ module URBANopt
       # * +building_point+ - _Type:Number_ - An instance of +OpenStudio::Point3d+ .
       # * +other_building_point+ - _Type:Number_ - Other instance of +OpenStudio::Point3d+ .
       # * +origin_lat_lon+ - _Type:Number_ - An instance of +OpenStudio::PointLatLon+ indicating the
-      #   origin's latitude and longitude. 
+      #   origin's latitude and longitude.
+      # TODO: Rename to is_shaded
       def self.point_is_shadowed(building_point, other_building_point, origin_lat_lon)
         vector = other_building_point - building_point
         height = vector.z
@@ -252,7 +252,7 @@ module URBANopt
         end
         hour_angle_rad = Math.atan2(-vector.x, -vector.y)
         hour_angle = OpenStudio.radToDeg(hour_angle_rad)
-        lattitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)
+        lattitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)  # TODO: Misspelled latitude
         result = false
         (-24..24).each do |declination|
           declination_rad = OpenStudio.degToRad(declination)

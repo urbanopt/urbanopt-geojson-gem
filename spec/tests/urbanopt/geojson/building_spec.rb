@@ -37,7 +37,8 @@ RSpec.describe URBANopt::GeoJSON do
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
-    @building = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
+    @all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    @building = @all_buildings.get_feature_by_id(feature_id)
   end
 
   it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning(false)' do
@@ -61,14 +62,13 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
-    # TODO : NOTE: REPLACE OTHER BUILDING JSON
-    other_buildings = @building.create_other_buildings('ShadingOnly', @model, @origin_lat_lon, @runner)
+    other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
     expect(other_buildings[0].class).to eq(OpenStudio::Model::Space)
   end
 
   it 'creates windows given an array of spaces' do
     # TODO: NOTE: Figure out a way to test if windows were created
-    spaces = @building.create_other_buildings('ShadingOnly', @model, @origin_lat_lon, @runner)
+    spaces = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
     windows = @building.create_windows(spaces)
     expect(windows[0].class).to eq(OpenStudio::Model::Space)
   end

@@ -111,7 +111,8 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     @runner = runner
     @origin_lat_lon = nil
 
-    feature = URBANopt::GeoJSON::GeoFile.from_file(geojson_file).get_feature_by_id(feature_id)
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(geojson_file)
+    feature = all_features.get_feature_by_id(feature_id)
 
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
@@ -147,10 +148,8 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
       # make other buildings to convert to shading
       convert_to_shades = []
-      if surrounding_buildings == 'None'
-        # no-op
-      else
-        convert_to_shades = feature.create_other_buildings(surrounding_buildings, model, @origin_lat_lon, @runner)
+      if surrounding_buildings == 'ShadingOnly'
+        convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
 
       # intersect surfaces in this building with others
