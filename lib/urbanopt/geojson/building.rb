@@ -109,7 +109,8 @@ module URBANopt
       end
 
       ##
-      # This method is used to create the surrounding buildings as shading objects.
+      # This method is used to create the surrounding buildings as shading objects is
+      # +surrounding_buildings+ are ShadingOnly.
       #
       # Returns an array of instances of +OpenStudio::Model::Space+ .
       #
@@ -123,6 +124,17 @@ module URBANopt
         feature_id = @feature_json[:properties][:id]
         # Nearby buildings to be converted to shading.
         convert_to_shades = []
+        #Query for nearby buildings.
+        params = {
+          commit: "Proximity Search",
+          feature_id: feature_id,
+          distance: 100,
+          proximity_feature_types: ["Building"]
+        }
+        
+        path = File.join(File.dirname(__FILE__), '..', '..', '..', 'spec','files', 'nrel_stm_footprints.geojson')
+        feature_collection = URBANopt::GeoJSON::GeoFile.from_file(path).json
+        #TODO: Add geojson file here for surrounding buildings features.
 
         if other_buildings[:features].nil?
           runner.registerWarning("No features found in #{other_buildings}")

@@ -109,7 +109,8 @@ module URBANopt
       end
 
       ##
-      # Returns instance of +OpenStudio::Model::SpaceType+ .
+      # Returns instance of +OpenStudio::Model::SpaceType+.
+      #TODO - Is this method needed? create_space_types exists in helper.rb
       # TODO -NOTE: update this return value once test is made more specific
       #
       # [Parameters]

@@ -65,6 +65,7 @@ RSpec.describe URBANopt::GeoJSON do
     photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
     # TODO: make this test more specific
     expect(photovoltaics[0].class).to eq(OpenStudio::Model::ShadingSurface)
+    expect(photovoltaics.size).to eq(1)
   end
 
   it 'creates a space types' do
@@ -72,6 +73,8 @@ RSpec.describe URBANopt::GeoJSON do
     stories = [OpenStudio::Model::BuildingStory.new(@model)]
     space_type = URBANopt::GeoJSON::Helper.create_space_types(stories, @model, @runner)
     expect(space_type[0].class).to eq(OpenStudio::Model::SpaceType)
+    expect(space_type.empty?).to be false    
+    expect(space_type.size).to eq(1)
   end
 
   it 'creates a floorprint from polygon' do

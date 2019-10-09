@@ -90,7 +90,6 @@ module URBANopt
         @geojson[:features].each do |f|
           if f[:properties] && f[:properties][:type] == 'Building'
             result << URBANopt::GeoJSON::Building.new(f)
-            URBANopt::GeoJSON.Building
           elsif f[:properties] && f[:properties][:type] == 'District System'
             result << URBANopt::GeoJSON::DistrictSystem.new(f)
           end
