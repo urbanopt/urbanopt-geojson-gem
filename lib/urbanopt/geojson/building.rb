@@ -80,15 +80,15 @@ module URBANopt
         else
           number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
         end
-        floor_to_floor_height = zoning ? 3.6 : 3 #Q. What is this doing?
+        floor_to_floor_height = zoning ? 3.6 : 3
 
         if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height && !zoning
           floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
           floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
         end
 
-        if create_method == :space_per_floor or create_method == :spaces_per_floor #Q. Where are these create methods specified?
-          if number_of_residential_units #Q. Where is this described?
+        if create_method == :space_per_floor or create_method == :spaces_per_floor
+          if number_of_residential_units
             model.getBuilding.setStandardsNumberOfLivingUnits(number_of_residential_units)
           end
           model.getBuilding.setStandardsNumberOfStories(number_of_stories)
@@ -109,8 +109,7 @@ module URBANopt
       end
 
       ##
-      # This method is used to create the surrounding buildings as shading objects is
-      # +surrounding_buildings+ are ShadingOnly.
+      # This method is used to create the surrounding buildings as shading objects.
       #
       # Returns an array of instances of +OpenStudio::Model::Space+ .
       #
@@ -124,17 +123,6 @@ module URBANopt
         feature_id = @feature_json[:properties][:id]
         # Nearby buildings to be converted to shading.
         convert_to_shades = []
-        #Query for nearby buildings.
-        params = {
-          commit: "Proximity Search",
-          feature_id: feature_id,
-          distance: 100,
-          proximity_feature_types: ["Building"]
-        }
-        
-        path = File.join(File.dirname(__FILE__), '..', '..', '..', 'spec','files', 'nrel_stm_footprints.geojson')
-        feature_collection = URBANopt::GeoJSON::GeoFile.from_file(path).json
-        #TODO: Add geojson file here for surrounding buildings features.
 
         if other_buildings[:features].nil?
           runner.registerWarning("No features found in #{other_buildings}")
@@ -146,7 +134,7 @@ module URBANopt
         multi_polygons.each do |multi_polygon|
           multi_polygon.each do |polygon|
             elevation = 0
-            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning) #Q. This method is creating a floor print from a polygon.
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
             floor_print.each do |point|
               building_points << point
             end
@@ -191,7 +179,7 @@ module URBANopt
                 break
               end
             end
-            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon) #Q. Determines which buildings are shading. Building points are floor prints converted from polygons, other_building_points are ShadingOnly buildings.
+            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon)
             if !shadowed
               next
             end
@@ -244,7 +232,7 @@ module URBANopt
         # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
         #   function that are specific to zoning, else +False+.
       def create_space_per_building(min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false) #:doc:
-          geometry = @feature_json[:geometry] 
+          geometry = @feature_json[:geometry]
           properties = @feature_json[:properties]
           if zoning
             name = properties[:id]

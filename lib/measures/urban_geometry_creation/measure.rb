@@ -49,7 +49,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
   # human readable description of modeling approach
   def modeler_description
-    return 'This measure takes in the GeoJSON file, the feature_id of the building and the surrounding buildings as arguments and add has methods to create space types and add default construction sets.'
+    return 'TODO'
   end
 
   def arguments(model)
