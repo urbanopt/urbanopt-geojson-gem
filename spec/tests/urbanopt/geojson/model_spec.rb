@@ -46,12 +46,6 @@ RSpec.describe URBANopt::GeoJSON do
     # TODO: make this test more specific
     adiabatic = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(@model, @runner)
     expect(adiabatic.class).to eq(OpenStudio::Model::Model)
-
-    puts "6HELLO = #{adiabatic.methods}"
-    puts "7HELLO = #{adiabatic.building}"
-    puts "11HELLO = #{adiabatic.building.methods}"
-    puts "8HELLO = #{@model.getSurfaces[0].outsideBoundaryCondition}"
-    puts "9HELLO = #{adiabatic.getSurfaces}"
   end
 
   it 'transfers previous model data' do
