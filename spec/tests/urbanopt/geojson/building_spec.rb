@@ -42,7 +42,7 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning(false)' do
-    building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner)
+    building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(@building.number_of_stories)
   end
