@@ -98,7 +98,7 @@ module URBANopt
       
       ##
       # Returns coordinate with the minimum longitute and latitude within a given +building_json+ .
-      def get_min_lon_lat
+      def get_min_lon_lat #Q. When is min lon lat needed? It is used later in create origin lat lon. This method is basically looping through all the polygons and findign the minimum latitude and longitude and setting that as the site origin.
         min_lon = Float::MAX
         min_lat = Float::MAX
         multi_polygons = get_multi_polygons
@@ -133,13 +133,13 @@ module URBANopt
       #       ]
       #     }
       #   }
-      def get_multi_polygons(json = @feature_json)
+      def get_multi_polygons(json = @feature_json) #Q. This method is used in building.rb
         geometry_type = json[:geometry][:type]
         multi_polygons = []
         if geometry_type == 'Polygon'
           polygons = json[:geometry][:coordinates]
           multi_polygons = [polygons]
-        elsif geometry_type == 'MultiPolygon'
+        elsif geometry_type == 'MultiPolygon' #Q. When is this used? What are multipolygons? 
           multi_polygons = json[:geometry][:coordinates]
         end
         return multi_polygons
@@ -150,7 +150,7 @@ module URBANopt
       #
       # [Parameters]
       # * +runner+ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-      def create_origin_lat_lon(runner)
+      def create_origin_lat_lon(runner) #Q. This method is used to set the site origin's latitude and longitude.
         min_lon_lat = get_min_lon_lat
         min_lon = min_lon_lat[0]
         min_lat = min_lon_lat[1]

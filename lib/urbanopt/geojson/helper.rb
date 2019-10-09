@@ -94,7 +94,7 @@ module URBANopt
           shading_group = OpenStudio::Model::ShadingSurfaceGroup.new(model)
           shading_surface = OpenStudio::Model::ShadingSurface.new(floor_print, model)
           shading_surface.setShadingSurfaceGroup(shading_group)
-          shading_surface.setName('Photovoltaic Panel')
+          shading_surface.setName('Photovoltaic Panel') #Q. Is this accounting for shading due to photovoltaics? Used to create community solar PV in measure.rb.
           shading_surfaces << shading_surface
         end
         # create the inverter # :nodoc:
@@ -151,7 +151,7 @@ module URBANopt
             space_type = space.spaceType.get
           else
             space_type = OpenStudio::Model::SpaceType.new(model)
-            runner.registerInfo("Story #{i} does not have a space type, creating new one")
+            runner.registerInfo("Story #{i} does not have a space type, creating new one") #Q. One space type is specified per story.
           end
           space_types[i] = space_type
         end
@@ -212,7 +212,7 @@ module URBANopt
       # * +potential_shader+ - _Type:Array_ - Other array of instances of +OpenStudio::Point3d+ .
       # * +origin_lat_lon+ _Type:Number_ - An instance of OpenStudio::PointLatLon indicating the origin's
       #   latitude and longitude. 
-      def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
+      def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon) #Q. is used in building.rb
         all_pairs = []
         potentially_shaded.each do |building_point|
           potential_shader.each do |other_building_point|

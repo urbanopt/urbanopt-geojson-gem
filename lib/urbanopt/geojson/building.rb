@@ -80,15 +80,15 @@ module URBANopt
         else
           number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
         end
-        floor_to_floor_height = zoning ? 3.6 : 3
+        floor_to_floor_height = zoning ? 3.6 : 3 #Q. What is this doing?
 
         if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height && !zoning
           floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
           floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
         end
 
-        if create_method == :space_per_floor or create_method == :spaces_per_floor
-          if number_of_residential_units
+        if create_method == :space_per_floor or create_method == :spaces_per_floor #Q. Where are these create methods specified?
+          if number_of_residential_units #Q. Where is this described?
             model.getBuilding.setStandardsNumberOfLivingUnits(number_of_residential_units)
           end
           model.getBuilding.setStandardsNumberOfStories(number_of_stories)
@@ -146,7 +146,7 @@ module URBANopt
         multi_polygons.each do |multi_polygon|
           multi_polygon.each do |polygon|
             elevation = 0
-            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning) #Q. This method is creating a floor print from a polygon.
             floor_print.each do |point|
               building_points << point
             end
@@ -191,7 +191,7 @@ module URBANopt
                 break
               end
             end
-            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon)
+            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon) #Q. Determines which buildings are shading. Building points are floor prints converted from polygons, other_building_points are ShadingOnly buildings.
             if !shadowed
               next
             end
@@ -244,7 +244,7 @@ module URBANopt
         # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
         #   function that are specific to zoning, else +False+.
       def create_space_per_building(min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false) #:doc:
-          geometry = @feature_json[:geometry]
+          geometry = @feature_json[:geometry] 
           properties = @feature_json[:properties]
           if zoning
             name = properties[:id]
