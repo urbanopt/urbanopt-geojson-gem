@@ -52,3 +52,13 @@ nav .nav-section {
     color: #3eaf7c;
     border-bottom: none;
 }
+
+/* Remove some modules that aren't commented */
+.link-list a[href="./Object.html"],
+.link-list a[href="./OpenStudio.html"],
+.link-list a[href="./OpenStudio/Measure.html"],
+.link-list a[href="./OpenStudio/Model.html"],
+.link-list a[href="./URBANopt.html"],
+.link-list a[href="./URBANopt/GeoJSON.html"] {
+    display: none;
+}
