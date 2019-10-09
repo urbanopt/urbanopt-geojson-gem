@@ -32,7 +32,7 @@ require 'urbanopt/geojson/feature'
 
 module URBANopt
   module GeoJSON
-    class Building < Feature
+    class Building < URBANopt::GeoJSON::Feature
 
       ##
       # Used to initialize the feature. This method is inherited from the Feature class. 
@@ -114,34 +114,23 @@ module URBANopt
       # Returns an array of instances of +OpenStudio::Model::Space+ .
       #
       # [Parameters]
-      # * +surrounding_buildings+ - _Type:String_ - Describes the surrounding buildings.
-      # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+.
-      # * +origin_lat_lon+ - _Type-String_ - An instance of +OpenStudio::PointLatLon+ indicating the latidude and longitude of the origin.
-      # * +runner+ - _Type-String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-
-      def create_other_buildings(surrounding_buildings, model, origin_lat_lon, runner, zoning=false)
-        project_id = @feature_json[:properties][:project_id]
+      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
+      # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
+      # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
+      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
+      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      def create_other_buildings(other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
         feature_id = @feature_json[:properties][:id]
-        #Nearby buildings to be converted to shading.        
+        # Nearby buildings to be converted to shading.
         convert_to_shades = []
-        #Query for nearby buildings.
-        params = {
-          commit: "Proximity Search",
-          feature_id: feature_id,
-          distance: 100,
-          proximity_feature_types: ["Building"]
-        }
-        path = File.join(File.dirname(__FILE__), '..', '..', '..', 'spec','files', 'nrel_stm_footprints.geojson')
-        feature_collection = URBANopt::GeoJSON::GeoFile.from_file(path).json
-        #TODO: Add geojson file here for surrounding buildings features.
 
-        if feature_collection[:features].nil?
-          runner.registerWarning("No features found in #{feature_collection}")
+        if other_buildings[:features].nil?
+          runner.registerWarning("No features found in #{other_buildings}")
           return []
         end
 
         building_points = []
-        multi_polygons = get_multi_polygons()
+        multi_polygons = get_multi_polygons
         multi_polygons.each do |multi_polygon|
           multi_polygon.each do |polygon|
             elevation = 0
@@ -154,13 +143,12 @@ module URBANopt
           end
         end
         
-        runner.registerInfo("#{feature_collection[:features].size} nearby buildings found")
-        count = 0
-        feature_collection[:features].each do |other_building|
+        runner.registerInfo("#{other_buildings[:features].size} nearby buildings found")
+        other_buildings[:features].each do |other_building|
           other_id = other_building[:properties][:id]
           next if other_id == feature_id
-          if surrounding_buildings == "ShadingOnly"
-            #Checks if any building point is shaded by any other building point.
+          if other_building_type == "ShadingOnly"
+            # Checks if any building point is shaded by any other building point.
             roof_elevation	= other_building[:properties][:roof_elevation]
             number_of_stories = other_building[:properties][:number_of_stories]
             number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]

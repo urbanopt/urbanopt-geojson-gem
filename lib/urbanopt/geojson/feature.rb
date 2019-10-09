@@ -122,31 +122,20 @@ module URBANopt
       # For example: 
       #
       #  polygon = {
-      #
       #     'geometry': {
-      #
       #       'type': 'Polygon',
-      #
       #       'coordinates': [
-      #
       #         [
-      #
       #           [0, 5],
-      #
       #           [5, 5],
-      #
       #           [5, 0]
-      #
       #         ]
-      #
       #       ]
-      #
       #     }
-      #
       #   }
       def get_multi_polygons(json = @feature_json)
         geometry_type = json[:geometry][:type]
-        multi_polygons = nil
+        multi_polygons = []
         if geometry_type == 'Polygon'
           polygons = json[:geometry][:coordinates]
           multi_polygons = [polygons]
