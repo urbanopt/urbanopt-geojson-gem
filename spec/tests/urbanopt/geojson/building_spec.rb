@@ -42,7 +42,6 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning(false)' do
-    # TODO :NOTE: CREATE MORE TESTS TO HANDLE ALL CREATE_METHODS
     building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(@building.number_of_stories)
@@ -59,6 +58,8 @@ RSpec.describe URBANopt::GeoJSON do
     # TODO: REVISIT: WHY ZONING SET TO TRUE MAKES BUILDING LENGTH 69 INSTEAD OF 3!
     building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
+    expect(@building.number_of_stories).to eq(2)
+    expect(building.size).to eq(2)
   end
 
   it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
@@ -67,29 +68,38 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates windows given an array of spaces' do
-    # TODO: NOTE: Figure out a way to test if windows were created
     spaces = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
     windows = @building.create_windows(spaces)
     expect(windows[0].class).to eq(OpenStudio::Model::Space)
+    expect(windows.empty?).to be false
+    expect(spaces.size).to eq(4)
+    expect(windows.size).to eq(4)
+    spaces.each do |space|
+      space.surfaces.each do |surface|
+        if surface.surfaceType == "Wall" && surface.outsideBoundaryCondition == "Outdoors"
+          expect(surface.windowToWallRatio).to be > 0
+        end
+      end
+    end
   end
 
-  # TODO: uncomment tests when you find a way to test module private methods
-  # it 'creates a space per building' do
-  #   model = OpenStudio::Model::Model.new
-  #   building_spaces = @gem_instance.create_space_per_building(@building_json, 1, 10, model, @origin_lat_lon, @runner)
-  #   # puts Object.methods(building_spaces[0])
-  #   # puts building_spaces[0].surfaces()
+  #TODO: Uncomment tests testing private methods.
+  #it 'creates a space per building' do
+  #  expect(@building.send(:create_space_per_building)).to eq("private method")
+  #  model = OpenStudio::Model::Model.new
+  #  building_spaces = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)[0].create_space_per_building(1, 10, @model, @origin_lat_lon, @runner)
   #   expect(building_spaces[0].class()).to eq(OpenStudio::Model::Space)
   #   expect(building_spaces[0].floorArea()).to eq(70.0430744927284)
   #   expect(building_spaces.length()).to eq(1)
   # end
 
-  # it 'creates space per floor' do
-  #   model = OpenStudio::Model::Model.new
-  #   floor_spaces = @gem_instance.create_space_per_floor(@building_json, 1, 2, model, @origin_lat_lon, @runner)
-  #   expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
-  #   expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
-  # end
+  #it 'creates space per floor' do
+  # expect(@building.send(:create_space_per_floor)).to eq("private method")
+  #  model = OpenStudio::Model::Model.new
+  #  floor_spaces = @building.create_space_per_floor(1, 3, @model, @origin_lat_lon, @runner)
+  #  expect(floor_spaces[0].class()).to eq(OpenStudio::Model::Space)
+  #  expect(floor_spaces[0].floorArea()).to eq(70.0430744927284)
+  #end
 
   #   -    it 'creates zoning space per floor' do
   # -    # REVISIT: WHY ZONING SET TO TRUE

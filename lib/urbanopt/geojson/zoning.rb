@@ -33,7 +33,9 @@ module URBANopt
     module Zoning
 
       ##
-      # Returns an Array of Arrays containing instances of +OpenStudio::Point3d+ .
+      # This method divides the floor print on the basis of a permeter depth. 
+      #
+      # It returns an Array of Arrays containing instances of +OpenStudio::Point3d+ .
       #
       # [Parameters]
       # * +floor_print+ - _Type:Array_ - An instance of +OpenStudio::Point3dVector.new+ . 
@@ -104,7 +106,9 @@ module URBANopt
       end
 
       ##
-      # Returns an Array containing instances of OpenStudio::Point3d.
+      # It is used to return the points for the first floor floor.
+      #
+      # It returns an Array containing instances of OpenStudio::Point3d.
       #
       # [Parameters]
       # * +multi_polygons+ - _Type-Array_ - Coordinate pairs in double nested +Array+ . 
@@ -127,16 +131,20 @@ module URBANopt
       end
 
       ##
+      # This method currently uses 
+      # 
       # Returns an Array containing instances of +OpenStudio::Point3d+ .
       #
       # [Parameters]
       # * +runner+ - _Type:String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
       # * +origin_lat_lon+ - _Type:Number_ - An instance of OpenStudio::PointLatLon indicating origin
       #   latitude and longitude. 
-      # * +feature+ - _Type:String_ - An instance of Feature class built off of GeoJSON file.
+      # * +feature+ - _Type:String_ - An instance of Feature class built off of GeoJSON
+      #   file for which the surrounding_buildings are determined.
       def self.handle_surrounding_buildings(runner, origin_lat_lon, feature)
       # query database for nearby buildings
-        # TODO - NEED TEST SCENARIO FOR THIS. ISN'T CURRENTLY USED.
+      #   TODO - NEED TEST SCENARIO FOR THIS. ISN'T CURRENTLY USED. Are we using the
+      #   urban geometry creation zoning?
         # feature_collection = get_feature_collection(params)
         # TODO - NOTE: STUBBED FEATURE COLLECTION
         feature_collection = { #TODO

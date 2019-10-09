@@ -22,7 +22,7 @@ The main components of the gem are:
     *Modules that do not require instances for calling the methods:*
 
     - URBANopt::GeoJSON::Helper : Contains methods extracted from the two measures to
-      perform utility-like tasks like - +point_is_shadowed+ and +is_shadowed+.
+      perform utility-like tasks like - +is_shaded+ and +is_shadowed+.
     - URBANopt::GeoJSON::Zoning : Contains methods extracted from
       +urban_geometry_creation_zoning+ .
     - URBANopt::GeoJSON::Model : Contains methods that perform tasks on an instance of

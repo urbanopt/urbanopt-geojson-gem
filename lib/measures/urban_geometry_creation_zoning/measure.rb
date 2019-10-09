@@ -128,7 +128,6 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     convert_to_shades = []
 
     if surrounding_buildings == 'None'
-      # no-op
     else
       # THIS SCENARIO ISN'T CURRENTLY TESTED
       URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)

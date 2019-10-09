@@ -227,7 +227,7 @@ module URBANopt
         end
         all_pairs.sort! { |x, y| x[:distance] <=> y[:distance] }
         all_pairs.each do |pair|
-          if point_is_shadowed(pair[:building_point], pair[:other_building_point], origin_lat_lon)
+          if is_shaded(pair[:building_point], pair[:other_building_point], origin_lat_lon)
             return true
           end
         end
@@ -242,8 +242,7 @@ module URBANopt
       # * +other_building_point+ - _Type:Number_ - Other instance of +OpenStudio::Point3d+ .
       # * +origin_lat_lon+ - _Type:Number_ - An instance of +OpenStudio::PointLatLon+ indicating the
       #   origin's latitude and longitude.
-      # TODO: Rename to is_shaded
-      def self.point_is_shadowed(building_point, other_building_point, origin_lat_lon)
+      def self.is_shaded(building_point, other_building_point, origin_lat_lon)
         vector = other_building_point - building_point
         height = vector.z
         distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
@@ -252,11 +251,11 @@ module URBANopt
         end
         hour_angle_rad = Math.atan2(-vector.x, -vector.y)
         hour_angle = OpenStudio.radToDeg(hour_angle_rad)
-        lattitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)  # TODO: Misspelled latitude
+        latitude_rad = OpenStudio.degToRad(origin_lat_lon.lat) 
         result = false
         (-24..24).each do |declination|
           declination_rad = OpenStudio.degToRad(declination)
-          zenith_angle_rad = Math.acos(Math.sin(lattitude_rad) * Math.sin(declination_rad) + Math.cos(lattitude_rad) * Math.cos(declination_rad) * Math.cos(hour_angle_rad))
+          zenith_angle_rad = Math.acos(Math.sin(latitude_rad) * Math.sin(declination_rad) + Math.cos(latitude_rad) * Math.cos(declination_rad) * Math.cos(hour_angle_rad))
           zenith_angle = OpenStudio.radToDeg(zenith_angle_rad)
           elevation_angle = 90 - zenith_angle
           apparent_angle_rad = Math.atan2(height, distance)
@@ -270,7 +269,7 @@ module URBANopt
       end
 
       class << self
-        private :point_is_shadowed
+        private :is_shaded
       end
     end
   end
