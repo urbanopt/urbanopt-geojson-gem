@@ -74,6 +74,15 @@ module URBANopt
         number_of_stories_below_ground = other_building[:properties][:number_of_stories_below_ground]
         number_of_residential_units = other_building[:properties][:number_of_residential_units]      
         
+        if zoning
+          surface_elevation	= other_building[:properties][:surface_elevation]
+          roof_elevation	= other_building[:properties][:roof_elevation]
+          floor_to_floor_height = other_building[:properties][:floor_to_floor_height]
+        else
+          maximum_roof_height = other_building[:properties][:maximum_roof_height]
+        end
+
+
         if number_of_stories_above_ground.nil?
           number_of_stories_above_ground = number_of_stories
           number_of_stories_below_ground = 0

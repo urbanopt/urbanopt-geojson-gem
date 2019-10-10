@@ -81,6 +81,7 @@ module URBANopt
         raise 'schema_file not implemented for Feature, override in your class'
       end
       
+
       def schema
         if @@feature_schema[feature_type].nil?
           @@schema_file_lock.synchronize do
