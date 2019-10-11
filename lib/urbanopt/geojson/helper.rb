@@ -175,7 +175,7 @@ module URBANopt
       # * +elevation+ - _Type:Integer_ - Indicates the elevation.
       # * +origin_lat_lon+ - _Type:Number_ - An instance of +OpenStudio::PointLatLon+ indicating the origin's latitude and longitude.
       # * +runner+ - _Type:String_ - The measure run's instance of +OpenStudio::Measure::OSRunner+ .
-      # * +zoning+ - _Type:Boolean_ - Should be true if you'd like to utilize aspects of function that are specific to zoning.
+      # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning = false)
         floor_print = OpenStudio::Point3dVector.new
         all_points = OpenStudio::Point3dVector.new
@@ -208,11 +208,13 @@ module URBANopt
       # +OpenStudio::Model::Space+.
       #
       # [Parameters]
+      # * +building+ - _Type:URBANopt::GeoJSON::Building - The core building that other buildings will be referenced.
       # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
       # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def self.process_other_buildings(building, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
         # Empty array to store the new OpenStudio model spaces that need to be converted to shading objects
         feature_points = building.feature_points(origin_lat_lon, runner, zoning)

@@ -64,15 +64,15 @@ module URBANopt
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+_ .
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +OpenStudio::Measure::OSRunner+ for the measure run.
-      # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
-      #   function that are specific to zoning, else +False+. Zoning is set to False by default.
-      # * +other_building+ - _Type:String_ - Sets other_building to an instance of +URBANopt::Core::Feature+.
+      # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
+      # * +other_building+ - _Type:URBANopt::GeoJSON::Feature - Optional, allow the user to pass in a different building to process. This is used for creating the other buildings for shading.
       def create_building(create_method, model, origin_lat_lon, runner, zoning=false, other_building=@feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
         number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
+        # TODO: Remove the use of number_of_stories_below_ground
         number_of_stories_below_ground = other_building[:properties][:number_of_stories_below_ground]
-        number_of_residential_units = other_building[:properties][:number_of_residential_units]      
-        
+        number_of_residential_units = other_building[:properties][:number_of_residential_units]
+
         if number_of_stories_above_ground.nil?
           number_of_stories_above_ground = number_of_stories
           number_of_stories_below_ground = 0
@@ -83,10 +83,10 @@ module URBANopt
 
         if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height && !zoning
           floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
-          floor_to_floor_height = OpenStudio::convert(floor_to_floor_height, 'ft', 'm').get
+          floor_to_floor_height = OpenStudio.convert(floor_to_floor_height, 'ft', 'm').get
         end
 
-        if create_method == :space_per_floor or create_method == :spaces_per_floor
+        if create_method == :space_per_floor || create_method == :spaces_per_floor
           if number_of_residential_units
             model.getBuilding.setStandardsNumberOfLivingUnits(number_of_residential_units)
           end
@@ -96,7 +96,7 @@ module URBANopt
         end
 
         spaces = []
-        if create_method == :space_per_floor or create_method == :spaces_per_floor
+        if create_method == :space_per_floor || create_method == :spaces_per_floor
           (-number_of_stories_below_ground+1..number_of_stories_above_ground).each do |story_number|
             new_spaces = create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning)
             spaces.concat(new_spaces)
@@ -107,6 +107,7 @@ module URBANopt
         return spaces
       end
       alias_method :create_other_building, :create_building
+
       ##
       # Return the features multi polygon in an array of the form coordinate pairs in double nested Array
       #
@@ -170,7 +171,7 @@ module URBANopt
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-      # * +zoning+ - _Type:Boolean_ - Should be true if you'd like to utilize aspects of function that are specific to zoning.
+      # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def create_other_buildings(other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
         if other_buildings[:features].nil?
           runner.registerWarning("No features found in #{other_buildings}")
@@ -217,8 +218,7 @@ module URBANopt
         # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
         # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latidude and longitude of the origin.
         # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-        # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
-        #   function that are specific to zoning, else +False+.
+        # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def create_space_per_building(min_elevation, max_elevation, model, origin_lat_lon, runner, zoning=false) #:doc:
           geometry = @feature_json[:geometry]
           properties = @feature_json[:properties]
@@ -271,8 +271,7 @@ module URBANopt
         # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the
         #   origin's latitude and longitude.
         # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-        # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
-        #   function that are specific to zoning, else +False+.
+        # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
         def create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning=false) #:doc:
           geometry = @feature_json[:geometry]
           properties = @feature_json[:properties]
