@@ -63,16 +63,13 @@ RSpec.describe URBANopt::GeoJSON do
     feature_id = '59a9ce2b42f7d007c059d2ee'
     feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
     photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
-    puts "10HELLO = #{photovoltaics.to_json}"
     expect(photovoltaics[0].class).to eq(OpenStudio::Model::ShadingSurface)
   end
 
   it 'creates a space types' do
     # TODO: update tests when you figure out what stories are
     stories = [OpenStudio::Model::BuildingStory.new(@model)]
-    puts "8HELLO = #{stories.to_json}"
     space_type = URBANopt::GeoJSON::Helper.create_space_types(stories, @model, @runner)
-    puts "9HELLO = #{space_type.to_json}"
     expect(space_type[0].class).to eq(OpenStudio::Model::SpaceType)
   end
 

@@ -39,7 +39,7 @@ module URBANopt
       def initialize(feature) 
         super(feature)
       end
- 
+
       ##
       # Used to describe the Building feature type using the base method from the Feature class.         
       def feature_type
@@ -63,11 +63,10 @@ module URBANopt
       #   used. 
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+_ .
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
-      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +runner+ - _Type:String_ - An instance of +OpenStudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +True+ if you'd like to utilize aspects of the
       #   function that are specific to zoning, else +False+. Zoning is set to False by default.
       # * +other_building+ - _Type:String_ - Sets other_building to an instance of +URBANopt::Core::Feature+.
-
       def create_building(create_method, model, origin_lat_lon, runner, zoning=false, other_building=@feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
         number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
@@ -107,11 +106,63 @@ module URBANopt
         end
         return spaces
       end
+      alias_method :create_other_building, :create_building
+      ##
+      # Return the features multi polygon in an array of the form coordinate pairs in double nested Array
+      #
+      # [Parameters]
+      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
+      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +zoning+ - _Type:Boolean_ - Should be true if you'd like to utilize aspects of function that are specific to zoning.
+      def feature_points(origin_lat_lon, runner, zoning)
+        feature_points = []
+        multi_polygons = get_multi_polygons(@feature_json)
+        multi_polygons.each do |multi_polygon|
+          multi_polygon.each do |polygon|
+            elevation = 0
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
+            floor_print.each do |point|
+              feature_points << point
+            end
+
+            #Subsequent polygons are holes, and are not supported.
+            break
+          end
+        end
+        return feature_points
+      end
+
+      ##
+      # Return the points of the other building object. This method is similar to feature_points, but accepts
+      # the other building and other height.
+      #
+      # [Parameters]
+      # * +other_building+ - _Type:Array_ - Array of points
+      # * +other_height+ - _Type:Double_ - Value of the other height from which to create the floor prints
+      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
+      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +zoning+ - _Type:Boolean_ - Should be true if you'd like to utilize aspects of function that are specific to zoning.
+      def other_points(other_building, other_height, origin_lat_lon, runner, zoning)
+        other_points = []
+        multi_polygons = get_multi_polygons(other_building)
+        multi_polygons.each do |multi_polygon|
+          multi_polygon.each do |polygon|
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, other_height, origin_lat_lon, runner, zoning)
+            floor_print.each do |point|
+              other_points << point
+            end
+
+            #Subsequent polygons are holes, and are not supported.
+            break
+          end
+        end
+        return other_points
+      end
 
       ##
       # This method is used to create the surrounding buildings as shading objects.
       #
-      # Returns an array of instances of +OpenStudio::Model::Space+ .
+      # Returns an array of instances of +OpenStudio::Model::Space+.
       #
       # [Parameters]
       # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
@@ -119,80 +170,17 @@ module URBANopt
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # * +zoning+ - _Type:Boolean_ - Should be true if you'd like to utilize aspects of function that are specific to zoning.
       def create_other_buildings(other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
-        feature_id = @feature_json[:properties][:id]
-        # Nearby buildings to be converted to shading.
-        convert_to_shades = []
-
         if other_buildings[:features].nil?
           runner.registerWarning("No features found in #{other_buildings}")
           return []
         end
 
-        building_points = []
-        multi_polygons = get_multi_polygons
-        multi_polygons.each do |multi_polygon|
-          multi_polygon.each do |polygon|
-            elevation = 0
-            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
-            floor_print.each do |point|
-              building_points << point
-            end
-            #Subsequent polygons are holes, and are not supported. 
-            break
-          end
-        end
-        
-        runner.registerInfo("#{other_buildings[:features].size} nearby buildings found")
-        other_buildings[:features].each do |other_building|
-          other_id = other_building[:properties][:id]
-          next if other_id == feature_id
-          if other_building_type == "ShadingOnly"
-            # Checks if any building point is shaded by any other building point.
-            roof_elevation	= other_building[:properties][:roof_elevation]
-            number_of_stories = other_building[:properties][:number_of_stories]
-            number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
-            maximum_roof_height = other_building[:properties][:maximum_roof_height]
-            
-            if number_of_stories_above_ground.nil?  
-              number_of_stories_above_ground = number_of_stories
-              number_of_stories_below_ground = 0
-            else
-              number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
-            end
-                        
-            floor_to_floor_height = 3
-            if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
-              floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
-            end
-            other_height = number_of_stories_above_ground * floor_to_floor_height
-            #Gets first floor footprint points.            
-            other_building_points = []
-            multi_polygons = get_multi_polygons(other_building)
-            multi_polygons.each do |multi_polygon|
-              multi_polygon.each do |polygon|
-                floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, other_height, origin_lat_lon, runner, zoning)
-                floor_print.each do |point|
-                  other_building_points << point
-                end
-                #Subsequent polygons are holes, and are not supported. 
-                break
-              end
-            end
-            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(building_points, other_building_points, origin_lat_lon)
-            if !shadowed
-              next
-            end
-          end
-        
-          other_spaces = create_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
-          if other_spaces.nil? || other_spaces.empty?
-            runner.registerWarning("Failed to create spaces for other building '#{name}'")
-          end
-          convert_to_shades.concat(other_spaces)
-        
-        end
-        return convert_to_shades
+        other_spaces = URBANopt::GeoJSON::Helper.process_other_buildings(
+            self, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning
+        )
+        return other_spaces
       end
 
       ##

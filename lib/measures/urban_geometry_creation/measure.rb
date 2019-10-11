@@ -69,6 +69,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     chs << 'None'
     chs << 'ShadingOnly'
     chs << 'All'
+    # Note: Only None and ShadingOnly are implemented at the moment
     surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
     surrounding_buildings.setDisplayName('Surrounding Buildings')
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')
@@ -89,9 +90,6 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     geojson_file = runner.getStringArgumentValue('geojson_file', user_arguments)
     feature_id = runner.getStringArgumentValue('feature_id', user_arguments)
     surrounding_buildings = runner.getStringArgumentValue('surrounding_buildings', user_arguments)
-
-    # pull information from the previous model
-    # model.save('initial.osm', true)
 
     default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
 
@@ -118,6 +116,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     name = feature.feature_json[:properties][:name]
     model.getBuilding.setName(name)
 
+    # find min and max x coordinate
     @origin_lat_lon = feature.create_origin_lat_lon(@runner)
 
     site = model.getSite
@@ -152,6 +151,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
 
+      # TODO: Move all these helper methods into a shared method that can be tested
       # intersect surfaces in this building with others
       @runner.registerInfo('Intersecting surfaces')
       spaces.each do |space|
@@ -191,7 +191,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
     # transfer data from previous model
     stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(model, space_types)
-    
+
     return true
   end
 end

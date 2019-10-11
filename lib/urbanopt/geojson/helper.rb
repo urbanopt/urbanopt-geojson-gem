@@ -204,6 +204,60 @@ module URBANopt
       end
 
       ##
+      # Calculate which other buildings are shading the current feature and return as an array of
+      # +OpenStudio::Model::Space+.
+      #
+      # [Parameters]
+      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
+      # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
+      # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
+      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
+      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      def self.process_other_buildings(building, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
+        # Empty array to store the new OpenStudio model spaces that need to be converted to shading objects
+        feature_points = building.feature_points(origin_lat_lon, runner, zoning)
+
+        other_spaces = []
+        runner.registerInfo("#{other_buildings[:features].size} nearby buildings found")
+        other_buildings[:features].each do |other_building|
+          other_id = other_building[:properties][:id]
+          next if other_id == building.id
+          if other_building_type == "ShadingOnly"
+            # Checks if any building point is shaded by any other building point.
+            roof_elevation	= other_building[:properties][:roof_elevation]
+            number_of_stories = other_building[:properties][:number_of_stories]
+            number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
+            maximum_roof_height = other_building[:properties][:maximum_roof_height]
+
+            if number_of_stories_above_ground.nil?
+              number_of_stories_above_ground = number_of_stories
+              number_of_stories_below_ground = 0
+            else
+              number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
+            end
+
+            floor_to_floor_height = 3
+            if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
+              floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
+            end
+            other_height = number_of_stories_above_ground * floor_to_floor_height
+            # find the polygon of the other_building by passing it to the get_multi_polygons method
+            other_building_points = building.other_points(other_building, other_height, origin_lat_lon, runner, zoning)
+            shadowed = URBANopt::GeoJSON::Helper.is_shadowed(feature_points, other_building_points, origin_lat_lon)
+            next unless shadowed
+          end
+
+          new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
+          if new_building.nil? || new_building.empty?
+            runner.registerWarning("Failed to create spaces for other building '#{name}'")
+          end
+          other_spaces.concat(new_building)
+
+        end
+        return other_spaces
+      end
+
+      ##
       # Returns Boolean which indicates whether the specified building is shadowed by
       # other building.
       #
