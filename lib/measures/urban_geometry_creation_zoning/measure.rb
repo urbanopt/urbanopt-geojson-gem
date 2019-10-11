@@ -155,9 +155,9 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
       # TODO: resolve this!!!!
-      if surrounding_buildings == 'ShadingOnly'
-        URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
-      end
+      #if surrounding_buildings == 'ShadingOnly'
+      #  URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
+      #end
 
       # intersect surfaces in this building with others
       @runner.registerInfo('Intersecting surfaces')
