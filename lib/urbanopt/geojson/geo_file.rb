@@ -83,7 +83,8 @@ module URBANopt
       end
       
       ##
-      # Returns all feature objects from specified GeoJSON file.
+      # This method loops through all the features in the GeoJSON file, creates new
+      # Buildings or District Systems based on the feature type, and returns the features.
       #
       def features
         result = []
