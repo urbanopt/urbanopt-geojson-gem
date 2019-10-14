@@ -68,7 +68,7 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'gets other building spaces' do
-    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
     feature_id = '59a9ce2b42f7d007c059d2ee'
     all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
     feature = all_features.get_feature_by_id(feature_id)
