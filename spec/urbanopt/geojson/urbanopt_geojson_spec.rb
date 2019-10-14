@@ -28,7 +28,7 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   it 'has a version number' do

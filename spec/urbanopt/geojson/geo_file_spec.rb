@@ -28,11 +28,11 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON::GeoFile do
   before(:each) do
-    @spec_files_dir = File.join(File.dirname(__FILE__), '..', '..', '..', 'files')
+    @spec_files_dir = File.join(File.dirname(__FILE__), '..', '..', 'files')
   end
 
   it 'gets feature, given a feature_id' do
