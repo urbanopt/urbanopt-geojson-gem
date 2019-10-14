@@ -32,6 +32,10 @@ module URBANopt
   module GeoJSON
     module Helper
       ##
+      # This method loops though all the surfaces of the space and creates shading
+      # surfaces. It also removes the thermal zone and space type assigned to the space,
+      # if any. 
+      #
       # Returns an Array of instances of +OpenStudio::Model::ShadingSurfaceGroup+ .
       #
       # Used to convert adjacent buildings to shading surfaces.
@@ -134,6 +138,9 @@ module URBANopt
       end
 
       ##
+      # This method loops through all the stories in the model, and returns any space
+      # types previously assigned.
+      # 
       # Returns array of OpenStudio::Model::SpaceTypes.
       # 
       # Used to create space types for each building story.
