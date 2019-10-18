@@ -35,13 +35,13 @@ module URBANopt
     class Feature < URBANopt::Core::Feature
       attr_reader :feature_json
 
-
       @@feature_schema = {}
       @@schema_file_lock = Mutex.new
 
       ##
       # Used to validate the feature using the validate_feat method.
       def initialize(feature)
+        # TODO: rename to validate_features (no reason to truncate)
         @feature_json = validate_feat(feature)
       end
 

@@ -64,7 +64,8 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
-    expect(other_buildings[0].class).to eq(OpenStudio::Model::Space)
+    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
+    expect(other_buildings.size).to eq 4
   end
 
   it 'creates windows given an array of spaces' do
