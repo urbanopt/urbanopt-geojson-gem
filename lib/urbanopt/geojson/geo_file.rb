@@ -43,7 +43,9 @@ module URBANopt
 
       ##
       # Raises an error in case the GeoJSON file is not valid. 
+      #
       # [Parameters]
+      #
       # * +data+ - _Type:Hash_ Contains the GeoJSON.
       def initialize(data, path = nil)
         @path = path
@@ -56,6 +58,7 @@ module URBANopt
 
       ##
       # [Parameters]
+      #
       # Used to check the GeoJSON file path.
       # * +path+ - _Type:String_ - GeoJSON file path. 
       def self.from_file(path)
@@ -100,7 +103,7 @@ module URBANopt
 
       ##
       # Returns feature object by feature_id from specified GeoJSON file and creates a
-      # new URBANopt::GeoJSON::Building or URBANopt::GeoJSON::DistrictSystem based on the
+      # new +URBANopt::GeoJSON::Building+ or +URBANopt::GeoJSON::DistrictSystem+ based on the
       # feature type.
       #
       # [Parameters]

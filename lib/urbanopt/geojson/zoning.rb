@@ -107,13 +107,13 @@ module URBANopt
       end
 
       ##
-      # The get_first_floor_points is used to return the points for the first floor floor.
+      # The get_first_floor_points is used to return the points for the first floor.
       #
       # It returns an Array containing instances of +OpenStudio::Point3d+.
       #
       # [Parameters]
       # * +multi_polygons+ - _Type-Array_ - Coordinate pairs in double nested +Array+ . 
-      # * +origin_lat_lon+ - _Type-Number_ - An instance of +OpenStudio::PointLatLon+ indicating origin
+      # * +origin_lat_lon+ - _Type-Float_ - An instance of +OpenStudio::PointLatLon+ indicating origin
       #   latitude and longitude.
       # * +runner+ - _Type-String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
       def self.get_first_floor_points(multi_polygons, origin_lat_lon, runner)

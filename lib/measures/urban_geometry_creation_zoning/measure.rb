@@ -73,7 +73,7 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     chs << 'None'
     chs << 'ShadingOnly'
     chs << 'All'
-    # Note: Only None and ShadingOnly are implemented at the moment
+    # Note: Only ShadingOnly is implemented at the moment
     surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
     surrounding_buildings.setDisplayName('Surrounding Buildings')
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')
@@ -154,10 +154,6 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
       if surrounding_buildings == 'ShadingOnly'
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
-      # TODO: resolve this!!!!
-      #if surrounding_buildings == 'ShadingOnly'
-      #  URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
-      #end
 
       # intersect surfaces in this building with others
       @runner.registerInfo('Intersecting surfaces')

@@ -69,7 +69,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     chs << 'None'
     chs << 'ShadingOnly'
     chs << 'All'
-    # Note: Only None and ShadingOnly are implemented at the moment
+    # Note: Only ShadingOnly is implemented at the moment
     surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
     surrounding_buildings.setDisplayName('Surrounding Buildings')
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')
@@ -151,7 +151,6 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
 
-      # TODO: Move all these helper methods into a shared method that can be tested
       # intersect surfaces in this building with others
       @runner.registerInfo('Intersecting surfaces')
       spaces.each do |space|

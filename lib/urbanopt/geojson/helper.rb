@@ -71,7 +71,7 @@ module URBANopt
       # * +feature+ - _Type:String_ - An instance of Feature class.
       # * +height+ - _Type:Integer_ - Indicates the building height.
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
-      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the
+      # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the
       #   origin's latitude & longitude. 
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
@@ -124,7 +124,7 @@ module URBANopt
       # [Parameters]
       # * +feature+ - _Type:String_ - An instance of Feature class. 
       # * +model+ - _Type:String_ - An instance of _OpenStudio::Model::Model_ .
-      # * +origin_lat_lon+ - _Type:String_ - An instance of _OpenStudio::PointLatLon_ indicating the
+      # * +origin_lat_lon+ - _Type:Float_ - An instance of _OpenStudio::PointLatLon_ indicating the
       #   origin's latitude and longitude. 
       # * +runner+ - _Type:String_ - The measure run's instance of _OpenStudio::Measure::OSRunner_ .
       # * +spaces+ -_Type:Array_ - Instances of _OpenStudio::Model::Space_ .
@@ -141,7 +141,7 @@ module URBANopt
       # This method loops through all the stories in the model, and returns any space
       # types previously assigned.
       # 
-      # Returns array of OpenStudio::Model::SpaceTypes.
+      # Returns array of +OpenStudio::Model::SpaceTypes+ .
       # 
       # Used to create space types for each building story.
       #
@@ -166,7 +166,7 @@ module URBANopt
       end
 
       ##
-      # Returns an OpenStudio::Point3dVector. 
+      # Returns an +OpenStudio::Point3dVector+ . 
       #
       # Creates the floor print for a given polygon. 
       #
@@ -180,7 +180,7 @@ module URBANopt
       #  ]
       #
       # * +elevation+ - _Type:Integer_ - Indicates the elevation.
-      # * +origin_lat_lon+ - _Type:Number_ - An instance of +OpenStudio::PointLatLon+ indicating the origin's latitude and longitude.
+      # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the origin's latitude and longitude.
       # * +runner+ - _Type:String_ - The measure run's instance of +OpenStudio::Measure::OSRunner+ .
       # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def self.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning = false)
@@ -215,13 +215,15 @@ module URBANopt
       # +OpenStudio::Model::Space+.
       #
       # [Parameters]
-      # * +building+ - _Type:URBANopt::GeoJSON::Building - The core building that other buildings will be referenced.
+      # * +building+ - _Type:URBANopt::GeoJSON::Building_ - The core building that other buildings will be referenced.
       # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
       # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
-      # * +origin_lat_lon+ - _Type:String_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
+      # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
-      # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
+      # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
+      #   +false+. Zoning is set to false by default. Currently, zoning set to +false+ is
+      #   only supported.
       def self.process_other_buildings(building, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
         # Empty array to store the new OpenStudio model spaces that need to be converted to shading objects
         feature_points = building.feature_points(origin_lat_lon, runner, zoning)
@@ -273,7 +275,7 @@ module URBANopt
       # [Parameters]
       # * +potentially_shaded+ - _Type:Array_ - An array of instances of +OpenStudio::Point3d+ .
       # * +potential_shader+ - _Type:Array_ - Other array of instances of +OpenStudio::Point3d+ .
-      # * +origin_lat_lon+ _Type:Number_ - An instance of OpenStudio::PointLatLon indicating the origin's
+      # * +origin_lat_lon+ _Type:Float_ - An instance of OpenStudio::PointLatLon indicating the origin's
       #   latitude and longitude. 
       def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
         all_pairs = []
@@ -301,9 +303,9 @@ module URBANopt
       # Returns Boolean indicating if specified building is shadowed.
       #
       # [Parameters]
-      # * +building_point+ - _Type:Number_ - An instance of +OpenStudio::Point3d+ .
-      # * +other_building_point+ - _Type:Number_ - Other instance of +OpenStudio::Point3d+ .
-      # * +origin_lat_lon+ - _Type:Number_ - An instance of +OpenStudio::PointLatLon+ indicating the
+      # * +building_point+ - _Type:Float_ - An instance of +OpenStudio::Point3d+ .
+      # * +other_building_point+ - _Type:Float_ - Other instance of +OpenStudio::Point3d+ .
+      # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the
       #   origin's latitude and longitude.
       def self.is_shaded(building_point, other_building_point, origin_lat_lon)
         vector = other_building_point - building_point

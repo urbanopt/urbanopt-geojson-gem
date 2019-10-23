@@ -89,7 +89,6 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
   end
 
   def test_one_building_w_surrounding_buildings
-    # TODO : NOTE: UPDATE THIS TEST TO MAKE MORE SPECIFIC ASSERTIONS
     # create an instance of the measure
     measure = UrbanGeometryCreation.new
 

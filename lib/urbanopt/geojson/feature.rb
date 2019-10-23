@@ -41,7 +41,6 @@ module URBANopt
       ##
       # Used to validate the feature using the validate_feat method.
       def initialize(feature)
-        # TODO: rename to validate_features (no reason to truncate)
         @feature_json = validate_feat(feature)
       end
 
@@ -170,7 +169,7 @@ module URBANopt
 
       ## 
       # Used to validate the feature by checking +feature_id+ , +geometry+, +properties+
-      # and +geometry_type+
+      # and +geometry_type+ .
 
       def validate_feat(feature) #:doc:
         if feature.nil? || feature.empty?

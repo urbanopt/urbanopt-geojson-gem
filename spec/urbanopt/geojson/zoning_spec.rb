@@ -75,9 +75,6 @@ RSpec.describe URBANopt::GeoJSON do
     other_buildings = feature.create_other_buildings('ShadingOnly', all_features.json, @model, @origin_lat_lon, @runner, true)
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
     expect(other_buildings.size).to eq 17
-
-    # feature_2 = URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
-    # expect(feature_2[0][]).to eq(feature.feature_json)
   end
 
   it 'creates a zoning floorprint from polygon' do
