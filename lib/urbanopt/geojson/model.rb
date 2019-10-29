@@ -112,12 +112,10 @@ module URBANopt
       # Returns instance of +OpenStudio::Model::SpaceType+.
       #
       # [Parameters]
-      # * +bldg_use+ - _Type:String_ - Indicating building use (TODO - UPDATE THIS)
-      # * +space_use+ - _Type:String_ - Indicating space use (TODO - UPDATE THIS)
+      # * +bldg_use+ - _Type:String_ - Indicates the building use. 
+      # * +space_use+ - _Type:String_ - Indicates the space use. 
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ . 
       def self.create_space_type(bldg_use, space_use, model)
-        # TODO - Is this method needed? create_space_types exists in helper.rb
-        # TODO -NOTE: update this return value once test is made more specific
         name = "#{bldg_use}:#{space_use}"
         model.getSpaceTypes.each do |s|
           if s.name.get == name

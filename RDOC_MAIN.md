@@ -7,6 +7,12 @@ The URBANopt GeoJSON Gem has been developed by restructuring methods extracted f
 and
 [urban_geometry_creation_zoning.](https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation_zoning)
 
+The +urban_geometry_creation+ measure can be used to create an OpenStudio Model for the
+building feature and create the surrounding buildings as shading objects. 
+
+The +urban_geometry_creation_zoning+ measure is under development and would be used for creating an OpenStudio
+Model with zoning in the future. 
+
 The main components of the gem are: 
 
 - geojson.rb : Base gem file that imports all modules and classes. 

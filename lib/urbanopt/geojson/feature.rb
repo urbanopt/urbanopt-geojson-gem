@@ -35,7 +35,6 @@ module URBANopt
     class Feature < URBANopt::Core::Feature
       attr_reader :feature_json
 
-
       @@feature_schema = {}
       @@schema_file_lock = Mutex.new
 
@@ -170,7 +169,7 @@ module URBANopt
 
       ## 
       # Used to validate the feature by checking +feature_id+ , +geometry+, +properties+
-      # and +geometry_type+
+      # and +geometry_type+ .
 
       def validate_feat(feature) #:doc:
         if feature.nil? || feature.empty?

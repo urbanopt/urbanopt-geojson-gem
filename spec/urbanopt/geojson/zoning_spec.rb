@@ -34,6 +34,8 @@ RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    @model = OpenStudio::Model::Model.new
+    @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
   end
 
   it 'divides floor print' do
@@ -65,32 +67,32 @@ RSpec.describe URBANopt::GeoJSON do
     expect(first_floor_points[0].class).to eq(OpenStudio::Point3d)
   end
 
-  # it 'gets first floor prints' do
-  #   # NOTE: MAKE THIS MORE SPECIFIC.
-  #   path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-  #   feature_id = 'Energy Systems Integration Facility'
-  #   feature = URBANopt::GeoJSON::GeoFile.new(path).get_feature_by_id(feature_id)
-  #   feature_2 = URBANopt::GeoJSON::Zoning.handle_surrounding_buildings(@runner, @origin_lat_lon, feature)
-  #   expect(feature_2[0][]).to eq(feature.feature_json)
-  # end
+  it 'gets other building spaces' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d2ee'
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_features.get_feature_by_id(feature_id)
+    other_buildings = feature.create_other_buildings('ShadingOnly', all_features.json, @model, @origin_lat_lon, @runner, true)
+    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
+    expect(other_buildings.size).to eq 17
+  end
 
-  # it 'creates a zoning floorprint from polygon' do
-  # # REVISIT: WHY ZONING SET TO TRUE
-  #   polygon = [
-  #     [1, 5],
-  #     [5, 5],
-  #     [5, 1],
-  #   ]
-  #   floorprint = @gem_instance.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, true)
-  #   vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
-  #   vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
-  #   vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
-  #   vertexes = [vertex1, vertex2, vertex3]
-  #   vertexes.each_with_index {
-  #     |vertex, idx|
-  #     expect(floorprint[idx].x).to eq(vertex.x)
-  #     expect(floorprint[idx].y).to eq(vertex.y)
-  #     expect(floorprint[idx].z).to eq(vertex.z)
-  #   }
-  # end
+  it 'creates a zoning floorprint from polygon' do
+    polygon = [
+      [1, 5],
+      [5, 5],
+      [5, 1],
+    ]
+    floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, true)
+    vertex1 = OpenStudio::Point3d.new(555807.1692993665, 110568.77482456664, 0)
+    vertex2 = OpenStudio::Point3d.new(110893.07603825576, 552183.9600277696, 0)
+    vertex3 = OpenStudio::Point3d.new(553790.0141403697, 552183.9600277696, 0)
+    vertexes = [vertex1, vertex2, vertex3]
+    vertexes.each_with_index {
+      |vertex, idx|
+      expect(floorprint[idx].x).to eq(vertex.x)
+      expect(floorprint[idx].y).to eq(vertex.y)
+      expect(floorprint[idx].z).to eq(vertex.z)
+    }
+  end
 end

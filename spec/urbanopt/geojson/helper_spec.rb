@@ -67,7 +67,6 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates a space types' do
-    # TODO: update tests when you figure out what stories are
     stories = [OpenStudio::Model::BuildingStory.new(@model)]
     space_type = URBANopt::GeoJSON::Helper.create_space_types(stories, @model, @runner)
     expect(space_type[0].class).to eq(OpenStudio::Model::SpaceType)

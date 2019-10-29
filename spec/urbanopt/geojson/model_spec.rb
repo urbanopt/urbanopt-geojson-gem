@@ -43,13 +43,11 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'changes adjacent surfaces to adiabatic' do
-    # TODO: make this test more specific
     adiabatic = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(@model, @runner)
     expect(adiabatic.class).to eq(OpenStudio::Model::Model)
   end
 
   it 'transfers previous model data' do
-    # TODO: make this test more specific
     space_types = [OpenStudio::Model::SpaceType.new(@model)]
     OpenStudio::Model::BuildingStory.new(@model)
     stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(@model, space_types)
@@ -57,7 +55,6 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates space types' do
-    # TODO: make this test more specific
     space_types = URBANopt::GeoJSON::Model.create_space_type('Office', 'Office', @model)
     expect(space_types.class).to eq(OpenStudio::Model::SpaceType)
   end
