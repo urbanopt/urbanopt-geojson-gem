@@ -28,12 +28,12 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
-    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d32e'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -42,32 +42,15 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates minimum longitute and latitude given a polygon' do
     min_lon_and_lat = @feature.get_min_lon_lat
-    expect(min_lon_and_lat).to eq([-105.1712420582771, 39.74180514934022])
+    expect(min_lon_and_lat).to eq([-105.17263278365134, 39.74200726814212])
   end
-
-  # -  it 'creates minimum longitute and latitude given a polygon' do
-  # -    polygon = {
-  # -      'geometry': {
-  # -        'type': 'Polygon',
-  # -        'coordinates': [
-  # -          [
-  # -            [1, 5],
-  # -            [5, 5],
-  # -            [5, 1],
-  # -          ]
-  # -        ]
-  # -      }
-  # -    }
-  # -    min_lon_and_lat = @gem_instance.get_min_lon_lat(polygon)
-  # -    expect(min_lon_and_lat).to eq([1, 1])
-  # -  end
 
   it 'creates a multi polygon out of a polygon' do
     multi_polygon = @feature.get_multi_polygons
 
-    expect(multi_polygon[0][0][0]).to eq([-105.1712420582771, 39.743195219730666])
-    expect(multi_polygon[0][0].length).to eq(23)
-    expect(multi_polygon[0][0][22]).to eq([-105.1712420582771, 39.743195219730666])
+    expect(multi_polygon[0][0][0]).to eq([-105.17262205481528, 39.74200726814212])
+    expect(multi_polygon[0][0].length).to eq(5)
+    expect(multi_polygon[0][0][3]).to eq([-105.17263278365134, 39.7420423295066])
     expect(multi_polygon.class).to eq(Array)
   end
 
@@ -77,67 +60,4 @@ RSpec.describe URBANopt::GeoJSON do
     expect(origin_lat_lon.class).to eq(OpenStudio::PointLatLon)
   end
 
-  #   -  it 'creates a multi polygon out of a polygon' do
-  # -    polygon = {
-  # -      'geometry': {
-  # -        'type': 'Polygon',
-  # -        'coordinates': [
-  # -          [
-  # -            [0, 5],
-  # -            [5, 5],
-  # -            [5, 0],
-  # -          ]
-  # -        ]
-  # -      }
-  # -    }
-  # -    multi_polygon = URBANopt::GeoJSON::Helper.get_multi_polygons(polygon)
-  # -    expect(multi_polygon).to eq([
-  # -      [
-  # -        [
-  # -          [0, 5],
-  # -          [5, 5],
-  # -          [5, 0],
-  # -        ]
-  # -      ]
-  # -    ])
-  # -    expect(multi_polygon.class()).to eq(Array)
-  # -  end
-
-  # -  it 'extracts coordinates from multipolygon' do
-  # -    multipolygon = {
-  # -      'geometry': {
-  # -        'type': 'MultiPolygon',
-  # -        'coordinates': [
-  # -          [
-  # -            [
-  # -              [0, 5],
-  # -              [5, 5],
-  # -              [5, 0],
-  # -            ]
-  # -          ]
-  # -        ]
-  # -      }
-  # -    }
-  # -    coordinates = @gem_instance.get_multi_polygons(multipolygon)
-  # -    expect(coordinates).to eq([
-  # -      [
-  # -        [
-  # -          [0, 5],
-  # -          [5, 5],
-  # -          [5, 0],
-  # -        ]
-  # -      ]
-  # -    ])
-  # -  end
-
-  # -  it 'returns nil when given a point' do
-  # -    point = {
-  # -      'geometry': {
-  # -        'type': 'Point',
-  # -        'coordinates': [0, 5],
-  # -      }
-  # -    }
-  # -    coordinates = @gem_instance.get_multi_polygons(point)
-  # -    expect(coordinates).to eq(nil)
-  # -  end
 end

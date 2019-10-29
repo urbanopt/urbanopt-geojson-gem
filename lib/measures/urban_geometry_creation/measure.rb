@@ -31,7 +31,6 @@
 require 'json'
 require 'net/http'
 require 'uri'
-require 'openssl'
 require 'urbanopt/geojson'
 
 # start the measure
@@ -50,7 +49,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
   # human readable description of modeling approach
   def modeler_description
-    return ''
+    return 'This measure takes in the GeoJSON file, the feature_id of the building and the surrounding buildings as arguments and add has methods to create space types and add default construction sets.'
   end
 
   def arguments(model)
@@ -70,6 +69,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     chs << 'None'
     chs << 'ShadingOnly'
     chs << 'All'
+    # Note: Only ShadingOnly is implemented at the moment
     surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
     surrounding_buildings.setDisplayName('Surrounding Buildings')
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')
@@ -91,9 +91,6 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     feature_id = runner.getStringArgumentValue('feature_id', user_arguments)
     surrounding_buildings = runner.getStringArgumentValue('surrounding_buildings', user_arguments)
 
-    # pull information from the previous model
-    # model.save('initial.osm', true)
-
     default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
 
     stories = []
@@ -112,22 +109,26 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     @runner = runner
     @origin_lat_lon = nil
 
-    feature = URBANopt::GeoJSON::GeoFile.from_file(geojson_file).get_feature_by_id(feature_id)
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(geojson_file)
+    feature = all_features.get_feature_by_id(feature_id)
 
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
     model.getBuilding.setName(name)
 
+    # find min and max x coordinate
     @origin_lat_lon = feature.create_origin_lat_lon(@runner)
 
     site = model.getSite
     site.setLatitude(@origin_lat_lon.lat)
     site.setLongitude(@origin_lat_lon.lon)
 
-    if feature.surface_elevation
+    begin
       surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio.convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
+    rescue
+      @runner.registerWarning("Surface elevation not set for building '#{name}'")
     end
 
     if feature.type == 'Building'
@@ -146,10 +147,8 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
       # make other buildings to convert to shading
       convert_to_shades = []
-      if surrounding_buildings == 'None'
-        # no-op
-      else
-        convert_to_shades = feature.create_other_buildings(surrounding_buildings, model, @origin_lat_lon, @runner)
+      if surrounding_buildings == 'ShadingOnly'
+        convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
 
       # intersect surfaces in this building with others

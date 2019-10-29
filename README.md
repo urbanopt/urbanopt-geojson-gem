@@ -20,9 +20,16 @@ Or install it yourself as:
 
 ## Usage
 
-To be filled out later. 
+The URBANopt GeoJSON Gem is an OpenStudio Extension Gem with functionality to translate
+information in a GeoJSON format to energy model inputs. GeoJSON is a commonly used format
+for describing geospatial data related to the built environment.
 
-## TODO
+The current functionalities of the URBANopt GeoJSON gem include:
+
+* Validate a GeoJSON file
+* Calculate available roof area for photovoltaics.
+* Translate Building Feature to an OpenStudio Model.
+* Translate Building Feature to OpenStudio Shading Objects.
 
 # Releasing
 

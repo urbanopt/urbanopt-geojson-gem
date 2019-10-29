@@ -28,28 +28,10 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require 'urbanopt/geojson/feature'
+require_relative '../../spec_helper'
 
-module URBANopt
-  module GeoJSON # :nodoc: all
-    class DistrictSystem < Feature
-
-      def initialize(feature)
-        super(feature)
-      end
-
-      ##
-      # Used to describe the feature type using the base method from the Feature class. 
-      def feature_type
-        'District System'
-      end     
-
-      ##
-      # Returns the district system properties schema.
-      def schema_file
-        return File.join(File.dirname(__FILE__), 'schema', 'district_system_properties.json')
-      end
-      
-    end
+RSpec.describe URBANopt::GeoJSON do
+  it 'has a version number' do
+    expect(URBANopt::GeoJSON::VERSION).not_to be nil
   end
 end

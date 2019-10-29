@@ -6,8 +6,8 @@ require 'urbanopt/geojson/version'
 Gem::Specification.new do |spec|
   spec.name          = 'urbanopt-geojson'
   spec.version       = URBANopt::GeoJSON::VERSION
-  spec.authors       = ['Dan Macumber']
-  spec.email         = ['daniel.macumber@nrel.gov']
+  spec.authors       = ['Tanushree Charan', 'Nicholas Long', 'Dan Macumber']
+  spec.email         = ['tanushree.charan@nrel.gov', 'nicholas.long@nrel.gov', 'daniel.macumber@nrel.gov']
 
   spec.summary       = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
   spec.description   = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
@@ -29,7 +29,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '12.3.1'
   spec.add_development_dependency 'rspec', '3.7.0'
 
+  # lock the version of these dependencies due to using older version of Ruby.
+  spec.add_dependency 'public_suffix', '3.1.1'
+
+  # other dependencies
   spec.add_dependency 'json-schema'
-  spec.add_dependency 'openstudio-extension', '~> 0.1.0'
-  spec.add_dependency 'urbanopt-core', '~> 0.0.1'
+  spec.add_dependency 'openstudio-extension', '~> 0.1.3'
+  spec.add_dependency 'urbanopt-core', '~> 0.1.0'
 end
