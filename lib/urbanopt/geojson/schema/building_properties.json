@@ -193,11 +193,13 @@
     }
   },
   "required": [
+    "id",
     "type",
+    "name",
     "floor_area",
     "number_of_stories",
-    "building_type",
-    "system_type"
+    "footprint_area",
+    "building_type"
   ],
   "additionalProperties": false,
   "definitions": {

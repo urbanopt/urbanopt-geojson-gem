@@ -30,6 +30,8 @@
 
 require 'urbanopt/geojson/feature'
 require 'urbanopt/geojson/building'
+require 'urbanopt/geojson/region'
+require 'urbanopt/geojson/district_system'
 require 'urbanopt/geojson/geo_file'
 require 'urbanopt/geojson/helper'
 require 'urbanopt/geojson/model'

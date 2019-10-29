@@ -28,12 +28,12 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
-    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d2ee'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -47,25 +47,26 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'creates shading surfaces' do
-    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
-    feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
-    spaces = feature.create_other_buildings('ShadingOnly', @model, @origin_lat_lon, @runner)
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d2ee'
+    all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_buildings.get_feature_by_id(feature_id)
+    expect(feature.class).to eq(URBANopt::GeoJSON::Building)
+    spaces = feature.create_other_buildings('ShadingOnly', all_buildings.json, @model, @origin_lat_lon, @runner)
     surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
+    expect(spaces.size).to eq(17)
     expect(surfaces[0].class).to eq(OpenStudio::Model::ShadingSurface)
   end
 
   it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
-    path = File.join(File.dirname(__FILE__), '..', '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = 'Energy Systems Integration Facility'
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d2ee'
     feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
     photovoltaics = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, @model, @origin_lat_lon, @runner)
-    # TODO: make this test more specific
     expect(photovoltaics[0].class).to eq(OpenStudio::Model::ShadingSurface)
   end
 
   it 'creates a space types' do
-    # TODO: update tests when you figure out what stories are
     stories = [OpenStudio::Model::BuildingStory.new(@model)]
     space_type = URBANopt::GeoJSON::Helper.create_space_types(stories, @model, @runner)
     expect(space_type[0].class).to eq(OpenStudio::Model::SpaceType)

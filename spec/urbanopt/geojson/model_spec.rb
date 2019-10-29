@@ -28,35 +28,34 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 
-RSpec.describe URBANopt::GeoJSON::GeoFile do
+RSpec.describe URBANopt::GeoJSON do
   before(:each) do
-    @spec_files_dir = File.join(File.dirname(__FILE__), '..', '..', '..', 'files')
+    @model = OpenStudio::Model::Model.new
+    @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
   end
 
-  it 'gets feature, given a feature_id' do
-    geofile = URBANopt::GeoJSON::GeoFile.from_file(
-      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
-    )
-
-    feature = geofile.get_feature_by_id('Thermal Test Facility')
-    expect(feature.feature_json[:type]).to eq('Feature')
-    expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
+  it 'creates a default construction set' do
+    default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(@model, @runner)
+    expect(default_construction_set.class).to eq(OpenStudio::Model::DefaultConstructionSet)
   end
 
-  it 'validates correct geojson files' do
-    geofile = URBANopt::GeoJSON::GeoFile.from_file(
-      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
-    )
-    expect(geofile.valid?).to be_truthy
+  it 'changes adjacent surfaces to adiabatic' do
+    adiabatic = URBANopt::GeoJSON::Model.change_adjacent_surfaces_to_adiabatic(@model, @runner)
+    expect(adiabatic.class).to eq(OpenStudio::Model::Model)
   end
 
-  it 'complains about invalid geojson' do
-    expect do
-      URBANopt::GeoJSON::GeoFile.from_file(
-        File.join(@spec_files_dir, 'invalid.geojson')
-      )
-    end .to raise_error('GeoJSON file does not adhere to schema')
+  it 'transfers previous model data' do
+    space_types = [OpenStudio::Model::SpaceType.new(@model)]
+    OpenStudio::Model::BuildingStory.new(@model)
+    stories = URBANopt::GeoJSON::Model.transfer_prev_model_data(@model, space_types)
+    expect(stories[0].class).to eq(OpenStudio::Model::BuildingStory)
+  end
+
+  it 'creates space types' do
+    space_types = URBANopt::GeoJSON::Model.create_space_type('Office', 'Office', @model)
+    expect(space_types.class).to eq(OpenStudio::Model::SpaceType)
   end
 end

@@ -34,40 +34,45 @@ require 'json'
 module URBANopt
     module GeoJSON
         class Mapper < MapperBase
-            # class level variables
             @@instance_lock = Mutex.new
             @@osw = nil
 
-            def initialize()
+            ##
+            # This class inherits from the +MapperBase+ . 
+            # Used to perform initializing functions, used to define the osw_path for
+            # baseline.osw for the URBANopt GeoJSON example project and the weather file. 
 
-                # do initialization of class variables in thread safe way
+            def initialize()
                 @@instance_lock.synchronize do
                 if @@osw.nil?
-
-                    # load the OSW for this class
                     osw_path = File.join(File.dirname(__FILE__), 'baseline.osw')
                     File.open(osw_path, 'r') do |file|
                     @@osw = JSON.parse(file.read, symbolize_names: true)
                     end
-
-                    # add any paths local to the project
                     @@osw[:file_paths] << File.join(File.dirname(__FILE__), '../weather/')
-
-                    # configures OSW with extension gem paths for measures and files, all extension gems must be
-                    # required before this
                     @@osw = OpenStudio::Extension.configure_osw(@@osw)
                 end
             end
 
-            def create_osw(scenario, feature_id, feature_name)
+            ##
+            # Creates an OpenStudio Workflow file for a given ScenarioBase object,
+            # feature id and feature name.
+            #
+            # [Parameters]
+            # * +scenario+ - _Type:String_ - Used to define the Scenario for the osw. 
 
-                # get the feature from the scenario's feature_file
+            # * +feature_id+ - _Type:String/Number_ - Used to define the feature_id for
+            #   which the osw is implemented.
+            # 
+            # * +feature_name+ - _Type:String_ - The name of the feature. 
+            def create_osw(scenario, feature_id, feature_name)
+                # get the feature from the scenario's feature_file #:nodoc:
                 feature_file = scenario.feature_file
                 feature = feature_file.get_feature_by_id(feature_id)
 
                 raise "Cannot find feature '#{feature_id}' in '#{scenario.geometry_file}'" if feature.nil?
 
-                # deep clone of @@osw before we configure it
+                # deep clone of @@osw before we configure it #:nodoc:
                 osw = Marshal.load(Marshal.dump(@@osw))
 
                 osw[:name] = feature_name

@@ -28,10 +28,35 @@
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
 
-require_relative '../../../spec_helper'
+require_relative '../../spec_helper'
 
-RSpec.describe URBANopt::GeoJSON do
-  it 'has a version number' do
-    expect(URBANopt::GeoJSON::VERSION).not_to be nil
+RSpec.describe URBANopt::GeoJSON::GeoFile do
+  before(:each) do
+    @spec_files_dir = File.join(File.dirname(__FILE__), '..', '..', 'files')
+  end
+
+  it 'gets feature, given a feature_id' do
+    geofile = URBANopt::GeoJSON::GeoFile.from_file(
+      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
+    )
+
+    feature = geofile.get_feature_by_id('59a9ce2b42f7d007c059d306')
+    expect(feature.feature_json[:type]).to eq('Feature')
+    expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
+  end
+
+  it 'validates correct geojson files' do
+    geofile = URBANopt::GeoJSON::GeoFile.from_file(
+      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
+    )
+    expect(geofile.valid?).to be_truthy
+  end
+
+  it 'complains about invalid geojson' do
+    expect do
+      URBANopt::GeoJSON::GeoFile.from_file(
+        File.join(@spec_files_dir, 'invalid.geojson')
+      )
+    end .to raise_error('GeoJSON file does not adhere to schema')
   end
 end

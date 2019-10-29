@@ -42,8 +42,11 @@ module URBANopt
       @@schema_file_lock = Mutex.new
 
       ##
-      # [Params]
-      # * +data+ a hash containing the geojson
+      # Raises an error in case the GeoJSON file is not valid. 
+      #
+      # [Parameters]
+      #
+      # * +data+ - _Type:Hash_ Contains the GeoJSON.
       def initialize(data, path = nil)
         @path = path
         @geojson = data
@@ -52,10 +55,12 @@ module URBANopt
         end
       end
 
-      ##
 
-      # [Params]
+      ##
+      # [Parameters]
       #
+      # Used to check the GeoJSON file path.
+      # * +path+ - _Type:String_ - GeoJSON file path. 
       def self.from_file(path)
         if path.nil? || path.empty?
           raise "GeoJSON file '#{path}' could not be found"
@@ -81,23 +86,34 @@ module URBANopt
       end
       
       ##
-      # Returns all feature objects from specified geoJSON file
+      # This method loops through all the features in the GeoJSON file, creates new
+      # Buildings or District Systems based on the feature type, and returns the features.
       #
       def features
-        return [] # TODO: implement me
+        result = []
+        @geojson[:features].each do |f|
+          if f[:properties] && f[:properties][:type] == 'Building'
+            result << URBANopt::GeoJSON::Building.new(f)
+          elsif f[:properties] && f[:properties][:type] == 'District System'
+            result << URBANopt::GeoJSON::DistrictSystem.new(f)
+          end
+        end
+        return result
       end
 
       ##
-      # Returns feature object from specified geoJSON file
+      # Returns feature object by feature_id from specified GeoJSON file and creates a
+      # new +URBANopt::GeoJSON::Building+ or +URBANopt::GeoJSON::DistrictSystem+ based on the
+      # feature type.
       #
-      # [Params]
-      # * +feature_id+ id affiliated with feature object
+      # [Parameters]
+      # * +feature_id+ - _Type:String/Number_ - Id affiliated with feature object.
       def get_feature_by_id(feature_id)
         @geojson[:features].each do |f|
           if f[:properties] && f[:properties][:id] == feature_id
             if f[:properties][:type] == 'Building'
               return URBANopt::GeoJSON::Building.new(f)
-            else
+            elsif f[:properties] && f[:properties][:type] == 'District System'
               return URBANopt::GeoJSON::DistrictSystem.new(f)
             end
           end
@@ -105,10 +121,14 @@ module URBANopt
         return nil
       end
 
+      ##
+      # Returns the file path for the +geojson_schema.json+ . 
       def schema_file
         return File.join(File.dirname(__FILE__), 'schema', 'geojson_schema.json')
       end
 
+      ##
+      # Returns the +geojson_schema+ .
       def schema
         if @@geojson_schema.nil?
           @@schema_file_lock.synchronize do
@@ -121,13 +141,18 @@ module URBANopt
         return @@geojson_schema
       end
 
+      ##
+      # Validates the GeoJSON file against the schema. 
       def valid?
         return JSON::Validator.validate(schema, @geojson)
       end
 
+      ##
+      # Returns detailed validation results. 
       def validation_errors
         return JSON::Validator.fully_validate(schema, @geojson)
       end
+
     end
   end
 end

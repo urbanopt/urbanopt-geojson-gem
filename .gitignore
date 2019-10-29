@@ -12,7 +12,7 @@
 /test/
 /lib/measures/test_results
 /lib/measures/*/tests/output
-
+out.txt
 .rubocop*s3*
 
 # rspec failure tracking
