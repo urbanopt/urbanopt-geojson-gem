@@ -6,8 +6,8 @@ require 'urbanopt/geojson/version'
 Gem::Specification.new do |spec|
   spec.name          = 'urbanopt-geojson'
   spec.version       = URBANopt::GeoJSON::VERSION
-  spec.authors       = ['Dan Macumber']
-  spec.email         = ['daniel.macumber@nrel.gov']
+  spec.authors       = ['Tanushree Charan', 'Nicholas Long', 'Dan Macumber']
+  spec.email         = ['tanushree.charan@nrel.gov', 'nicholas.long@nrel.gov', 'daniel.macumber@nrel.gov']
 
   spec.summary       = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
   spec.description   = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
