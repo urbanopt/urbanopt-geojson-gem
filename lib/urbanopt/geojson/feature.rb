@@ -53,41 +53,40 @@ module URBANopt
       end
 
       ##
-      # Returns the id of the feature. 
+      # Returns the id of the feature.
 
       def id
         return @feature_json[:properties][:id]
       end
 
       ##
-      # Returns the name of the feature.    
+      # Returns the name of the feature.
 
       def name
         return @feature_json[:properties][:name]
       end
 
       ##
-      # Raises an error if the +feature_type+ is not specified the the Feature's class.  
+      # Raises an error if the +feature_type+ is not specified the the Feature's class.
 
       def feature_type
         raise 'feature_type not implemented for Feature, override in your class'
       end
-      
+
       ##
-      # Raises an error if the +schema_file+ is not specified the the Feature's class.  
-    
+      # Raises an error if the +schema_file+ is not specified the the Feature's class.
+
       def schema_file
         raise 'schema_file not implemented for Feature, override in your class'
       end
-      
 
       def schema
         if @@feature_schema[feature_type].nil?
           @@schema_file_lock.synchronize do
             File.open(schema_file, 'r') do |file|
               @@feature_schema[feature_type] = JSON.parse(file.read, symbolize_names: true)
-              
-              #Allows additional properties.
+
+              # Allows additional properties.
               @@feature_schema[feature_type][:additionalProperties] = true
             end
           end
@@ -95,7 +94,7 @@ module URBANopt
 
         return @@feature_schema[feature_type]
       end
-      
+
       ##
       # Returns coordinate with the minimum longitute and latitude within a given +building_json+ .
       def get_min_lon_lat
@@ -119,7 +118,7 @@ module URBANopt
       # [Parameters]
       # +json+
       #
-      # For example: 
+      # For example:
       #
       #  polygon = {
       #     'geometry': {
@@ -167,7 +166,7 @@ module URBANopt
 
       private
 
-      ## 
+      ##
       # Used to validate the feature by checking +feature_id+ , +geometry+, +properties+
       # and +geometry_type+ .
 
@@ -186,7 +185,7 @@ module URBANopt
           raise("No properties found in '#{feature}'")
           return false
         end
-        
+
         errors = JSON::Validator.fully_validate(schema, feature[:properties])
         if !errors.empty?
           raise("Invalid properties for '#{feature}'\n  #{errors.join('\n  ')}")

@@ -53,7 +53,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(building.length).to eq(1)
     expect(@building.number_of_stories).to eq(2)
   end
-  
+
   it 'creates zoning building' do
     building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
@@ -76,7 +76,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(windows.size).to eq(4)
     spaces.each do |space|
       space.surfaces.each do |surface|
-        if surface.surfaceType == "Wall" && surface.outsideBoundaryCondition == "Outdoors"
+        if surface.surfaceType == 'Wall' && surface.outsideBoundaryCondition == 'Outdoors'
           expect(surface.windowToWallRatio).to be > 0
         end
       end

@@ -59,5 +59,4 @@ RSpec.describe URBANopt::GeoJSON do
 
     expect(origin_lat_lon.class).to eq(OpenStudio::PointLatLon)
   end
-
 end

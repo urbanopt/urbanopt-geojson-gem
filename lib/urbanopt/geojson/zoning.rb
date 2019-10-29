@@ -31,7 +31,6 @@
 module URBANopt
   module GeoJSON
     module Zoning
-
       ##
       # This method divides the floor print using perimeter and core zoning at
       # the depth of the +perimeter_depth+.
@@ -39,8 +38,8 @@ module URBANopt
       # It returns an Array of Arrays containing instances of +OpenStudio::Point3d+ .
       #
       # [Parameters]
-      # * +floor_print+ - _Type:Array_ - An instance of +OpenStudio::Point3dVector.new+ . 
-      # * +perimeter_depth+ - _Type:Float_ - Represents perimeter depth. 
+      # * +floor_print+ - _Type:Array_ - An instance of +OpenStudio::Point3dVector.new+ .
+      # * +perimeter_depth+ - _Type:Float_ - Represents perimeter depth.
       # * +runner+ - _Type:String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
       def self.divide_floor_print(floor_print, perimeter_depth, runner)
         result = []
@@ -53,11 +52,11 @@ module URBANopt
           vertex_1 = nil
           vertex_2 = nil
           vertex_3 = nil
-          if (i == 0)
+          if i == 0
             vertex_1 = vertices[n - 1]
             vertex_2 = vertices[i]
             vertex_3 = vertices[i + 1]
-          elsif (i == (n - 1))
+          elsif i == (n - 1)
             vertex_1 = vertices[i - 1]
             vertex_2 = vertices[i]
             vertex_3 = vertices[0]
@@ -75,22 +74,22 @@ module URBANopt
           new_point = vertices[i] + vector
           new_vertices << new_point
         end
-        normal = OpenStudio::getOutwardNormal(new_vertices)
+        normal = OpenStudio.getOutwardNormal(new_vertices)
         if normal.empty? || normal.get.z < 0
-          runner.registerWarning("Wrong direction for resulting normal, will not divide")
+          runner.registerWarning('Wrong direction for resulting normal, will not divide')
           return [floor_print]
         end
-        self_intersects = OpenStudio::selfIntersects(OpenStudio::reverse(new_vertices), 0.01)
-        if OpenStudio::VersionString.new(OpenStudio::openStudioVersion()) < OpenStudio::VersionString.new("1.12.4")
+        self_intersects = OpenStudio.selfIntersects(OpenStudio.reverse(new_vertices), 0.01)
+        if OpenStudio::VersionString.new(OpenStudio.openStudioVersion) < OpenStudio::VersionString.new('1.12.4')
           self_intersects = !self_intersects
         end
         if self_intersects
-          runner.registerWarning("Self intersecting surface result, will not divide")
+          runner.registerWarning('Self intersecting surface result, will not divide')
         end
         result << t_inv * new_vertices
         (0...n).each do |i|
           perim_vertices = OpenStudio::Point3dVector.new
-          if (i == (n - 1))
+          if i == (n - 1)
             perim_vertices << vertices[i]
             perim_vertices << vertices[0]
             perim_vertices << new_vertices[0]
@@ -112,7 +111,7 @@ module URBANopt
       # It returns an Array containing instances of +OpenStudio::Point3d+.
       #
       # [Parameters]
-      # * +multi_polygons+ - _Type-Array_ - Coordinate pairs in double nested +Array+ . 
+      # * +multi_polygons+ - _Type-Array_ - Coordinate pairs in double nested +Array+ .
       # * +origin_lat_lon+ - _Type-Float_ - An instance of +OpenStudio::PointLatLon+ indicating origin
       #   latitude and longitude.
       # * +runner+ - _Type-String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .

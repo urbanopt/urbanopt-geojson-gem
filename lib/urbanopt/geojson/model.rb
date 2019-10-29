@@ -32,11 +32,11 @@ module URBANopt
   module GeoJSON
     module Model
       ##
-      # Used to add construction to the model. This method uses the default construction 
+      # Used to add construction to the model. This method uses the default construction
       # to the building, or creates a new+OpenStudio::Model::DefaultConstructionSet+ if no
-      # construction set is assigned. 
+      # construction set is assigned.
       #
-      # Returns an instance of +OpenStudio::Model::DefaultConstructionSet+ . 
+      # Returns an instance of +OpenStudio::Model::DefaultConstructionSet+ .
       #
       # [Parameters]
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
@@ -58,7 +58,7 @@ module URBANopt
       # condition to these surfaces as  Adiabatic and hard assigns the construction.
       #
       # Returns an instance of +OpenStudio::Model::Model+ with surfaces changed to
-      # adiabatic. 
+      # adiabatic.
       #
       # [Parameters]
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
@@ -112,9 +112,9 @@ module URBANopt
       # Returns instance of +OpenStudio::Model::SpaceType+.
       #
       # [Parameters]
-      # * +bldg_use+ - _Type:String_ - Indicates the building use. 
-      # * +space_use+ - _Type:String_ - Indicates the space use. 
-      # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ . 
+      # * +bldg_use+ - _Type:String_ - Indicates the building use.
+      # * +space_use+ - _Type:String_ - Indicates the space use.
+      # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
       def self.create_space_type(bldg_use, space_use, model)
         name = "#{bldg_use}:#{space_use}"
         model.getSpaceTypes.each do |s|

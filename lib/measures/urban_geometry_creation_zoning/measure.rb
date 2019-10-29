@@ -131,7 +131,7 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
       surface_elevation = feature.surface_elevation.to_f
       surface_elevation = OpenStudio.convert(surface_elevation, 'ft', 'm').get
       site.setElevation(surface_elevation)
-    rescue
+    rescue StandardError
       @runner.registerWarning("Surface elevation not set for building '#{name}'")
     end
 

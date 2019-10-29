@@ -34,13 +34,11 @@ require 'openstudio/extension'
 module URBANopt
   module GeoJSON
     class Extension < OpenStudio::Extension::Extension
-     
-     
       def initialize # :nodoc:
         @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
       end
 
-      ## 
+      ##
       # Returns the absolute path of the measures or returns nil, in case no measures are
       # added. It can be used while configuring OSWs.
       def measures_dir
@@ -56,7 +54,7 @@ module URBANopt
 
       # The directory containing common files like copyright and license notices which are used to update measures and other code.
       # This method will only be applied to measures in the current repository and
-      # returns the absolute path of the +doc_templates_dir+ or nil if there is none. 
+      # returns the absolute path of the +doc_templates_dir+ or nil if there is none.
       def doc_templates_dir
         return File.absolute_path(File.join(@root_dir, 'doc_templates'))
       end

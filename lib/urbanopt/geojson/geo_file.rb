@@ -42,7 +42,7 @@ module URBANopt
       @@schema_file_lock = Mutex.new
 
       ##
-      # Raises an error in case the GeoJSON file is not valid. 
+      # Raises an error in case the GeoJSON file is not valid.
       #
       # [Parameters]
       #
@@ -55,12 +55,11 @@ module URBANopt
         end
       end
 
-
       ##
       # [Parameters]
       #
       # Used to check the GeoJSON file path.
-      # * +path+ - _Type:String_ - GeoJSON file path. 
+      # * +path+ - _Type:String_ - GeoJSON file path.
       def self.from_file(path)
         if path.nil? || path.empty?
           raise "GeoJSON file '#{path}' could not be found"
@@ -81,10 +80,8 @@ module URBANopt
         @geojson
       end
 
-      def path
-        @path
-      end
-      
+      attr_reader :path
+
       ##
       # This method loops through all the features in the GeoJSON file, creates new
       # Buildings or District Systems based on the feature type, and returns the features.
@@ -122,7 +119,7 @@ module URBANopt
       end
 
       ##
-      # Returns the file path for the +geojson_schema.json+ . 
+      # Returns the file path for the +geojson_schema.json+ .
       def schema_file
         return File.join(File.dirname(__FILE__), 'schema', 'geojson_schema.json')
       end
@@ -142,17 +139,16 @@ module URBANopt
       end
 
       ##
-      # Validates the GeoJSON file against the schema. 
+      # Validates the GeoJSON file against the schema.
       def valid?
         return JSON::Validator.validate(schema, @geojson)
       end
 
       ##
-      # Returns detailed validation results. 
+      # Returns detailed validation results.
       def validation_errors
         return JSON::Validator.fully_validate(schema, @geojson)
       end
-
     end
   end
 end

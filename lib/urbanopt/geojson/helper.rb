@@ -34,7 +34,7 @@ module URBANopt
       ##
       # This method loops though all the surfaces of the space and creates shading
       # surfaces. It also removes the thermal zone and space type assigned to the space,
-      # if any. 
+      # if any.
       #
       # Returns an Array of instances of +OpenStudio::Model::ShadingSurfaceGroup+ .
       #
@@ -72,7 +72,7 @@ module URBANopt
       # * +height+ - _Type:Integer_ - Indicates the building height.
       # * +model+ - _Type:String_ - An instance of +OpenStudio::Model::Model+ .
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the
-      #   origin's latitude & longitude. 
+      #   origin's latitude & longitude.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       def self.create_photovoltaics(feature, height, model, origin_lat_lon, runner)
         feature_id = feature.feature_json[:properties][:properties]
@@ -104,7 +104,7 @@ module URBANopt
         # create the inverter # :nodoc:
         inverter = OpenStudio::Model::ElectricLoadCenterInverterSimple.new(model)
         inverter.setInverterEfficiency(0.95)
-        # create the distribution system # :nodoc: 
+        # create the distribution system # :nodoc:
         elcd = OpenStudio::Model::ElectricLoadCenterDistribution.new(model)
         elcd.setInverter(inverter)
         shading_surfaces.each do |shading_surface|
@@ -122,10 +122,10 @@ module URBANopt
       # Returns array containing instance of +OpenStudio::Model::ShadingSurface+ .
       #
       # [Parameters]
-      # * +feature+ - _Type:String_ - An instance of Feature class. 
+      # * +feature+ - _Type:String_ - An instance of Feature class.
       # * +model+ - _Type:String_ - An instance of _OpenStudio::Model::Model_ .
       # * +origin_lat_lon+ - _Type:Float_ - An instance of _OpenStudio::PointLatLon_ indicating the
-      #   origin's latitude and longitude. 
+      #   origin's latitude and longitude.
       # * +runner+ - _Type:String_ - The measure run's instance of _OpenStudio::Measure::OSRunner_ .
       # * +spaces+ -_Type:Array_ - Instances of _OpenStudio::Model::Space_ .
       def self.create_shading_surfaces(feature, model, origin_lat_lon, runner, spaces)
@@ -140,14 +140,14 @@ module URBANopt
       ##
       # This method loops through all the stories in the model, and returns any space
       # types previously assigned.
-      # 
+      #
       # Returns array of +OpenStudio::Model::SpaceTypes+ .
-      # 
+      #
       # Used to create space types for each building story.
       #
       # [Parameters]
-      # * +stories+ - _Type:Array_ - An array of model/building stories. 
-      # * +model+ - _Type:String_ - An instance of _OpenStudio::Model::Model_ . 
+      # * +stories+ - _Type:Array_ - An array of model/building stories.
+      # * +model+ - _Type:String_ - An instance of _OpenStudio::Model::Model_ .
       # * +runner+ - _Type:String_ - The measure run's instance of _OpenStudio::Measure::OSRunner_ .
       def self.create_space_types(stories, model, runner)
         space_types = []
@@ -166,9 +166,9 @@ module URBANopt
       end
 
       ##
-      # Returns an +OpenStudio::Point3dVector+ . 
+      # Returns an +OpenStudio::Point3dVector+ .
       #
-      # Creates the floor print for a given polygon. 
+      # Creates the floor print for a given polygon.
       #
       # [Parameters]
       # * +polygon+ - _Type:Array_ - An array of coordinate pairs.
@@ -224,7 +224,7 @@ module URBANopt
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
       #   +false+. Zoning is set to false by default. Currently, zoning set to +false+ is
       #   only supported.
-      def self.process_other_buildings(building, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning=false)
+      def self.process_other_buildings(building, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning = false)
         # Empty array to store the new OpenStudio model spaces that need to be converted to shading objects
         feature_points = building.feature_points(origin_lat_lon, runner, zoning)
 
@@ -233,9 +233,9 @@ module URBANopt
         other_buildings[:features].each do |other_building|
           other_id = other_building[:properties][:id]
           next if other_id == building.id
-          if other_building_type == "ShadingOnly"
+          if other_building_type == 'ShadingOnly'
             # Checks if any building point is shaded by any other building point.
-            roof_elevation	= other_building[:properties][:roof_elevation]
+            roof_elevation = other_building[:properties][:roof_elevation]
             number_of_stories = other_building[:properties][:number_of_stories]
             number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
             maximum_roof_height = other_building[:properties][:maximum_roof_height]
@@ -263,7 +263,6 @@ module URBANopt
             runner.registerWarning("Failed to create spaces for other building '#{name}'")
           end
           other_spaces.concat(new_building)
-
         end
         return other_spaces
       end
@@ -276,17 +275,17 @@ module URBANopt
       # * +potentially_shaded+ - _Type:Array_ - An array of instances of +OpenStudio::Point3d+ .
       # * +potential_shader+ - _Type:Array_ - Other array of instances of +OpenStudio::Point3d+ .
       # * +origin_lat_lon+ _Type:Float_ - An instance of OpenStudio::PointLatLon indicating the origin's
-      #   latitude and longitude. 
+      #   latitude and longitude.
       def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
         all_pairs = []
         potentially_shaded.each do |building_point|
           potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
             all_pairs << {
-                building_point: building_point,
-                other_building_point: other_building_point,
-                vector: vector,
-                distance: vector.length
+              building_point: building_point,
+              other_building_point: other_building_point,
+              vector: vector,
+              distance: vector.length
             }
           end
         end
@@ -316,7 +315,7 @@ module URBANopt
         end
         hour_angle_rad = Math.atan2(-vector.x, -vector.y)
         hour_angle = OpenStudio.radToDeg(hour_angle_rad)
-        latitude_rad = OpenStudio.degToRad(origin_lat_lon.lat) 
+        latitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)
         result = false
         (-24..24).each do |declination|
           declination_rad = OpenStudio.degToRad(declination)
