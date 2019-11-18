@@ -50,84 +50,19 @@
       "description": "Id of the junction that this line starts at.",
       "type": "string"
     },
-    "wire_1_phase": {
-      "description": "Phase of wire number 1 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
-      "type": "string"
-    },
+    "line_properties":{
+        "description": "A sub-element containing all the attributes that can be assigned to a line, including wires",
+        "type":"object",
+        "properties":{
 
-    "wire_2_phase": {
-      "description": "Phase of wire number 2 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
-      "type": "string"
-    },
-
-    "wire_3_phase": {
-      "description": "Phase of wire number 3 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
-      "type": "string"
-    },
-
-    "wire_4_phase": {
-      "description": "Phase of wire number 4 (A,B,C,S1,S2 or N). If not filled, wire assumed not to exist",
-      "type": "string"
-    },
-
-    "wire_1_id": {
-      "description": "identifier of wire 1",
-      "type": "string"
-    },
-
-    "wire_2_id": {
-      "description": "identifier of wire 2",
-      "type": "string"
-    },
-
-    "wire_3_id": {
-      "description": "identifier of wire 3",
-      "type": "string"
-    },
-
-    "wire_4_id": {
-      "description": "identifier of wire 4",
-      "type": "string"
-    },
-
-    "wire_1_height": {
-      "description": "Height of wire 1 in feet. Negative if underground",
-      "type": "number"
-    },
-
-    "wire_2_height": {
-      "description": "Height of wire 2 in feet. Negative if underground",
-      "type": "number"
-    },
-
-    "wire_3_height": {
-      "description": "Height of wire 3 in feet. Negative if underground",
-      "type": "number"
-    },
-
-    "wire_4_height": {
-      "description": "Height of wire 4 in feet. Negative if underground",
-      "type": "number"
-    },
-
-    "wire_1_x": {
-      "description": "Horizontal displacement of wire 1 in feet.",
-      "type": "number"
-    },
-
-    "wire_2_x": {
-      "description": "Horizontal displacement of wire 2 in feet.",
-      "type": "number"
-    },
-
-    "wire_3_x": {
-      "description": "Horizontal displacement of wire 3 in feet.",
-      "type": "number"
-    },
-
-    "wire_4_x": {
-      "description": "Horizontal displacement of wire 4 in feet.",
-      "type": "number"
+            "is_switch":{"type":"boolean","description":"Flag indicating if the line is a switch or not"},
+            "is_fuse":{"type":"boolean","description":"Flag indicating if the line is a fuse or not"},
+            "is_open":{"type":"boolean","description":"Flag indicating if the switch/fuse is a open or not"},
+            "wire_1":{ "$ref": "#/definitions/wire"},
+            "wire_2":{ "$ref": "#/definitions/wire"},
+            "wire_3":{ "$ref": "#/definitions/wire"},
+            "wire_4":{ "$ref": "#/definitions/wire"}
+        }
     },
 
 
@@ -154,6 +89,56 @@
       "enum": [
         "Line"
       ]
-    }
-  }
+    },
+    "WireType": {
+      "description": "Type of wire used",
+      "type": "string",
+      "enum": [
+        "OH TPLX #4",
+        "OH TPLX 1/0",
+        "OH TPLX 2/0",
+        "OH TPLX 4/0",
+        "OH AL #2",
+        "OH AL #4",
+        "OH AL 1/0",
+        "OH AL 2/0",
+        "OH AL 4/0",
+        "OH AL 336kcmil",
+        "OH AL 477kcmil",
+        "OH AL 795kcmil",
+        "UG TPLX #4",
+        "UG TPLX 1/0",
+        "UG TPLX 2/0",
+        "UG TPLX 4/0",
+        "UG AL #2",
+        "UG AL #4",
+        "UG AL 1/0",
+        "UG AL 2/0",
+        "UG AL 4/0",
+        "UG AL 350kcmil",
+        "UG AL 500kcmil",
+        "UG AL 750kcmil",
+        "UG AL 1000kcmil"
+
+      ]
+    },
+
+      "wire":{"type":"object", "description":"A wire object with the full array of properties",
+        "properties":{
+            "phase":{"type":"string", "enum":["A","B","C","N","S1","S2"], "description":"Phase of wire number 1 (A,B,C,S1,S2 or N)."},
+            "nameclass":{"type":"string", "description": "The nameclass (e.g. UG AL 1/0) of the wire"},
+            "height":{"description": "Height of wire 1 in feet. Negative if underground", "type": "number"},
+            "x":{"description": "Horizontal displacement of wire 1 in feet.", "type": "number"},
+            "resistance":{"description": "Total resistance of the wire", "type":"number"},
+            "ampacity":{"description": "ampacity rating of the wire under normal circumstancse", "type":"number"},
+            "diameter":{"description": "diameter of the conductor if it's a concentric neutral cable", "type":"number"},
+            "gmr":{"description": "gmr of the wire. gmr of the conductor if it's a concentric neutral cable", "type":"number"},
+            "concentric_neutral_gmr":{"description": "The concentric neutral gmr", "type":"number"},
+            "concentric_neutral_resistance":{"description": "The concentric neutral resistance", "type":"number"},
+            "concentric_neutral_diameter":{"description": "The concentric neutral diameter", "type":"number"},
+            "concentric_neutral_nstrand":{"description": "The concentric neutral number of strands", "type":"number"},
+            "concentric_neutral_outside_diameter":{"description": "The concentric neutral outside diameter", "type":"number"}
+
+        }
+      }
 }
