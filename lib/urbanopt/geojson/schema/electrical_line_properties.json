@@ -126,7 +126,7 @@
       "wire":{"type":"object", "description":"A wire object with the full array of properties",
         "properties":{
             "phase":{"type":"string", "enum":["A","B","C","N","S1","S2"], "description":"Phase of wire number 1 (A,B,C,S1,S2 or N)."},
-            "nameclass":{"type":"string", "description": "The nameclass (e.g. UG AL 1/0) of the wire"},
+            "nameclass":{"type":"string", "description": "The nameclass (e.g. UG AL 1/0) of the wire","$ref":"#/definitions/WireType"},
             "height":{"description": "Height of wire 1 in feet. Negative if underground", "type": "number"},
             "x":{"description": "Horizontal displacement of wire 1 in feet.", "type": "number"},
             "resistance":{"description": "Total resistance of the wire", "type":"number"},
