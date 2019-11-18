@@ -55,6 +55,37 @@
       "description": "Name of the tariff file for this district system. Defaults to site's tariff_filename.",
       "type": "string"
     },
+    "transformer_properties":{
+        "description": "A sub-element containing all the attributes that can be assigned to a transformer district system",
+        "type":"object",
+        "properties":{
+            "kva":{"type":"number","description": "Rating of the transformer"},
+            "connection":{"type":"string", "enum":"["Delta-Wye","Delta-Delta","Open-Delta","Single-Phase"], "description":"The different transformer connection options"},
+            "is_center_tap": {"type":"boolean", "description":"whether it's a center tap transformer or not"},
+            "resistance":{"type":"number","description":"The total resistance of the transformer"},
+            "high_voltage":{"type": "number","description":"The voltage (in kV) of the high side of the transformer"},
+            "low_voltage": {"type": "number","description":"The voltage (in kV) of the high side of the transformer"},
+            "reactance":{"type":"number","description":"The total reactace lost in the transformer"},
+            "phases":{"type":"array","description":"An array of the phases that the transformer connects to. Should only contain A, B and C"}
+        }
+
+    },
+    "capacitor_properties":{
+        "description": "A sub-element containing all the attributes that can be assigned to a capacitor district system",
+        "type": "object",
+        "properties":{
+            "kvar":{"type":"number","description": "kVAR rating of the capacitor"},
+            "connection":{"type":"string", "enum":"["Delta-Wye","Delta-Delta","Open-Delta","Single-Phase"], "description":"The different capacitor connection options"},
+            "resistance":{"type":"number","description":"The total resistance of the capacitor"},
+            "reactance":{"type":"number","description":"The total reactace lost in the capacitor"},
+            "pt_ratio":{"type":"number","description":"The voltage (potential) transformer ratio used to step down the voltage for controller."},
+            "control_type":{"type":"string","description":"What control mode is used.", "enum":["Voltage", "Active-Power", "Reactive-Power", "Current-Flow", "Admittance", "Time-Scheduled", "None"]},
+            "switched":{"type":"boolean":,"description":"Whether the capacitor is switched in or not"},
+            "phases":{"type":"array","description":"An array of the phases that the capacitor connects to. Should only contain A, B and C"}
+
+        }
+
+    },
     "equipment_1": {
       "description": "First piece of equipment used in this plant",
       "$ref": "#/definitions/equipmentType",
@@ -96,7 +127,8 @@
       "enum": [
         "District Thermal",
         "Community Photovoltaic",
-        "Transformer"
+        "Transformer",
+        "Capacitor"
       ]
     },
     "equipmentType": {
@@ -107,6 +139,8 @@
         "Air-Cooled Chiller--Ambient Water",
         "Water-Cooled Chiller--Cold Water",
         "Water-Cooled Chiller---Ambient Water",
+        "Capacitor--150KVAR",
+        "Capacitor--450KVAR",
         "Cooling Tower--Heat Rejection from Chiller, Cold Water",
         "Cooling Tower--Heat Rejection from Chiller, Ambient Water",
         "Cooling Tower--Direct--Chilled Water",
@@ -129,6 +163,15 @@
         "Storage--Hot Water",
         "Storage--Cold Water",
         "Storage--Ambient Water",
+        "Transformer--25KVA CT",
+        "Transformer--50KVA CT",
+        "Transformer--75KVA CT",
+        "Transformer--25KVA PM",
+        "Transformer--50KVA PM",
+        "Transformer--75KVA PM",
+        "Transformer--100KVA PM",
+        "Transformer--150KVA PM",
+        "Transformer--300KVA PM",
         "Waste Heat Source--Hot Water",
         "Waste Heat Source--Ambient Water"
       ]
