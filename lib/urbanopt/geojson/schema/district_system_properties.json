@@ -60,6 +60,7 @@
         "type":"object",
         "properties":{
             "kva":{"type":"number","description": "Rating of the transformer"},
+            "nameclass":{"type":"string", "description": "The nameclass of the transformer e.g. Transformer--25KVA CT","$ref":"#/definitions/equipmentType"},
             "connection":{"type":"string", "enum":"["Delta-Wye","Delta-Delta","Open-Delta","Single-Phase"], "description":"The different transformer connection options"},
             "is_center_tap": {"type":"boolean", "description":"whether it's a center tap transformer or not"},
             "resistance":{"type":"number","description":"The total resistance of the transformer"},
@@ -75,6 +76,7 @@
         "type": "object",
         "properties":{
             "kvar":{"type":"number","description": "kVAR rating of the capacitor"},
+            "nameclass":{"type":"string", "description": "The nameclass of the capacitor e.g. Capacitor--150KVAR","$ref":"#/definitions/equipmentType"},
             "connection":{"type":"string", "enum":"["Delta-Wye","Delta-Delta","Open-Delta","Single-Phase"], "description":"The different capacitor connection options"},
             "resistance":{"type":"number","description":"The total resistance of the capacitor"},
             "reactance":{"type":"number","description":"The total reactace lost in the capacitor"},
