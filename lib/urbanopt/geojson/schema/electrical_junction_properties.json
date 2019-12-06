@@ -49,6 +49,7 @@
   },
   "required": [
     "type",
+    "id",
     "connector_type"
   ],
   "additionalProperties": false,
@@ -57,7 +58,7 @@
       "description": "Type of electrical junction",
       "type": "string",
       "enum": [
-        "ElectricalPanel"
+        "ElectricalJunction"
       ]
     }
   }

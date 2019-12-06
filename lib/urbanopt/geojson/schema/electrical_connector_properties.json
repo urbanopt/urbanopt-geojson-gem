@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://json-schema.org/openstudio-urban-modeling/district_system_properties.json#",
-  "title": "URBANopt Electrical Connector",
-  "description": "Schema for an URBANopt Electrical Connector object",
+  "title": "URBANopt Electrical Line",
+  "description": "Schema for an URBANopt Electrical Line object",
   "type": "object",
   "properties": {
     "id": {
@@ -17,7 +17,7 @@
       "description": "Type of feature.",
       "type": "string",
       "enum": [
-        "ElectricalConnector"
+        "ElectricalLine"
       ]
     },
     "source_name": {
@@ -33,7 +33,7 @@
       "type": "string"
     },
     "connector_type": {
-      "$ref": "#/definitions/ElectricalConnectorType"
+      "$ref": "#/definitions/ElectricalLineType"
     },
     "lengths": {
       "description": "Length (ft) of each segment, generated on export.",
@@ -43,15 +43,35 @@
       }
     },
     "total_length": {
-      "description": "Total length (ft) of the connector, generated on export.",
+      "description": "Total length (ft) of the line, generated on export.",
       "type": "number"
     },
     "start_junction_id": {
-      "description": "Id of the junction that this connector starts at.",
+      "description": "Id of the junction that this line starts at.",
       "type": "string"
     },
+    "line_properties":{
+        "description": "A sub-element containing all the attributes that can be assigned to a line, including wires",
+        "type":"object",
+        "properties":{
+
+            "is_switch":{"type":"boolean","description":"Flag indicating if the line is a switch or not"},
+            "is_fuse":{"type":"boolean","description":"Flag indicating if the line is a fuse or not"},
+            "is_open":{"type":"boolean","description":"Flag indicating if the switch/fuse is a open or not"}
+        }
+    },
+
+    "wires": {
+        "description": "Array of wires that are on the line",
+        "type": "array",
+        "items": {
+            "$ref": "#/definitions/WireType",
+            "type": "string"
+        }
+    },
+
     "end_junction_id": {
-      "description": "Id of the junction that this connector ends at.",
+      "description": "Id of the junction that this line ends at.",
       "type": "string"
     },
     "user_data": {
@@ -60,18 +80,50 @@
   },
   "required": [
     "type",
+    "id",
     "connector_type",
     "start_junction_id",
     "end_junction_id"
   ],
   "additionalProperties": false,
   "definitions": {
-    "ElectricalConnectorType": {
-      "description": "Type of electrical connector",
+    "ElectricalLineType": {
+      "description": "Type of electrical line",
       "type": "string",
       "enum": [
-        "Wire"
+        "Line"
+      ]
+    },
+    "WireType": {
+      "description": "Type of wire used",
+      "type": "string",
+      "enum": [
+        "OH TPLX #4",
+        "OH TPLX 1/0",
+        "OH TPLX 2/0",
+        "OH TPLX 4/0",
+        "OH AL #2",
+        "OH AL #4",
+        "OH AL 1/0",
+        "OH AL 2/0",
+        "OH AL 4/0",
+        "OH AL 336kcmil",
+        "OH AL 477kcmil",
+        "OH AL 795kcmil",
+        "UG TPLX #4",
+        "UG TPLX 1/0",
+        "UG TPLX 2/0",
+        "UG TPLX 4/0",
+        "UG AL #2",
+        "UG AL #4",
+        "UG AL 1/0",
+        "UG AL 2/0",
+        "UG AL 4/0",
+        "UG AL 350kcmil",
+        "UG AL 500kcmil",
+        "UG AL 750kcmil",
+        "UG AL 1000kcmil"
+
       ]
     }
-  }
 }
