@@ -55,30 +55,13 @@
       "description": "Name of the tariff file for this district system. Defaults to site's tariff_filename.",
       "type": "string"
     },
-    "equipment_1": {
-      "description": "First piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_2": {
-      "description": "Second piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_3": {
-      "description": "Third piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_4": {
-      "description": "Fourth piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_5": {
-      "description": "Fifth piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
+    "equipment": {
+      "description": "List of equipment in this plant",
+      "type": "array",
+      "items": {
+          "$ref": "#/definitions/equipmentType",
+          "type": "string"
+      }
     },
     "user_data": {
       "description": "Arbitrary user data"
