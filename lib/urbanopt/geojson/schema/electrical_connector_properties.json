@@ -57,38 +57,18 @@
 
             "is_switch":{"type":"boolean","description":"Flag indicating if the line is a switch or not"},
             "is_fuse":{"type":"boolean","description":"Flag indicating if the line is a fuse or not"},
-            "is_open":{"type":"boolean","description":"Flag indicating if the switch/fuse is a open or not"},
-            "wire_1":{ "$ref": "#/definitions/wire"},
-            "wire_2":{ "$ref": "#/definitions/wire"},
-            "wire_3":{ "$ref": "#/definitions/wire"},
-            "wire_4":{ "$ref": "#/definitions/wire"}
+            "is_open":{"type":"boolean","description":"Flag indicating if the switch/fuse is a open or not"}
         }
     },
 
-    "wire_1":{
-        "description": "First wire of the line",
-        "$ref": "#/definitions/WireType",
-        "type": "string"
+    "wires": {
+        "description": "Array of wires that are on the line",
+        "type": "array",
+        "items": {
+            "$ref": "#/definitions/WireType",
+            "type": "string"
+        }
     },
-
-    "wire_2":{
-        "description": "Second wire of the line",
-        "$ref": "#/definitions/WireType",
-        "type": "string"
-    },
-
-    "wire_3":{
-        "description": "Third wire of the line",
-        "$ref": "#/definitions/WireType",
-        "type": "string"
-    },
-
-    "wire_4":{
-        "description": "Fourth wire of the line",
-        "$ref": "#/definitions/WireType",
-        "type": "string"
-    },
-
 
     "end_junction_id": {
       "description": "Id of the junction that this line ends at.",
@@ -145,24 +125,5 @@
         "UG AL 1000kcmil"
 
       ]
-    },
-
-    "wire":{"type":"object", "description":"A wire object with the full array of properties",
-        "properties":{
-            "phase":{"type":"string", "enum":["A","B","C","N","S1","S2"], "description":"Phase of wire number 1 (A,B,C,S1,S2 or N)."},
-            "nameclass":{"type":"string", "description": "The nameclass (e.g. UG AL 1/0) of the wire","$ref":"#/definitions/WireType"},
-            "height":{"description": "Height of wire 1 in feet. Negative if underground", "type": "number"},
-            "x":{"description": "Horizontal displacement of wire 1 in feet.", "type": "number"},
-            "resistance":{"description": "Total resistance of the wire", "type":"number"},
-            "ampacity":{"description": "ampacity rating of the wire under normal circumstancse", "type":"number"},
-            "diameter":{"description": "diameter of the conductor if it's a concentric neutral cable", "type":"number"},
-            "gmr":{"description": "gmr of the wire. gmr of the conductor if it's a concentric neutral cable", "type":"number"},
-            "concentric_neutral_gmr":{"description": "The concentric neutral gmr", "type":"number"},
-            "concentric_neutral_resistance":{"description": "The concentric neutral resistance", "type":"number"},
-            "concentric_neutral_diameter":{"description": "The concentric neutral diameter", "type":"number"},
-            "concentric_neutral_nstrand":{"description": "The concentric neutral number of strands", "type":"number"},
-            "concentric_neutral_outside_diameter":{"description": "The concentric neutral outside diameter", "type":"number"}
-
-        }
     }
 }
