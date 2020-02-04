@@ -100,7 +100,8 @@
       "type": "string",
       "enum": [
         "Supply",
-        "Return"
+        "Return",
+        "Unspecified"
       ]
     }
   }
