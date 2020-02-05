@@ -191,7 +191,7 @@ module URBANopt
           lat = p[1]
           point_3d = origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
           point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
-          curr_print = zoning ? OpenStudio.getCombinedPoint(point_3d, all_points, 1.0) : point_3d
+          curr_print = zoning ? OpenStudio.getCombinedPoint(point_3d, all_points, 1.0) : point_3d 
           floor_print << curr_print
         end
         if floor_print.size < 3
@@ -255,14 +255,21 @@ module URBANopt
             # find the polygon of the other_building by passing it to the get_multi_polygons method
             other_building_points = building.other_points(other_building, other_height, origin_lat_lon, runner, zoning)
             shadowed = URBANopt::GeoJSON::Helper.is_shadowed(feature_points, other_building_points, origin_lat_lon)
-            next unless shadowed
+            next unless shadowed 
+            new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)  
+            if new_building.nil? || new_building.empty?
+              runner.registerWarning("Failed to create spaces for other building '#{name}'")
+            end
+            other_spaces.concat(new_building)
+          elsif other_building_type == 'None'
+            return nil
+          elsif other_building_type == 'All'
+            new_building = building.create_other_building(:space_per_floor, model, origin_lat_lon, runner, zoning, other_building)         
+            if new_building.nil? || new_building.empty?
+              runner.registerWarning("Failed to create spaces for other building '#{name}'")
+            end
+            other_spaces.concat(new_building)
           end
-
-          new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
-          if new_building.nil? || new_building.empty?
-            runner.registerWarning("Failed to create spaces for other building '#{name}'")
-          end
-          other_spaces.concat(new_building)
         end
         return other_spaces
       end

@@ -45,18 +45,4 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
   end
 
-  it 'validates correct geojson files' do
-    geofile = URBANopt::GeoJSON::GeoFile.from_file(
-      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
-    )
-    expect(geofile.valid?).to be_truthy
-  end
-
-  it 'complains about invalid geojson' do
-    expect do
-      URBANopt::GeoJSON::GeoFile.from_file(
-        File.join(@spec_files_dir, 'invalid.geojson')
-      )
-    end .to raise_error('GeoJSON file does not adhere to schema')
-  end
 end
