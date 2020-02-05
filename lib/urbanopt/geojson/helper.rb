@@ -216,7 +216,7 @@ module URBANopt
       #
       # [Parameters]
       # * +building+ - _Type:URBANopt::GeoJSON::Building_ - The core building that other buildings will be referenced.
-      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
+      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. 
       # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
@@ -261,8 +261,10 @@ module URBANopt
               runner.registerWarning("Failed to create spaces for other building '#{name}'")
             end
             other_spaces.concat(new_building)
+            # processes None other buildings
           elsif other_building_type == 'None'
             return nil
+            # processes All other buildings
           elsif other_building_type == 'All'
             new_building = building.create_other_building(:space_per_floor, model, origin_lat_lon, runner, zoning, other_building)         
             if new_building.nil? || new_building.empty?

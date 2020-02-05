@@ -42,11 +42,12 @@ module URBANopt
       @@schema_file_lock = Mutex.new
 
       ##
-      # Raises an error in case the GeoJSON file is not valid.
+      # Initialize GeoJSON file and path.
       #
       # [Parameters]
       #
-      # * +data+ - _Type:Hash_ Contains the GeoJSON.
+      # * +path+ - _Type:String_ GeoJSON File path.
+      # * +data+ - _Type:Hash_ Contains the GeoJSON File.
       def initialize(geojson_file, path = nil)
         @path = path
         @geojson_file = geojson_file
@@ -141,6 +142,11 @@ module URBANopt
         return nil
       end
 
+      ##
+      # Validate GeoJSON against schema
+      #
+      # [Parameters]
+      # * +data+ - + - _Type:Hash_ - Input GeoJSON file 
       def self.validate(schema_json, data)
         errors = JSON::Validator.fully_validate(schema_json, data, errors_as_objects: true)
         return errors
