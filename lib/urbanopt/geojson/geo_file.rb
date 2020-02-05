@@ -47,12 +47,9 @@ module URBANopt
       # [Parameters]
       #
       # * +data+ - _Type:Hash_ Contains the GeoJSON.
-      def initialize(data, path = nil)
+      def initialize(geojson_file, path = nil)
         @path = path
-        @geojson = data
-        if !valid?
-          raise 'GeoJSON file does not adhere to schema'
-        end
+        @geojson_file = geojson_file
       end
 
       ##
@@ -69,15 +66,41 @@ module URBANopt
           raise "GeoJSON file '#{path}' does not exist"
         end
 
-        geojson = JSON.parse(
+        geojson_file = JSON.parse(
           File.open(path, 'r', &:read),
           symbolize_names: true
         )
-        return new(geojson, path)
+
+        # validate geojson file against schema
+        geojson_errors = validate(@@geojson_schema, geojson_file)
+        unless geojson_errors.empty?
+          raise "GeoJSON file does not adhere to the schema: #{geojson_errors}"
+        end
+
+        # validate each feature against schema
+        geojson_file[:features].each do |feature|
+          properties = feature[:properties]
+          type = properties[:type]
+
+          case type
+          when 'Building'
+            errors = validate(@@building_schema, properties)
+          when 'District System'
+            errors = validate(@@district_system_schema, properties)
+          when 'Region'
+            errors = validate(@@region_schema, properties)
+          end
+
+          unless errors.empty?
+            raise "#{type} does not adhere to schema: #{errors}"
+          end
+        
+        end
+        return new(geojson_file, path)
       end
 
       def json
-        @geojson
+        @geojson_file
       end
 
       attr_reader :path
@@ -88,7 +111,7 @@ module URBANopt
       #
       def features
         result = []
-        @geojson[:features].each do |f|
+        @geojson_file[:features].each do |f|
           if f[:properties] && f[:properties][:type] == 'Building'
             result << URBANopt::GeoJSON::Building.new(f)
           elsif f[:properties] && f[:properties][:type] == 'District System'
@@ -106,7 +129,7 @@ module URBANopt
       # [Parameters]
       # * +feature_id+ - _Type:String/Number_ - Id affiliated with feature object.
       def get_feature_by_id(feature_id)
-        @geojson[:features].each do |f|
+        @geojson_file[:features].each do |f|
           if f[:properties] && f[:properties][:id] == feature_id
             if f[:properties][:type] == 'Building'
               return URBANopt::GeoJSON::Building.new(f)
@@ -118,37 +141,68 @@ module URBANopt
         return nil
       end
 
-      ##
-      # Returns the file path for the +geojson_schema.json+ .
-      def schema_file
-        return File.join(File.dirname(__FILE__), 'schema', 'geojson_schema.json')
+      def self.validate(schema_json, data)
+        errors = JSON::Validator.fully_validate(schema_json, data, errors_as_objects: true)
+        return errors
       end
 
-      ##
-      # Returns the +geojson_schema+ .
-      def schema
+      def self.get_geojson_schema(strict)
+        result = nil
         if @@geojson_schema.nil?
           @@schema_file_lock.synchronize do
-            File.open(schema_file, 'r') do |file|
-              @@geojson_schema = JSON.parse(file.read, symbolize_names: true)
+            File.open(File.dirname(__FILE__) + '/schema/geojson_schema.json') do |f|
+              result = JSON.parse(f.read, symbolize_names: true)
             end
           end
         end
-
-        return @@geojson_schema
+        return result
       end
 
-      ##
-      # Validates the GeoJSON file against the schema.
-      def valid?
-        return JSON::Validator.validate(schema, @geojson)
+      def self.get_building_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/building_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
+      end
+      
+      def self.get_district_system_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/district_system_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
+      end
+      
+      def self.get_region_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/region_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
       end
 
-      ##
-      # Returns detailed validation results.
-      def validation_errors
-        return JSON::Validator.fully_validate(schema, @geojson)
-      end
+      strict = true
+      @@geojson_schema = get_geojson_schema(strict)
+      @@building_schema = get_building_schema(strict)
+      @@district_system_schema = get_district_system_schema(strict)
+      @@region_schema = get_region_schema(strict)
+
     end
   end
 end

@@ -41,24 +41,39 @@ RSpec.describe URBANopt::GeoJSON do
     @building = @all_buildings.get_feature_by_id(feature_id)
   end
 
-  it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning(false)' do
-    building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
+
+  it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
+    feature_id = '59a9ce2b42f7d007c059d32c'
+    model = OpenStudio::Model::Model.new
+    origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+    runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    single_building = all_buildings.get_feature_by_id(feature_id)
+    building = single_building.create_building(:space_per_floor, model, origin_lat_lon, runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
-    expect(building.length).to eq(@building.number_of_stories)
+    expect(building.length).to eq(single_building.number_of_stories)
   end
 
   it 'creates building given a feature, space_per_building create_method, model, origin_lat_lon, runner and zoning(false)' do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(1)
-    expect(@building.number_of_stories).to eq(2)
+    expect(@building.number_of_stories).to eq(4)
   end
 
-  it 'creates zoning building' do
-    building = @building.create_building(:space_per_floor, @model, @origin_lat_lon, @runner, true)
+  it 'creates zoning building' do #TODO : Check
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d2f0'
+    model = OpenStudio::Model::Model.new
+    origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
+    runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+    all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    single_building = all_buildings.get_feature_by_id(feature_id)
+    building = single_building.create_building(:space_per_floor, model, origin_lat_lon, runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
-    expect(@building.number_of_stories).to eq(2)
-    expect(building.size).to eq(2)
+    expect(single_building.number_of_stories).to eq(1)
+    expect(building.size).to eq(1)
   end
 
   it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do

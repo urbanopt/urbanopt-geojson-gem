@@ -80,7 +80,8 @@
         "District Thermal",
         "Community Photovoltaic",
         "Transformer",
-        "Capacitor"
+        "Capacitor",
+        "Central Hot and Chilled Water"
       ]
     },
     "equipmentType": {

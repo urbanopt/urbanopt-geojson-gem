@@ -201,7 +201,7 @@
     "footprint_area",
     "building_type"
   ],
-  "additionalProperties": false,
+  "additionalProperties": true,
   "definitions": {
     "buildingType": {
       "description": "Primary building space type.",
@@ -232,7 +232,8 @@
         "Service",
         "Mixed use",
         "Uncovered Parking",
-        "Covered Parking"
+        "Covered Parking",
+        "null"
       ]
     },
     "systemType": {

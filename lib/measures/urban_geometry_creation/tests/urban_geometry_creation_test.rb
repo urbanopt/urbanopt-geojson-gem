@@ -72,7 +72,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
       end
       argument_map[arg.name] = temp_arg_var
     end
-
+    
     # run the measure
     measure.run(model, runner, argument_map)
     result = runner.result

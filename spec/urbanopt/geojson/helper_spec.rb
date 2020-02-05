@@ -52,10 +52,30 @@ RSpec.describe URBANopt::GeoJSON do
     all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
     feature = all_buildings.get_feature_by_id(feature_id)
     expect(feature.class).to eq(URBANopt::GeoJSON::Building)
-    spaces = feature.create_other_buildings('ShadingOnly', all_buildings.json, @model, @origin_lat_lon, @runner)
+    spaces = feature.create_other_buildings('All', all_buildings.json, @model, @origin_lat_lon, @runner)
     surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
-    expect(spaces.size).to eq(17)
+    expect(spaces.size).to eq(60)
     expect(surfaces[0].class).to eq(OpenStudio::Model::ShadingSurface)
+  end
+
+  it 'create all other buildings' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
+    feature_id = '59a9ce2b42f7d007c059d32e'
+    all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_buildings.get_feature_by_id(feature_id)
+    expect(feature.class).to eq(URBANopt::GeoJSON::Building)
+    spaces = feature.create_other_buildings('All', all_buildings.json, @model, @origin_lat_lon, @runner)
+    expect(spaces.size).to eq(13)
+  end
+
+  it 'create no other buildings' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
+    feature_id = '59a9ce2b42f7d007c059d32e'
+    all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_buildings.get_feature_by_id(feature_id)
+    expect(feature.class).to eq(URBANopt::GeoJSON::Building)
+    spaces = feature.create_other_buildings('None', all_buildings.json, @model, @origin_lat_lon, @runner)
+    expect(spaces.nil?).to be true
   end
 
   it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do
