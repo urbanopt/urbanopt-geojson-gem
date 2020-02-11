@@ -75,7 +75,7 @@ module URBANopt
         # validate geojson file against schema
         geojson_errors = validate(@@geojson_schema, geojson_file)
         unless geojson_errors.empty?
-          raise "GeoJSON file does not adhere to the schema: #{geojson_errors}"
+          raise "GeoJSON file does not adhere to the schema: \n #{geojson_errors.join('\n  ')}"
         end
 
         # validate each feature against schema
@@ -93,7 +93,7 @@ module URBANopt
           end
 
           unless errors.empty?
-            raise "#{type} does not adhere to schema: #{errors}"
+            raise "#{type} does not adhere to schema: \n #{errors.join('\n  ')}")
           end
         
         end
