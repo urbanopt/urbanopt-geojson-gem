@@ -295,22 +295,22 @@ module URBANopt
           end
           multi_polygon.each do |polygon|
             elevation = (story_number - 1) * floor_to_floor_height
-            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning) 
             if floor_print
-              if zoning
-                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)
-                floor_prints.concat(this_floor_prints)
+              if zoning  
+                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)  
+                floor_prints.concat(this_floor_prints) created
               else
-                floor_prints << floor_print
+                floor_prints << floor_print 
               end
             else
               runner.registerWarning("Cannot create story #{story_number}")
             end
             # Subsequent polygons are holes, and are not supported.
             break
-          end
-        end
-        result = []
+          end 
+        end 
+        spaces = []
         floor_prints.each do |floor_print|
           space = OpenStudio::Model::Space.fromFloorPrint(floor_print, floor_to_floor_height, model)
           if space.empty?
@@ -318,24 +318,29 @@ module URBANopt
             next
           end
           space = space.get
-          space.setName("Building Story #{story_number} Space")
+          space.setName("Building Story #{story_number} Space ")
           space.surfaces.each do |surface|
             if surface.surfaceType == 'Wall'
               if story_number < 1
                 surface.setOutsideBoundaryCondition('Ground')
               end
             end
-          end
-          building_story = OpenStudio::Model::BuildingStory.new(model)
-          building_story.setName("Building Story #{story_number}")
+          end 
+          spaces << space
+        end 
+        
+        building_story = OpenStudio::Model::BuildingStory.new(model)
+        building_story.setName("Building Story #{story_number}")
+        spaces.each do |space|
           space.setBuildingStory(building_story)
           thermal_zone = OpenStudio::Model::ThermalZone.new(model)
           thermal_zone.setName("Building Story #{story_number} ThermalZone")
           space.setThermalZone(thermal_zone)
-          result << space
-        end
-        return result
-      end
-    end
-  end
-end
+        end 
+        
+        return spaces
+      end 
+    
+    end 
+  end 
+end 

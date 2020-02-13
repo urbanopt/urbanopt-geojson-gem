@@ -93,7 +93,7 @@ module URBANopt
           end
 
           unless errors.empty?
-            raise "#{type} does not adhere to schema: \n #{errors.join('\n  ')}")
+            raise ("#{type} does not adhere to schema: \n #{errors.join('\n  ')}")
           end
         
         end
