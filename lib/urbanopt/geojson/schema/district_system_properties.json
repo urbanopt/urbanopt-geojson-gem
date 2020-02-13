@@ -77,10 +77,15 @@
       "description": "Type of district system.",
       "type": "string",
       "enum": [
-        "District Thermal",
-        "Community Photovoltaic",
+        "Central Chilled Water",
+        "Central Hot Water",
+		"Central Ambient Water",
+		"Central Hot and Cold Water", 
+		"Community Photovoltaic", 
         "Transformer",
-        "Capacitor"
+        "Transformer with Storage",
+		"Capacitor",
+		"Electric Substation" 
       ]
     },
     "equipmentType": {
