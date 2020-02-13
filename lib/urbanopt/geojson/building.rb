@@ -295,13 +295,13 @@ module URBANopt
           end
           multi_polygon.each do |polygon|
             elevation = (story_number - 1) * floor_to_floor_height
-            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning) 
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
             if floor_print
               if zoning  
-                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)  
-                floor_prints.concat(this_floor_prints) created
+                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner) 
+                floor_prints.concat(this_floor_prints)
               else
-                floor_prints << floor_print 
+                floor_prints << floor_print
               end
             else
               runner.registerWarning("Cannot create story #{story_number}")
@@ -318,7 +318,7 @@ module URBANopt
             next
           end
           space = space.get
-          space.setName("Building Story #{story_number} Space ")
+          space.setName("Building Story #{story_number} Space")
           space.surfaces.each do |surface|
             if surface.surfaceType == 'Wall'
               if story_number < 1
