@@ -62,24 +62,60 @@ RSpec.describe URBANopt::GeoJSON do
     expect(@building.number_of_stories).to eq(4)
   end
 
-  it 'creates zoning building' do #TODO : Check
+  it 'creates zoning building' do 
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
     feature_id = '59a9ce2b42f7d007c059d2f0'
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_features.get_feature_by_id(feature_id)
+    spaces = feature.create_building(:spaces_per_floor, @model, @origin_lat_lon, @runner, true)
+    expect(spaces[0].class).to eq(OpenStudio::Model::Space)
+    expect(feature.number_of_stories).to eq(1)
+    expect(spaces.size).to eq(1) #TODO: check why is it creating a single space for zoning. Error: OutwardNormal of floorPrint must point down to create space.
+  end
+
+  it 'creates building with zoning and create other buildings using ShadingOnly method' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    feature_id = '59a9ce2b42f7d007c059d306'
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_features.get_feature_by_id(feature_id)
+    spaces = feature.create_building(:spaces_per_floor, @model, @origin_lat_lon, @runner, true)
+    expect(spaces.size).to eq(7)
+    building_story_1 = spaces[0].buildingStory.get
+    building_story_2 = spaces[1].buildingStory.get
+    expect(building_story_1.nameString).to eq(building_story_2.nameString)
+    other_buildings = feature.create_other_buildings('ShadingOnly', all_features.json, @model, @origin_lat_lon, @runner, true)
+    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
+    expect(other_buildings.size).to eq 11
+  end
+
+  it 'creates other buildings using ShadingOnly create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
+    other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
+    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
+    expect(other_buildings.size).to eq 4
+  end
+
+  it 'creates other buildings using All create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
+    other_buildings = @building.create_other_buildings('All', @all_buildings.json, @model, @origin_lat_lon, @runner)
+    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
+    expect(other_buildings.size).to eq 59
+  end
+
+  it 'creates other buildings using All create method for  modified geojson' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
+    feature_id = '59a9ce2b42f7d007c059d32e'
     model = OpenStudio::Model::Model.new
     origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
     all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
     single_building = all_buildings.get_feature_by_id(feature_id)
-    building = single_building.create_building(:space_per_floor, model, origin_lat_lon, runner, true)
-    expect(building[0].class).to eq(OpenStudio::Model::Space)
-    expect(single_building.number_of_stories).to eq(1)
-    expect(building.size).to eq(1)
+    other_buildings = single_building.create_other_buildings('All', all_buildings.json, model, origin_lat_lon, runner)
+    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
+    expect(other_buildings.size).to eq 13
   end
 
-  it 'creates other buildings given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
-    other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
-    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 4
+  it 'creates other buildings using None create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do 
+    other_buildings = @building.create_other_buildings('None', @all_buildings.json, @model, @origin_lat_lon, @runner)
+    expect(other_buildings).to eq nil
   end
 
   it 'creates windows given an array of spaces' do
@@ -97,4 +133,5 @@ RSpec.describe URBANopt::GeoJSON do
       end
     end
   end
+  
 end

@@ -174,7 +174,8 @@ module URBANopt
       # Returns an array of instances of +OpenStudio::Model::Space+.
       #
       # [Parameters]
-      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
+      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Supports
+      #   'All', 'None', 'ShadingOnly' options.
       # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
