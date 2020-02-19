@@ -11,10 +11,10 @@ gemspec
 # checkout the latest version (develop) from github.
 allow_local = ENV['FAVOR_LOCAL_GEMS']
 
-if allow_local && File.exist?('../OpenStudio-extension-gem')
-  gem 'openstudio-extension', path: '../OpenStudio-extension-gem'
+if allow_local && File.exist?('../openstudio-extension-gem')
+  gem 'openstudio-extension', path: '../openstudio-extension-gem'
 elsif allow_local
-  gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', branch: 'develop'
+  gem 'openstudio-extension', github: 'NREL/openstudio-extension-gem', branch: 'develop'
 end
 
 if allow_local && File.exist?('../urbanopt-core-gem')
