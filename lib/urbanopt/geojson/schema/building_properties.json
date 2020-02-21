@@ -80,14 +80,11 @@
       "description": "Maximum height of the roof relative to surface elevation (ft)",
       "type": "number"
     },
+    "foundation_type": {
+      "$ref": "#/definitions/foundationType"
+    },
     "roof_type": {
-      "description": "The type of roof. Defaults to flat.",
-      "type": "string",
-      "enum": [
-        "Flat",
-        "Gable",
-        "Hip"
-      ]
+      "$ref": "#/definitions/roofType"
     },
     "footprint_area": {
       "description": "Area of the footprint (ft^2).  Calculated on export.",
@@ -109,6 +106,9 @@
     },
     "system_type": {
       "$ref": "#/definitions/systemType"
+    },
+    "heating_system_fuel_type": {
+      "$ref": "#/definitions/heatingSystemFuelType"
     },
     "weekday_start_time": {
       "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave black to use default. Should this be part of a mixed type struct?",
@@ -207,9 +207,9 @@
       "description": "Primary building space type.",
       "type": "string",
       "enum": [
-        "Single-Family",
-        "Multifamily (2 to 4 units)",
-        "Multifamily (5 or more units)",
+        "Single-Family Detached",
+        "Single-Family Attached",
+        "Multifamily",
         "Mobile Home",
         "Vacant",
         "Office",
@@ -309,15 +309,32 @@
         "PVAV with reheat",
         "PVAV with reheat with central air source heat pump",
         "PVAV with PFP boxes",
-        "Residential forced air",
-        "Residential forced air cooling hot water baseboard heat",
-        "Residential forced air with district hot water",
-        "Residential heat pump",
-        "Forced air furnace",
-        "Forced air furnace district chilled water fan coil",
-        "Forced air furnace direct evap cooler",
-        "Residential AC with no heat",
-        "Residential AC with electric baseboard heat"
+        "Residential - no heating or cooling",
+        "Residential - furnace and no cooling",
+        "Residential - furnace and central air conditioner",
+        "Residential - furnace and room air conditioner",
+        "Residential - furnace and evaporative cooler",
+        "Residential - boiler and no cooling",
+        "Residential - boiler and central air conditioner",
+        "Residential - boiler and room air conditioner",
+        "Residential - boiler and evaporative cooler",
+        "Residential - no heating and central air conditioner",
+        "Residential - no heating and room air conditioner",
+        "Residential - no heating and evaporative cooler",
+        "Residential - air-to-air heat pump",
+        "Residential - mini-split heat pump",
+        "Residential - ground-to-air heat pump"
+      ]
+    },
+    "heatingSystemFuelType": {
+      "description": "The fuel type of the heating system.",
+      "type": "string",
+      "enum": [
+        "electricity",
+        "natural gas",
+        "fuel oil",
+        "propane",
+        "wood"
       ]
     },
     "templateType": {
@@ -352,6 +369,27 @@
         "DEER 2065",
         "DEER 2070",
         "DEER 2075"
+      ]
+    },
+    "foundationType": {
+      "description": "The foundation type of the building.",
+      "type": "string",
+      "enum": [
+        "slab",
+        "crawlspace - vented",
+        "crawlspace - unvented",
+        "basement - unconditioned",
+        "basement - conditioned",
+        "ambient"
+      ]
+    },
+    "roofType": {
+      "description": "The roof type of the building.",
+      "type": "string",
+      "enum": [
+        "gable",
+        "hip",
+        "flat"
       ]
     }
   }
