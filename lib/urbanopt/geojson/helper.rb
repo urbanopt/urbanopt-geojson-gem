@@ -256,22 +256,15 @@ module URBANopt
             other_building_points = building.other_points(other_building, other_height, origin_lat_lon, runner, zoning)
             shadowed = URBANopt::GeoJSON::Helper.is_shadowed(feature_points, other_building_points, origin_lat_lon)
             next unless shadowed 
-            new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)  
+            new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
             if new_building.nil? || new_building.empty?
               runner.registerWarning("Failed to create spaces for other building '#{name}'")
             end
             other_spaces.concat(new_building)
-            # processes None other buildings
+
           elsif other_building_type == 'None'
-            return nil
-            # processes All other buildings
-          elsif other_building_type == 'All'
-            new_building = building.create_other_building(:space_per_floor, model, origin_lat_lon, runner, zoning, other_building)         
-            if new_building.nil? || new_building.empty?
-              runner.registerWarning("Failed to create spaces for other building '#{name}'")
-            end
-            other_spaces.concat(new_building)
           end
+
         end
         return other_spaces
       end

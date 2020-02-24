@@ -83,15 +83,32 @@ module URBANopt
           properties = feature[:properties]
           type = properties[:type]
 
+          errors = []
+
           case type
           when 'Building'
-            errors = validate(@@building_schema, properties)
+            # Incase detailed_model_filename present check for fewer properties
+            if feature[:properties][:detailed_model_filename]
+              if feature[:id].nil?
+                raise("No id found for Building Feature")
+              end
+              if feature[:name].nil?
+                raise("No name found for Building Feature")
+              end
+            # Else validate for all required properties in the schema 
+            else
+              errors = validate(@@building_schema, properties)
+            end
           when 'District System'
             errors = validate(@@district_system_schema, properties)
           when 'Region'
-            errors = validate(@@region_schema, properties)
+            error = validate(@@district_system_schema, properties)
+          when 'ElectricalJunction'
+            errors = validate(@@electrical_junction_schema, properties)
+          when 'ElectricalConnector'
+            errors = validate(@@electrical_connector_schema, properties)
           end
-
+                          
           unless errors.empty?
             raise ("#{type} does not adhere to schema: \n #{errors.join('\n  ')}")
           end
@@ -133,7 +150,7 @@ module URBANopt
         @geojson_file[:features].each do |f|
           if f[:properties] && f[:properties][:id] == feature_id
             if f[:properties][:type] == 'Building'
-              return URBANopt::GeoJSON::Building.new(f)
+              return URBANopt::GeoJSON::Building.new(f) 
             elsif f[:properties] && f[:properties][:type] == 'District System'
               return URBANopt::GeoJSON::DistrictSystem.new(f)
             end
@@ -203,11 +220,39 @@ module URBANopt
         return result
       end
 
+      def self.get_electrical_connector_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/electrical_connector_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
+      end
+
+      def self.get_electrical_junction_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/electrical_junction_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result      
+      end
+
       strict = true
       @@geojson_schema = get_geojson_schema(strict)
       @@building_schema = get_building_schema(strict)
       @@district_system_schema = get_district_system_schema(strict)
       @@region_schema = get_region_schema(strict)
+      @@electrical_connector_schema = get_electrical_connector_schema(strict)
+      @@electrical_junction_schema = get_electrical_junction_schema(strict)
 
     end
   end
