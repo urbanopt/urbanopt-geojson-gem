@@ -94,28 +94,22 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings.size).to eq 4
   end
 
-  it 'creates other buildings using All create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
-    other_buildings = @building.create_other_buildings('All', @all_buildings.json, @model, @origin_lat_lon, @runner)
-    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 59
-  end
-
-  it 'creates other buildings using All create method for  modified geojson' do
+  it 'creates other buildings using ShadingOnly create method for  modified geojson' do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
-    feature_id = '59a9ce2b42f7d007c059d32e'
+    feature_id = '59a9ce2b42f7d007c059d302'
     model = OpenStudio::Model::Model.new
     origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
     all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
     single_building = all_buildings.get_feature_by_id(feature_id)
-    other_buildings = single_building.create_other_buildings('All', all_buildings.json, model, origin_lat_lon, runner)
+    other_buildings = single_building.create_other_buildings('ShadingOnly', all_buildings.json, model, origin_lat_lon, runner)
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 13
+    expect(other_buildings.size).to eq 3
   end
 
   it 'creates other buildings using None create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do 
     other_buildings = @building.create_other_buildings('None', @all_buildings.json, @model, @origin_lat_lon, @runner)
-    expect(other_buildings).to eq nil
+    expect(other_buildings.empty?).to be true
   end
 
   it 'creates windows given an array of spaces' do
