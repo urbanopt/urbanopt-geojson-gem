@@ -89,10 +89,10 @@ module URBANopt
           when 'Building'
             # Incase detailed_model_filename present check for fewer properties
             if feature[:properties][:detailed_model_filename]
-              if feature[:id].nil?
+              if feature[:properties][:id].nil?
                 raise("No id found for Building Feature")
               end
-              if feature[:name].nil?
+              if feature[:properties][:name].nil?
                 raise("No name found for Building Feature")
               end
             # Else validate for all required properties in the schema 
