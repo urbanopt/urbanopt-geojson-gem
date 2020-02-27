@@ -25,6 +25,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.required_ruby_version = '~> 2.2.4'
+  
   spec.add_development_dependency 'bundler', '~> 1.14'
   spec.add_development_dependency 'rake', '12.3.1'
   spec.add_development_dependency 'rspec', '3.7.0'
@@ -34,6 +36,6 @@ Gem::Specification.new do |spec|
 
   # other dependencies
   spec.add_dependency 'json-schema'
-  spec.add_dependency 'openstudio-extension', '~> 0.1.3'
+  spec.add_dependency 'openstudio-extension', '~> 0.1.5'
   spec.add_dependency 'urbanopt-core', '~> 0.1.0'
 end
