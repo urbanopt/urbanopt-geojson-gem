@@ -83,6 +83,9 @@
     "foundation_type": {
       "$ref": "#/definitions/foundationType"
     },
+    "attic_type": {
+      "$ref": "#/definitions/atticType"
+    },
     "roof_type": {
       "$ref": "#/definitions/roofType"
     },
@@ -163,7 +166,11 @@
       "maximum": 100
     },
     "number_of_residential_units": {
-      "description": "Total number of residential units in the building. Required for residential buildings or mixed-use buildings with residential use types.",
+      "description": "Total number of residential units in the building. Required for residential single-family attached or multifamily buildings.",
+      "type": "integer"
+    },
+    "number_of_bedrooms": {
+      "description": "Total number of bedrooms in the building. Required for residential buildings.",
       "type": "integer"
     },
     "exterior_lighting_zone": {
@@ -192,14 +199,91 @@
       "description": "Arbitrary user data"
     }
   },
-  "required": [
-    "id",
-    "type",
-    "name",
-    "floor_area",
-    "number_of_stories",
-    "footprint_area",
-    "building_type"
+  "oneOf": [
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Single-Family Detached"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type",
+        "number_of_bedrooms",
+        "foundation_type",
+        "attic_type",
+        "roof_type",
+        "heating_system_fuel_type"
+      ]
+    },
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Single-Family Attached",
+            "Multifamily"
+           ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type",
+        "number_of_residential_units",
+        "number_of_bedrooms",
+        "heating_system_fuel_type"
+      ]
+    },
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Vacant",
+            "Office",
+            "Laboratory",
+            "Nonrefrigerated warehouse",
+            "Food sales",
+            "Public order and safety",
+            "Outpatient health care",
+            "Refrigerated warehouse",
+            "Religious worship",
+            "Public assembly",
+            "Education",
+            "Food service",
+            "Inpatient health care",
+            "Nursing",
+            "Lodging",
+            "Strip shopping mall",
+            "Enclosed mall",
+            "Retail other than mall",
+            "Service",
+            "Mixed use",
+            "Uncovered Parking",
+            "Covered Parking"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type"
+      ]
+    }
   ],
   "additionalProperties": false,
   "definitions": {
@@ -210,7 +294,6 @@
         "Single-Family Detached",
         "Single-Family Attached",
         "Multifamily",
-        "Mobile Home",
         "Vacant",
         "Office",
         "Laboratory",
@@ -372,7 +455,7 @@
       ]
     },
     "foundationType": {
-      "description": "The foundation type of the building.",
+      "description": "The foundation type of the building. Required for residential buildings.",
       "type": "string",
       "enum": [
         "slab",
@@ -383,8 +466,17 @@
         "ambient"
       ]
     },
+    "atticType": {
+      "description": "The attic type of the building. Required for residential buildings.",
+      "type": "string",
+      "enum": [
+        "attic - vented",
+        "attic - unvented",
+        "attic - conditioned"
+      ]
+    },
     "roofType": {
-      "description": "The roof type of the building.",
+      "description": "The roof type of the building. Required for residential buildings.",
       "type": "string",
       "enum": [
         "gable",
