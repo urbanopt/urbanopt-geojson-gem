@@ -95,6 +95,7 @@ module URBANopt
               if feature[:properties][:name].nil?
                 raise("No name found for Building Feature")
               end
+              feature[:additionalProperties] = true
             # Else validate for all required properties in the schema 
             else
               errors = validate(@@building_schema, properties)
