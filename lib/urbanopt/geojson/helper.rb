@@ -191,7 +191,7 @@ module URBANopt
           lat = p[1]
           point_3d = origin_lat_lon.toLocalCartesian(OpenStudio::PointLatLon.new(lat, lon, 0))
           point_3d = OpenStudio::Point3d.new(point_3d.x, point_3d.y, elevation)
-          curr_print = zoning ? OpenStudio.getCombinedPoint(point_3d, all_points, 1.0) : point_3d 
+          curr_print = zoning ? OpenStudio.getCombinedPoint(point_3d, all_points, 1.0) : point_3d
           floor_print << curr_print
         end
         if floor_print.size < 3

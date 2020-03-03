@@ -108,8 +108,12 @@ module URBANopt
             errors = validate(@@electrical_junction_schema, properties)
           when 'ElectricalConnector'
             errors = validate(@@electrical_connector_schema, properties)
+          when 'ElectricalJunction'
+            errors = validate(@@thermal_junction_schema, properties)
+          when 'ThermalConnector'
+            errors = validate(@@thermal_connector_schema, properties)
           end
-                          
+          
           unless errors.empty?
             raise ("#{type} does not adhere to schema: \n #{errors.join('\n  ')}")
           end
@@ -151,7 +155,7 @@ module URBANopt
         @geojson_file[:features].each do |f|
           if f[:properties] && f[:properties][:id] == feature_id
             if f[:properties][:type] == 'Building'
-              return URBANopt::GeoJSON::Building.new(f) 
+              return URBANopt::GeoJSON::Building.new(f)
             elsif f[:properties] && f[:properties][:type] == 'District System'
               return URBANopt::GeoJSON::DistrictSystem.new(f)
             end
@@ -244,7 +248,33 @@ module URBANopt
         else
           result['additionalProperties'] = false
         end
-        return result      
+        return result
+      end
+
+      def self.get_thermal_connector_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/thermal_connector_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
+      end
+
+      def self.get_thermal_junction_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/thermal_junction_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
       end
 
       strict = true
@@ -254,6 +284,8 @@ module URBANopt
       @@region_schema = get_region_schema(strict)
       @@electrical_connector_schema = get_electrical_connector_schema(strict)
       @@electrical_junction_schema = get_electrical_junction_schema(strict)
+      @@thermal_connector_schema = get_thermal_connector_schema(strict)
+      @@thermal_junction_schema = get_thermal_junction_schema(strict)
 
     end
   end
