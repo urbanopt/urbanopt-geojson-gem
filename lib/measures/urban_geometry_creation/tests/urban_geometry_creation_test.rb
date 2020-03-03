@@ -50,8 +50,6 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
     feature_id = '59a9ce2b42f7d007c059d2ee' # Energy Systems Integration Facility
 
     surrounding_buildings = 'None'
-    # surrounding_buildings = "ShadingOnly"
-    # surrounding_buildings = "All"
 
     # get arguments
     arguments = measure.arguments(model)
@@ -72,7 +70,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
       end
       argument_map[arg.name] = temp_arg_var
     end
-
+    
     # run the measure
     measure.run(model, runner, argument_map)
     result = runner.result
@@ -100,11 +98,9 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
 
     geojson_file = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
 
-    feature_id = '59a9ce2b42f7d007c059d2f0' # Education Center
+    feature_id = '59a9ce2b42f7d007c059d2f0' # Thermal Test Facility
 
-    # surrounding_buildings = "None"
     surrounding_buildings = 'ShadingOnly'
-    # surrounding_buildings = "All"
 
     # get arguments
     arguments = measure.arguments(model)

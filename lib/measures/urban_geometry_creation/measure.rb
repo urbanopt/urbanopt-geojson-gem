@@ -68,8 +68,6 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     chs = OpenStudio::StringVector.new
     chs << 'None'
     chs << 'ShadingOnly'
-    chs << 'All'
-    # Note: Only ShadingOnly is implemented at the moment
     surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
     surrounding_buildings.setDisplayName('Surrounding Buildings')
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')

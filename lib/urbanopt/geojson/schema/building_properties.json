@@ -111,7 +111,7 @@
       "$ref": "#/definitions/systemType"
     },
     "weekday_start_time": {
-      "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave black to use default. Should this be part of a mixed type struct?",
+      "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default. Should this be part of a mixed type struct?",
       "type": "string"
     },
     "weekday_duration": {
@@ -119,7 +119,7 @@
       "type": "string"
     },
     "weekend_start_time": {
-      "description": "Weekend operating hours start time in 08:30 format, using 24-hr clock. Leave black to use default. Should this be part of a mixed type struct?",
+      "description": "Weekend operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default. Should this be part of a mixed type struct?",
       "type": "string"
     },
     "weekend_duration": {
@@ -201,7 +201,7 @@
     "footprint_area",
     "building_type"
   ],
-  "additionalProperties": false,
+  "additionalProperties": true,
   "definitions": {
     "buildingType": {
       "description": "Primary building space type.",
@@ -232,7 +232,8 @@
         "Service",
         "Mixed use",
         "Uncovered Parking",
-        "Covered Parking"
+        "Covered Parking",
+        "null"
       ]
     },
     "systemType": {

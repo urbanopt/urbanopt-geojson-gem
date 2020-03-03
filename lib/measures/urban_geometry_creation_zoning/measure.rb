@@ -72,8 +72,6 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     chs = OpenStudio::StringVector.new
     chs << 'None'
     chs << 'ShadingOnly'
-    chs << 'All'
-    # Note: Only ShadingOnly is implemented at the moment
     surrounding_buildings = OpenStudio::Measure::OSArgument.makeChoiceArgument('surrounding_buildings', chs, true)
     surrounding_buildings.setDisplayName('Surrounding Buildings')
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')
@@ -113,8 +111,8 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     @runner = runner
     @origin_lat_lon = nil
 
-    all_features = URBANopt::GeoJSON::GeoFile.from_file(geojson_file)
-    feature = URBANopt::GeoJSON::GeoFile.from_file(geojson_file).get_feature_by_id(feature_id)
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(geojson_file)  
+    feature = URBANopt::GeoJSON::GeoFile.from_file(geojson_file).get_feature_by_id(feature_id) 
 
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
@@ -136,7 +134,7 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     end
 
     if feature.type == 'Building'
-      # make requested building
+      # make requested building, zoning is set to true
       spaces = feature.create_building(:spaces_per_floor, model, @origin_lat_lon, @runner, true)
       if spaces.nil? || spaces.empty?
         @runner.registerError("Failed to create building spaces for feature #{feature_id}")
@@ -155,6 +153,7 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
 
+      
       # intersect surfaces in this building with others
       @runner.registerInfo('Intersecting surfaces')
       spaces.each do |space|

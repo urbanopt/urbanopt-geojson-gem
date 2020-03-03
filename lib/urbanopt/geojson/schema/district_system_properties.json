@@ -79,13 +79,14 @@
       "enum": [
         "Central Chilled Water",
         "Central Hot Water",
-		"Central Ambient Water",
-		"Central Hot and Cold Water", 
-		"Community Photovoltaic", 
+        "Central Hot and Chilled Water",
+		    "Central Ambient Water",
+		    "Central Hot and Cold Water", 
+		    "Community Photovoltaic", 
         "Transformer",
         "Transformer with Storage",
-		"Capacitor",
-		"Electrical Substation" 
+		    "Capacitor",
+		    "Electrical Substation" 
       ]
     },
     "equipmentType": {
