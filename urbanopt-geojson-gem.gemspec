@@ -24,18 +24,19 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-
   spec.required_ruby_version = '~> 2.2.4'
   
-  spec.add_development_dependency 'bundler', '~> 1.14'
-  spec.add_development_dependency 'rake', '12.3'
-  spec.add_development_dependency 'rspec', '3.7'
-
-  # lock the version of these dependencies due to using older version of Ruby.
+#   use specific versions of these dependencies while using Ruby 2.2
   spec.add_dependency 'public_suffix', '3.1.1'
+
+#   use specific versions of urbanopt and openstudio dependencies while under heavy development
+  spec.add_dependency 'openstudio-extension', '~> 0.1.5'
+  spec.add_dependency 'urbanopt-core', '~> 0.1.0'
 
   # other dependencies
   spec.add_dependency 'json-schema'
-  spec.add_dependency 'openstudio-extension', '~> 0.1'
-  spec.add_dependency 'urbanopt-core', '~> 0.1'
+
+  spec.add_development_dependency 'bundler', '~> 1.14'
+  spec.add_development_dependency 'rake', '12.3'
+  spec.add_development_dependency 'rspec', '3.7'
 end
