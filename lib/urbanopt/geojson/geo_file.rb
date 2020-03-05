@@ -167,7 +167,7 @@ module URBANopt
       end
 
       ## 
-      # Merge Site Properties in Feature.  Returns feature with site properties added to its properties section 
+      # Merge Site Properties in Feature.  Returns feature with site properties added to its properties section. Does not overwrite existing properties.
       # 
       # [Parameters]
       # +feature+ - _Type:Hash_ - feature object.
@@ -176,14 +176,14 @@ module URBANopt
         if site_origins.size > 0
           site_origin = site_origins[0]
           # site origin found, do some merging
-          # this maps site properties to building/district system properties.  Order is important (for example: climate_zone will take precedence over cec_climate_zone)
+          # this maps site properties to building/district system properties. 
           add_props = [
             {site: :surface_elevation, feature: :surface_elevation}, 
             {site: :timesteps_per_hour, feature: :timesteps_per_hour},
             {site: :begin_date, feature: :begin_date},
             {site: :end_date, feature: :end_date},
-            {site: :climate_zone, feature: :climate_zone},
             {site: :cec_climate_zone, feature: :cec_climate_zone},
+            {site: :climate_zone, feature: :climate_zone},
             {site: :default_template, feature: :template},
             {site: :weather_filename, feature: :weather_filename},
             {site: :tariff_filename, feature: :tariff_filename}
@@ -193,7 +193,7 @@ module URBANopt
             if site_origin[:properties].key?(prop[:site]) and site_origin[:properties][prop[:site]]
               # property exists in site
               if !feature[:properties].key?(prop[:feature]) or feature[:properties][prop[:feature]].nil? or feature[:properties][prop[:feature]].empty?
-                # property does not exist in feature is nil: add site property
+                # property does not exist in feature or is nil: add site property (don't overwrite)
                 feature[:properties][prop[:feature]] = site_origin[:properties][prop[:site]]
               end
             end
