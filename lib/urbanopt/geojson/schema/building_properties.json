@@ -64,6 +64,28 @@
       "description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
       "type": "number"
     },
+    "timesteps_per_hour": {
+      "description": "Number of timesteps per hour for energy simulations. Defaults to site's timesteps_per_hour.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "begin_date": {
+      "description": "Date to begin simulation, format YYYY-MM-DD. Defaults to site's begin_date.",
+      "type": "string"
+    },
+    "end_date": {
+      "description": "Date to end simulation, format YYYY-MM-DD. Defaults to site's end_date.",
+      "type": "string"
+    },
+    "climate_zone": {
+      "description": "ASHRAE 169 climate zone. Defaults to site's climate_zone",
+      "type": "string"
+    },
+    "cec_climate_zone": {
+      "description": "CEC Title24 climate zone. Defaults to site's cec_climate_zone",
+      "type": "string"
+    },
     "floor_area": {
       "description": "Usable floor area (ft^2).",
       "type": "number"
@@ -322,7 +344,7 @@
       ]
     },
     "templateType": {
-      "description": "Standard template applied to building.",
+      "description": "Standard template applied to building. Default to site's default_template",
       "type": "string",
       "enum": [
         "DOE Ref Pre-1980",
