@@ -188,8 +188,9 @@ module URBANopt
           return []
         else
           # remove non-buildings from the other_buildings list of all project features
+          # since this is for shading, keep District Systems as well
           other_buildings[:features].each do |f|
-            if f[:properties][:type] == 'Building'
+            if f[:properties][:type] == 'Building' || f[:properties][:type] == 'District System'
               building_features[:features] << f
             end
           end
