@@ -147,13 +147,15 @@ module URBANopt
       ##
       # Returns feature object by feature_id from specified GeoJSON file and creates a
       # new +URBANopt::GeoJSON::Building+ or +URBANopt::GeoJSON::DistrictSystem+ based on the
-      # feature type.
+      # feature type.  Before returning the feature, merge 'Site Origin' properties into the feature
       #
       # [Parameters]
       # * +feature_id+ - _Type:String/Number_ - Id affiliated with feature object.
       def get_feature_by_id(feature_id)
         @geojson_file[:features].each do |f|
           if f[:properties] && f[:properties][:id] == feature_id
+            # merge site origin properties
+            f = merge_site_properties(f)
             if f[:properties][:type] == 'Building'
               return URBANopt::GeoJSON::Building.new(f)
             elsif f[:properties] && f[:properties][:type] == 'District System'
@@ -162,6 +164,42 @@ module URBANopt
           end
         end
         return nil
+      end
+
+      ## 
+      # Merge Site Properties in Feature.  Returns feature with site properties added to its properties section. Does not overwrite existing properties.
+      # 
+      # [Parameters]
+      # +feature+ - _Type:Hash_ - feature object.
+      def merge_site_properties(feature)
+        site_origins = @geojson_file[:features].select {|f| f[:properties][:type] == 'Site Origin'}
+        if site_origins.size > 0
+          site_origin = site_origins[0]
+          # site origin found, do some merging
+          # this maps site properties to building/district system properties. 
+          add_props = [
+            {site: :surface_elevation, feature: :surface_elevation}, 
+            {site: :timesteps_per_hour, feature: :timesteps_per_hour},
+            {site: :begin_date, feature: :begin_date},
+            {site: :end_date, feature: :end_date},
+            {site: :cec_climate_zone, feature: :cec_climate_zone},
+            {site: :climate_zone, feature: :climate_zone},
+            {site: :default_template, feature: :template},
+            {site: :weather_filename, feature: :weather_filename},
+            {site: :tariff_filename, feature: :tariff_filename}
+          ]
+
+          add_props.each do |prop|
+            if site_origin[:properties].key?(prop[:site]) and site_origin[:properties][prop[:site]]
+              # property exists in site
+              if !feature[:properties].key?(prop[:feature]) or feature[:properties][prop[:feature]].nil? or feature[:properties][prop[:feature]].empty?
+                # property does not exist in feature or is nil: add site property (don't overwrite)
+                feature[:properties][prop[:feature]] = site_origin[:properties][prop[:site]]
+              end
+            end
+          end
+        end
+        return feature
       end
 
       ##

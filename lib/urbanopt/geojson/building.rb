@@ -199,19 +199,29 @@ module URBANopt
       #
       # [Parameters]
       # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Supports 'None', 'ShadingOnly' options.
-      # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
+      # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of all surrounding features to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def create_other_buildings(other_building_type, other_buildings, model, origin_lat_lon, runner, zoning = false)
+        building_features = {}
+        building_features[:features] = []
         if other_buildings[:features].nil?
           runner.registerWarning("No features found in #{other_buildings}")
           return []
+        else
+          # remove non-buildings from the other_buildings list of all project features
+          # since this is for shading, keep District Systems as well
+          other_buildings[:features].each do |f|
+            if f[:properties][:type] == 'Building' || f[:properties][:type] == 'District System'
+              building_features[:features] << f
+            end
+          end
         end
 
         other_spaces = URBANopt::GeoJSON::Helper.process_other_buildings(
-          self, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning
+          self, other_building_type, building_features, model, origin_lat_lon, runner, zoning
         )
         return other_spaces
       end
