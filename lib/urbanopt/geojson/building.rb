@@ -33,10 +33,34 @@ require 'urbanopt/geojson/feature'
 module URBANopt
   module GeoJSON
     class Building < URBANopt::GeoJSON::Feature
+
       ##
       # Used to initialize the feature. This method is inherited from the Feature class.
-      def initialize(feature)
+      def initialize(feature = {})
         super(feature)
+
+        @id = feature[:properties][:id]
+        @name = feature[:properties][:name]
+        @detailed_model_filename = feature[:properties][:detailed_model_filename]
+        @floor_area = feature[:properties][:floor_area]
+        @number_of_stories = feature[:properties][:number_of_stories]
+        @number_of_stories_above_ground = feature[:properties][:number_of_stories_above_ground]
+        @footprint_area = feature[:properties][:footprint_area]
+        @template = feature[:properties][:template]
+        @building_type = feature[:properties][:building_type]
+        @system_type = feature[:properties][:system_type]
+        @weekday_start_time = feature[:properties][:weekday_start_time]
+        @weekday_duration = feature[:properties][:weekday_duration]
+        @weekend_start_time = feature[:properties][:weekend_start_time]
+        @weekend_duration = feature[:properties][:weekend_duration]
+        @mixed_type_1 = feature[:properties][:mixed_type_1]
+        @mixed_type_1_percentage = feature[:properties][:mixed_type_1_percentage]
+        @mixed_type_2 = feature[:properties][:mixed_type_2]
+        @mixed_type_2_percentage = feature[:properties][:mixed_type_2_percentage]
+        @mixed_type_3 = feature[:properties][:mixed_type_3]
+        @mixed_type_3_percentage = feature[:properties][:mixed_type_3_percentage]
+        @mixed_type_4 = feature[:properties][:mixed_type_4]
+        @mixed_type_4_percentage = feature[:properties][:mixed_type_4_percentage]
       end
 
       ##
@@ -225,6 +249,39 @@ module URBANopt
         end
       end
 
+      ##
+      # Convert to a Hash equivalent for JSON serialization
+      ##
+      # - Exclude attributes with nil values.
+      ##
+      def to_hash
+        result = {}
+        result[:id] = @id if @id
+        result[:name] = @name if @name
+        result[:detailed_model_filename] = @detailed_model_filename if @detailed_model_filename
+        result[:floor_area] = @floor_area if @floor_area
+        result[:number_of_stories] = @number_of_stories if @number_of_stories
+        result[:number_of_stories_above_ground] = @number_of_stories_above_ground if @number_of_stories_above_ground
+        result[:footprint_area] = @footprint_area if @footprint_area
+        result[:template] = @template if @template
+        result[:building_type] = @building_type if @building_type
+        result[:system_type] = @system_type if @system_type
+        result[:weekday_start_time] = @weekday_start_time if @weekday_start_time
+        result[:weekday_duration] = @weekday_duration if @weekday_duration
+        result[:weekend_start_time] = @weekend_start_time if @weekend_start_time
+        result[:weekend_duration] = @weekend_duration if @weekend_duration
+        result[:mixed_type_1] = @mixed_type_1 if @mixed_type_1
+        result[:mixed_type_1_percentage] = @mixed_type_1_percentage if @mixed_type_1_percentage
+        result[:mixed_type_2] = @mixed_type_2 if @mixed_type_2
+        result[:mixed_type_2_percentage] = @mixed_type_2_percentage if @mixed_type_2_percentage
+        result[:mixed_type_3] = @mixed_type_3 if @mixed_type_3
+        result[:mixed_type_3_percentage] = @mixed_type_3_percentage if @mixed_type_3_percentage
+        result[:mixed_type_4] = @mixed_type_4 if @mixed_type_4
+        result[:mixed_type_4_percentage] = @mixed_type_4_percentage if @mixed_type_4_percentage
+        return result 
+      end
+
+
       private
 
       ##
@@ -349,7 +406,7 @@ module URBANopt
         end 
         
         return spaces
-      end 
+      end
     
     end 
   end 
