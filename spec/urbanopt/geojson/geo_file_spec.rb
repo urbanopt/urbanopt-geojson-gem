@@ -45,6 +45,16 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
   end
 
+  it 'gets feature, given a feature_id geojson example' do
+    geofile = URBANopt::GeoJSON::GeoFile.from_file(
+      File.join(@spec_files_dir, 'example_project.geojson')
+    )
+
+    feature = geofile.get_feature_by_id('1')
+    expect(feature.feature_json[:type]).to eq('Feature')
+    expect(feature.feature_json[:properties][:name]).to eq('Mixed_use 1')
+  end    
+
   it 'validate geojson file' do
     
     geojson_file = File.open(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')) do |f|
