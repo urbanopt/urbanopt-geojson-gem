@@ -55,7 +55,6 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(feature.feature_json[:properties][:name]).to eq('Mixed_use 1')
   end    
 
-
   it 'validate geojson file' do
     
     geojson_file = File.open(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')) do |f|
@@ -70,7 +69,6 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
 
     expect(geojson_errors).to be_empty
   end
-
 
   it 'raise error' do 
 
