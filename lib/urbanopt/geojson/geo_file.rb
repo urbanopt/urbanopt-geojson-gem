@@ -99,7 +99,7 @@ module URBANopt
                 raise("No name found for Building Feature")
               end
               if feature[:properties][:number_of_stories].nil?
-                @@logger.warn("Number of stories is required to for feature ID #{feature[:properties][:id]} to calculate if it is shading other building features using the UrbanGeometryCreation measure")
+                @@logger.warn("Number of stories is required for feature ID #{feature[:properties][:id]} to calculate if it is shading other building features using the UrbanGeometryCreation measure")
               end
               feature[:additionalProperties] = true
             # Else validate for all required properties in the schema 
