@@ -51,9 +51,6 @@ module URBANopt
       def initialize(geojson_file, path = nil)
         @path = path
         @geojson_file = geojson_file
-
-        # initialize @@logger
-        @@logger ||= URBANopt::GeoJSON.logger
       end
 
       ##
@@ -81,6 +78,9 @@ module URBANopt
           raise "GeoJSON file does not adhere to the schema: \n #{geojson_errors.join('\n  ')}"
         end
 
+        # initialize @@logger
+        @@logger ||= URBANopt::GeoJSON.logger
+        
         # validate each feature against schema
         geojson_file[:features].each do |feature|
           properties = feature[:properties]
@@ -99,7 +99,7 @@ module URBANopt
                 raise("No name found for Building Feature")
               end
               if feature[:properties][:number_of_stories].nil?
-                @@logger.warn("Number of stories is required to for feature ID #{feature[:properties][:id]} to calculate if it is shading other building features using the UrbanGeometryCreation measure")
+                @@logger.warn("Number of stories is required to calculate shading using the UrbanGeometryCreation measure...ignoring #{feature[:properties][:id]} in shading calculations")
               end
               feature[:additionalProperties] = true
             # Else validate for all required properties in the schema 
