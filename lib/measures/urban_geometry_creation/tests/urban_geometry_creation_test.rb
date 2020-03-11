@@ -98,7 +98,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
 
     geojson_file = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
 
-    feature_id = '59a9ce2b42f7d007c059d2f0' # Thermal Test Facility
+    feature_id = '59a9ce2b42f7d007c059d2f0'
 
     surrounding_buildings = 'ShadingOnly'
 
