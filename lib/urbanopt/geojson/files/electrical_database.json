@@ -1,0 +1,28 @@
+{
+    "transformer_properties": {
+        "nameclass": "Transformer--25KVA CT",
+        "kva": 25,
+        "resistance": 0.1,
+        "phases": ["A"],
+        "high_voltage": 13.2,
+        "low_voltage": 0.24,
+        "is_center_tap": true,
+        "connection": "Delta-Wye"
+    },
+    "capacitor_properties": {
+        "nameclass": "Capacitor--150KVAR",
+        "kvar": 150,
+        "resistance": 0.1,
+        "phases": ["A","B","C"],
+        "control_type": "Voltage",
+        "connection": "Delta-Wye"
+    },
+    "wire": {
+        "nameclass": "OH AL 4/0",
+        "phase": "A",
+        "height": 50,
+        "x": 0,
+        "amapcity": 200
+    }
+
+}

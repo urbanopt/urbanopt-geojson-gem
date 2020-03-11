@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
+# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -33,10 +33,34 @@ require 'urbanopt/geojson/feature'
 module URBANopt
   module GeoJSON
     class Building < URBANopt::GeoJSON::Feature
+
       ##
       # Used to initialize the feature. This method is inherited from the Feature class.
-      def initialize(feature)
+      def initialize(feature = {})
         super(feature)
+
+        @id = feature[:properties][:id]
+        @name = feature[:properties][:name]
+        @detailed_model_filename = feature[:properties][:detailed_model_filename]
+        @floor_area = feature[:properties][:floor_area]
+        @number_of_stories = feature[:properties][:number_of_stories]
+        @number_of_stories_above_ground = feature[:properties][:number_of_stories_above_ground]
+        @footprint_area = feature[:properties][:footprint_area]
+        @template = feature[:properties][:template]
+        @building_type = feature[:properties][:building_type]
+        @system_type = feature[:properties][:system_type]
+        @weekday_start_time = feature[:properties][:weekday_start_time]
+        @weekday_duration = feature[:properties][:weekday_duration]
+        @weekend_start_time = feature[:properties][:weekend_start_time]
+        @weekend_duration = feature[:properties][:weekend_duration]
+        @mixed_type_1 = feature[:properties][:mixed_type_1]
+        @mixed_type_1_percentage = feature[:properties][:mixed_type_1_percentage]
+        @mixed_type_2 = feature[:properties][:mixed_type_2]
+        @mixed_type_2_percentage = feature[:properties][:mixed_type_2_percentage]
+        @mixed_type_3 = feature[:properties][:mixed_type_3]
+        @mixed_type_3_percentage = feature[:properties][:mixed_type_3_percentage]
+        @mixed_type_4 = feature[:properties][:mixed_type_4]
+        @mixed_type_4_percentage = feature[:properties][:mixed_type_4_percentage]
       end
 
       ##
@@ -174,20 +198,30 @@ module URBANopt
       # Returns an array of instances of +OpenStudio::Model::Space+.
       #
       # [Parameters]
-      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
-      # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
+      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Supports 'None', 'ShadingOnly' options.
+      # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of all surrounding features to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +True+ if utilizing detailed zoning, else +False+. Zoning is set to False by default.
       def create_other_buildings(other_building_type, other_buildings, model, origin_lat_lon, runner, zoning = false)
+        building_features = {}
+        building_features[:features] = []
         if other_buildings[:features].nil?
           runner.registerWarning("No features found in #{other_buildings}")
           return []
+        else
+          # remove non-buildings from the other_buildings list of all project features
+          # since this is for shading, keep District Systems as well
+          other_buildings[:features].each do |f|
+            if f[:properties][:type] == 'Building' || f[:properties][:type] == 'District System'
+              building_features[:features] << f
+            end
+          end
         end
 
         other_spaces = URBANopt::GeoJSON::Helper.process_other_buildings(
-          self, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning
+          self, other_building_type, building_features, model, origin_lat_lon, runner, zoning
         )
         return other_spaces
       end
@@ -214,6 +248,39 @@ module URBANopt
           end
         end
       end
+
+      ##
+      # Convert to a Hash equivalent for JSON serialization
+      ##
+      # - Exclude attributes with nil values.
+      ##
+      def to_hash
+        result = {}
+        result[:id] = @id if @id
+        result[:name] = @name if @name
+        result[:detailed_model_filename] = @detailed_model_filename if @detailed_model_filename
+        result[:floor_area] = @floor_area if @floor_area
+        result[:number_of_stories] = @number_of_stories if @number_of_stories
+        result[:number_of_stories_above_ground] = @number_of_stories_above_ground if @number_of_stories_above_ground
+        result[:footprint_area] = @footprint_area if @footprint_area
+        result[:template] = @template if @template
+        result[:building_type] = @building_type if @building_type
+        result[:system_type] = @system_type if @system_type
+        result[:weekday_start_time] = @weekday_start_time if @weekday_start_time
+        result[:weekday_duration] = @weekday_duration if @weekday_duration
+        result[:weekend_start_time] = @weekend_start_time if @weekend_start_time
+        result[:weekend_duration] = @weekend_duration if @weekend_duration
+        result[:mixed_type_1] = @mixed_type_1 if @mixed_type_1
+        result[:mixed_type_1_percentage] = @mixed_type_1_percentage if @mixed_type_1_percentage
+        result[:mixed_type_2] = @mixed_type_2 if @mixed_type_2
+        result[:mixed_type_2_percentage] = @mixed_type_2_percentage if @mixed_type_2_percentage
+        result[:mixed_type_3] = @mixed_type_3 if @mixed_type_3
+        result[:mixed_type_3_percentage] = @mixed_type_3_percentage if @mixed_type_3_percentage
+        result[:mixed_type_4] = @mixed_type_4 if @mixed_type_4
+        result[:mixed_type_4_percentage] = @mixed_type_4_percentage if @mixed_type_4_percentage
+        return result 
+      end
+
 
       private
 
@@ -298,7 +365,7 @@ module URBANopt
             floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
             if floor_print
               if zoning
-                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)
+                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner) 
                 floor_prints.concat(this_floor_prints)
               else
                 floor_prints << floor_print
@@ -308,9 +375,9 @@ module URBANopt
             end
             # Subsequent polygons are holes, and are not supported.
             break
-          end
-        end
-        result = []
+          end 
+        end 
+        spaces = []
         floor_prints.each do |floor_print|
           space = OpenStudio::Model::Space.fromFloorPrint(floor_print, floor_to_floor_height, model)
           if space.empty?
@@ -325,17 +392,22 @@ module URBANopt
                 surface.setOutsideBoundaryCondition('Ground')
               end
             end
-          end
-          building_story = OpenStudio::Model::BuildingStory.new(model)
-          building_story.setName("Building Story #{story_number}")
+          end 
+          spaces << space
+        end 
+        
+        building_story = OpenStudio::Model::BuildingStory.new(model)
+        building_story.setName("Building Story #{story_number}")
+        spaces.each do |space|
           space.setBuildingStory(building_story)
           thermal_zone = OpenStudio::Model::ThermalZone.new(model)
           thermal_zone.setName("Building Story #{story_number} ThermalZone")
           space.setThermalZone(thermal_zone)
-          result << space
-        end
-        return result
+        end 
+        
+        return spaces
       end
-    end
-  end
-end
+    
+    end 
+  end 
+end 

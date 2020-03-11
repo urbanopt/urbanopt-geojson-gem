@@ -55,30 +55,13 @@
       "description": "Name of the tariff file for this district system. Defaults to site's tariff_filename.",
       "type": "string"
     },
-    "equipment_1": {
-      "description": "First piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_2": {
-      "description": "Second piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_3": {
-      "description": "Third piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_4": {
-      "description": "Fourth piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
-    },
-    "equipment_5": {
-      "description": "Fifth piece of equipment used in this plant",
-      "$ref": "#/definitions/equipmentType",
-      "type": "string"
+    "equipment": {
+      "description": "List of equipment in this plant",
+      "type": "array",
+      "items": {
+          "$ref": "#/definitions/equipmentType",
+          "type": "string"
+      }
     },
     "user_data": {
       "description": "Arbitrary user data"
@@ -94,9 +77,16 @@
       "description": "Type of district system.",
       "type": "string",
       "enum": [
-        "District Thermal",
-        "Community Photovoltaic",
-        "Transformer"
+        "Central Chilled Water",
+        "Central Hot Water",
+        "Central Hot and Chilled Water",
+		    "Central Ambient Water",
+		    "Central Hot and Cold Water", 
+		    "Community Photovoltaic", 
+        "Transformer",
+        "Transformer with Storage",
+		    "Capacitor",
+		    "Electrical Substation" 
       ]
     },
     "equipmentType": {
@@ -107,6 +97,8 @@
         "Air-Cooled Chiller--Ambient Water",
         "Water-Cooled Chiller--Cold Water",
         "Water-Cooled Chiller---Ambient Water",
+        "Capacitor--150KVAR",
+        "Capacitor--450KVAR",
         "Cooling Tower--Heat Rejection from Chiller, Cold Water",
         "Cooling Tower--Heat Rejection from Chiller, Ambient Water",
         "Cooling Tower--Direct--Chilled Water",
@@ -129,6 +121,15 @@
         "Storage--Hot Water",
         "Storage--Cold Water",
         "Storage--Ambient Water",
+        "Transformer--25KVA CT",
+        "Transformer--50KVA CT",
+        "Transformer--75KVA CT",
+        "Transformer--25KVA PM",
+        "Transformer--50KVA PM",
+        "Transformer--75KVA PM",
+        "Transformer--100KVA PM",
+        "Transformer--150KVA PM",
+        "Transformer--300KVA PM",
         "Waste Heat Source--Hot Water",
         "Waste Heat Source--Ambient Water"
       ]

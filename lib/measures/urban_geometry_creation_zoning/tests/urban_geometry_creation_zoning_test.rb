@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
+# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -47,11 +47,9 @@ class UrbanGeometryCreationZoningTest < MiniTest::Unit::TestCase
 
     geojson_file = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
 
-    feature_id = '59a9ce2b42f7d007c059d2ee' # Energy Systems Integration Facility
+    feature_id = '59a9ce2b42f7d007c059d2f0' 
 
     surrounding_buildings = 'None'
-    # surrounding_buildings = "ShadingOnly"
-    # surrounding_buildings = "All"
 
     # get arguments
     arguments = measure.arguments(model)
@@ -100,11 +98,9 @@ class UrbanGeometryCreationZoningTest < MiniTest::Unit::TestCase
 
     geojson_file = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
 
-    feature_id = '59a9ce2b42f7d007c059d2f0' # Education Center
+    feature_id = '59a9ce2b42f7d007c059d2ee' 
 
-    # surrounding_buildings = "None"
     surrounding_buildings = 'ShadingOnly'
-    # surrounding_buildings = "All"
 
     # get arguments
     arguments = measure.arguments(model)

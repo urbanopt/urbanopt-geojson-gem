@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
+# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -56,6 +56,17 @@ RSpec.describe URBANopt::GeoJSON do
     surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
     expect(spaces.size).to eq(17)
     expect(surfaces[0].class).to eq(OpenStudio::Model::ShadingSurface)
+  end
+
+
+  it 'create no other buildings' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
+    feature_id = '59a9ce2b42f7d007c059d302'
+    all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    feature = all_buildings.get_feature_by_id(feature_id)
+    expect(feature.class).to eq(URBANopt::GeoJSON::Building)
+    spaces = feature.create_other_buildings('None', all_buildings.json, @model, @origin_lat_lon, @runner)
+    expect(spaces.empty?).to be true
   end
 
   it 'creates photovoltaics given a feaure, height and model, origin_lat_lon, and runner' do

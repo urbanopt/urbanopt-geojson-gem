@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
+# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -216,7 +216,7 @@ module URBANopt
       #
       # [Parameters]
       # * +building+ - _Type:URBANopt::GeoJSON::Building_ - The core building that other buildings will be referenced.
-      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. Currently 'ShadingOnly' is the only option that is processed.
+      # * +other_building_type+ - _Type:String_ - Describes the surrounding buildings. 
       # * +other_buildings+ - _Type:URBANopt::GeoJSON::FeatureCollection_ - List of surrounding buildings to include (self will be ignored if present in list).
       # * +model+ - _Type:OpenStudio::Model::Model_ - An instance of an OpenStudio Model.
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
@@ -255,14 +255,16 @@ module URBANopt
             # find the polygon of the other_building by passing it to the get_multi_polygons method
             other_building_points = building.other_points(other_building, other_height, origin_lat_lon, runner, zoning)
             shadowed = URBANopt::GeoJSON::Helper.is_shadowed(feature_points, other_building_points, origin_lat_lon)
-            next unless shadowed
+            next unless shadowed 
+            new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
+            if new_building.nil? || new_building.empty?
+              runner.registerWarning("Failed to create spaces for other building '#{name}'")
+            end
+            other_spaces.concat(new_building)
+
+          elsif other_building_type == 'None'
           end
 
-          new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
-          if new_building.nil? || new_building.empty?
-            runner.registerWarning("Failed to create spaces for other building '#{name}'")
-          end
-          other_spaces.concat(new_building)
         end
         return other_spaces
       end

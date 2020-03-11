@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019, Alliance for Sustainable Energy, LLC, and other
+# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -177,19 +177,21 @@ module URBANopt
         end
 
         if feature[:geometry].nil?
-          raise("No geometry found in '#{feature}'")
+          raise("No geometry found in '#{feature[:properties][:name]}'")
           return false
         end
 
         if feature[:properties].nil?
-          raise("No properties found in '#{feature}'")
+          raise("No properties found in '#{feature[:properties][:name]}'")
           return false
         end
 
-        errors = JSON::Validator.fully_validate(schema, feature[:properties])
-        if !errors.empty?
-          raise("Invalid properties for '#{feature}'\n  #{errors.join('\n  ')}")
-          return false
+        unless feature[:properties][:detailed_model_filename]
+          errors = JSON::Validator.fully_validate(schema, feature[:properties])
+          if !errors.empty?
+            raise("Invalid properties for '#{feature[:properties][:name]}'\n  #{errors.join('\n  ')}")
+            return false
+          end
         end
 
         geometry_type = feature[:geometry][:type]
