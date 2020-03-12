@@ -67,16 +67,6 @@ RSpec.describe URBANopt::GeoJSON do
     expect(first_floor_points[0].class).to eq(OpenStudio::Point3d)
   end
 
-  it 'gets other building spaces' do
-    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = '59a9ce2b42f7d007c059d2ee'
-    all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
-    feature = all_features.get_feature_by_id(feature_id)
-    other_buildings = feature.create_other_buildings('ShadingOnly', all_features.json, @model, @origin_lat_lon, @runner, true)
-    expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 17
-  end
-
   it 'creates a zoning floorprint from polygon' do
     polygon = [
       [1, 5],

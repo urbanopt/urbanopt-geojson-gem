@@ -45,18 +45,43 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
   end
 
-  it 'validates correct geojson files' do
+  it 'gets feature, given a feature_id geojson example' do
     geofile = URBANopt::GeoJSON::GeoFile.from_file(
-      File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')
+      File.join(@spec_files_dir, 'example_project.geojson')
     )
-    expect(geofile.valid?).to be_truthy
+
+    feature = geofile.get_feature_by_id('1')
+    expect(feature.feature_json[:type]).to eq('Feature')
+    expect(feature.feature_json[:properties][:name]).to eq('Mixed_use 1')
+  end    
+
+  it 'validate geojson file' do
+    
+    geojson_file = File.open(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    schema = File.open(File.dirname(__FILE__)+ '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+
+    expect(geojson_errors).to be_empty
   end
 
-  it 'complains about invalid geojson' do
-    expect do
-      URBANopt::GeoJSON::GeoFile.from_file(
-        File.join(@spec_files_dir, 'invalid.geojson')
-      )
-    end .to raise_error('GeoJSON file does not adhere to schema')
+  it 'raise error' do 
+
+    geojson_file = File.open(File.join(@spec_files_dir, 'invalid.geojson')) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    schema = File.open(File.dirname(__FILE__)+ '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+
+    expect(geojson_errors).not_to be_nil
   end
 end

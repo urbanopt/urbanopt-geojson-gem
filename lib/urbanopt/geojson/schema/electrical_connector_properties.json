@@ -54,13 +54,11 @@
         "description": "A sub-element containing all the attributes that can be assigned to a line, including wires",
         "type":"object",
         "properties":{
-
             "is_switch":{"type":"boolean","description":"Flag indicating if the line is a switch or not"},
             "is_fuse":{"type":"boolean","description":"Flag indicating if the line is a fuse or not"},
             "is_open":{"type":"boolean","description":"Flag indicating if the switch/fuse is a open or not"}
         }
     },
-
     "wires": {
         "description": "Array of wires that are on the line",
         "type": "array",
@@ -69,7 +67,6 @@
             "type": "string"
         }
     },
-
     "end_junction_id": {
       "description": "Id of the junction that this line ends at.",
       "type": "string"

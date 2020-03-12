@@ -177,19 +177,21 @@ module URBANopt
         end
 
         if feature[:geometry].nil?
-          raise("No geometry found in '#{feature}'")
+          raise("No geometry found in '#{feature[:properties][:name]}'")
           return false
         end
 
         if feature[:properties].nil?
-          raise("No properties found in '#{feature}'")
+          raise("No properties found in '#{feature[:properties][:name]}'")
           return false
         end
 
-        errors = JSON::Validator.fully_validate(schema, feature[:properties])
-        if !errors.empty?
-          raise("Invalid properties for '#{feature}'\n  #{errors.join('\n  ')}")
-          return false
+        unless feature[:properties][:detailed_model_filename]
+          errors = JSON::Validator.fully_validate(schema, feature[:properties])
+          if !errors.empty?
+            raise("Invalid properties for '#{feature[:properties][:name]}'\n  #{errors.join('\n  ')}")
+            return false
+          end
         end
 
         geometry_type = feature[:geometry][:type]
