@@ -222,8 +222,7 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
-      #   +false+. Zoning is set to false by default. Currently, zoning set to +false+ is
-      #   only supported.
+      #   +false+. Zoning is set to false by default. 
       def self.process_other_buildings(building, other_building_type, other_buildings, model, origin_lat_lon, runner, zoning = false)
         # Empty array to store the new OpenStudio model spaces that need to be converted to shading objects
         feature_points = building.feature_points(origin_lat_lon, runner, zoning)
@@ -233,7 +232,8 @@ module URBANopt
         other_buildings[:features].each do |other_building|
           other_id = other_building[:properties][:id]
           next if other_id == building.id
-          if other_building_type == 'ShadingOnly'
+          # Consider building, if other building type is ShadingOnly and other id is not equal to building id
+          if other_building_type == 'ShadingOnly' && other_id != building.id
             # Checks if any building point is shaded by any other building point.
             roof_elevation = other_building[:properties][:roof_elevation]
             number_of_stories = other_building[:properties][:number_of_stories]

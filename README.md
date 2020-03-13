@@ -26,9 +26,9 @@ for describing geospatial data related to the built environment.
 
 The current functionalities of the URBANopt GeoJSON gem include:
 
-* Validate a GeoJSON file
-* Calculate available roof area for photovoltaics.
-* Translate Building Feature to an OpenStudio Model.
+* Validate a GeoJSON file against schema.
+* Translate Building Feature to an OpenStudio Model and create zones within OpenStudio Spaces within
+ the Model.
 * Translate Building Feature to OpenStudio Shading Objects.
 
 # Releasing
