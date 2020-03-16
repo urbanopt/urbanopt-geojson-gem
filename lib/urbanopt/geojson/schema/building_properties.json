@@ -108,9 +108,6 @@
     "attic_type": {
       "$ref": "#/definitions/atticType"
     },
-    "roof_type": {
-      "$ref": "#/definitions/roofType"
-    },
     "footprint_area": {
       "description": "Area of the footprint (ft^2).  Calculated on export.",
       "type": "number"
@@ -415,7 +412,10 @@
         "PVAV with reheat",
         "PVAV with reheat with central air source heat pump",
         "PVAV with PFP boxes",
-        "Residential - no heating or cooling",
+        "Residential - electric resistance and no cooling",
+        "Residential - electric resistance and central air conditioner",
+        "Residential - electric resistance and room air conditioner",
+        "Residential - electric resistance and evaporative cooler",
         "Residential - furnace and no cooling",
         "Residential - furnace and central air conditioner",
         "Residential - furnace and room air conditioner",
@@ -424,16 +424,13 @@
         "Residential - boiler and central air conditioner",
         "Residential - boiler and room air conditioner",
         "Residential - boiler and evaporative cooler",
-        "Residential - no heating and central air conditioner",
-        "Residential - no heating and room air conditioner",
-        "Residential - no heating and evaporative cooler",
         "Residential - air-to-air heat pump",
         "Residential - mini-split heat pump",
         "Residential - ground-to-air heat pump"
       ]
     },
     "heatingSystemFuelType": {
-      "description": "The fuel type of the heating system.",
+      "description": "The fuel type of the heating system. This does not apply for certain system types (e.g., electric resistance or heat pumps). Required for residential buildings.",
       "type": "string",
       "enum": [
         "electricity",
@@ -495,16 +492,8 @@
       "enum": [
         "attic - vented",
         "attic - unvented",
-        "attic - conditioned"
-      ]
-    },
-    "roofType": {
-      "description": "The roof type of the building. Required for residential buildings.",
-      "type": "string",
-      "enum": [
-        "gable",
-        "hip",
-        "flat"
+        "attic - conditioned",
+        "flat roof"
       ]
     }
   }
