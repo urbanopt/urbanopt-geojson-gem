@@ -102,6 +102,15 @@
       "description": "Maximum height of the roof relative to surface elevation (ft)",
       "type": "number"
     },
+    "roof_type": {
+      "description": "The type of roof. Defaults to flat.",
+      "type": "string",
+      "enum": [
+        "Flat",
+        "Gable",
+        "Hip"
+      ]
+    },
     "foundation_type": {
       "$ref": "#/definitions/foundationType"
     },
@@ -185,11 +194,11 @@
       "maximum": 100
     },
     "number_of_residential_units": {
-      "description": "Total number of residential units in the building. Required for residential single-family attached or multifamily buildings.",
+      "description": "Total number of residential units in the building. Required for single-family attached or multifamily residential buildings.",
       "type": "integer"
     },
     "number_of_bedrooms": {
-      "description": "Total number of bedrooms in the building. Required for residential buildings.",
+      "description": "Total number of bedrooms in the building. Required for single-family attached or multifamily residential buildings. Must be divisible by the number of residential units.",
       "type": "integer"
     },
     "exterior_lighting_zone": {
@@ -235,18 +244,36 @@
         "number_of_stories",
         "footprint_area",
         "building_type",
-        "number_of_bedrooms",
         "foundation_type",
-        "attic_type",
-        "roof_type",
-        "heating_system_fuel_type"
+        "attic_type"
       ]
     },
     {
       "properties": {
         "building_type": {
           "enum": [
-            "Single-Family Attached",
+            "Single-Family Attached"
+           ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type",
+        "number_of_residential_units",
+        "number_of_bedrooms",
+        "foundation_type",
+        "attic_type"
+      ]
+    },
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
             "Multifamily"
            ]
         }
@@ -261,7 +288,7 @@
         "building_type",
         "number_of_residential_units",
         "number_of_bedrooms",
-        "heating_system_fuel_type"
+        "foundation_type"
       ]
     },
     {
@@ -487,7 +514,7 @@
       ]
     },
     "atticType": {
-      "description": "The attic type of the building. Required for residential buildings.",
+      "description": "The attic type of the building. Required for single-family residential buildings.",
       "type": "string",
       "enum": [
         "attic - vented",
