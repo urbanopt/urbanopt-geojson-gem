@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class URBANopt::GeoJSON::Feature - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+<link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">URBANopt::Core::Feature
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-create_origin_lat_lon">#create_origin_lat_lon</a>
+    
+    <li ><a href="#method-i-feature_type">#feature_type</a>
+    
+    <li ><a href="#method-i-get_min_lon_lat">#get_min_lon_lat</a>
+    
+    <li ><a href="#method-i-get_multi_polygons">#get_multi_polygons</a>
+    
+    <li ><a href="#method-i-id">#id</a>
+    
+    <li class="calls-super" ><a href="#method-i-method_missing">#method_missing</a>
+    
+    <li ><a href="#method-i-name">#name</a>
+    
+    <li ><a href="#method-i-schema">#schema</a>
+    
+    <li ><a href="#method-i-schema_file">#schema_file</a>
+    
+    <li ><a href="#method-i-validate_feat">#validate_feat</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-URBANopt::GeoJSON::Feature">
+  <h1 id="class-URBANopt::GeoJSON::Feature" class="class">
+    class URBANopt::GeoJSON::Feature
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-feature_json" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">feature_json</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(feature)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Used to validate the feature using the <a
+href="Feature.html#method-i-validate_feat">#validate_feat</a> method.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">feature</span>)
+  <span class="ruby-ivar">@feature_json</span> = <span class="ruby-identifier">validate_feat</span>(<span class="ruby-identifier">feature</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-create_origin_lat_lon" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_origin_lat_lon</span><span
+            class="method-args">(runner)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns instance of OpenStudio::PointLatLon for latitude and longitude of
+feature.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>runner</code> - An instance of
+<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_origin_lat_lon-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 152</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_origin_lat_lon</span>(<span class="ruby-identifier">runner</span>)
+  <span class="ruby-identifier">min_lon_lat</span> = <span class="ruby-identifier">get_min_lon_lat</span>
+  <span class="ruby-identifier">min_lon</span> = <span class="ruby-identifier">min_lon_lat</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">min_lat</span> = <span class="ruby-identifier">min_lon_lat</span>[<span class="ruby-value">1</span>]
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">min_lon</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Float</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">min_lat</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Float</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX</span>
+    <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerError</span>(<span class="ruby-string">&#39;Could not determine min_lat and min_lon&#39;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerInfo</span>(<span class="ruby-node">&quot;Min_lat = #{min_lat}, min_lon = #{min_lon}&quot;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">PointLatLon</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">min_lat</span>, <span class="ruby-identifier">min_lon</span>, <span class="ruby-value">0</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-feature_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">feature_type</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Raises an error if the <code>feature_type</code> is not specified the the
+Feature&#39;s class.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="feature_type-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">feature_type</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;feature_type not implemented for Feature, override in your class&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_min_lon_lat" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_min_lon_lat</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns coordinate with the minimum longitute and latitude within a given
+<code>building_json</code> .</p>
+          
+          
+
+          
+          <div class="method-source-code" id="get_min_lon_lat-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_min_lon_lat</span>
+  <span class="ruby-identifier">min_lon</span> = <span class="ruby-constant">Float</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX</span>
+  <span class="ruby-identifier">min_lat</span> = <span class="ruby-constant">Float</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX</span>
+  <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">get_multi_polygons</span>
+  <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">polygon</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">min_lon</span> = <span class="ruby-identifier">point</span>[<span class="ruby-value">0</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">point</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">min_lon</span>
+        <span class="ruby-identifier">min_lat</span> = <span class="ruby-identifier">point</span>[<span class="ruby-value">1</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">point</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">min_lat</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> [<span class="ruby-identifier">min_lon</span>, <span class="ruby-identifier">min_lat</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_multi_polygons" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_multi_polygons</span><span
+            class="method-args">(json = @feature_json)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns MultiPolygon coordinates (coordinate pairs in double nested Array)</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd>
+<p><code>json</code></p>
+
+<p>For example:</p>
+
+<pre class="ruby"><span class="ruby-identifier">polygon</span> = {
+   <span class="ruby-string">&#39;geometry&#39;</span><span class="ruby-operator">:</span> {
+     <span class="ruby-string">&#39;type&#39;</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Polygon&#39;</span>,
+     <span class="ruby-string">&#39;coordinates&#39;</span><span class="ruby-operator">:</span> [
+       [
+         [<span class="ruby-value">0</span>, <span class="ruby-value">5</span>],
+         [<span class="ruby-value">5</span>, <span class="ruby-value">5</span>],
+         [<span class="ruby-value">5</span>, <span class="ruby-value">0</span>]
+       ]
+     ]
+   }
+ }
+</pre>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="get_multi_polygons-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_multi_polygons</span>(<span class="ruby-identifier">json</span> = <span class="ruby-ivar">@feature_json</span>)
+  <span class="ruby-identifier">geometry_type</span> = <span class="ruby-identifier">json</span>[<span class="ruby-value">:geometry</span>][<span class="ruby-value">:type</span>]
+  <span class="ruby-identifier">multi_polygons</span> = []
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">geometry_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Polygon&#39;</span>
+    <span class="ruby-identifier">polygons</span> = <span class="ruby-identifier">json</span>[<span class="ruby-value">:geometry</span>][<span class="ruby-value">:coordinates</span>]
+    <span class="ruby-identifier">multi_polygons</span> = [<span class="ruby-identifier">polygons</span>]
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">geometry_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;MultiPolygon&#39;</span>
+    <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">json</span>[<span class="ruby-value">:geometry</span>][<span class="ruby-value">:coordinates</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">multi_polygons</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-id" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">id</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the id of the feature.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="id-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">id</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:id</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-method_missing" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">method_missing</span><span
+            class="method-args">(name, *args, &blk)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              
+            </div>
+          
+
+          
+          <div class="method-source-code" id="method_missing-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">name</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>].<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:to_sym</span>).<span class="ruby-identifier">include?</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>][<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">super</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">name</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the name of the feature.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="name-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">name</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:name</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-schema" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">schema</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="schema-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 83</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">schema</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@feature_schema</span>[<span class="ruby-identifier">feature_type</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">@@schema_file_lock</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">schema_file</span>, <span class="ruby-string">&#39;r&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">@@feature_schema</span>[<span class="ruby-identifier">feature_type</span>] = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">symbolize_names</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+
+        <span class="ruby-comment"># Allows additional properties.</span>
+        <span class="ruby-identifier">@@feature_schema</span>[<span class="ruby-identifier">feature_type</span>][<span class="ruby-value">:additionalProperties</span>] = <span class="ruby-keyword">true</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">@@feature_schema</span>[<span class="ruby-identifier">feature_type</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-schema_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">schema_file</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Raises an error if the <code>schema_file</code> is not specified the the
+Feature&#39;s class.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="schema_file-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">schema_file</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;schema_file not implemented for Feature, override in your class&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-validate_feat" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">validate_feat</span><span
+            class="method-args">(feature)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Used to validate the feature by checking <code>feature_id</code> ,
+<code>geometry</code>, <code>properties</code> and
+<code>geometry_type</code> .</p>
+          
+          
+
+          
+          <div class="method-source-code" id="validate_feat-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 173</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">validate_feat</span>(<span class="ruby-identifier">feature</span>) <span class="ruby-comment">#:doc:</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;Feature &#39;#{feature_id}&#39; could not be found&quot;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>[<span class="ruby-value">:geometry</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;No geometry found in &#39;#{feature[:properties][:name]}&#39;&quot;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;No properties found in &#39;#{feature[:properties][:name]}&#39;&quot;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:detailed_model_filename</span>]
+    <span class="ruby-identifier">errors</span> = <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Validator</span>.<span class="ruby-identifier">fully_validate</span>(<span class="ruby-identifier">schema</span>, <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">errors</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;Invalid properties for &#39;#{feature[:properties][:name]}&#39;\n  #{errors.join(&#39;\n  &#39;)}&quot;</span>)
+      <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">geometry_type</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:geometry</span>][<span class="ruby-value">:type</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">geometry_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Polygon&#39;</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">geometry_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;MultiPolygon&#39;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span>(<span class="ruby-node">&quot;Unknown geometry type &#39;#{geometry_type}&#39;&quot;</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">feature</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

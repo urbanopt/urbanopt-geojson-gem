@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module URBANopt::GeoJSON::Zoning - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+<link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-divide_floor_print">::divide_floor_print</a>
+    
+    <li ><a href="#method-c-get_first_floor_points">::get_first_floor_points</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-URBANopt::GeoJSON::Zoning">
+  <h1 id="module-URBANopt::GeoJSON::Zoning" class="module">
+    module URBANopt::GeoJSON::Zoning
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-divide_floor_print" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">divide_floor_print</span><span
+            class="method-args">(floor_print, perimeter_depth, runner)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This method divides the floor print using perimeter and core zoning at the
+depth of the <code>perimeter_depth</code>.</p>
+
+<p>It returns an Array of Arrays containing instances of
+<code>OpenStudio::Point3d</code> .</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>floor_print</code> - <em>Type:Array</em> - An instance of
+<code>OpenStudio::Point3dVector.new</code> .</p>
+</li><li>
+<p><code>perimeter_depth</code> - <em>Type:Float</em> - Represents perimeter
+depth.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of
+<code>OpenStudio::Measure::OSRunner</code> .</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="divide_floor_print-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/zoning.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">divide_floor_print</span>(<span class="ruby-identifier">floor_print</span>, <span class="ruby-identifier">perimeter_depth</span>, <span class="ruby-identifier">runner</span>)
+  <span class="ruby-identifier">result</span> = []
+  <span class="ruby-identifier">t_inv</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Transformation</span>.<span class="ruby-identifier">alignFace</span>(<span class="ruby-identifier">floor_print</span>)
+  <span class="ruby-identifier">t</span> = <span class="ruby-identifier">t_inv</span>.<span class="ruby-identifier">inverse</span>
+  <span class="ruby-identifier">vertices</span> = <span class="ruby-identifier">t</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">floor_print</span>
+  <span class="ruby-identifier">new_vertices</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Point3dVector</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">n</span> = <span class="ruby-identifier">vertices</span>.<span class="ruby-identifier">size</span>
+  (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">vertex_1</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">vertex_2</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">vertex_3</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+      <span class="ruby-identifier">vertex_1</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">n</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
+      <span class="ruby-identifier">vertex_2</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span>]
+      <span class="ruby-identifier">vertex_3</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> (<span class="ruby-identifier">n</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>)
+      <span class="ruby-identifier">vertex_1</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
+      <span class="ruby-identifier">vertex_2</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span>]
+      <span class="ruby-identifier">vertex_3</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-value">0</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">vertex_1</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
+      <span class="ruby-identifier">vertex_2</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span>]
+      <span class="ruby-identifier">vertex_3</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">vector_1</span> = (<span class="ruby-identifier">vertex_2</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">vertex_1</span>)
+    <span class="ruby-identifier">vector_2</span> = (<span class="ruby-identifier">vertex_3</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">vertex_2</span>)
+    <span class="ruby-identifier">angle_1</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">atan2</span>(<span class="ruby-identifier">vector_1</span>.<span class="ruby-identifier">y</span>, <span class="ruby-identifier">vector_1</span>.<span class="ruby-identifier">x</span>) <span class="ruby-operator">+</span> <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+    <span class="ruby-identifier">angle_2</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">atan2</span>(<span class="ruby-identifier">vector_2</span>.<span class="ruby-identifier">y</span>, <span class="ruby-identifier">vector_2</span>.<span class="ruby-identifier">x</span>) <span class="ruby-operator">+</span> <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span> <span class="ruby-operator">/</span> <span class="ruby-value">2.0</span>
+    <span class="ruby-identifier">vector</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Vector3d</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Math</span>.<span class="ruby-identifier">cos</span>(<span class="ruby-identifier">angle_1</span>) <span class="ruby-operator">+</span> <span class="ruby-constant">Math</span>.<span class="ruby-identifier">cos</span>(<span class="ruby-identifier">angle_2</span>), <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sin</span>(<span class="ruby-identifier">angle_1</span>) <span class="ruby-operator">+</span> <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sin</span>(<span class="ruby-identifier">angle_2</span>), <span class="ruby-value">0</span>)
+    <span class="ruby-identifier">vector</span>.<span class="ruby-identifier">setLength</span>(<span class="ruby-identifier">perimeter_depth</span>)
+    <span class="ruby-identifier">new_point</span> = <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">vector</span>
+    <span class="ruby-identifier">new_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_point</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">normal</span> = <span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">getOutwardNormal</span>(<span class="ruby-identifier">new_vertices</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">normal</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">normal</span>.<span class="ruby-identifier">get</span>.<span class="ruby-identifier">z</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-string">&#39;Wrong direction for resulting normal, will not divide&#39;</span>)
+    <span class="ruby-keyword">return</span> [<span class="ruby-identifier">floor_print</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">self_intersects</span> = <span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">selfIntersects</span>(<span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">reverse</span>(<span class="ruby-identifier">new_vertices</span>), <span class="ruby-value">0.01</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">VersionString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">openStudioVersion</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">VersionString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;1.12.4&#39;</span>)
+    <span class="ruby-identifier">self_intersects</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">self_intersects</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">self_intersects</span>
+    <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-string">&#39;Self intersecting surface result, will not divide&#39;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t_inv</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">new_vertices</span>
+  (<span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-identifier">n</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">perim_vertices</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Point3dVector</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">==</span> (<span class="ruby-identifier">n</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>)
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span>]
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">vertices</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_vertices</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_vertices</span>[<span class="ruby-identifier">i</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span>]
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">vertices</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_vertices</span>[<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
+      <span class="ruby-identifier">perim_vertices</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_vertices</span>[<span class="ruby-identifier">i</span>]
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t_inv</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">perim_vertices</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-get_first_floor_points" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_first_floor_points</span><span
+            class="method-args">(multi_polygons, origin_lat_lon, runner)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>The <a
+href="Zoning.html#method-c-get_first_floor_points">::get_first_floor_points</a>
+is used to return the points for the first floor.</p>
+
+<p>It returns an Array containing instances of
+<code>OpenStudio::Point3d</code>.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>multi_polygons</code> - <em>Type-Array</em> - Coordinate pairs in
+double nested <code>Array</code> .</p>
+</li><li>
+<p><code>origin_lat_lon</code> - <em>Type-Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating origin latitude and
+longitude.</p>
+</li><li>
+<p><code>runner</code> - <em>Type-String</em> - Measure run&#39;s instance of
+<code>OpenStudio::Measure::OSRunner</code> .</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="get_first_floor_points-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/zoning.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_first_floor_points</span>(<span class="ruby-identifier">multi_polygons</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>)
+  <span class="ruby-identifier">building_points</span> = []
+  <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">polygon</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">elevation</span> = <span class="ruby-value">0</span>
+      <span class="ruby-identifier">floor_print</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">floor_print_from_polygon</span>(<span class="ruby-identifier">polygon</span>, <span class="ruby-identifier">elevation</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">floor_print</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">building_points</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">point</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">building_points</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

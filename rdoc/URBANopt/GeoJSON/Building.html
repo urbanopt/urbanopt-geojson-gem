@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class URBANopt::GeoJSON::Building - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
+<link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="Feature.html">URBANopt::GeoJSON::Feature</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li class="calls-super" ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-create_building">#create_building</a>
+    
+    <li ><a href="#method-i-create_other_building">#create_other_building</a>
+    
+    <li ><a href="#method-i-create_other_buildings">#create_other_buildings</a>
+    
+    <li ><a href="#method-i-create_space_per_building">#create_space_per_building</a>
+    
+    <li ><a href="#method-i-create_space_per_floor">#create_space_per_floor</a>
+    
+    <li ><a href="#method-i-create_windows">#create_windows</a>
+    
+    <li ><a href="#method-i-feature_points">#feature_points</a>
+    
+    <li ><a href="#method-i-feature_type">#feature_type</a>
+    
+    <li ><a href="#method-i-other_points">#other_points</a>
+    
+    <li ><a href="#method-i-schema_file">#schema_file</a>
+    
+    <li ><a href="#method-i-to_hash">#to_hash</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-URBANopt::GeoJSON::Building">
+  <h1 id="class-URBANopt::GeoJSON::Building" class="class">
+    class URBANopt::GeoJSON::Building
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(feature = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Used to initialize the feature. This method is inherited from the <a
+href="Feature.html">Feature</a> class.</p>
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              <a href="Feature.html#method-c-new">URBANopt::GeoJSON::Feature.new</a>
+            </div>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">feature</span> = {})
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">feature</span>)
+
+  <span class="ruby-ivar">@id</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:id</span>]
+  <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:name</span>]
+  <span class="ruby-ivar">@detailed_model_filename</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:detailed_model_filename</span>]
+  <span class="ruby-ivar">@floor_area</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:floor_area</span>]
+  <span class="ruby-ivar">@number_of_stories</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:number_of_stories</span>]
+  <span class="ruby-ivar">@number_of_stories_above_ground</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:number_of_stories_above_ground</span>]
+  <span class="ruby-ivar">@footprint_area</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:footprint_area</span>]
+  <span class="ruby-ivar">@template</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:template</span>]
+  <span class="ruby-ivar">@building_type</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:building_type</span>]
+  <span class="ruby-ivar">@system_type</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:system_type</span>]
+  <span class="ruby-ivar">@weekday_start_time</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:weekday_start_time</span>]
+  <span class="ruby-ivar">@weekday_duration</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:weekday_duration</span>]
+  <span class="ruby-ivar">@weekend_start_time</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:weekend_start_time</span>]
+  <span class="ruby-ivar">@weekend_duration</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:weekend_duration</span>]
+  <span class="ruby-ivar">@mixed_type_1</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_1</span>]
+  <span class="ruby-ivar">@mixed_type_1_percentage</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_1_percentage</span>]
+  <span class="ruby-ivar">@mixed_type_2</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_2</span>]
+  <span class="ruby-ivar">@mixed_type_2_percentage</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_2_percentage</span>]
+  <span class="ruby-ivar">@mixed_type_3</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_3</span>]
+  <span class="ruby-ivar">@mixed_type_3_percentage</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_3_percentage</span>]
+  <span class="ruby-ivar">@mixed_type_4</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_4</span>]
+  <span class="ruby-ivar">@mixed_type_4_percentage</span> = <span class="ruby-identifier">feature</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:mixed_type_4_percentage</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-create_building" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_building</span><span
+            class="method-args">(create_method, model, origin_lat_lon, runner, zoning = false, other_building = @feature_json)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This method creates a building for a given feature specified in the
+feature_json as per the create_method.</p>
+
+<p>Returns an array of instances of <code>OpenStudio::Model::Space</code> .</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>create_method</code> - <em>Type:Symbol</em> -
+<code>:space_per_floor</code> or <code>:space_per_building</code> methods
+can be used.</p>
+</li><li>
+<p><code>model</code> - <em>Type:String</em> - An instance of
++OpenStudio::Model::Model+_ .</p>
+</li><li>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
+of the origin.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - An instance of
+<code>OpenStudio::Measure::OSRunner</code> for the measure run.</p>
+</li><li>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
+utilizing detailed zoning, else <code>false</code>. <a
+href="Zoning.html">Zoning</a> is set to False by default.</p>
+</li><li>
+<p><code>other_building</code> - _Type:URBANopt::GeoJSON::Feature - Optional,
+allow the user to pass in a different building to process. This is used for
+creating the other buildings for shading.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_building-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 93</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_building</span>(<span class="ruby-identifier">create_method</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">other_building</span> = <span class="ruby-ivar">@feature_json</span>)
+  <span class="ruby-identifier">number_of_stories</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:number_of_stories</span>]
+  <span class="ruby-identifier">number_of_stories_above_ground</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:number_of_stories_above_ground</span>]
+  <span class="ruby-identifier">number_of_stories_below_ground</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:number_of_stories_below_ground</span>]
+  <span class="ruby-identifier">number_of_residential_units</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:number_of_residential_units</span>]
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">zoning</span>
+    <span class="ruby-identifier">surface_elevation</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:surface_elevation</span>]
+    <span class="ruby-identifier">roof_elevation</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:roof_elevation</span>]
+    <span class="ruby-identifier">floor_to_floor_height</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:floor_to_floor_height</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">maximum_roof_height</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:maximum_roof_height</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">number_of_stories_above_ground</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">number_of_stories_above_ground</span> = <span class="ruby-identifier">number_of_stories</span>
+    <span class="ruby-identifier">number_of_stories_below_ground</span> = <span class="ruby-value">0</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">number_of_stories_below_ground</span> = <span class="ruby-identifier">number_of_stories</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">number_of_stories_above_ground</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">floor_to_floor_height</span> = <span class="ruby-identifier">zoning</span> <span class="ruby-operator">?</span> <span class="ruby-value">3.6</span> <span class="ruby-operator">:</span> <span class="ruby-value">3</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">number_of_stories_above_ground</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">number_of_stories_above_ground</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">maximum_roof_height</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">zoning</span>
+    <span class="ruby-identifier">floor_to_floor_height</span> = <span class="ruby-identifier">maximum_roof_height</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">number_of_stories_above_ground</span>
+    <span class="ruby-identifier">floor_to_floor_height</span> = <span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">convert</span>(<span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-string">&#39;ft&#39;</span>, <span class="ruby-string">&#39;m&#39;</span>).<span class="ruby-identifier">get</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">create_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:space_per_floor</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:spaces_per_floor</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">number_of_residential_units</span>
+      <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">setStandardsNumberOfLivingUnits</span>(<span class="ruby-identifier">number_of_residential_units</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">setStandardsNumberOfStories</span>(<span class="ruby-identifier">number_of_stories</span>)
+    <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">setStandardsNumberOfAboveGroundStories</span>(<span class="ruby-identifier">number_of_stories_above_ground</span>)
+    <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">setNominalFloortoFloorHeight</span>(<span class="ruby-identifier">floor_to_floor_height</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">spaces</span> = []
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">create_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:space_per_floor</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">create_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:spaces_per_floor</span>
+    (<span class="ruby-operator">-</span><span class="ruby-identifier">number_of_stories_below_ground</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-identifier">number_of_stories_above_ground</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">story_number</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">new_spaces</span> = <span class="ruby-identifier">create_space_per_floor</span>(<span class="ruby-identifier">story_number</span>, <span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+      <span class="ruby-identifier">spaces</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">new_spaces</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">create_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:space_per_building</span>
+    <span class="ruby-identifier">spaces</span> = <span class="ruby-identifier">create_space_per_building</span>(<span class="ruby-operator">-</span><span class="ruby-identifier">number_of_stories_below_ground</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-identifier">number_of_stories_above_ground</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>, <span class="ruby-identifier">other_building</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">spaces</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Building.html#method-i-create_other_building">create_other_building</a>
+        </div>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-create_other_building" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">create_other_building</span><span
+            class="method-args">(create_method, model, origin_lat_lon, runner, zoning = false, other_building = @feature_json)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Building.html#method-i-create_building">create_building</a>
+        </div>
+        
+      </div>
+
+    
+      <div id="method-i-create_other_buildings" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_other_buildings</span><span
+            class="method-args">(other_building_type, other_buildings, model, origin_lat_lon, runner, zoning = false)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This method is used to create the surrounding buildings as shading objects.</p>
+
+<p>Returns an array of instances of <code>OpenStudio::Model::Space</code>.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>other_building_type</code> - <em>Type:String</em> - Describes the
+surrounding buildings. Supports &#39;None&#39;, &#39;ShadingOnly&#39;
+options.</p>
+</li><li>
+<p><code>other_buildings</code> -
+<em>Type:URBANopt::GeoJSON::FeatureCollection</em> - List of all
+surrounding features to include (self will be ignored if present in list).</p>
+</li><li>
+<p><code>model</code> - <em>Type:OpenStudio::Model::Model</em> - An instance
+of an <a href="../../OpenStudio.html">OpenStudio</a> <a
+href="Model.html">Model</a>.</p>
+</li><li>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
+of the origin.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - An instance of
+<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+</li><li>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>True</code> if
+utilizing detailed zoning, else <code>False</code>. <a
+href="Zoning.html">Zoning</a> is set to False by default.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_other_buildings-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 206</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_other_buildings</span>(<span class="ruby-identifier">other_building_type</span>, <span class="ruby-identifier">other_buildings</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">building_features</span> = {}
+  <span class="ruby-identifier">building_features</span>[<span class="ruby-value">:features</span>] = []
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">other_buildings</span>[<span class="ruby-value">:features</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-node">&quot;No features found in #{other_buildings}&quot;</span>)
+    <span class="ruby-keyword">return</span> []
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment"># remove non-buildings from the other_buildings list of all project features</span>
+    <span class="ruby-comment"># since this is for shading, keep District Systems as well</span>
+    <span class="ruby-identifier">other_buildings</span>[<span class="ruby-value">:features</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">f</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Building&#39;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">f</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;District System&#39;</span>
+        <span class="ruby-identifier">building_features</span>[<span class="ruby-value">:features</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">f</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">other_spaces</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">process_other_buildings</span>(
+    <span class="ruby-keyword">self</span>, <span class="ruby-identifier">other_building_type</span>, <span class="ruby-identifier">building_features</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>
+  )
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">other_spaces</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-create_windows" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_windows</span><span
+            class="method-args">(spaces)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This method loops through all the spaces of the building and for each Wall
+surface with Outdoors boundary condition, sets the window to wall ratio as
+per the specified value or as a default value of 0.3.</p>
+
+<p>Returns an array of instances of <code>OpenStudio::Model::Space</code> with
+windows.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>spaces</code> - <em>Type:Array</em> - Contains instances of
+<code>OpenStudio::Model::Space</code> .</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_windows-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 237</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_windows</span>(<span class="ruby-identifier">spaces</span>)
+  <span class="ruby-identifier">window_to_wall_ratio</span> = <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:window_to_wall_ratio</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">window_to_wall_ratio</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">window_to_wall_ratio</span> = <span class="ruby-value">0.3</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">spaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">space</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">surfaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">surfaceType</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Wall&#39;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">outsideBoundaryCondition</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Outdoors&#39;</span>
+        <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">setWindowToWallRatio</span>(<span class="ruby-identifier">window_to_wall_ratio</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-feature_points" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">feature_points</span><span
+            class="method-args">(origin_lat_lon, runner, zoning)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return the features multi polygon in an array of the form coordinate pairs
+in double nested Array.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
+of the origin.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - An instance of
+<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+</li><li>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Should be true if you&#39;d
+like to utilize aspects of function that are specific to zoning.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="feature_points-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">feature_points</span>(<span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+  <span class="ruby-identifier">feature_points</span> = []
+  <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">get_multi_polygons</span>(<span class="ruby-ivar">@feature_json</span>)
+  <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">polygon</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">elevation</span> = <span class="ruby-value">0</span>
+      <span class="ruby-identifier">floor_print</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">floor_print_from_polygon</span>(<span class="ruby-identifier">polygon</span>, <span class="ruby-identifier">elevation</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+      <span class="ruby-identifier">floor_print</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">feature_points</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">point</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-comment"># Subsequent polygons are holes, and are not supported.</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">feature_points</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-feature_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">feature_type</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Used to describe the <a href="Building.html">Building</a> feature type
+using the base method from the <a href="Feature.html">Feature</a> class.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="feature_type-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 68</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">feature_type</span>
+  <span class="ruby-string">&#39;Building&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-other_points" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">other_points</span><span
+            class="method-args">(other_building, other_height, origin_lat_lon, runner, zoning)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return the points of the other building object. This method is similar to
+<a href="Building.html#method-i-feature_points">#feature_points</a>, but
+accepts the other building and other height.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>other_building</code> - <em>Type:Array</em> - Array of points.</p>
+</li><li>
+<p><code>other_height</code> - <em>Type:Double</em> - Value of the other
+height from which to create the floor prints.</p>
+</li><li>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
+of the origin.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - An instance of
+<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+</li><li>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Should be true if you&#39;d
+like to utilize aspects of function that are specific to zoning.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="other_points-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 177</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">other_points</span>(<span class="ruby-identifier">other_building</span>, <span class="ruby-identifier">other_height</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+  <span class="ruby-identifier">other_points</span> = []
+  <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">get_multi_polygons</span>(<span class="ruby-identifier">other_building</span>)
+  <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">polygon</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">floor_print</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">floor_print_from_polygon</span>(<span class="ruby-identifier">polygon</span>, <span class="ruby-identifier">other_height</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+      <span class="ruby-identifier">floor_print</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">point</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">other_points</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">point</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-comment"># Subsequent polygons are holes, and are not supported.</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">other_points</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-schema_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">schema_file</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the building_properties schema.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="schema_file-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">schema_file</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;schema&#39;</span>, <span class="ruby-string">&#39;building_properties.json&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-to_hash" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_hash</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convert to a Hash equivalent for JSON serialization</p>
+<ul><li>
+<p>Exclude attributes with nil values.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="to_hash-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 256</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_hash</span>
+  <span class="ruby-identifier">result</span> = {}
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:id</span>] = <span class="ruby-ivar">@id</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@id</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:name</span>] = <span class="ruby-ivar">@name</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@name</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:detailed_model_filename</span>] = <span class="ruby-ivar">@detailed_model_filename</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@detailed_model_filename</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:floor_area</span>] = <span class="ruby-ivar">@floor_area</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@floor_area</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:number_of_stories</span>] = <span class="ruby-ivar">@number_of_stories</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@number_of_stories</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:number_of_stories_above_ground</span>] = <span class="ruby-ivar">@number_of_stories_above_ground</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@number_of_stories_above_ground</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:footprint_area</span>] = <span class="ruby-ivar">@footprint_area</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@footprint_area</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:template</span>] = <span class="ruby-ivar">@template</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@template</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:building_type</span>] = <span class="ruby-ivar">@building_type</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@building_type</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:system_type</span>] = <span class="ruby-ivar">@system_type</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@system_type</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:weekday_start_time</span>] = <span class="ruby-ivar">@weekday_start_time</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@weekday_start_time</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:weekday_duration</span>] = <span class="ruby-ivar">@weekday_duration</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@weekday_duration</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:weekend_start_time</span>] = <span class="ruby-ivar">@weekend_start_time</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@weekend_start_time</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:weekend_duration</span>] = <span class="ruby-ivar">@weekend_duration</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@weekend_duration</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_1</span>] = <span class="ruby-ivar">@mixed_type_1</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_1</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_1_percentage</span>] = <span class="ruby-ivar">@mixed_type_1_percentage</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_1_percentage</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_2</span>] = <span class="ruby-ivar">@mixed_type_2</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_2</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_2_percentage</span>] = <span class="ruby-ivar">@mixed_type_2_percentage</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_2_percentage</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_3</span>] = <span class="ruby-ivar">@mixed_type_3</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_3</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_3_percentage</span>] = <span class="ruby-ivar">@mixed_type_3_percentage</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_3_percentage</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_4</span>] = <span class="ruby-ivar">@mixed_type_4</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_4</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:mixed_type_4_percentage</span>] = <span class="ruby-ivar">@mixed_type_4_percentage</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mixed_type_4_percentage</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Private Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-create_space_per_building" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_space_per_building</span><span
+            class="method-args">(min_elevation, max_elevation, model, origin_lat_lon, runner, zoning = false, other_building)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> per
+building</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>min_elevation</code> - <em>Type:Integer</em> - Indicates minimum
+elevation across all buildings.</p>
+</li><li>
+<p><code>max_elevation</code> - <em>Type:Integer</em> - Indicates maximum
+elevation across all buildings.</p>
+</li><li>
+<p><code>model</code> - <em>Type:String</em> - An instance of
+<code>OpenStudio::Model::Model</code> .</p>
+</li><li>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating the latidude and longitude
+of the origin.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - An instance of
+<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+</li><li>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
+utilizing detailed zoning, else <code>false</code>. <a
+href="Zoning.html">Zoning</a> is set to False by default.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_space_per_building-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 297</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_space_per_building</span>(<span class="ruby-identifier">min_elevation</span>, <span class="ruby-identifier">max_elevation</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">other_building</span>) <span class="ruby-comment">#:doc:</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">other_building</span>
+    <span class="ruby-identifier">geometry</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:geometry</span>]
+    <span class="ruby-identifier">properties</span> = <span class="ruby-identifier">other_building</span>[<span class="ruby-value">:properties</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">geometry</span> = <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:geometry</span>]
+    <span class="ruby-identifier">properties</span> = <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">zoning</span>
+    <span class="ruby-identifier">name</span> = <span class="ruby-identifier">properties</span>[<span class="ruby-value">:id</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">name</span> = <span class="ruby-identifier">properties</span>[<span class="ruby-value">:name</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">floor_prints</span> = []
+  <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">get_multi_polygons</span>(<span class="ruby-identifier">other_building</span>)
+  <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-string">&#39;Ignoring holes in polygon&#39;</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">polygon</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">floor_print</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">floor_print_from_polygon</span>(<span class="ruby-identifier">polygon</span>, <span class="ruby-identifier">min_elevation</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">floor_print</span>
+        <span class="ruby-identifier">floor_prints</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">floor_print</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-node">&quot;Cannot get floor print for building &#39;#{name}&#39;&quot;</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span> = []
+  <span class="ruby-identifier">floor_prints</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">floor_print</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">space</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Space</span>.<span class="ruby-identifier">fromFloorPrint</span>(<span class="ruby-identifier">floor_print</span>, <span class="ruby-identifier">max_elevation</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">min_elevation</span>, <span class="ruby-identifier">model</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">space</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-string">&#39;Cannot create building space&#39;</span>)
+      <span class="ruby-keyword">next</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">space</span> = <span class="ruby-identifier">space</span>.<span class="ruby-identifier">get</span>
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">setName</span>(<span class="ruby-node">&quot;Building #{name} Space&quot;</span>)
+    <span class="ruby-identifier">thermal_zone</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">ThermalZone</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">model</span>)
+    <span class="ruby-identifier">thermal_zone</span>.<span class="ruby-identifier">setName</span>(<span class="ruby-node">&quot;Building #{name} ThermalZone&quot;</span>)
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">setThermalZone</span>(<span class="ruby-identifier">thermal_zone</span>)
+    <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">space</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+  <span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-create_space_per_floor" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_space_per_floor</span><span
+            class="method-args">(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning = false)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> per
+floor.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>feature</code> - <em>Type:String</em> - An instance of <a
+href="Feature.html">Feature</a> class built off of the <a
+href="../GeoJSON.html">GeoJSON</a> file.</p>
+</li><li>
+<p><code>story_number</code> - <em>Type:Integer</em> - Number of floors in the
+building.</p>
+</li><li>
+<p><code>floor_to_floor_height</code> - <em>Type:Integer</em> - Height of the
+building stories.</p>
+</li><li>
+<p><code>model</code> - <em>Type:String</em> - An instance of
+<code>OpenStudio::Model::Model</code>.</p>
+</li><li>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
+<code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude
+and longitude.</p>
+</li><li>
+<p><code>runner</code> - <em>Type:String</em> - An instance of
+<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+</li><li>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
+utilizing detailed zoning, else <code>false</code>. <a
+href="Zoning.html">Zoning</a> is set to False by default.</p>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="create_space_per_floor-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 356</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_space_per_floor</span>(<span class="ruby-identifier">story_number</span>, <span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>) <span class="ruby-comment">#:doc:</span>
+  <span class="ruby-identifier">geometry</span> = <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:geometry</span>]
+  <span class="ruby-identifier">properties</span> = <span class="ruby-ivar">@feature_json</span>[<span class="ruby-value">:properties</span>]
+  <span class="ruby-identifier">floor_prints</span> = []
+  <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">get_multi_polygons</span>
+  <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">story_number</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-string">&#39;Ignoring holes in polygon&#39;</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">multi_polygon</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">polygon</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">elevation</span> = (<span class="ruby-identifier">story_number</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) <span class="ruby-operator">*</span> <span class="ruby-identifier">floor_to_floor_height</span>
+      <span class="ruby-identifier">floor_print</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">floor_print_from_polygon</span>(<span class="ruby-identifier">polygon</span>, <span class="ruby-identifier">elevation</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">floor_print</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">zoning</span>
+          <span class="ruby-identifier">this_floor_prints</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Zoning</span>.<span class="ruby-identifier">divide_floor_print</span>(<span class="ruby-identifier">floor_print</span>, <span class="ruby-value">4.0</span>, <span class="ruby-identifier">runner</span>) 
+          <span class="ruby-identifier">floor_prints</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">this_floor_prints</span>)
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">floor_prints</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">floor_print</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-node">&quot;Cannot create story #{story_number}&quot;</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-comment"># Subsequent polygons are holes, and are not supported.</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span> 
+  <span class="ruby-keyword">end</span> 
+  <span class="ruby-identifier">spaces</span> = []
+  <span class="ruby-identifier">floor_prints</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">floor_print</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">space</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Space</span>.<span class="ruby-identifier">fromFloorPrint</span>(<span class="ruby-identifier">floor_print</span>, <span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-identifier">model</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">space</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-node">&quot;Cannot create space for story #{story_number}&quot;</span>)
+      <span class="ruby-keyword">next</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">space</span> = <span class="ruby-identifier">space</span>.<span class="ruby-identifier">get</span>
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">setName</span>(<span class="ruby-node">&quot;Building Story #{story_number} Space&quot;</span>)
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">surfaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">surfaceType</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Wall&#39;</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">story_number</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">1</span>
+          <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">setOutsideBoundaryCondition</span>(<span class="ruby-string">&#39;Ground&#39;</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span> 
+    <span class="ruby-identifier">spaces</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">space</span>
+  <span class="ruby-keyword">end</span> 
+  
+  <span class="ruby-identifier">building_story</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">BuildingStory</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">model</span>)
+  <span class="ruby-identifier">building_story</span>.<span class="ruby-identifier">setName</span>(<span class="ruby-node">&quot;Building Story #{story_number}&quot;</span>)
+  <span class="ruby-identifier">spaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">space</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">setBuildingStory</span>(<span class="ruby-identifier">building_story</span>)
+    <span class="ruby-identifier">thermal_zone</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">ThermalZone</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">model</span>)
+    <span class="ruby-identifier">thermal_zone</span>.<span class="ruby-identifier">setName</span>(<span class="ruby-node">&quot;Building Story #{story_number} ThermalZone&quot;</span>)
+    <span class="ruby-identifier">space</span>.<span class="ruby-identifier">setThermalZone</span>(<span class="ruby-identifier">thermal_zone</span>)
+  <span class="ruby-keyword">end</span> 
+  
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">spaces</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
