@@ -44,8 +44,12 @@ module URBANopt
         @feature_json = validate_feat(feature)
       end
 
+      # rubocop:disable Style/MethodMissing
       def method_missing(name, *args, &blk)
+        # rubocop:enable Style/MethodMissing
+        # rubocop:disable Style/GuardClause
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
+          # rubocop:enable Style/GuardClause
           return @feature_json[:properties][name.to_sym]
         else
           super
@@ -169,8 +173,9 @@ module URBANopt
       ##
       # Used to validate the feature by checking +feature_id+ , +geometry+, +properties+
       # and +geometry_type+ .
-
+      # rubocop:disable Style/CommentedKeyword
       def validate_feat(feature) #:doc:
+        # rubocop:enable Style/CommentedKeyword
         if feature.nil? || feature.empty?
           raise("Feature '#{feature_id}' could not be found")
           return false

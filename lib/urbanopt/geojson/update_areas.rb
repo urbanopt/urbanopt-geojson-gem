@@ -97,6 +97,6 @@ geojson[:features].each do |feature|
   # std::vector<Point3d> toLocalCartesian(const std::vector<PointLatLon>& points) const;
 end
 
-File.open(ARGV[0], 'w') do |file|
+File.open(ARGV[0], 'w') do |file| # rubocop:disable Lint/ShadowingOuterLocalVariable
   file << JSON.pretty_generate(geojson)
 end
