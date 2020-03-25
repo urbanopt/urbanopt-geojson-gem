@@ -69,7 +69,7 @@ RSpec.describe URBANopt::GeoJSON do
     spaces = feature.create_building(:spaces_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(spaces[0].class).to eq(OpenStudio::Model::Space)
     expect(feature.number_of_stories).to eq(1)
-    expect(spaces.size).to eq(1) # TODO: check why is it creating a single space for zoning. Error: OutwardNormal of floorPrint must point down to create space.
+    expect(spaces.size).to eq(1)
   end
 
   it 'creates building with zoning and create other buildings using ShadingOnly method' do
