@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
   # spec.required_ruby_version = '~> 2.2.4'
 
   spec.add_development_dependency 'bundler', '~> 1.14'
-  spec.add_development_dependency 'rake', '12.3.1'
-  spec.add_development_dependency 'rspec', '3.7.0'
+  spec.add_development_dependency 'rake', '~> 12.3'
+  spec.add_development_dependency 'rspec', '~> 3.7'
 
   # lock the version of these dependencies due to using older version of Ruby.
   spec.add_dependency 'public_suffix', '3.1.1'
@@ -38,5 +38,5 @@ Gem::Specification.new do |spec|
   # other dependencies
   spec.add_dependency 'json-schema'
   spec.add_dependency 'openstudio-extension', '~> 0.1.5'
-  spec.add_dependency 'urbanopt-core', '~> 0.1.0'
+  spec.add_dependency 'urbanopt-core', '~> 0.2.0'
 end
