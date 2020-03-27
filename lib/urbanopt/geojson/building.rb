@@ -282,7 +282,7 @@ module URBANopt
       private
 
       ##
-      # Returns an array of instances of +OpenStudio::Model::Space+ per building
+      # Returns an array of instances of +OpenStudio::Model::Space+ per building.
       #
       # [Parameters]
       # * +min_elevation+ - _Type:Integer_ - Indicates minimum elevation across all buildings.

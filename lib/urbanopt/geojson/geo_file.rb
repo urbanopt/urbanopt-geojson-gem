@@ -174,7 +174,7 @@ module URBANopt
       end
 
       ##
-      # Merge Site Properties in Feature.  Returns feature with site properties added to its properties section. Does not overwrite existing properties.
+      # Merge Site Properties in Feature. Returns feature with site properties added to its properties section. Does not overwrite existing properties.
       #
       # [Parameters]
       # +feature+ - _Type:Hash_ - feature object.
@@ -211,7 +211,7 @@ module URBANopt
       end
 
       ##
-      # Validate GeoJSON against schema
+      # Validate GeoJSON against schema.
       #
       # [Parameters]
       # * +data+ - + - _Type:Hash_ - Input GeoJSON file
