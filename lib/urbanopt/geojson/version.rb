@@ -30,6 +30,6 @@
 
 module URBANopt
   module GeoJSON
-    VERSION = '0.2.0.pre3'.freeze
+    VERSION = '0.2.0'.freeze
   end
 end
