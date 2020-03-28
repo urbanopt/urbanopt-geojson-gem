@@ -133,7 +133,9 @@ Dir.glob('denver_district*.geojson').each do |p|
       end
 
       all_errors[p][-1].concat(errors)
+    # rubocop:disable Lint/RescueException
     rescue Exception => e
+      # rubocop:enable Lint/RescueException
       all_errors[p][-1] << "Error '#{e.message}' occurred: "
       all_errors[p][-1] << e.backtrace.to_s
     end

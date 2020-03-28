@@ -58,7 +58,6 @@ RSpec.describe URBANopt::GeoJSON do
     expect(surfaces[0].class).to eq(OpenStudio::Model::ShadingSurface)
   end
 
-
   it 'create no other buildings' do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
     feature_id = '59a9ce2b42f7d007c059d302'
