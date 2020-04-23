@@ -198,7 +198,7 @@
       "type": "integer"
     },
     "number_of_bedrooms": {
-      "description": "Total number of bedrooms in the building. Required for single-family attached or multifamily residential buildings. Must be divisible by the number of residential units.",
+      "description": "Total number of bedrooms in the building. Required for residential buildings. Must be divisible by the number of residential units.",
       "type": "integer"
     },
     "exterior_lighting_zone": {
@@ -244,6 +244,7 @@
         "number_of_stories",
         "footprint_area",
         "building_type",
+        "number_of_bedrooms",
         "foundation_type",
         "attic_type"
       ]
@@ -461,7 +462,7 @@
       ]
     },
     "heatingSystemFuelType": {
-      "description": "The fuel type of the heating system. This does not apply for certain system types (e.g., electric resistance or heat pumps). Required for residential buildings.",
+      "description": "The fuel type of the heating system. This does not apply for certain system types (e.g., electric resistance or heat pumps).",
       "type": "string",
       "enum": [
         "electricity",
