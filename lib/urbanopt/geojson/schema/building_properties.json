@@ -343,12 +343,11 @@
         "PVAV with gas heat with electric reheat",
         "PVAV with central air source heat pump reheat",
         "PVAV with PFP boxes",
+        "Residential AC with residential forced air furnace",
         "Residential forced air furnace",
-        "Residential forced air cooling hot water baseboard heat",
         "Residential AC with baseboard district hot water",
         "Residential heat pump",
         "Forced air furnace",
-        "Forced air furnace district chilled water fan coil",
         "Direct evap coolers with forced air furnace",
         "Residential AC with no heat",
         "Residential AC with baseboard electric"
