@@ -315,6 +315,7 @@
         "Window AC with forced air furnace",
         "Window AC with baseboard district hot water",
         "Window AC with baseboard electric",
+        "Window AC with unit heaters",
         "Window AC with baseboard gas boiler",
         "Window AC with baseboard central air source heat pump",
         "Direct evap coolers with baseboard electric",
