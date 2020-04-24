@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   # this is not working right now
   # spec.required_ruby_version = '~> 2.2.4'
 
-  spec.add_development_dependency 'bundler', '~> 1.14'
+  spec.add_development_dependency 'bundler', '~> 2.1'
   spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rspec', '~> 3.7'
 
@@ -37,6 +37,6 @@ Gem::Specification.new do |spec|
 
   # other dependencies
   spec.add_dependency 'json-schema'
-  spec.add_dependency 'openstudio-extension', '~> 0.1.5'
+  spec.add_dependency 'openstudio-extension', '~> 0.2.1'
   spec.add_dependency 'urbanopt-core', '~> 0.2.0'
 end
