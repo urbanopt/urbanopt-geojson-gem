@@ -268,6 +268,7 @@
         "PTAC with gas unit heaters",
         "PTAC with electric coil",
         "PTAC with gas coil",
+        "PTAC with gas boiler",
         "PTAC with no heat",
         "PTAC with district hot water",
         "PTAC with central air source heat pump",
