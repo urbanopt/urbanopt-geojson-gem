@@ -899,7 +899,7 @@
             "default_value": "Inferred",
             "choice_values": [
               "Inferred",
-              "Ideal Air Loads",
+              "VRF",
               "PTAC with hot water heat",
               "PTAC with gas coil heat",
               "PTAC with electric baseboard heat",
@@ -955,7 +955,7 @@
             ],
             "choice_display_names": [
               "Inferred",
-              "Ideal Air Loads",
+              "VRF",
               "PTAC with hot water heat",
               "PTAC with gas coil heat",
               "PTAC with electric baseboard heat",
@@ -1511,7 +1511,7 @@
             "default_value": "Inferred",
             "choice_values": [
               "Inferred",
-              "Ideal Air Loads",
+              "VRF",
               "PTAC with hot water heat",
               "PTAC with gas coil heat",
               "PTAC with electric baseboard heat",
@@ -1567,7 +1567,7 @@
             ],
             "choice_display_names": [
               "Inferred",
-              "Ideal Air Loads",
+              "VRF",
               "PTAC with hot water heat",
               "PTAC with gas coil heat",
               "PTAC with electric baseboard heat",
