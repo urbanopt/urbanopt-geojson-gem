@@ -93,7 +93,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings.size).to eq 4
   end
 
-  it 'creates other buildings using ShadingOnly create method for  modified geojson' do
+  it 'creates other buildings using ShadingOnly create method for modified geojson' do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
     feature_id = '59a9ce2b42f7d007c059d302'
     model = OpenStudio::Model::Model.new

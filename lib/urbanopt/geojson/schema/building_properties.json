@@ -111,6 +111,12 @@
         "Hip"
       ]
     },
+    "foundation_type": {
+      "$ref": "#/definitions/foundationType"
+    },
+    "attic_type": {
+      "$ref": "#/definitions/atticType"
+    },
     "footprint_area": {
       "description": "Area of the footprint (ft^2).  Calculated on export.",
       "type": "number"
@@ -131,6 +137,9 @@
     },
     "system_type": {
       "$ref": "#/definitions/systemType"
+    },
+    "heating_system_fuel_type": {
+      "$ref": "#/definitions/heatingSystemFuelType"
     },
     "weekday_start_time": {
       "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default. Should this be part of a mixed type struct?",
@@ -185,7 +194,11 @@
       "maximum": 100
     },
     "number_of_residential_units": {
-      "description": "Total number of residential units in the building. Required for residential buildings or mixed-use buildings with residential use types.",
+      "description": "Total number of residential units in the building. Required for single-family attached or multifamily residential buildings.",
+      "type": "integer"
+    },
+    "number_of_bedrooms": {
+      "description": "Total number of bedrooms in the building. Required for residential buildings. Must be divisible by the number of residential units.",
       "type": "integer"
     },
     "exterior_lighting_zone": {
@@ -214,14 +227,110 @@
       "description": "Arbitrary user data"
     }
   },
-  "required": [
-    "id",
-    "type",
-    "name",
-    "floor_area",
-    "number_of_stories",
-    "footprint_area",
-    "building_type"
+  "oneOf": [
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Single-Family Detached"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type",
+        "number_of_bedrooms",
+        "foundation_type",
+        "attic_type"
+      ]
+    },
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Single-Family Attached"
+           ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type",
+        "number_of_residential_units",
+        "number_of_bedrooms",
+        "foundation_type",
+        "attic_type"
+      ]
+    },
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Multifamily"
+           ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type",
+        "number_of_residential_units",
+        "number_of_bedrooms",
+        "foundation_type"
+      ]
+    },
+    {
+      "properties": {
+        "building_type": {
+          "enum": [
+            "Vacant",
+            "Office",
+            "Laboratory",
+            "Nonrefrigerated warehouse",
+            "Food sales",
+            "Public order and safety",
+            "Outpatient health care",
+            "Refrigerated warehouse",
+            "Religious worship",
+            "Public assembly",
+            "Education",
+            "Food service",
+            "Inpatient health care",
+            "Nursing",
+            "Lodging",
+            "Strip shopping mall",
+            "Enclosed mall",
+            "Retail other than mall",
+            "Service",
+            "Mixed use",
+            "Uncovered Parking",
+            "Covered Parking"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name",
+        "floor_area",
+        "number_of_stories",
+        "footprint_area",
+        "building_type"
+      ]
+    }
   ],
   "additionalProperties": true,
   "definitions": {
@@ -229,10 +338,9 @@
       "description": "Primary building space type.",
       "type": "string",
       "enum": [
-        "Single-Family",
-        "Multifamily (2 to 4 units)",
-        "Multifamily (5 or more units)",
-        "Mobile Home",
+        "Single-Family Detached",
+        "Single-Family Attached",
+        "Multifamily",
         "Vacant",
         "Office",
         "Laboratory",
@@ -307,8 +415,8 @@
         "DOAS with VRF",
         "VRF",
         "DOAS with water source heat pumps with ground source heat pump",
+        "Forced air furnace",
         "Baseboard district hot water",
-        "Direct evap coolers with baseboard district hot water",
         "Baseboard electric",
         "Baseboard gas boiler",
         "Baseboard central air source heat pump",
@@ -319,13 +427,14 @@
         "Window AC with unit heaters",
         "Window AC with baseboard gas boiler",
         "Window AC with baseboard central air source heat pump",
+        "Direct evap coolers with baseboard district hot water",
         "Direct evap coolers with baseboard electric",
         "Direct evap coolers with baseboard gas boiler",
         "Direct evap coolers with baseboard central air source heat pump",
         "Direct evap coolers with no heat",  
         "Direct evap coolers with gas unit heaters",
+        "Direct evap coolers with forced air furnace",
         "Gas unit heaters",
-        "Residential heat pump with no cooling",
         "VAV chiller with gas boiler reheat",
         "VAV chiller with gas coil reheat",
         "VAV chiller with central air source heat pump reheat",
@@ -345,14 +454,32 @@
         "PVAV with gas heat with electric reheat",
         "PVAV with central air source heat pump reheat",
         "PVAV with PFP boxes",
-        "Residential AC with residential forced air furnace",
-        "Residential forced air furnace",
-        "Residential AC with baseboard district hot water",
-        "Residential heat pump",
-        "Forced air furnace",
-        "Direct evap coolers with forced air furnace",
-        "Residential AC with no heat",
-        "Residential AC with baseboard electric"
+        "Residential - electric resistance and no cooling",
+        "Residential - electric resistance and central air conditioner",
+        "Residential - electric resistance and room air conditioner",
+        "Residential - electric resistance and evaporative cooler",
+        "Residential - furnace and no cooling",
+        "Residential - furnace and central air conditioner",
+        "Residential - furnace and room air conditioner",
+        "Residential - furnace and evaporative cooler",
+        "Residential - boiler and no cooling",
+        "Residential - boiler and central air conditioner",
+        "Residential - boiler and room air conditioner",
+        "Residential - boiler and evaporative cooler",
+        "Residential - air-to-air heat pump",
+        "Residential - mini-split heat pump",
+        "Residential - ground-to-air heat pump"
+      ]
+    },
+    "heatingSystemFuelType": {
+      "description": "The fuel type of the heating system. This does not apply for certain system types (e.g., electric resistance or heat pumps).",
+      "type": "string",
+      "enum": [
+        "electricity",
+        "natural gas",
+        "fuel oil",
+        "propane",
+        "wood"
       ]
     },
     "templateType": {
@@ -387,6 +514,28 @@
         "DEER 2065",
         "DEER 2070",
         "DEER 2075"
+      ]
+    },
+    "foundationType": {
+      "description": "The foundation type of the building. Required for residential buildings.",
+      "type": "string",
+      "enum": [
+        "slab",
+        "crawlspace - vented",
+        "crawlspace - unvented",
+        "basement - unconditioned",
+        "basement - conditioned",
+        "ambient"
+      ]
+    },
+    "atticType": {
+      "description": "The attic type of the building. Required for single-family residential buildings.",
+      "type": "string",
+      "enum": [
+        "attic - vented",
+        "attic - unvented",
+        "attic - conditioned",
+        "flat roof"
       ]
     }
   }
