@@ -62,11 +62,8 @@ RSpec.describe URBANopt::GeoJSON do
     nominal_z2 = nominal_z_object2.get
     expect(nominal_z2).to eq(7.2)
     expect(building.length).to eq(single_building.number_of_stories)
-    puts "#{single_building.number_of_stories}"
   end
   
-  it 'loads existing model with space_type definitions and transfers'
-
   it 'creates building given a feature, space_per_building create_method, model, origin_lat_lon, runner and zoning(false)' do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
