@@ -402,6 +402,7 @@ module URBANopt
 
         building_story = OpenStudio::Model::BuildingStory.new(model)
         building_story.setName("Building Story #{story_number}")
+        building_story.setNominalZCoordinate(story_number * floor_to_floor_height)
         spaces.each do |space|
           space.setBuildingStory(building_story)
           thermal_zone = OpenStudio::Model::ThermalZone.new(model)
