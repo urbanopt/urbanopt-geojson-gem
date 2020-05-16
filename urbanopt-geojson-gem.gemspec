@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.7'
 
   # lock the version of these dependencies due to using older version of Ruby.
-  #spec.add_dependency 'public_suffix', '3.1.1'
+  # spec.add_dependency 'public_suffix', '3.1.1'
 
   # other dependencies
   spec.add_dependency 'json-schema'
