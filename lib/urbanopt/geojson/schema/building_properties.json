@@ -129,6 +129,10 @@
     "building_type": {
       "$ref": "#/definitions/buildingType"
     },
+    "window_to_wall_ratio": {
+      "description": "Fractional value to determine the window to wall ratio for the building. Default is 0.3.",
+      "type": "number"
+    },
     "system_type": {
       "$ref": "#/definitions/systemType"
     },

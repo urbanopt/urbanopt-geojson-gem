@@ -2020,7 +2020,8 @@
         "updated_at": "2017-09-01T21:17:07.453Z",
         "created_at": "2017-09-01T21:16:27.586Z",
         "height": 3,
-        "geometryType": "Polygon"
+        "geometryType": "Polygon",
+        "window_to_wall_ratio": 0.2
       }
     },
     {
