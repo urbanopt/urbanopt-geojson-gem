@@ -41,7 +41,8 @@ module URBANopt
       # * +floor_print+ - _Type:Array_ - An instance of +OpenStudio::Point3dVector.new+ .
       # * +perimeter_depth+ - _Type:Float_ - Represents perimeter depth.
       # * +runner+ - _Type:String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
-      def self.divide_floor_print(floor_print, perimeter_depth, runner)
+      # * +scale+ - _Type:Boolean_ - Checks whether floor print is to be scaled. Default is false.
+      def self.divide_floor_print(floor_print, perimeter_depth, runner, scale = false)
         result = []
         t_inv = OpenStudio::Transformation.alignFace(floor_print)
         t = t_inv.inverse
@@ -74,33 +75,38 @@ module URBANopt
           new_point = vertices[i] + vector
           new_vertices << new_point
         end
-        normal = OpenStudio.getOutwardNormal(new_vertices)
-        if normal.empty? || normal.get.z < 0
-          runner.registerWarning('Wrong direction for resulting normal, will not divide')
-          return [floor_print]
-        end
-        self_intersects = OpenStudio.selfIntersects(OpenStudio.reverse(new_vertices), 0.01)
-        if OpenStudio::VersionString.new(OpenStudio.openStudioVersion) < OpenStudio::VersionString.new('1.12.4')
-          self_intersects = !self_intersects
-        end
-        if self_intersects
-          runner.registerWarning('Self intersecting surface result, will not divide')
-        end
-        result << t_inv * new_vertices
-        (0...n).each do |i|
-          perim_vertices = OpenStudio::Point3dVector.new
-          if i == (n - 1)
-            perim_vertices << vertices[i]
-            perim_vertices << vertices[0]
-            perim_vertices << new_vertices[0]
-            perim_vertices << new_vertices[i]
-          else
-            perim_vertices << vertices[i]
-            perim_vertices << vertices[i + 1]
-            perim_vertices << new_vertices[i + 1]
-            perim_vertices << new_vertices[i]
+        unless scale = true
+          result = t_inv * new_vertices
+        else
+          # If no scaling, also create the perimeter floor prints for core and perimeter zoning.
+          normal = OpenStudio.getOutwardNormal(new_vertices)
+          if normal.empty? || normal.get.z < 0
+            runner.registerWarning('Wrong direction for resulting normal, will not divide')
+            return [floor_print]
           end
-          result << t_inv * perim_vertices
+          self_intersects = OpenStudio.selfIntersects(OpenStudio.reverse(new_vertices), 0.01)
+          if OpenStudio::VersionString.new(OpenStudio.openStudioVersion) < OpenStudio::VersionString.new('1.12.4')
+            self_intersects = !self_intersects
+          end
+          if self_intersects
+            runner.registerWarning('Self intersecting surface result, will not divide')
+          end
+          result << t_inv * new_vertices
+          (0...n).each do |i|
+            perim_vertices = OpenStudio::Point3dVector.new
+            if i == (n - 1)
+              perim_vertices << vertices[i]
+              perim_vertices << vertices[0]
+              perim_vertices << new_vertices[0]
+              perim_vertices << new_vertices[i]
+            else
+              perim_vertices << vertices[i]
+              perim_vertices << vertices[i + 1]
+              perim_vertices << new_vertices[i + 1]
+              perim_vertices << new_vertices[i]
+            end
+            result << t_inv * perim_vertices
+          end
         end
         return result
       end

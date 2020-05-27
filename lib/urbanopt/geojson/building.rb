@@ -87,9 +87,11 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +OpenStudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
-      #   +false+. Zoning is set to False by default.
+      #   +false+ Zoning is set to False by default.
+      # * +scaled_footprint_area+ - Used to scale the footprint area using the floor area. 0 by
+      #   default (no scaling).
       # * +other_building+ - _Type:URBANopt::GeoJSON::Feature - Optional, allow the user to pass in a different building to process. This is used for creating the other buildings for shading.
-      def create_building(create_method, model, origin_lat_lon, runner, zoning = false, other_building = @feature_json)
+      def create_building(create_method, model, origin_lat_lon, runner, zoning = false, scaled_footprint_area = 0, other_building = @feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
         number_of_stories_above_ground = other_building[:properties][:number_of_stories_above_ground]
         number_of_stories_below_ground = other_building[:properties][:number_of_stories_below_ground]
@@ -128,7 +130,7 @@ module URBANopt
         spaces = []
         if create_method == :space_per_floor || create_method == :spaces_per_floor
           (-number_of_stories_below_ground + 1..number_of_stories_above_ground).each do |story_number|
-            new_spaces = create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning)
+            new_spaces = create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning, scaled_footprint_area)
             spaces.concat(new_spaces)
           end
         elsif create_method == :space_per_building
@@ -219,8 +221,7 @@ module URBANopt
         end
 
         other_spaces = URBANopt::GeoJSON::Helper.process_other_buildings(
-          self, other_building_type, building_features, model, origin_lat_lon, runner, zoning
-        )
+          self, other_building_type, building_features, model, origin_lat_lon, runner, zoning)
         return other_spaces
       end
 
@@ -354,10 +355,18 @@ module URBANopt
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
       #   +false+. Zoning is set to False by default.
       # rubocop:disable Style/CommentedKeyword
-      def create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning = false) #:doc:
+      def create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning = false, scaled_footprint_area) #:doc:
         # rubocop:enable Style/CommentedKeyword
-        geometry = @feature_json[:geometry]
-        properties = @feature_json[:properties]
+        begin
+          if other_building
+            geometry = other_building[:geometry]
+            properties = other_building[:properties]
+          else
+            geometry = @feature_json[:geometry]
+            properties = @feature_json[:properties]
+          end
+        rescue
+        end
         floor_prints = []
         multi_polygons = get_multi_polygons
         multi_polygons.each do |multi_polygon|
@@ -366,7 +375,7 @@ module URBANopt
           end
           multi_polygon.each do |polygon|
             elevation = (story_number - 1) * floor_to_floor_height
-            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
+            floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning, scaled_footprint_area)
             if floor_print
               if zoning
                 this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)

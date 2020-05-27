@@ -145,6 +145,37 @@ RSpec.describe URBANopt::GeoJSON do
     end
   end
 
+  it 'creates floor print from scaled footprint area' do
+    polygon = [
+        [
+          -105.17327651381493,
+          39.74229291462166
+        ],
+        [
+          -105.17333284020424,
+          39.7424280033386
+        ],
+        [
+          -105.17317861318588,
+          39.74246718932906
+        ],
+        [
+          -105.17313703894614,
+          39.7423228197803
+        ],
+        [
+          -105.17327651381493,
+          39.74229291462166
+        ]
+    ]
+    floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, false, scaled_footprint_area = 20)
+    #scaled floorprint is less than 0.5 of the original floorprint therefore no scaling
+    floorprint_area = OpenStudio::getArea(floorprint)
+    floorprint_area = floorprint_area.get
+    expect(floorprint_area.to_f).to eq(42.54009567221923)
+  end
+
+
   it 'determines if building is shadowed' do
     # SOUTH:
     south_points = [

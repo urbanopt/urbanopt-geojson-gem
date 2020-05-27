@@ -61,6 +61,7 @@ class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
     args_hash['geojson_file'] = geojson_file
     args_hash['feature_id'] = feature_id
     args_hash['surrounding_buildings'] = surrounding_buildings
+    args_hash['scale_footprint_area_by_floor_area'] = true
 
     # populate argument with specified hash value if specified
     arguments.each do |arg|
