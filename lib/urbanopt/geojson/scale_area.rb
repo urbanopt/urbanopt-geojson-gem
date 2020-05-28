@@ -64,7 +64,7 @@ module  URBANopt
       # compute value
       def values(x)
         @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, x[0].to_f, @runner, scale = true)
-        new_area = OpenStudio::getArea((@new_vertices))
+        new_area = OpenStudio::getArea(@new_vertices)
         fail "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
         new_area = new_area.get
         
