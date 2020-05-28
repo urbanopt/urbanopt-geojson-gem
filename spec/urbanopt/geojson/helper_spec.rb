@@ -182,4 +182,5 @@ RSpec.describe URBANopt::GeoJSON do
     is_shadowed = URBANopt::GeoJSON::Helper.is_shadowed(south_points, north_points, @origin_lat_lon)
     expect(is_shadowed).to eq(false)
   end
+
 end
