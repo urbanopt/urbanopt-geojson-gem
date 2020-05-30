@@ -75,22 +75,22 @@ module URBANopt
           new_point = vertices[i] + vector
           new_vertices << new_point
         end
-        unless scale = true
+        if scale == true
           result = t_inv * new_vertices
         else
-          # If no scaling, also create the perimeter floor prints for core and perimeter zoning.
-          normal = OpenStudio.getOutwardNormal(new_vertices)
-          if normal.empty? || normal.get.z < 0
-            runner.registerWarning('Wrong direction for resulting normal, will not divide')
-            return [floor_print]
-          end
-          self_intersects = OpenStudio.selfIntersects(OpenStudio.reverse(new_vertices), 0.01)
-          if OpenStudio::VersionString.new(OpenStudio.openStudioVersion) < OpenStudio::VersionString.new('1.12.4')
-            self_intersects = !self_intersects
-          end
-          if self_intersects
-            runner.registerWarning('Self intersecting surface result, will not divide')
-          end
+        normal = OpenStudio.getOutwardNormal(new_vertices)
+        if normal.empty? || normal.get.z < 0
+          runner.registerWarning('Wrong direction for resulting normal, will not divide')
+          return [floor_print]
+        end
+        self_intersects = OpenStudio.selfIntersects(OpenStudio.reverse(new_vertices), 0.01)
+        if OpenStudio::VersionString.new(OpenStudio.openStudioVersion) < OpenStudio::VersionString.new('1.12.4')
+          self_intersects = !self_intersects
+        end
+        if self_intersects
+          runner.registerWarning('Self intersecting surface result, will not divide')
+        end
+
           result << t_inv * new_vertices
           (0...n).each do |i|
             perim_vertices = OpenStudio::Point3dVector.new

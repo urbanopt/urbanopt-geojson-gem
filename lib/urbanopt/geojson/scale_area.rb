@@ -27,6 +27,10 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
+require 'json'
+require 'net/http'
+require 'uri'
+require 'openssl'
 require 'bigdecimal/newton'
 
 module Newton
@@ -58,13 +62,14 @@ module  URBANopt
         @one  = BigDecimal::new("1.0")
         @two  = BigDecimal::new("2.0")
         @ten  = BigDecimal::new("10.0")
-        #@eps  = eps #BigDecimal::new(eps)
+        @eps  = eps #BigDecimal::new(eps)
       end
 
       # compute value
       def values(x)
-        @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, 2.to_f, @runner, scale = true)
-        new_area = OpenStudio::getArea((@new_vertices))
+        @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, x[0].to_f, @runner, scale = true)
+
+        new_area = OpenStudio::getArea(@new_vertices)
         fail "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
         new_area = new_area.get
         

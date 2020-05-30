@@ -233,8 +233,9 @@ module URBANopt
       # scale footprint to desired area, keeping the shape
       def self.adjust_vertices_to_area(vertices, desired_area, eps = 0.1, floor_print, runner)
         ar = ScaleArea.new(vertices, desired_area, eps, floor_print, runner)
+      
         n = Newton::nlsolve(ar,[0])
-  
+      
         return ar.new_vertices
       end
 
