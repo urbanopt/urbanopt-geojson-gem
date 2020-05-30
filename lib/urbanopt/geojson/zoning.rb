@@ -75,9 +75,6 @@ module URBANopt
           new_point = vertices[i] + vector
           new_vertices << new_point
         end
-        if scale == true
-          result = t_inv * new_vertices
-        else
         normal = OpenStudio.getOutwardNormal(new_vertices)
         if normal.empty? || normal.get.z < 0
           runner.registerWarning('Wrong direction for resulting normal, will not divide')
@@ -90,7 +87,9 @@ module URBANopt
         if self_intersects
           runner.registerWarning('Self intersecting surface result, will not divide')
         end
-
+        if scale == true
+          result = t_inv * new_vertices
+        else
           result << t_inv * new_vertices
           (0...n).each do |i|
             perim_vertices = OpenStudio::Point3dVector.new
