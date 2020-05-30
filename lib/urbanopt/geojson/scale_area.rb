@@ -49,14 +49,13 @@ module  URBANopt
   module GeoJSON
     class ScaleArea
 
-      def initialize(vertices, desired_area, eps = 0.1, floor_print, runner)
+      def initialize(vertices, desired_area, runner, eps)
         @vertices = vertices
         @centroid = OpenStudio::getCentroid(vertices)
         fail "Cannot compute centroid for '#{vertices}'" if @centroid.empty?
         @centroid = @centroid.get
         @desired_area = desired_area
         @new_vertices = vertices
-        @floor_print = floor_print
         @runner = runner
         @zero = BigDecimal::new("0.0")
         @one  = BigDecimal::new("1.0")
@@ -73,7 +72,7 @@ module  URBANopt
         new_area = new_area.get
         
         puts "x = #{x[0].to_f}, new_area = #{new_area}"
-        
+
         return [new_area-@desired_area]
       end
 

@@ -220,7 +220,7 @@ module URBANopt
             # TOO MUCH SCALING...using original footprint when scaled is 2x bigger or smaller than the original
             runner.registerWarning("Desired scaled_footprint_area is a factor of 2 of the original footprint...keeping original footprint (no scaling!)")
           else
-            new_floor_print = adjust_vertices_to_area(floor_print, scaled_footprint_area, eps = 0.1, original_floor_print_area, runner)
+            new_floor_print = adjust_vertices_to_area(floor_print, scaled_footprint_area, runner)
             new_footprint_area = OpenStudio::getArea(new_floor_print).get
             runner.registerInfo("New floor area: #{new_footprint_area}, compared to scaled area desired: #{scaled_footprint_area}")
             floor_print = new_floor_print
@@ -231,11 +231,11 @@ module URBANopt
       end
 
       # scale footprint to desired area, keeping the shape
-      def self.adjust_vertices_to_area(vertices, desired_area, eps = 0.1, floor_print, runner)
-        ar = ScaleArea.new(vertices, desired_area, eps, floor_print, runner)
+      def self.adjust_vertices_to_area(vertices, desired_area, runner, eps = 0.1)
+        ar = ScaleArea.new(vertices, desired_area, runner, eps)
       
         n = Newton::nlsolve(ar,[0])
-      
+        
         return ar.new_vertices
       end
 
