@@ -1,5 +1,18 @@
 # URBANopt GeoJSON Gem
  
+## Version 0.3.0
+
+Date Range 3/25/20 - 06/04/20
+
+Updating to use with OpenStudio 3.0 and Ruby 2.5
+
+Accepted Pull Requests: 
+- Fixed [#60]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/60 ), HPXML-based workflow for residential buildings
+- Fixed [#83]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/83 ), Add new system types to building properties schema
+- Fixed [#84]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/84 ), Updated system types with OpenStudio
+- Fixed [#87]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/87 ), Adds nominal height for stories, test for confirming nominal height
+- Fixed [#90]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/90 ), Assigns construction correctly for adiabatic surfaces.
+
 ## Version 0.2.0
 
 Date Range: 12/26/19 - 03/25/20
