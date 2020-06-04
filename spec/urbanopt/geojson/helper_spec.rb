@@ -199,12 +199,12 @@ RSpec.describe URBANopt::GeoJSON do
         39.74229291462166
       ]
   ]
-  floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, false, scaled_footprint_area = 42)
-  #scaled footprint is within 0.5 times the original area, the vertices should be adjusted as per scaled 
+  floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, false, scaled_footprint_area = 40)
+  #scaled footprint area is within 0.5 times the original area of 42.54, the vertices should be adjusted as per scaled area
   floorprint_area = OpenStudio::getArea(floorprint)
   floorprint_area = floorprint_area.get
-  #footprint area should be equal to original footprint area 42.54
-  expect(floorprint_area.to_f).to be > 42
+  #footprint area should be equal to scaled footprint area 40 within 0.1 convergence limit
+  expect(floorprint_area.to_f).to be > 40
 end
 
 

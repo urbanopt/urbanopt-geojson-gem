@@ -63,6 +63,12 @@ module  URBANopt
         @ten  = BigDecimal::new("10.0")
         @eps  = eps #BigDecimal::new(eps)
       end
+      
+      def zero;@zero;end
+      def one ;@one ;end
+      def two ;@two ;end
+      def ten ;@ten ;end
+      def eps ;@eps ;end
 
       # compute value
       def values(x)
