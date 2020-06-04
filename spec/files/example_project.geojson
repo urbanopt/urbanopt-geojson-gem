@@ -393,6 +393,50 @@
                 "type": "Building"
             },
             "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            -78.84809175426629,
+                            42.81367038997507
+                        ],
+                        [
+                            -78.84848670778973,
+                            42.81357515750889
+                        ],
+                        [
+                            -78.84857883872144,
+                            42.81378076888831
+                        ],
+                        [
+                            -78.84818388519801,
+                            42.81387600103781
+                        ],
+                        [
+                            -78.84809175426629,
+                            42.81367038997507
+                        ]
+                    ]
+                ],
+                "type": "Polygon"
+            },
+            "properties": {
+              "id": "14",
+              "type": "Building",
+              "name": "Residential 3",
+              "floor_area": 8804,
+              "number_of_stories": 1,
+              "footprint_area": 8804,
+              "building_type": "Single-Family Detached",
+              "number_of_bedrooms": 4,
+              "foundation_type": "crawlspace - vented",
+              "attic_type": "attic - vented",
+              "system_type": "Residential - boiler and room air conditioner",
+              "heating_system_fuel_type": "fuel oil"
+            },
+            "type": "Feature"
         }
     ],
     "mappers": [],

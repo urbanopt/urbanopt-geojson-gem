@@ -65,17 +65,16 @@ module URBANopt
       # * +runner+ - _Type:String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
       def self.change_adjacent_surfaces_to_adiabatic(model, runner)
         runner.registerInfo('Changing adjacent surfaces to adiabatic')
-        model.getSurfaces.each do |surface|
+        model.getSurfaces.sort.each do |surface|
           adjacent_surface = surface.adjacentSurface
           if !adjacent_surface.empty?
             surface_construction = surface.construction
             if !surface_construction.empty?
               surface.setConstruction(surface_construction.get)
             end
-            surface.setOutsideBoundaryCondition('Adiabatic')
-
             adjacent_surface_construction = adjacent_surface.get.construction
             if !adjacent_surface_construction.empty?
+              surface.setOutsideBoundaryCondition('Adiabatic')
               adjacent_surface.get.setConstruction(adjacent_surface_construction.get)
             end
             adjacent_surface.get.setOutsideBoundaryCondition('Adiabatic')

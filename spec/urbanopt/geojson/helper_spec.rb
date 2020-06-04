@@ -82,6 +82,33 @@ RSpec.describe URBANopt::GeoJSON do
     expect(space_type[0].class).to eq(OpenStudio::Model::SpaceType)
   end
 
+  it 'retains space types for multi story building' do
+    openstudio_model = OpenStudio::Model::Model.new
+    building_story_1 = OpenStudio::Model::BuildingStory.new(openstudio_model)
+    building_story_1.setNominalZCoordinate(3)
+    building_story_2 = OpenStudio::Model::BuildingStory.new(openstudio_model)
+    building_story_2.setNominalZCoordinate(6)
+    space_1 = OpenStudio::Model::Space.new(openstudio_model)
+    space_1.setBuildingStory(building_story_1)
+    space_type_1 = OpenStudio::Model::SpaceType.new(openstudio_model)
+    space_type_1.setName('189.1-2009 - Office - ClosedOffice - CZ1-3')
+    space_1.setSpaceType(space_type_1)
+    space_2 = OpenStudio::Model::Space.new(openstudio_model)
+    space_2.setBuildingStory(building_story_2)
+    space_type_2 = OpenStudio::Model::SpaceType.new(openstudio_model)
+    space_type_2.setName('189.1-2009 - Office - IT_Room - CZ1-3')
+    space_2.setSpaceType(space_type_2)
+
+    stories = []
+    openstudio_model.getBuildingStorys.each { |story| stories << story }
+    stories.sort! { |x, y| x.nominalZCoordinate.to_s.to_f <=> y.nominalZCoordinate.to_s.to_f }
+
+    space_types = URBANopt::GeoJSON::Helper.create_space_types(stories, openstudio_model, @runner)
+
+    expect(space_types[0].name.to_s).to eq('189.1-2009 - Office - ClosedOffice - CZ1-3')
+    expect(space_types[1].name.to_s).to eq('189.1-2009 - Office - IT_Room - CZ1-3')
+  end
+
   it 'creates a floorprint from polygon' do
     polygon = [
       [1, 5],
@@ -155,4 +182,5 @@ RSpec.describe URBANopt::GeoJSON do
     is_shadowed = URBANopt::GeoJSON::Helper.is_shadowed(south_points, north_points, @origin_lat_lon)
     expect(is_shadowed).to eq(false)
   end
+
 end
