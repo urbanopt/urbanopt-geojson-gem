@@ -12,6 +12,7 @@ Accepted Pull Requests:
 - Fixed [#84]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/84 ), Updated system types with OpenStudio
 - Fixed [#87]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/87 ), Adds nominal height for stories, test for confirming nominal height
 - Fixed [#90]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/90 ), Assigns construction correctly for adiabatic surfaces.
+-Fixed [#95]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/95 ), Exclude measure tests from gem release to reduce size
 
 ## Version 0.2.0
 
