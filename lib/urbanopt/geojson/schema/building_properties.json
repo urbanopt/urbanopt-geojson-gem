@@ -514,8 +514,11 @@
         "DEER 2065",
         "DEER 2070",
         "DEER 2075",
+        "IECC 2006",
         "IECC 2009",
-        "IECC 2015"
+        "IECC 2012",
+        "IECC 2015",
+        "IECC 2018"
       ]
     },
     "foundationType": {
