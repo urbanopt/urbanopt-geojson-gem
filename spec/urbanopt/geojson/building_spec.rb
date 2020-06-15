@@ -81,8 +81,10 @@ RSpec.describe URBANopt::GeoJSON do
 
     ids.each do |id|
       feature = all_features.get_feature_by_id(id)
+      @origin_lat_lon = feature.create_origin_lat_lon(@runner)
       spaces = feature.create_building(:spaces_per_floor, @model, @origin_lat_lon, @runner, false)
       feature_footprint = feature.footprint_area
+
       thermal_zone = spaces[0].thermalZone
       thermal_zone_object = thermal_zone.get
       floor_area = thermal_zone_object.floorArea
@@ -92,6 +94,7 @@ RSpec.describe URBANopt::GeoJSON do
       if feature_footprint != floor_area_ft
         area_factor = feature_footprint/floor_area_ft
         puts "For Feature ID #{id} the GeoJSON file footprint area / GeoJSON Gem footprint area is #{area_factor}"
+        puts "footprint area: #{feature_footprint}, floor_area_ft: #{floor_area_ft}"
       end
     end
   end
