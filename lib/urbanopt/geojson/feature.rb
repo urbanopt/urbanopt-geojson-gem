@@ -168,6 +168,40 @@ module URBANopt
         return OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
       end
 
+      ##
+      # Used to determine the centroid for the feature's coordinates.
+      #
+      # [Parameters]
+      # * +vertices+ - The first set polygon vertices in the array of feature coordinates.
+      def find_feature_center(vertices)
+
+        number_of_locations = vertices.length
+
+        return vertices.first if number_of_locations == 1
+       
+        x = y = z = 0.0
+        vertices.each do |station|
+          latitude = station[0] * Math::PI / 180
+          longitude = station[1] * Math::PI / 180
+       
+          x += Math.cos(latitude) * Math.cos(longitude)
+          y += Math.cos(latitude) * Math.sin(longitude)
+          z += Math.sin(latitude)
+        end
+       
+        x = x/number_of_locations
+        y = y/number_of_locations
+        z = z/number_of_locations
+       
+        central_longitude =  Math.atan2(y, x)
+        central_square_root = Math.sqrt(x * x + y * y)
+        central_latitude = Math.atan2(z, central_square_root)
+       
+        [central_latitude * 180 / Math::PI, 
+        central_longitude * 180 / Math::PI]
+      end
+
+
       private
 
       ##
