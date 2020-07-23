@@ -49,8 +49,7 @@
   },
   "required": [
     "type",
-    "id",
-    "connector_type"
+    "id"
   ],
   "additionalProperties": false,
   "definitions": {
