@@ -47,7 +47,7 @@ class UrbanGeometryCreationZoningTest < MiniTest::Unit::TestCase
 
     geojson_file = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
 
-    feature_id = '59a9ce2b42f7d007c059d2f0' 
+    feature_id = '59a9ce2b42f7d007c059d2f0'
 
     surrounding_buildings = 'None'
 
@@ -98,7 +98,7 @@ class UrbanGeometryCreationZoningTest < MiniTest::Unit::TestCase
 
     geojson_file = File.absolute_path(File.join(File.dirname(__FILE__), 'nrel_stm_footprints.geojson'))
 
-    feature_id = '59a9ce2b42f7d007c059d2ee' 
+    feature_id = '59a9ce2b42f7d007c059d2ee'
 
     surrounding_buildings = 'ShadingOnly'
 

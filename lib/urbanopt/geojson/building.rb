@@ -33,7 +33,6 @@ require 'urbanopt/geojson/feature'
 module URBANopt
   module GeoJSON
     class Building < URBANopt::GeoJSON::Feature
-
       ##
       # Used to initialize the feature. This method is inherited from the Feature class.
       def initialize(feature = {})
@@ -88,7 +87,7 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the latitude and longitude of the origin.
       # * +runner+ - _Type:String_ - An instance of +OpenStudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
-      #   +false+. Zoning is set to False by default. 
+      #   +false+. Zoning is set to False by default.
       # * +other_building+ - _Type:URBANopt::GeoJSON::Feature - Optional, allow the user to pass in a different building to process. This is used for creating the other buildings for shading.
       def create_building(create_method, model, origin_lat_lon, runner, zoning = false, other_building = @feature_json)
         number_of_stories = other_building[:properties][:number_of_stories]
@@ -277,14 +276,13 @@ module URBANopt
         result[:mixed_type_3_percentage] = @mixed_type_3_percentage if @mixed_type_3_percentage
         result[:mixed_type_4] = @mixed_type_4 if @mixed_type_4
         result[:mixed_type_4_percentage] = @mixed_type_4_percentage if @mixed_type_4_percentage
-        return result 
+        return result
       end
-
 
       private
 
       ##
-      # Returns an array of instances of +OpenStudio::Model::Space+ per building
+      # Returns an array of instances of +OpenStudio::Model::Space+ per building.
       #
       # [Parameters]
       # * +min_elevation+ - _Type:Integer_ - Indicates minimum elevation across all buildings.
@@ -294,7 +292,9 @@ module URBANopt
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
       #   +false+. Zoning is set to False by default.
+      # rubocop:disable Style/OptionalArguments, Style/CommentedKeyword
       def create_space_per_building(min_elevation, max_elevation, model, origin_lat_lon, runner, zoning = false, other_building) #:doc:
+        # rubocop: enable Style/OptionalArguments, Style/CommentedKeyword
         if other_building
           geometry = other_building[:geometry]
           properties = other_building[:properties]
@@ -338,7 +338,7 @@ module URBANopt
           result << space
         end
         return result
-        end
+      end
 
       ##
       # Returns an array of instances of +OpenStudio::Model::Space+ per floor.
@@ -352,8 +352,10 @@ module URBANopt
       #   origin's latitude and longitude.
       # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
       # * +zoning+ - _Type:Boolean_ - Value is +true+ if utilizing detailed zoning, else
-      #   +false+. Zoning is set to False by default. 
+      #   +false+. Zoning is set to False by default.
+      # rubocop:disable Style/CommentedKeyword
       def create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning = false) #:doc:
+        # rubocop:enable Style/CommentedKeyword
         geometry = @feature_json[:geometry]
         properties = @feature_json[:properties]
         floor_prints = []
@@ -367,7 +369,7 @@ module URBANopt
             floor_print = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, elevation, origin_lat_lon, runner, zoning)
             if floor_print
               if zoning
-                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner) 
+                this_floor_prints = URBANopt::GeoJSON::Zoning.divide_floor_print(floor_print, 4.0, runner)
                 floor_prints.concat(this_floor_prints)
               else
                 floor_prints << floor_print
@@ -377,8 +379,8 @@ module URBANopt
             end
             # Subsequent polygons are holes, and are not supported.
             break
-          end 
-        end 
+          end
+        end
         spaces = []
         floor_prints.each do |floor_print|
           space = OpenStudio::Model::Space.fromFloorPrint(floor_print, floor_to_floor_height, model)
@@ -394,22 +396,23 @@ module URBANopt
                 surface.setOutsideBoundaryCondition('Ground')
               end
             end
-          end 
+          end
           spaces << space
-        end 
-        
+        end
+
         building_story = OpenStudio::Model::BuildingStory.new(model)
         building_story.setName("Building Story #{story_number}")
+        building_story.setNominalZCoordinate(story_number * floor_to_floor_height)
+        building_story.setNominalFloortoFloorHeight(floor_to_floor_height)
         spaces.each do |space|
           space.setBuildingStory(building_story)
           thermal_zone = OpenStudio::Model::ThermalZone.new(model)
           thermal_zone.setName("Building Story #{story_number} ThermalZone")
           space.setThermalZone(thermal_zone)
-        end 
-        
+        end
+
         return spaces
       end
-    
-    end 
-  end 
-end 
+    end
+  end
+end

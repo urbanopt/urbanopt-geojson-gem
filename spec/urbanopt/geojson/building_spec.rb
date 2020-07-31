@@ -41,7 +41,6 @@ RSpec.describe URBANopt::GeoJSON do
     @building = @all_buildings.get_feature_by_id(feature_id)
   end
 
-
   it 'creates building given a feature, space_per_floor create_method, model, origin_lat_lon, runner and zoning' do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
     feature_id = '59a9ce2b42f7d007c059d32c'
@@ -52,9 +51,20 @@ RSpec.describe URBANopt::GeoJSON do
     single_building = all_buildings.get_feature_by_id(feature_id)
     building = single_building.create_building(:space_per_floor, model, origin_lat_lon, runner, true)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
+    building_story_object = building[0].buildingStory
+    building_story = building_story_object.get
+    nominal_z_object = building_story.nominalZCoordinate
+    nominal_z = nominal_z_object.get
+    expect(nominal_z).to eq(3.6)
+    building_story_object2 = building[1].buildingStory
+    building_story2 = building_story_object2.get
+    nominal_z_object2 = building_story2.nominalZCoordinate
+    nominal_z2 = nominal_z_object2.get
+    expect(nominal_z2).to eq(7.2)
     expect(building.length).to eq(single_building.number_of_stories)
+    puts single_building.number_of_stories.to_s
   end
-
+  
   it 'creates building given a feature, space_per_building create_method, model, origin_lat_lon, runner and zoning(false)' do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
@@ -62,7 +72,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(@building.number_of_stories).to eq(4)
   end
 
-  it 'creates zoning building' do 
+  it 'creates zoning building' do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
     feature_id = '59a9ce2b42f7d007c059d2f0'
     all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
@@ -70,7 +80,7 @@ RSpec.describe URBANopt::GeoJSON do
     spaces = feature.create_building(:spaces_per_floor, @model, @origin_lat_lon, @runner, true)
     expect(spaces[0].class).to eq(OpenStudio::Model::Space)
     expect(feature.number_of_stories).to eq(1)
-    expect(spaces.size).to eq(1) #TODO: check why is it creating a single space for zoning. Error: OutwardNormal of floorPrint must point down to create space.
+    expect(spaces.size).to eq(1)
   end
 
   it 'creates building with zoning and create other buildings using ShadingOnly method' do
@@ -88,13 +98,14 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings.size).to eq 11
   end
 
+
   it 'creates other buildings using ShadingOnly create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
     expect(other_buildings.size).to eq 4
   end
 
-  it 'creates other buildings using ShadingOnly create method for  modified geojson' do
+  it 'creates other buildings using ShadingOnly create method for modified geojson' do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints_modified.geojson')
     feature_id = '59a9ce2b42f7d007c059d302'
     model = OpenStudio::Model::Model.new
@@ -107,7 +118,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings.size).to eq 3
   end
 
-  it 'creates other buildings using None create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do 
+  it 'creates other buildings using None create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('None', @all_buildings.json, @model, @origin_lat_lon, @runner)
     expect(other_buildings.empty?).to be true
   end
@@ -127,5 +138,4 @@ RSpec.describe URBANopt::GeoJSON do
       end
     end
   end
-  
 end

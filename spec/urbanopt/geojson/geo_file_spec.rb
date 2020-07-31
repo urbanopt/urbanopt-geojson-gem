@@ -53,15 +53,14 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     feature = geofile.get_feature_by_id('1')
     expect(feature.feature_json[:type]).to eq('Feature')
     expect(feature.feature_json[:properties][:name]).to eq('Mixed_use 1')
-  end    
+  end
 
   it 'validate geojson file' do
-    
     geojson_file = File.open(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')) do |f|
       result = JSON.parse(f.read, symbolize_names: true)
     end
 
-    schema = File.open(File.dirname(__FILE__)+ '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
+    schema = File.open(File.dirname(__FILE__) + '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
       result = JSON.parse(f.read, symbolize_names: true)
     end
 
@@ -70,13 +69,12 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(geojson_errors).to be_empty
   end
 
-  it 'raise error' do 
-
+  it 'raise error' do
     geojson_file = File.open(File.join(@spec_files_dir, 'invalid.geojson')) do |f|
       result = JSON.parse(f.read, symbolize_names: true)
     end
 
-    schema = File.open(File.dirname(__FILE__)+ '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
+    schema = File.open(File.dirname(__FILE__) + '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
       result = JSON.parse(f.read, symbolize_names: true)
     end
 

@@ -81,7 +81,9 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
   end
 
   # define what happens when the measure is run
+  # rubocop:disable Metrics/AbcSize
   def run(model, runner, user_arguments)
+    # rubocop:enable Metrics/AbcSize
     super(model, runner, user_arguments)
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(model), user_arguments)
@@ -111,8 +113,8 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
     @runner = runner
     @origin_lat_lon = nil
 
-    all_features = URBANopt::GeoJSON::GeoFile.from_file(geojson_file)  
-    feature = URBANopt::GeoJSON::GeoFile.from_file(geojson_file).get_feature_by_id(feature_id) 
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(geojson_file)
+    feature = URBANopt::GeoJSON::GeoFile.from_file(geojson_file).get_feature_by_id(feature_id)
 
     # EXPOSE NAME
     name = feature.feature_json[:properties][:name]
@@ -153,7 +155,6 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
         convert_to_shades = feature.create_other_buildings(surrounding_buildings, all_features.json, model, @origin_lat_lon, @runner)
       end
 
-      
       # intersect surfaces in this building with others
       @runner.registerInfo('Intersecting surfaces')
       spaces.each do |space|

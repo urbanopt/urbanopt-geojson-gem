@@ -44,8 +44,12 @@ module URBANopt
         @feature_json = validate_feat(feature)
       end
 
+      # rubocop:disable Style/MethodMissing
       def method_missing(name, *args, &blk)
+        # rubocop:enable Style/MethodMissing
+        # rubocop:disable Style/GuardClause
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
+          # rubocop:enable Style/GuardClause
           return @feature_json[:properties][name.to_sym]
         else
           super
@@ -164,13 +168,48 @@ module URBANopt
         return OpenStudio::PointLatLon.new(min_lat, min_lon, 0)
       end
 
+      ##
+      # Used to determine the centroid for the feature's coordinates.
+      #
+      # [Parameters]
+      # * +vertices+ - The first set polygon vertices in the array of feature coordinates.
+      def find_feature_center(vertices)
+
+        number_of_locations = vertices.length
+
+        return vertices.first if number_of_locations == 1
+       
+        x = y = z = 0.0
+        vertices.each do |station|
+          latitude = station[0] * Math::PI / 180
+          longitude = station[1] * Math::PI / 180
+       
+          x += Math.cos(latitude) * Math.cos(longitude)
+          y += Math.cos(latitude) * Math.sin(longitude)
+          z += Math.sin(latitude)
+        end
+       
+        x = x/number_of_locations
+        y = y/number_of_locations
+        z = z/number_of_locations
+       
+        central_longitude =  Math.atan2(y, x)
+        central_square_root = Math.sqrt(x * x + y * y)
+        central_latitude = Math.atan2(z, central_square_root)
+       
+        [central_latitude * 180 / Math::PI, 
+        central_longitude * 180 / Math::PI]
+      end
+
+
       private
 
       ##
       # Used to validate the feature by checking +feature_id+ , +geometry+, +properties+
       # and +geometry_type+ .
-
+      # rubocop:disable Style/CommentedKeyword
       def validate_feat(feature) #:doc:
+        # rubocop:enable Style/CommentedKeyword
         if feature.nil? || feature.empty?
           raise("Feature '#{feature_id}' could not be found")
           return false

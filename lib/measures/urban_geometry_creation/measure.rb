@@ -77,7 +77,9 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
   end
 
   # define what happens when the measure is run
+  # rubocop:disable Metrics/AbcSize
   def run(model, runner, user_arguments)
+    # rubocop:enable Metrics/AbcSize
     super(model, runner, user_arguments)
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(model), user_arguments)

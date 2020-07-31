@@ -80,7 +80,7 @@ module URBANopt
 
         # initialize @@logger
         @@logger ||= URBANopt::GeoJSON.logger
-        
+
         # validate each feature against schema
         geojson_file[:features].each do |feature|
           properties = feature[:properties]
@@ -93,16 +93,16 @@ module URBANopt
             # Incase detailed_model_filename present check for fewer properties
             if feature[:properties][:detailed_model_filename]
               if feature[:properties][:id].nil?
-                raise("No id found for Building Feature")
+                raise('No id found for Building Feature')
               end
               if feature[:properties][:name].nil?
-                raise("No name found for Building Feature")
+                raise('No name found for Building Feature')
               end
               if feature[:properties][:number_of_stories].nil?
                 @@logger.warn("Number of stories is required to calculate shading using the UrbanGeometryCreation measure...ignoring #{feature[:properties][:id]} in shading calculations")
               end
               feature[:additionalProperties] = true
-            # Else validate for all required properties in the schema 
+            # Else validate for all required properties in the schema
             else
               errors = validate(@@building_schema, properties)
             end
@@ -114,16 +114,15 @@ module URBANopt
             errors = validate(@@electrical_junction_schema, properties)
           when 'ElectricalConnector'
             errors = validate(@@electrical_connector_schema, properties)
-          when 'ElectricalJunction'
+          when 'ThermalJunction'
             errors = validate(@@thermal_junction_schema, properties)
           when 'ThermalConnector'
             errors = validate(@@thermal_connector_schema, properties)
           end
-          
+
           unless errors.empty?
-            raise ("#{type} does not adhere to schema: \n #{errors.join('\n  ')}")
+            raise "#{type} does not adhere to schema: \n #{errors.join('\n  ')}"
           end
-        
         end
         return new(geojson_file, path)
       end
@@ -162,7 +161,9 @@ module URBANopt
           if f[:properties] && f[:properties][:id] == feature_id
             # merge site origin properties
             f = merge_site_properties(f)
+            # rubocop:disable Style/GuardClause
             if f[:properties][:type] == 'Building'
+              # rubocop:enable Style/GuardClause
               return URBANopt::GeoJSON::Building.new(f)
             elsif f[:properties] && f[:properties][:type] == 'District System'
               return URBANopt::GeoJSON::DistrictSystem.new(f)
@@ -172,47 +173,48 @@ module URBANopt
         return nil
       end
 
-      ## 
-      # Merge Site Properties in Feature.  Returns feature with site properties added to its properties section. Does not overwrite existing properties.
-      # 
+      ##
+      # Merge Site Properties in Feature. Returns feature with site properties added to its properties section. Does not overwrite existing properties.
+      #
       # [Parameters]
       # +feature+ - _Type:Hash_ - feature object.
       def merge_site_properties(feature)
-        site_origins = @geojson_file[:features].select {|f| f[:properties][:type] == 'Site Origin'}
-        if site_origins.size > 0
-          site_origin = site_origins[0]
-          # site origin found, do some merging
-          # this maps site properties to building/district system properties. 
-          add_props = [
-            {site: :surface_elevation, feature: :surface_elevation}, 
-            {site: :timesteps_per_hour, feature: :timesteps_per_hour},
-            {site: :begin_date, feature: :begin_date},
-            {site: :end_date, feature: :end_date},
-            {site: :cec_climate_zone, feature: :cec_climate_zone},
-            {site: :climate_zone, feature: :climate_zone},
-            {site: :default_template, feature: :template},
-            {site: :weather_filename, feature: :weather_filename},
-            {site: :tariff_filename, feature: :tariff_filename}
-          ]
+        project = {}
+        if @geojson_file.key?(:project)
+          project = @geojson_file[:project]
+        end
 
-          add_props.each do |prop|
-            if site_origin[:properties].key?(prop[:site]) and site_origin[:properties][prop[:site]]
-              # property exists in site
-              if !feature[:properties].key?(prop[:feature]) or feature[:properties][prop[:feature]].nil? or feature[:properties][prop[:feature]].empty?
-                # property does not exist in feature or is nil: add site property (don't overwrite)
-                feature[:properties][prop[:feature]] = site_origin[:properties][prop[:site]]
-              end
+        # this maps site properties to building/district system properties.
+        add_props = [
+          { site: :surface_elevation, feature: :surface_elevation },
+          { site: :timesteps_per_hour, feature: :timesteps_per_hour },
+          { site: :begin_date, feature: :begin_date },
+          { site: :end_date, feature: :end_date },
+          { site: :cec_climate_zone, feature: :cec_climate_zone },
+          { site: :climate_zone, feature: :climate_zone },
+          { site: :default_template, feature: :template },
+          { site: :weather_filename, feature: :weather_filename },
+          { site: :tariff_filename, feature: :tariff_filename }
+        ]
+
+        add_props.each do |prop|
+          if project.key?(prop[:site]) && project[prop[:site]]
+            # property exists in site
+            if !feature[:properties].key?(prop[:feature]) || feature[:properties][prop[:feature]].nil? || feature[:properties][prop[:feature]].empty?
+              # property does not exist in feature or is nil: add site property (don't overwrite)
+              feature[:properties][prop[:feature]] = project[prop[:site]]
             end
           end
         end
+
         return feature
       end
 
       ##
-      # Validate GeoJSON against schema
+      # Validate GeoJSON against schema.
       #
       # [Parameters]
-      # * +data+ - + - _Type:Hash_ - Input GeoJSON file 
+      # * +data+ - + - _Type:Hash_ - Input GeoJSON file
       def self.validate(schema_json, data)
         errors = JSON::Validator.fully_validate(schema_json, data, errors_as_objects: true)
         return errors
@@ -242,7 +244,7 @@ module URBANopt
         end
         return result
       end
-      
+
       def self.get_district_system_schema(strict)
         result = nil
         File.open(File.dirname(__FILE__) + '/schema/district_system_properties.json') do |f|
@@ -255,7 +257,7 @@ module URBANopt
         end
         return result
       end
-      
+
       def self.get_region_schema(strict)
         result = nil
         File.open(File.dirname(__FILE__) + '/schema/region_properties.json') do |f|
@@ -330,7 +332,6 @@ module URBANopt
       @@electrical_junction_schema = get_electrical_junction_schema(strict)
       @@thermal_connector_schema = get_thermal_connector_schema(strict)
       @@thermal_junction_schema = get_thermal_junction_schema(strict)
-
     end
   end
 end
