@@ -161,7 +161,6 @@ module URBANopt
           if f[:properties] && f[:properties][:id] == feature_id
             # merge site origin properties
             f = merge_site_properties(f)
-            # rubocop:disable Style/GuardClause
             if f[:properties][:type] == 'Building'
               # rubocop:enable Style/GuardClause
               return URBANopt::GeoJSON::Building.new(f)

@@ -63,7 +63,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(nominal_z2).to eq(7.2)
     expect(building.length).to eq(single_building.number_of_stories)
   end
-  
+
   it 'creates building given a feature, space_per_building create_method, model, origin_lat_lon, runner and zoning(false)' do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
@@ -124,7 +124,6 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
     expect(other_buildings.size).to eq 11
   end
-
 
   it 'creates other buildings using ShadingOnly create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)

@@ -296,6 +296,9 @@
       "properties": {
         "building_type": {
           "enum": [
+            "Single-Family",
+            "Multifamily (2 to 4 units)",
+            "Multifamily (5 or more units)",
             "Vacant",
             "Office",
             "Laboratory",
@@ -341,6 +344,9 @@
         "Single-Family Detached",
         "Single-Family Attached",
         "Multifamily",
+        "Single-Family",
+        "Multifamily (2 to 4 units)",
+        "Multifamily (5 or more units)",
         "Vacant",
         "Office",
         "Laboratory",
