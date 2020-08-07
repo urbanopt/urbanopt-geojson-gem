@@ -62,14 +62,41 @@ RSpec.describe URBANopt::GeoJSON do
     nominal_z2 = nominal_z_object2.get
     expect(nominal_z2).to eq(7.2)
     expect(building.length).to eq(single_building.number_of_stories)
-    puts single_building.number_of_stories.to_s
   end
-  
+
   it 'creates building given a feature, space_per_building create_method, model, origin_lat_lon, runner and zoning(false)' do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(1)
     expect(@building.number_of_stories).to eq(4)
+  end
+
+  it 'creates building given a feature, and checks footprint area created against footprint area in geojson file' do
+    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    all_features = URBANopt::GeoJSON::GeoFile.from_file(path)
+
+    # array of all building feature ids from nrel_stm_footprints.geojson
+    ids = ["59a9ce2b42f7d007c059d32e","59a9ce2b42f7d007c059d302","59a9ce2b42f7d007c059d334","59a9ce2b42f7d007c059d32c","59a9ce2b42f7d007c059d338","59a9ce2b42f7d007c059d33c","59a9ce2b42f7d007c059d306","59a9ce2b42f7d007c059d308","59a9ce2b42f7d007c059d30a","59a9ce2b42f7d007c059d304","59a9ce2b42f7d007c059d326","59a9ce2b42f7d007c059d332","59a9ce2b42f7d007c059d33e","59a9ce2b42f7d007c059d340","59a9ce2b42f7d007c059d342","59a9ce2b42f7d007c059d300","59a9ce2b42f7d007c059d2fe","59a9ce2b42f7d007c059d2fa","59a9ce2b42f7d007c059d2fc","59a9ce2b42f7d007c059d2f8","59a9ce2b42f7d007c059d32a","59a9ce2b42f7d007c059d346","59a9ce2b42f7d007c059d2f6","59a9ce2b42f7d007c059d2f4","59a9ce2b42f7d007c059d2ee","59a9ce2b42f7d007c059d2f0","59a9ce2b42f7d007c059d2f2","59a9ce2b42f7d007c059d30e","59a9ce2b42f7d007c059d314","59a9ce2b42f7d007c059d320","59a9ce2b42f7d007c059d312","59a9ce2b42f7d007c059d322","59a9ce2b42f7d007c059d310","59a9ce2b42f7d007c059d324","59a9ce2b42f7d007c059d330","59a9ce2b42f7d007c059d32e","59a9ce2b42f7d007c059d302","59a9ce2b42f7d007c059d334","59a9ce2b42f7d007c059d32c"
+    ]
+
+    ids.each do |id|
+      feature = all_features.get_feature_by_id(id)
+      @origin_lat_lon = feature.create_origin_lat_lon(@runner)
+      spaces = feature.create_building(:spaces_per_floor, @model, @origin_lat_lon, @runner, false)
+      feature_footprint = feature.footprint_area
+
+      thermal_zone = spaces[0].thermalZone
+      thermal_zone_object = thermal_zone.get
+      floor_area = thermal_zone_object.floorArea
+      floor_area_ft = OpenStudio.convert(floor_area, 'm^2', 'ft^2').get
+
+      #check if footprint area from geojson file = footprint area created using geojson gem
+      if feature_footprint != floor_area_ft
+        area_factor = feature_footprint/floor_area_ft
+        puts "For Feature ID #{id} the GeoJSON file footprint area / GeoJSON Gem footprint area is #{area_factor}"
+        puts "footprint area: #{feature_footprint}, floor_area_ft: #{floor_area_ft}"
+      end
+    end
   end
 
   it 'creates zoning building' do
@@ -97,7 +124,6 @@ RSpec.describe URBANopt::GeoJSON do
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
     expect(other_buildings.size).to eq 11
   end
-
 
   it 'creates other buildings using ShadingOnly create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)

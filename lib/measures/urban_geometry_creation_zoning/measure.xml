@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>urban_geometry_creation_zoning</name>
   <uid>96ea1317-76ac-4670-b51d-71ee3f4fdd65</uid>
-  <version_id>5109b19e-6300-4068-900e-8a989b9762c8</version_id>
-  <version_modified>20200327T211951Z</version_modified>
+  <version_id>884d6eb0-6517-40dc-96ca-ac4db7c2ad7d</version_id>
+  <version_modified>20200807T210718Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreationZoning</class_name>
   <display_name>UrbanGeometryCreationZoning</display_name>
@@ -46,8 +47,8 @@
       </choices>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>Envelope.Form</tag>
   </tags>
@@ -103,6 +104,12 @@
       <checksum>EA283B74</checksum>
     </file>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>0458EE16</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.9.0</identifier>
@@ -111,25 +118,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>EF1B3E84</checksum>
-    </file>
-    <file>
-      <filename>out.txt</filename>
-      <filetype>txt</filetype>
-      <usage_type>test</usage_type>
-      <checksum>7FAF05F3</checksum>
+      <checksum>2505C43D</checksum>
     </file>
     <file>
       <filename>urban_geometry_creation_zoning_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>60BFE46B</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>0458EE16</checksum>
+      <checksum>986CB63E</checksum>
     </file>
   </files>
 </measure>

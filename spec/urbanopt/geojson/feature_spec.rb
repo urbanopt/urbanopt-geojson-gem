@@ -59,4 +59,17 @@ RSpec.describe URBANopt::GeoJSON do
 
     expect(origin_lat_lon.class).to eq(OpenStudio::PointLatLon)
   end
+
+  it 'creates centroid vertices correctly' do
+    vertices = [
+      [0, 0],
+      [0, 5],
+      [5, 5],
+      [5, 0]
+    ]
+
+    centroid = @feature.find_feature_center(vertices)
+    expect(centroid[0].round(2)).to eq(2.5)
+    expect(centroid[1].round(2)).to eq(2.5)
+  end
 end
