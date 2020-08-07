@@ -154,7 +154,7 @@ module URBANopt
         stories.each_index do |i|
           space_type = nil
           space = stories[i].spaces.first
-          if space && space.spaceType.is_initialized
+          if space&.spaceType&.is_initialized
             space_type = space.spaceType.get
           else
             space_type = OpenStudio::Model::SpaceType.new(model)
