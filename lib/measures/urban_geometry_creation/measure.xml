@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>urban_geometry_creation</name>
   <uid>5ab85d6b-c9af-4361-8ab9-613ee99a5666</uid>
-  <version_id>cf023329-6ef3-43b3-a316-b08fabb47cd2</version_id>
-  <version_modified>20200327T211951Z</version_modified>
+  <version_id>e32672b2-91b1-4b62-9770-7712cab86004</version_id>
+  <version_modified>20200807T210717Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreation</class_name>
   <display_name>UrbanGeometryCreation</display_name>
@@ -46,8 +47,8 @@
       </choices>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>Envelope.Form</tag>
   </tags>
@@ -103,16 +104,22 @@
       <checksum>40290298</checksum>
     </file>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>A09F345D</checksum>
+    </file>
+    <file>
       <filename>shadowed_tests.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>861137CF</checksum>
+      <checksum>4E51A05C</checksum>
     </file>
     <file>
       <filename>urban_geometry_creation_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>6DED5C96</checksum>
+      <checksum>DDAD6BFA</checksum>
     </file>
     <file>
       <version>
@@ -123,19 +130,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>1A6BAAFA</checksum>
-    </file>
-    <file>
-      <filename>out.txt</filename>
-      <filetype>txt</filetype>
-      <usage_type>test</usage_type>
-      <checksum>C5B18B73</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>A09F345D</checksum>
+      <checksum>2F8C09F7</checksum>
     </file>
   </files>
 </measure>

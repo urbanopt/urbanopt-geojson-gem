@@ -1,5 +1,19 @@
 # URBANopt GeoJSON Gem
  
+## Version 0.3.1
+Date Range 06/05/20 - 08/07/20
+
+Accepted Pull Requests: 9
+- Fixed [#77]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/77 ), Bump acorn from 6.1.1 to 6.4.1 in /docs
+- Fixed [#92]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/92 ), Adds scaling for building footprint using building area
+- Fixed [#98]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/98 ), Add method to determine centroid for features
+- Fixed [#99]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/99 ), Adds test to check footprint area
+- Fixed [#100]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/100 ), Bump lodash from 4.17.15 to 4.17.19 in /docs
+- Fixed [#102]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/102 ), make connector-type optional on electrical junction
+- Fixed [#103]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/103 ), Bump elliptic from 6.4.1 to 6.5.3 in /docs
+- Fixed [#104]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/104 ), bump minimist and dot-prop versions
+- Fixed [#108]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/108 ), Schema errors (issues 105, 106, and 107)
+
 ## Version 0.3.0
 
 Date Range 3/25/20 - 06/04/20
