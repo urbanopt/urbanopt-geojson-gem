@@ -71,7 +71,7 @@ RSpec.describe URBANopt::GeoJSON do
     surfaces = building[0].surfaces
     ground_surface = nil
     surfaces.each do |surface|
-      boundary_condition = surface.	outsideBoundaryCondition
+      boundary_condition = surface.outsideBoundaryCondition
       if boundary_condition == 'Ground'
         ground_surface = surface
       end
