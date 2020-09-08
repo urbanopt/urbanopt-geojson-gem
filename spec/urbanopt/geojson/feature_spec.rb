@@ -50,7 +50,7 @@ RSpec.describe URBANopt::GeoJSON do
 
     expect(multi_polygon[0][0][0]).to eq([-105.17319738864896, 39.74028511445897])
     expect(multi_polygon[0][0].length).to eq(13)
-    expect(multi_polygon[0][0][3]).to eq([-105.17263278365134, 39.7420423295066])
+    expect(multi_polygon[0][0][3]).to eq([-105.17305254936218, 39.74047898780182])
     expect(multi_polygon.class).to eq(Array)
   end
 
@@ -74,9 +74,9 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'calculates aspect ratio correctly' do
-    puts "this is feature name = #{@feature.name}"
-
-    expect(@feature.calculate_aspect_ratio).to eq([0.3743, 155.35])
+    puts "This is feature name = #{@feature.name}"
+    puts "This is actual footprint perimeter in feet from GeoJSON file = #{@feature.footprint_perimeter}"
+    expect(@feature.calculate_aspect_ratio).to eq([0.3743, 155.34858308242534])
     puts @feature.calculate_aspect_ratio[1]
   end
 
