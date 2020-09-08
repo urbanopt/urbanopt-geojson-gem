@@ -33,7 +33,7 @@ require_relative '../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = '59a9ce2b42f7d007c059d32e'
+    feature_id = '59a9ce2b42f7d007c059d2fa' 
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -68,7 +68,32 @@ RSpec.describe URBANopt::GeoJSON do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(1)
-    expect(@building.number_of_stories).to eq(4)
+    surfaces = building[0].surfaces
+    ground_surface = nil
+    surfaces.each do |surface|
+      boundary_condition = surface.	outsideBoundaryCondition
+      if boundary_condition == 'Ground'
+        ground_surface = surface
+      end
+    end
+    vertices = ground_surface.vertices
+    n = vertices.size
+    perimeter = 0
+    for i in (0..n-1) do i
+      vertex_1 = nil
+      vertex_2 = nil
+      if i == n-1
+        vertex_1 = vertices[n-1]
+        vertex_2 = vertices[0]
+      else
+        vertex_1 = vertices[i]
+        vertex_2 = vertices[i + 1]
+      end
+      length = OpenStudio::Vector3d.new(vertex_2 - vertex_1).length
+      perimeter += length
+    end
+    perimeter_feet = perimeter*3.28084
+    puts "This is NREL cafe perimeter in feet on converting to OS space = #{perimeter_feet}"
   end
 
   it 'creates building given a feature, and checks footprint area created against footprint area in geojson file' do
@@ -91,11 +116,11 @@ RSpec.describe URBANopt::GeoJSON do
       floor_area_ft = OpenStudio.convert(floor_area, 'm^2', 'ft^2').get
 
       #check if footprint area from geojson file = footprint area created using geojson gem
-      if feature_footprint != floor_area_ft
-        area_factor = feature_footprint/floor_area_ft
-        puts "For Feature ID #{id} the GeoJSON file footprint area / GeoJSON Gem footprint area is #{area_factor}"
-        puts "footprint area: #{feature_footprint}, floor_area_ft: #{floor_area_ft}"
-      end
+      #if feature_footprint != floor_area_ft
+      #  area_factor = feature_footprint/floor_area_ft
+      #  puts "For Feature ID #{id} the GeoJSON file footprint area / GeoJSON Gem footprint area is #{area_factor}"
+      #  puts "footprint area: #{feature_footprint}, floor_area_ft: #{floor_area_ft}"
+      #end
     end
   end
 
@@ -128,7 +153,7 @@ RSpec.describe URBANopt::GeoJSON do
   it 'creates other buildings using ShadingOnly create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 4
+    expect(other_buildings.size).to eq 6
   end
 
   it 'creates other buildings using ShadingOnly create method for modified geojson' do
@@ -154,8 +179,8 @@ RSpec.describe URBANopt::GeoJSON do
     windows = @building.create_windows(spaces)
     expect(windows[0].class).to eq(OpenStudio::Model::Space)
     expect(windows.empty?).to be false
-    expect(spaces.size).to eq(4)
-    expect(windows.size).to eq(4)
+    expect(spaces.size).to eq(6)
+    expect(windows.size).to eq(6)
     spaces.each do |space|
       space.surfaces.each do |surface|
         if surface.surfaceType == 'Wall' && surface.outsideBoundaryCondition == 'Outdoors'

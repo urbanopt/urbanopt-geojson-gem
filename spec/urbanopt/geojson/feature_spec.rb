@@ -33,7 +33,7 @@ require_relative '../../spec_helper'
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
     path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = '59a9ce2b42f7d007c059d32e'
+    feature_id = '59a9ce2b42f7d007c059d2fa'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -42,14 +42,14 @@ RSpec.describe URBANopt::GeoJSON do
 
   it 'creates minimum longitute and latitude given a polygon' do
     min_lon_and_lat = @feature.get_min_lon_lat
-    expect(min_lon_and_lat).to eq([-105.17263278365134, 39.74200726814212])
+    expect(min_lon_and_lat).to eq([-105.17319738864896, 39.74026448960319])
   end
 
   it 'creates a multi polygon out of a polygon' do
     multi_polygon = @feature.get_multi_polygons
 
-    expect(multi_polygon[0][0][0]).to eq([-105.17262205481528, 39.74200726814212])
-    expect(multi_polygon[0][0].length).to eq(5)
+    expect(multi_polygon[0][0][0]).to eq([-105.17319738864896, 39.74028511445897])
+    expect(multi_polygon[0][0].length).to eq(13)
     expect(multi_polygon[0][0][3]).to eq([-105.17263278365134, 39.7420423295066])
     expect(multi_polygon.class).to eq(Array)
   end
@@ -72,4 +72,16 @@ RSpec.describe URBANopt::GeoJSON do
     expect(centroid[0].round(2)).to eq(2.5)
     expect(centroid[1].round(2)).to eq(2.5)
   end
+
+  it 'calculates aspect ratio correctly' do
+    puts "this is feature name = #{@feature.name}"
+
+    expect(@feature.calculate_aspect_ratio).to eq([0.3743, 155.35])
+    puts @feature.calculate_aspect_ratio[1]
+  end
+
+  it 'gets perimeter correctly given area and aspect ratio' do 
+    expect(@feature.get_perimeter_ratio(50, 0.5, 45)).to eq(1.5)
+  end
+
 end
