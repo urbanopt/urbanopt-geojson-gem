@@ -10,8 +10,8 @@
   },
   "author": "Brian Schiller",
   "dependencies": {
-    "highlight.js": "^9.15.6",
-    "json-schema-ref-parser": "^6.1.0",
+    "highlight.js": "^10.2.0",
+    "json-schema-ref-parser": "^9.0.6",
     "json-schema-view-js": "git+https://git@github.com/bgschiller/json-schema-view-js.git",
     "vuepress": "^1.5.4",
     "webpack-dev-middleware": "^3.6.0"
@@ -19,7 +19,7 @@
   "devDependencies": {
     "braces": "^3.0.2",
     "dot-prop": ">=5.1.1",
-    "gh-pages": "^2.0.1",
+    "gh-pages": "^3.1.0",
     "js-yaml": ">=3.13.1",
     "lodash": ">=4.17.19",
     "lodash.template": ">=4.5.0",
