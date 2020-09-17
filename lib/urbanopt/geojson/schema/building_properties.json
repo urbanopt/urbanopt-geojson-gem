@@ -87,7 +87,7 @@
       "type": "string"
     },
     "floor_area": {
-      "description": "Usable floor area (ft^2).",
+      "description": "Usable floor area (ft^2). Required for residential buildings, this represents conditioned floor area.",
       "type": "number"
     },
     "number_of_stories": {
@@ -95,7 +95,7 @@
       "type": "integer"
     },
     "number_of_stories_above_ground": {
-      "description": "The number of building stories above ground. Defaults to number_of_stories.",
+      "description": "The number of building stories above ground. Defaults to number_of_stories. Required for residential buildings.",
       "type": "integer"
     },
     "maximum_roof_height": {
@@ -194,7 +194,7 @@
       "maximum": 100
     },
     "number_of_residential_units": {
-      "description": "Total number of residential units in the building. Required for single-family attached or multifamily residential buildings.",
+      "description": "Total number of residential units in the building. Required for single-family attached and multifamily residential buildings.",
       "type": "integer"
     },
     "number_of_bedrooms": {
@@ -241,8 +241,7 @@
         "type",
         "name",
         "floor_area",
-        "number_of_stories",
-        "footprint_area",
+        "number_of_stories_above_ground",
         "building_type",
         "number_of_bedrooms",
         "foundation_type",
@@ -262,8 +261,7 @@
         "type",
         "name",
         "floor_area",
-        "number_of_stories",
-        "footprint_area",
+        "number_of_stories_above_ground",
         "building_type",
         "number_of_residential_units",
         "number_of_bedrooms",
@@ -284,8 +282,7 @@
         "type",
         "name",
         "floor_area",
-        "number_of_stories",
-        "footprint_area",
+        "number_of_stories_above_ground",
         "building_type",
         "number_of_residential_units",
         "number_of_bedrooms",
@@ -520,11 +517,11 @@
         "DEER 2065",
         "DEER 2070",
         "DEER 2075",
-        "IECC 2006",
-        "IECC 2009",
-        "IECC 2012",
-        "IECC 2015",
-        "IECC 2018"
+        "Residential IECC 2006 - Customizable Template Sep 2020",
+        "Residential IECC 2009 - Customizable Template Sep 2020",
+        "Residential IECC 2012 - Customizable Template Sep 2020",
+        "Residential IECC 2015 - Customizable Template Sep 2020",
+        "Residential IECC 2018 - Customizable Template Sep 2020"
       ]
     },
     "foundationType": {
