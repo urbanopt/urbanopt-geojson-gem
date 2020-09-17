@@ -74,14 +74,11 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'calculates aspect ratio correctly' do
-    puts "This is feature name = #{@feature.name}"
-    puts "This is actual footprint perimeter in feet from GeoJSON file = #{@feature.footprint_perimeter}"
-    expect(@feature.calculate_aspect_ratio).to eq([0.3743, 155.34858308242534])
-    puts @feature.calculate_aspect_ratio[1]
+    expect(@feature.calculate_aspect_ratio).to eq(0.3743)
   end
 
   it 'gets perimeter correctly given area and aspect ratio' do 
-    expect(@feature.get_perimeter_ratio(50, 0.5, 45)).to eq(1.5)
+    expect(@feature.get_perimeter_multiplier(50, 0.5, 45)).to eq(1.5)
   end
 
 end

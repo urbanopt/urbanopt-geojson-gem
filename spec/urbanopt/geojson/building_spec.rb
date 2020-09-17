@@ -68,32 +68,7 @@ RSpec.describe URBANopt::GeoJSON do
     building = @building.create_building(:space_per_building, @model, @origin_lat_lon, @runner)
     expect(building[0].class).to eq(OpenStudio::Model::Space)
     expect(building.length).to eq(1)
-    surfaces = building[0].surfaces
-    ground_surface = nil
-    surfaces.each do |surface|
-      boundary_condition = surface.outsideBoundaryCondition
-      if boundary_condition == 'Ground'
-        ground_surface = surface
-      end
-    end
-    vertices = ground_surface.vertices
-    n = vertices.size
-    perimeter = 0
-    for i in (0..n-1) do i
-      vertex_1 = nil
-      vertex_2 = nil
-      if i == n-1
-        vertex_1 = vertices[n-1]
-        vertex_2 = vertices[0]
-      else
-        vertex_1 = vertices[i]
-        vertex_2 = vertices[i + 1]
-      end
-      length = OpenStudio::Vector3d.new(vertex_2 - vertex_1).length
-      perimeter += length
-    end
-    perimeter_feet = perimeter*3.28084
-    puts "This is NREL cafe perimeter in feet on converting to OS space = #{perimeter_feet}"
+    expect(@building.number_of_stories).to eq(1)
   end
 
   it 'creates building given a feature, and checks footprint area created against footprint area in geojson file' do
@@ -115,12 +90,9 @@ RSpec.describe URBANopt::GeoJSON do
       floor_area = thermal_zone_object.floorArea
       floor_area_ft = OpenStudio.convert(floor_area, 'm^2', 'ft^2').get
 
-      #check if footprint area from geojson file = footprint area created using geojson gem
-      #if feature_footprint != floor_area_ft
-      #  area_factor = feature_footprint/floor_area_ft
-      #  puts "For Feature ID #{id} the GeoJSON file footprint area / GeoJSON Gem footprint area is #{area_factor}"
-      #  puts "footprint area: #{feature_footprint}, floor_area_ft: #{floor_area_ft}"
-      #end
+      area_factor = feature_footprint/floor_area_ft
+
+      expect(area_factor.round(2)).to eq(1.0)
     end
   end
 
@@ -188,5 +160,10 @@ RSpec.describe URBANopt::GeoJSON do
         end
       end
     end
+  end
+
+  it 'can calculate perimeter for a building' do
+    perimeter = @building.calculate_perimeter(@building)
+    expect(perimeter).to eq(518.892)
   end
 end

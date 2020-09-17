@@ -101,11 +101,6 @@ module URBANopt
       def calculate_aspect_ratio
         multi_polygons = get_multi_polygons(@feature_json)
         rad_per_deg = 0.017453293
-        # Earth radius in kilometers
-        rkm = 6371
-        # Earth radius in meters
-        rm = rkm *1000
-
 
         multi_polygons.each do |multi_polygon|
           if multi_polygon.size > 1
@@ -119,7 +114,6 @@ module URBANopt
             south = 0
             west = 0
             aspect_ratio = 0
-            perimeter = 0
 
             for i in (0..n-2) do i
               vertex_1 = nil
@@ -145,19 +139,6 @@ module URBANopt
               # delta longitude
               dlon = y_2 - y_1
               
-              dlat_rad = dlat * rad_per_deg
-              dlon_rad = dlon * rad_per_deg
-
-              lat1_rad = x_1 * rad_per_deg
-              lat2_rad = x_2 * rad_per_deg
-
-              a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
-              c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
-
-              #delta in meters
-              distance = rm * c
-              perimeter += distance
-
               #convert radian to degree
               sin_angle = Math.asin(dlon/length)*(1/rad_per_deg)
               sin_angle = sin_angle.round(4)
@@ -183,19 +164,14 @@ module URBANopt
 
             end
 
-              perimeter_feet = perimeter*3.28084
-              perimeter_feet = perimeter_feet.round(2)
-              puts "This is NREL cafe perimeter in feet using formula = #{perimeter_feet}"
-
               aspect_ratio = aspect_ratio.round(4)
-
-              return aspect_ratio, perimeter
+              return aspect_ratio
           end
         end
       end
 
 
-      def get_perimeter_ratio(area, aspect_ratio, perimeter_original)
+      def get_perimeter_multiplier(area, aspect_ratio, perimeter_original)
         perimeter_new = 2*(Math.sqrt(area*aspect_ratio) + Math.sqrt(area/aspect_ratio))
         perimeter_ratio = perimeter_original/perimeter_new
         return perimeter_ratio
