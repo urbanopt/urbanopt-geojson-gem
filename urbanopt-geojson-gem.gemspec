@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'json-schema', '~> 2.8'
   spec.add_runtime_dependency 'openstudio-extension', '~> 0.2.3'
-  spec.add_runtime_dependency 'urbanopt-core', '~> 0.3.0'
+  spec.add_runtime_dependency 'urbanopt-core', '~> 0.4.0'
 end
