@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -246,6 +246,41 @@ module URBANopt
             end
           end
         end
+      end
+
+      def calculate_perimeter(feature)
+        model = OpenStudio::Model::Model.new
+        runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
+        origin_lat_lon = nil
+        origin_lat_lon = feature.create_origin_lat_lon(runner)
+        spaces = feature.create_building(:space_per_building, model, origin_lat_lon, runner)
+        surfaces = spaces[0].surfaces
+        ground_surface = nil
+        surfaces.each do |surface|
+          boundary_condition = surface.outsideBoundaryCondition
+          if boundary_condition == 'Ground'
+            ground_surface = surface
+          end
+        end
+        vertices = ground_surface.vertices
+        n = vertices.size
+        perimeter = 0
+        for i in (0..n-1) do i
+          vertex_1 = nil
+          vertex_2 = nil
+          if i == n-1
+            vertex_1 = vertices[n-1]
+            vertex_2 = vertices[0]
+          else
+            vertex_1 = vertices[i]
+            vertex_2 = vertices[i + 1]
+          end
+          length = OpenStudio::Vector3d.new(vertex_2 - vertex_1).length
+          perimeter += length
+        end
+        perimeter = OpenStudio.convert(perimeter, 'm', 'ft').get
+        perimeter = perimeter.round(4)
+        return perimeter
       end
 
       ##

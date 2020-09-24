@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -246,5 +246,4 @@ end
     is_shadowed = URBANopt::GeoJSON::Helper.is_shadowed(south_points, north_points, @origin_lat_lon)
     expect(is_shadowed).to eq(false)
   end
-
 end

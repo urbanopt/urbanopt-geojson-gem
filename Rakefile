@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -37,7 +37,7 @@ RSpec::Core::RakeTask.new(:spec)
 require 'openstudio/extension/rake_task'
 require 'urbanopt/geojson'
 rake_task = OpenStudio::Extension::RakeTask.new
-rake_task.set_extension_class(URBANopt::GeoJSON::Extension)
+rake_task.set_extension_class(URBANopt::GeoJSON::Extension, 'urbanopt/urbanopt-geojson-gem')
 
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new

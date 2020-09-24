@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -161,7 +161,6 @@ module URBANopt
           if f[:properties] && f[:properties][:id] == feature_id
             # merge site origin properties
             f = merge_site_properties(f)
-            # rubocop:disable Style/GuardClause
             if f[:properties][:type] == 'Building'
               # rubocop:enable Style/GuardClause
               return URBANopt::GeoJSON::Building.new(f)

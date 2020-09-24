@@ -1,5 +1,33 @@
 # URBANopt GeoJSON Gem
  
+## Version 0.3.1
+Date Range 06/05/20 - 08/07/20
+
+Accepted Pull Requests: 9
+- Fixed [#77]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/77 ), Bump acorn from 6.1.1 to 6.4.1 in /docs
+- Fixed [#92]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/92 ), Adds scaling for building footprint using building area
+- Fixed [#98]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/98 ), Add method to determine centroid for features
+- Fixed [#99]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/99 ), Adds test to check footprint area
+- Fixed [#100]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/100 ), Bump lodash from 4.17.15 to 4.17.19 in /docs
+- Fixed [#102]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/102 ), make connector-type optional on electrical junction
+- Fixed [#103]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/103 ), Bump elliptic from 6.4.1 to 6.5.3 in /docs
+- Fixed [#104]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/104 ), bump minimist and dot-prop versions
+- Fixed [#108]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/108 ), Schema errors (issues 105, 106, and 107)
+
+## Version 0.3.0
+
+Date Range 3/25/20 - 06/04/20
+
+Updating to use with OpenStudio 3.0 and Ruby 2.5
+
+Accepted Pull Requests: 
+- Fixed [#60]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/60 ), HPXML-based workflow for residential buildings
+- Fixed [#83]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/83 ), Add new system types to building properties schema
+- Fixed [#84]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/84 ), Updated system types with OpenStudio
+- Fixed [#87]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/87 ), Adds nominal height for stories, test for confirming nominal height
+- Fixed [#90]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/90 ), Assigns construction correctly for adiabatic surfaces.
+-Fixed [#95]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/95 ), Exclude measure tests from gem release to reduce size
+
 ## Version 0.2.0
 
 Date Range: 12/26/19 - 03/25/20

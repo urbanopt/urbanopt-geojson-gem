@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -154,7 +154,7 @@ module URBANopt
         stories.each_index do |i|
           space_type = nil
           space = stories[i].spaces.first
-          if space && space.spaceType.is_initialized
+          if space&.spaceType&.is_initialized
             space_type = space.spaceType.get
           else
             space_type = OpenStudio::Model::SpaceType.new(model)
@@ -271,6 +271,7 @@ module URBANopt
             if number_of_stories_above_ground.nil?
               number_of_stories_above_ground = number_of_stories
               number_of_stories_below_ground = 0
+
             else
               number_of_stories_below_ground = number_of_stories - number_of_stories_above_ground
             end
@@ -279,6 +280,13 @@ module URBANopt
             if number_of_stories_above_ground && number_of_stories_above_ground > 0 && maximum_roof_height
               floor_to_floor_height = maximum_roof_height / number_of_stories_above_ground
             end
+
+            # check that feature has a # stories
+            if number_of_stories_above_ground.nil?
+              runner.registerWarning("[geojson process_other_buildings] Unable to include feature #{other_building[:properties][:id]} in shading calculations: no 'number of stories' data")
+            end
+            next if number_of_stories_above_ground.nil?
+
             other_height = number_of_stories_above_ground * floor_to_floor_height
             # find the polygon of the other_building by passing it to the get_multi_polygons method
             other_building_points = building.other_points(other_building, other_height, origin_lat_lon, runner, zoning)
