@@ -77,8 +77,6 @@ module  URBANopt
         fail "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
         new_area = new_area.get
         
-        puts "x = #{x[0].to_f}, new_area = #{new_area}"
-
         return [new_area-@desired_area]
       end
 
