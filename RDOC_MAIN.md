@@ -7,17 +7,22 @@ The URBANopt™ GeoJSON Gem has been developed by restructuring methods extracte
 and
 [urban_geometry_creation_zoning.](https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation_zoning)
 
-The +urban_geometry_creation+ measure can be used to create an OpenStudio Model for a
+The `urban_geometry_creation` measure can be used to create an OpenStudio Model for a
 building feature from the feature file and create the surrounding buildings that are shading the
 building feature as shading objects.
-The arguments used in the measure are the +GeoJSON File+, +Feature ID+ of the building and +Surrounding Buildings+. The
-Surrounding Buildings argument takes two possible choices - None or Shading Only. The None choice
+The arguments used in the measure are the `geojson_file`, `feature_id` of the building, `surrounding_buildings` and `scale_footprint_area_by_floor_area`. The
+`surrounding_buildings` argument takes two possible choices - None or Shading Only. The None choice
 would create no other buildings adjacent to the building feature while the Shading Only option
-determines what other buildings are shading the building feature and creates them as OpenStudio Shading Surfaces.
+determines what other buildings are shading the building feature and creates them as OpenStudio
+Shading Surfaces. The `scale_footprint_area_by_floor_area` is an optional argument that is set to
+false by default. When set to true, the building footprint area is calculated from the
+floor_area/number_of_stories for the building in the GeoJSON file and this footprint area is used to
+scale the building coordinates and create the building.
 
-The +urban_geometry_creation_zoning+ measure has the same capabilities as the
-+urban_geometry_creation+ measure, however it also creates core and perimeter zones for the spaces
-in the OpenStudio Model. It takes in the same arguments as the +urban_geometry_creation+ measure. 
+The `urban_geometry_creation_zoning` measure has the same capabilities as the
+`urban_geometry_creation` measure, however it also creates core and perimeter zones for the spaces
+in the OpenStudio Model. It takes in the `geojson_file`, `feature_id` of the building,
+`surrounding_buildings` as arguments. 
 
 The main components of the gem are:
 
