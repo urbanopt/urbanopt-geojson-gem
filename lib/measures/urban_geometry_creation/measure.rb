@@ -77,17 +77,15 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     args << surrounding_buildings
     # not a required argument
     scale_footprint_area_by_floor_area = OpenStudio::Ruleset::OSArgument.makeBoolArgument('scale_footprint_area_by_floor_area', false)
-    scale_footprint_area_by_floor_area.setDisplayName("Scale Footprint Area by the Floor Area?")
-    scale_footprint_area_by_floor_area.setDescription("If true, the footprint area from GeoJSON will be scaled by the floor_area provided by the user in URBANopt.")
+    scale_footprint_area_by_floor_area.setDisplayName('Scale Footprint Area by the Floor Area?')
+    scale_footprint_area_by_floor_area.setDescription('If true, the footprint area from GeoJSON will be scaled by the floor_area provided by the user in URBANopt.')
     scale_footprint_area_by_floor_area.setDefaultValue(false)
     args << scale_footprint_area_by_floor_area
     return args
   end
 
   # define what happens when the measure is run
-  # rubocop:disable Metrics/AbcSize
   def run(model, runner, user_arguments)
-    # rubocop:enable Metrics/AbcSize
     super(model, runner, user_arguments)
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(model), user_arguments)
