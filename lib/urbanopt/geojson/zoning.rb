@@ -41,7 +41,8 @@ module URBANopt
       # * +floor_print+ - _Type:Array_ - An instance of +OpenStudio::Point3dVector.new+ .
       # * +perimeter_depth+ - _Type:Float_ - Represents perimeter depth.
       # * +runner+ - _Type:String_ - Measure run's instance of +OpenStudio::Measure::OSRunner+ .
-      def self.divide_floor_print(floor_print, perimeter_depth, runner)
+      # * +scale+ - _Type:Boolean_ - Checks whether floor print is to be scaled. Default is false.
+      def self.divide_floor_print(floor_print, perimeter_depth, runner, scale = false)
         result = []
         t_inv = OpenStudio::Transformation.alignFace(floor_print)
         t = t_inv.inverse
@@ -86,21 +87,25 @@ module URBANopt
         if self_intersects
           runner.registerWarning('Self intersecting surface result, will not divide')
         end
-        result << t_inv * new_vertices
-        (0...n).each do |i|
-          perim_vertices = OpenStudio::Point3dVector.new
-          if i == (n - 1)
-            perim_vertices << vertices[i]
-            perim_vertices << vertices[0]
-            perim_vertices << new_vertices[0]
-            perim_vertices << new_vertices[i]
-          else
-            perim_vertices << vertices[i]
-            perim_vertices << vertices[i + 1]
-            perim_vertices << new_vertices[i + 1]
-            perim_vertices << new_vertices[i]
+        if scale == true
+          result = t_inv * new_vertices
+        else
+          result << t_inv * new_vertices
+          (0...n).each do |i|
+            perim_vertices = OpenStudio::Point3dVector.new
+            if i == (n - 1)
+              perim_vertices << vertices[i]
+              perim_vertices << vertices[0]
+              perim_vertices << new_vertices[0]
+              perim_vertices << new_vertices[i]
+            else
+              perim_vertices << vertices[i]
+              perim_vertices << vertices[i + 1]
+              perim_vertices << new_vertices[i + 1]
+              perim_vertices << new_vertices[i]
+            end
+            result << t_inv * perim_vertices
           end
-          result << t_inv * perim_vertices
         end
         return result
       end
