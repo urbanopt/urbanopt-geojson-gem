@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -77,8 +77,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(@feature.calculate_aspect_ratio).to eq(0.3743)
   end
 
-  it 'gets perimeter correctly given area and aspect ratio' do 
+  it 'gets perimeter correctly given area and aspect ratio' do
     expect(@feature.get_perimeter_multiplier(50, 0.5, 45)).to eq(1.5)
   end
-
 end

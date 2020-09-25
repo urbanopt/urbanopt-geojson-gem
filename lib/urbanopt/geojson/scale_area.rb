@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -34,56 +34,58 @@ require 'openssl'
 require 'bigdecimal/newton'
 
 module Newton
-    def self.jacobian(f,fx,x)
-      Jacobian.jacobian(f,fx,x)
-    end
-    def self.ludecomp(a,n,zero=0,one=1)
-      LUSolve.ludecomp(a,n,zero,one)
-    end
-    def self.lusolve(a,b,ps,zero=0.0)
-      LUSolve.lusolve(a,b,ps,zero)
-    end
+  def self.jacobian(f, fx, x)
+    Jacobian.jacobian(f, fx, x)
+  end
+
+  def self.ludecomp(a, n, zero = 0, one = 1)
+    LUSolve.ludecomp(a, n, zero, one)
+  end
+
+  def self.lusolve(a, b, ps, zero = 0.0)
+    LUSolve.lusolve(a, b, ps, zero)
+  end
 end
 
-module  URBANopt
+module URBANopt
   module GeoJSON
     class ScaleArea
-
       def initialize(vertices, desired_area, runner, eps)
         @vertices = vertices
-        @centroid = OpenStudio::getCentroid(vertices)
-        fail "Cannot compute centroid for '#{vertices}'" if @centroid.empty?
+        @centroid = OpenStudio.getCentroid(vertices)
+        raise "Cannot compute centroid for '#{vertices}'" if @centroid.empty?
         @centroid = @centroid.get
         @desired_area = desired_area
         @new_vertices = vertices
         @runner = runner
-        @zero = BigDecimal::new("0.0")
-        @one  = BigDecimal::new("1.0")
-        @two  = BigDecimal::new("2.0")
-        @ten  = BigDecimal::new("10.0")
-        @eps  = eps #BigDecimal::new(eps)
+        @zero = BigDecimal('0.0')
+        @one  = BigDecimal('1.0')
+        @two  = BigDecimal('2.0')
+        @ten  = BigDecimal('10.0')
+        @eps  = eps # BigDecimal::new(eps)
       end
-      
-      def zero;@zero;end
-      def one ;@one ;end
-      def two ;@two ;end
-      def ten ;@ten ;end
-      def eps ;@eps ;end
+
+      attr_reader :zero
+
+      attr_reader :one
+
+      attr_reader :two
+
+      attr_reader :ten
+
+      attr_reader :eps
 
       # compute value
       def values(x)
         @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, x[0].to_f, @runner, scale = true)
-        new_area = OpenStudio::getArea(@new_vertices)
-        fail "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
+        new_area = OpenStudio.getArea(@new_vertices)
+        raise "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
         new_area = new_area.get
-        
-        return [new_area-@desired_area]
+
+        return [new_area - @desired_area]
       end
 
-      def new_vertices
-        @new_vertices
-      end
-
-    end #ScaleArea
-  end #GeoJSON
-end #URBANopt
+      attr_reader :new_vertices
+    end # ScaleArea
+  end # GeoJSON
+end # URBANopt

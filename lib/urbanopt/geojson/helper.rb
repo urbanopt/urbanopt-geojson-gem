@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -210,17 +210,17 @@ module URBANopt
           runner.registerWarning('Reversing floor print')
         end
 
-        #check for scaling
+        # check for scaling
         if scaled_footprint_area > 0
 
           # check that the scaled_footprint_area desired is no less than X % of the original
-          original_floor_print_area = OpenStudio::getArea(floor_print).get
+          original_floor_print_area = OpenStudio.getArea(floor_print).get
           if scaled_footprint_area / original_floor_print_area <= 0.5 || scaled_footprint_area / original_floor_print_area >= 2
             # TOO MUCH SCALING...using original footprint when scaled is 2x bigger or smaller than the original
-            runner.registerWarning("Desired scaled_footprint_area is a factor of 2 of the original footprint...keeping original footprint (no scaling!)")
+            runner.registerWarning('Desired scaled_footprint_area is a factor of 2 of the original footprint...keeping original footprint (no scaling!)')
           else
             new_floor_print = adjust_vertices_to_area(floor_print, scaled_footprint_area, runner)
-            new_footprint_area = OpenStudio::getArea(new_floor_print).get
+            new_footprint_area = OpenStudio.getArea(new_floor_print).get
             runner.registerInfo("New floor area: #{new_footprint_area}, compared to scaled area desired: #{scaled_footprint_area}")
             floor_print = new_floor_print
           end
@@ -233,8 +233,8 @@ module URBANopt
       def self.adjust_vertices_to_area(vertices, desired_area, runner, eps = 0.1)
         ar = ScaleArea.new(vertices, desired_area, runner, eps)
 
-        n = Newton::nlsolve(ar,[0])
-        
+        n = Newton.nlsolve(ar, [0])
+
         return ar.new_vertices
       end
 

@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -221,7 +221,8 @@ module URBANopt
         end
 
         other_spaces = URBANopt::GeoJSON::Helper.process_other_buildings(
-          self, other_building_type, building_features, model, origin_lat_lon, runner, zoning)
+          self, other_building_type, building_features, model, origin_lat_lon, runner, zoning
+        )
         return other_spaces
       end
 
@@ -265,18 +266,18 @@ module URBANopt
         vertices = ground_surface.vertices
         n = vertices.size
         perimeter = 0
-        for i in (0..n-1) do i
-          vertex_1 = nil
-          vertex_2 = nil
-          if i == n-1
-            vertex_1 = vertices[n-1]
-            vertex_2 = vertices[0]
-          else
-            vertex_1 = vertices[i]
-            vertex_2 = vertices[i + 1]
-          end
-          length = OpenStudio::Vector3d.new(vertex_2 - vertex_1).length
-          perimeter += length
+        for i in (0..n - 1) do i
+                               vertex_1 = nil
+                               vertex_2 = nil
+                               if i == n - 1
+                                 vertex_1 = vertices[n - 1]
+                                 vertex_2 = vertices[0]
+                               else
+                                 vertex_1 = vertices[i]
+                                 vertex_2 = vertices[i + 1]
+                               end
+                               length = OpenStudio::Vector3d.new(vertex_2 - vertex_1).length
+                               perimeter += length
         end
         perimeter = OpenStudio.convert(perimeter, 'm', 'ft').get
         perimeter = perimeter.round(4)
@@ -400,7 +401,7 @@ module URBANopt
             geometry = @feature_json[:geometry]
             properties = @feature_json[:properties]
           end
-        rescue
+        rescue StandardError
         end
         floor_prints = []
         multi_polygons = get_multi_polygons
