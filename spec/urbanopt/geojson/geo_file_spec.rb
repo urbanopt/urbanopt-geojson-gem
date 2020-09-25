@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -47,7 +47,7 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
 
   it 'gets feature, given a feature_id geojson example' do
     geofile = URBANopt::GeoJSON::GeoFile.from_file(
-      File.join(@spec_files_dir, 'example_project.geojson')
+      File.join(@spec_files_dir, 'example_project_combined.json')
     )
 
     feature = geofile.get_feature_by_id('1')

@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -39,3 +39,4 @@ require 'urbanopt/geojson/zoning'
 require 'urbanopt/geojson/model'
 require 'urbanopt/geojson/derived_extension'
 require 'urbanopt/geojson/logging'
+require 'urbanopt/geojson/scale_area'

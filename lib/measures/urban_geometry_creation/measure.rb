@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -75,13 +75,17 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     surrounding_buildings.setDescription('Select which surrounding buildings to include.')
     surrounding_buildings.setDefaultValue('ShadingOnly')
     args << surrounding_buildings
+    # not a required argument
+    scale_footprint_area_by_floor_area = OpenStudio::Ruleset::OSArgument.makeBoolArgument('scale_footprint_area_by_floor_area', false)
+    scale_footprint_area_by_floor_area.setDisplayName('Scale Footprint Area by the Floor Area?')
+    scale_footprint_area_by_floor_area.setDescription('If true, the footprint area from GeoJSON will be scaled by the floor_area provided by the user in URBANopt.')
+    scale_footprint_area_by_floor_area.setDefaultValue(false)
+    args << scale_footprint_area_by_floor_area
     return args
   end
 
   # define what happens when the measure is run
-  # rubocop:disable Metrics/AbcSize
   def run(model, runner, user_arguments)
-    # rubocop:enable Metrics/AbcSize
     super(model, runner, user_arguments)
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(model), user_arguments)
@@ -92,6 +96,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     geojson_file = runner.getStringArgumentValue('geojson_file', user_arguments)
     feature_id = runner.getStringArgumentValue('feature_id', user_arguments)
     surrounding_buildings = runner.getStringArgumentValue('surrounding_buildings', user_arguments)
+    scale_footprint_area_by_floor_area = runner.getBoolArgumentValue('scale_footprint_area_by_floor_area', user_arguments)
 
     default_construction_set = URBANopt::GeoJSON::Model.create_construction_set(model, runner)
 
@@ -135,7 +140,17 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
 
     if feature.type == 'Building'
       # make requested building
-      spaces = feature.create_building(:space_per_floor, model, @origin_lat_lon, @runner)
+      # pass in scaled_footprint_area (calculated from floor_area / number_of_stories)
+      scaled_footprint_area = 0
+      if scale_footprint_area_by_floor_area
+        building_hash = feature.to_hash
+        if building_hash[:number_of_stories] && building_hash[:floor_area]
+          scaled_footprint_area = building_hash[:floor_area].to_f / building_hash[:number_of_stories].to_f
+          @runner.registerInfo("Desired footprint area in ft2: #{scaled_footprint_area}")
+        end
+      end
+
+      spaces = feature.create_building(:space_per_floor, model, @origin_lat_lon, @runner, false, scaled_footprint_area)
       if spaces.nil?
         @runner.registerError("Failed to create spaces for building '#{name}'")
         return false

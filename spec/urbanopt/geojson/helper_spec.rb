@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -143,6 +143,68 @@ RSpec.describe URBANopt::GeoJSON do
       expect(floorprint[idx].y).to eq(vertex.y)
       expect(floorprint[idx].z).to eq(vertex.z)
     end
+  end
+
+  it 'checks scaled footprint area and does not scale if area is less than 0.5 of original' do
+    polygon = [
+      [
+        -105.17327651381493,
+        39.74229291462166
+      ],
+      [
+        -105.17333284020424,
+        39.7424280033386
+      ],
+      [
+        -105.17317861318588,
+        39.74246718932906
+      ],
+      [
+        -105.17313703894614,
+        39.7423228197803
+      ],
+      [
+        -105.17327651381493,
+        39.74229291462166
+      ]
+    ]
+    floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, false, scaled_footprint_area = 20)
+    # scaled floorprint is less than 0.5 of the original floorprint therefore no scaling
+    floorprint_area = OpenStudio.getArea(floorprint)
+    floorprint_area = floorprint_area.get
+    # footprint area should be equal to original footprint area 42.54
+    expect(floorprint_area.to_f).to be > 42
+  end
+
+  it 'creates floor print from scaled footprint area' do
+    polygon = [
+      [
+        -105.17327651381493,
+        39.74229291462166
+      ],
+      [
+        -105.17333284020424,
+        39.7424280033386
+      ],
+      [
+        -105.17317861318588,
+        39.74246718932906
+      ],
+      [
+        -105.17313703894614,
+        39.7423228197803
+      ],
+      [
+        -105.17327651381493,
+        39.74229291462166
+      ]
+    ]
+    floorprint = URBANopt::GeoJSON::Helper.floor_print_from_polygon(polygon, 0, @origin_lat_lon, @runner, false, scaled_footprint_area = 40)
+    # scaled footprint area is within 0.5 times the original area of 42.54, the vertices should be adjusted as per scaled area
+    floorprint_area = OpenStudio.getArea(floorprint)
+    floorprint_area = floorprint_area.get
+    # footprint area should be equal to scaled footprint area 40 within 0.1 convergence limit
+    expect(floorprint_area.to_f).to be > 40
   end
 
   it 'determines if building is shadowed' do

@@ -27,57 +27,65 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 # *********************************************************************************
+require 'json'
+require 'net/http'
+require 'uri'
+require 'openssl'
+require 'bigdecimal/newton'
 
-require_relative '../../spec_helper'
-
-RSpec.describe URBANopt::GeoJSON do
-  before(:each) do
-    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
-    feature_id = '59a9ce2b42f7d007c059d2fa'
-    @model = OpenStudio::Model::Model.new
-    @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
-    @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
-    @feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
+module Newton
+  def self.jacobian(f, fx, x)
+    Jacobian.jacobian(f, fx, x)
   end
 
-  it 'creates minimum longitute and latitude given a polygon' do
-    min_lon_and_lat = @feature.get_min_lon_lat
-    expect(min_lon_and_lat).to eq([-105.17319738864896, 39.74026448960319])
+  def self.ludecomp(a, n, zero = 0, one = 1)
+    LUSolve.ludecomp(a, n, zero, one)
   end
 
-  it 'creates a multi polygon out of a polygon' do
-    multi_polygon = @feature.get_multi_polygons
-
-    expect(multi_polygon[0][0][0]).to eq([-105.17319738864896, 39.74028511445897])
-    expect(multi_polygon[0][0].length).to eq(13)
-    expect(multi_polygon[0][0][3]).to eq([-105.17305254936218, 39.74047898780182])
-    expect(multi_polygon.class).to eq(Array)
-  end
-
-  it 'creates an origin_lat_lon' do
-    origin_lat_lon = @feature.create_origin_lat_lon(@runner)
-
-    expect(origin_lat_lon.class).to eq(OpenStudio::PointLatLon)
-  end
-
-  it 'creates centroid vertices correctly' do
-    vertices = [
-      [0, 0],
-      [0, 5],
-      [5, 5],
-      [5, 0]
-    ]
-
-    centroid = @feature.find_feature_center(vertices)
-    expect(centroid[0].round(2)).to eq(2.5)
-    expect(centroid[1].round(2)).to eq(2.5)
-  end
-
-  it 'calculates aspect ratio correctly' do
-    expect(@feature.calculate_aspect_ratio).to eq(0.3743)
-  end
-
-  it 'gets perimeter correctly given area and aspect ratio' do
-    expect(@feature.get_perimeter_multiplier(50, 0.5, 45)).to eq(1.5)
+  def self.lusolve(a, b, ps, zero = 0.0)
+    LUSolve.lusolve(a, b, ps, zero)
   end
 end
+
+module URBANopt
+  module GeoJSON
+    class ScaleArea
+      def initialize(vertices, desired_area, runner, eps)
+        @vertices = vertices
+        @centroid = OpenStudio.getCentroid(vertices)
+        raise "Cannot compute centroid for '#{vertices}'" if @centroid.empty?
+        @centroid = @centroid.get
+        @desired_area = desired_area
+        @new_vertices = vertices
+        @runner = runner
+        @zero = BigDecimal('0.0')
+        @one  = BigDecimal('1.0')
+        @two  = BigDecimal('2.0')
+        @ten  = BigDecimal('10.0')
+        @eps  = eps # BigDecimal::new(eps)
+      end
+
+      attr_reader :zero
+
+      attr_reader :one
+
+      attr_reader :two
+
+      attr_reader :ten
+
+      attr_reader :eps
+
+      # compute value
+      def values(x)
+        @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, x[0].to_f, @runner, scale = true)
+        new_area = OpenStudio.getArea(@new_vertices)
+        raise "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
+        new_area = new_area.get
+
+        return [new_area - @desired_area]
+      end
+
+      attr_reader :new_vertices
+    end # ScaleArea
+  end # GeoJSON
+end # URBANopt

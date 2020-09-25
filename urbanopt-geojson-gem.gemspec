@@ -9,9 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Tanushree Charan', 'Nicholas Long', 'Dan Macumber']
   spec.email         = ['tanushree.charan@nrel.gov', 'nicholas.long@nrel.gov', 'daniel.macumber@nrel.gov']
 
-  spec.summary       = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
+  spec.summary       = 'Translate URBANopt GeoJSON format to OpenStudio'
   spec.description   = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
   spec.homepage      = 'https://github.com/urbanopt/urbanopt-geojson-gem'
+  spec.licenses      = 'Nonstandard'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -28,11 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.7'
 
-  # lock the version of these dependencies due to using older version of Ruby.
-  # spec.add_dependency 'public_suffix', '3.1.1'
-
-  # other dependencies
-  spec.add_dependency 'json-schema'
-  spec.add_dependency 'openstudio-extension', '~> 0.2.3'
-  spec.add_dependency 'urbanopt-core', '~> 0.3.0'
+  spec.add_runtime_dependency 'json-schema', '~> 2.8'
+  spec.add_runtime_dependency 'openstudio-extension', '~> 0.2.5'
+  spec.add_runtime_dependency 'urbanopt-core', '~> 0.4.0'
 end
