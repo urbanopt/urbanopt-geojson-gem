@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt™, Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
+# URBANopt (tm), Copyright (c) 2019-2020, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -48,7 +48,7 @@ module URBANopt
       def method_missing(name, *args, &blk)
         # rubocop:enable Style/MethodMissing
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
-          # rubocop:enable Style/GuardClause
+
           return @feature_json[:properties][name.to_sym]
         else
           super
@@ -115,65 +115,64 @@ module URBANopt
             west = 0
             aspect_ratio = 0
 
-            for i in (0..n-2) do i
-              vertex_1 = nil
-              vertex_2 = nil
-              if i == n - 2
-                vertex_1 = polygon[n - 2]
-                vertex_2 = polygon[0]
-              else 
-                vertex_1 = polygon[i]
-                vertex_2 = polygon[i + 1]
-              end
-              x_1 = vertex_1[0]
-              y_1 = vertex_1[1]
-              x_2 = vertex_2[0]
-              y_2 = vertex_2[1]
+            for i in (0..n - 2) do i
+                                   vertex_1 = nil
+                                   vertex_2 = nil
+                                   if i == n - 2
+                                     vertex_1 = polygon[n - 2]
+                                     vertex_2 = polygon[0]
+                                   else
+                                     vertex_1 = polygon[i]
+                                     vertex_2 = polygon[i + 1]
+                                   end
+                                   x_1 = vertex_1[0]
+                                   y_1 = vertex_1[1]
+                                   x_2 = vertex_2[0]
+                                   y_2 = vertex_2[1]
 
-              dist = (x_2 - x_1)**2 + (y_2 - y_1)**2
+                                   dist = (x_2 - x_1)**2 + (y_2 - y_1)**2
 
-              length = Math.sqrt(dist)
+                                   length = Math.sqrt(dist)
 
-              # delta latitude
-              dlat = x_2 - x_1
-              # delta longitude
-              dlon = y_2 - y_1
-              
-              #convert radian to degree
-              sin_angle = Math.asin(dlon/length)*(1/rad_per_deg)
-              sin_angle = sin_angle.round(4)
+                                   # delta latitude
+                                   dlat = x_2 - x_1
+                                   # delta longitude
+                                   dlon = y_2 - y_1
 
-              cos_angle = Math.acos(dlat/length)*(1/rad_per_deg)
-              cos_angle = cos_angle.round(4)
+                                   # convert radian to degree
+                                   sin_angle = Math.asin(dlon / length) * (1 / rad_per_deg)
+                                   sin_angle = sin_angle.round(4)
 
-              if 45 <= cos_angle && cos_angle <= 135 && 45 <= sin_angle && sin_angle <= 90
-                north += length
-              elsif 0 <= cos_angle && cos_angle <45 && -45 < sin_angle && sin_angle < 45
-                east += length
-              elsif  45 <= cos_angle && cos_angle <= 135 && -90 <= sin_angle && sin_angle <= -45
-                south += length
-              elsif  135 < cos_angle && cos_angle <= 180 && -45 < sin_angle && sin_angle < 45
-                west += length
-              end
+                                   cos_angle = Math.acos(dlat / length) * (1 / rad_per_deg)
+                                   cos_angle = cos_angle.round(4)
 
-              if east + west != 0
-                aspect_ratio = (north + south)/(east + west)
-              else
-                aspect_ratio = 1  
-              end
+                                   if cos_angle >= 45 && cos_angle <= 135 && sin_angle >= 45 && sin_angle <= 90
+                                     north += length
+                                   elsif cos_angle >= 0 && cos_angle < 45 && sin_angle > -45 && sin_angle < 45
+                                     east += length
+                                   elsif  cos_angle >= 45 && cos_angle <= 135 && sin_angle >= -90 && sin_angle <= -45
+                                     south += length
+                                   elsif  cos_angle > 135 && cos_angle <= 180 && sin_angle > -45 && sin_angle < 45
+                                     west += length
+                                   end
+
+                                   if east + west != 0
+                                     aspect_ratio = (north + south) / (east + west)
+                                   else
+                                     aspect_ratio = 1
+                                   end
 
             end
 
-              aspect_ratio = aspect_ratio.round(4)
-              return aspect_ratio
+            aspect_ratio = aspect_ratio.round(4)
+            return aspect_ratio
           end
         end
       end
 
-
       def get_perimeter_multiplier(area, aspect_ratio, perimeter_original)
-        perimeter_new = 2*(Math.sqrt(area*aspect_ratio) + Math.sqrt(area/aspect_ratio))
-        perimeter_ratio = perimeter_original/perimeter_new
+        perimeter_new = 2 * (Math.sqrt(area * aspect_ratio) + Math.sqrt(area / aspect_ratio))
+        perimeter_ratio = perimeter_original / perimeter_new
         return perimeter_ratio
       end
 

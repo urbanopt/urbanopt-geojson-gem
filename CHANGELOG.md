@@ -1,5 +1,21 @@
 # URBANopt GeoJSON Gem
  
+## Version 0.4.0
+Date Rage 08/08/20 - 09/25/20
+
+Accepted Pull Requests: 11
+- Fixed [#92]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/92 ), Adds scaling for building footprint using building area
+- Fixed [#96]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/96 ), Add residential template type enums
+- Fixed [#110]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/110 ), Bump prismjs from 1.16.0 to 1.21.0 in /docs
+- Fixed [#111]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/111 ), Bump serialize-javascript from 2.1.2 to 3.1.0 in /docs
+- Fixed [#113]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/113 ), switch Line to Wire on connector_type
+- Fixed [#114]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/114 ), Add residential template type enums, 2
+- Fixed [#116]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/116 ), adding tm symbol
+- Fixed [#117]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/117 ), Dbot
+- Fixed [#119]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/119 ), Create bar workflow
+- Fixed [#120]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/120 ), Require number of stories for residential
+- Fixed [#121]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/121 ), update urbanopt-geojson-gem.gemspec to use urbanopt-core 0.4.0
+
 ## Version 0.3.1
 Date Range 06/05/20 - 08/07/20
 
