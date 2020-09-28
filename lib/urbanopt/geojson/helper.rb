@@ -233,11 +233,10 @@ module URBANopt
       # Used to scale footprint to desired area while keeping the original shape.
       #
       # [Parameters]
-      # * +vertices+ - 
-      # * +desired_area+ - 
-      # * +runner+ - 
-      # * +
-      # scale footprint to desired area, keeping the shape
+      # * +vertices+ - _Type:Array_ - An array of vertices for the original floorprint 
+      # * +desired_area+ - _Type:String_ - Area to which you want to scale the vertices to
+      # * +runner+ - _Type:String_ - An instance of +Openstudio::Measure::OSRunner+ for the measure run.
+      # 
       def self.adjust_vertices_to_area(vertices, desired_area, runner, eps = 0.1)
         ar = ScaleArea.new(vertices, desired_area, runner, eps)
 
