@@ -33,26 +33,26 @@ The main components of the gem are:
     - _files_dir_
     - _doc_templates_dir_
 - Gemfile and .gemspec : Describe the extension dependencies on other gems. 
-- Classes and Modules within +lib/urbanopt/geojson+ -
+- Classes and Modules within `lib/urbanopt/geojson` -
 
 
     *Modules that do not require instances for calling the methods:*
 
     - URBANopt::GeoJSON::Helper : Contains methods extracted from the two measures to
-      perform utility-like tasks like - +is_shaded+ and +is_shadowed+.
+      perform utility-like tasks like - `is_shaded` and `is_shadowed`.
     - URBANopt::GeoJSON::Zoning : Contains methods extracted from
-      +urban_geometry_creation_zoning+ .
+      `urban_geometry_creation_zoning`.
     - URBANopt::GeoJSON::Model : Contains methods that perform tasks on an instance of
-      +OpenStudio::Model::Model+. 
+      `OpenStudio::Model::Model`. 
 
     *Classes and subclasses that contain instance-dependant methods and private methods
     that perform tasks on the given feature.*
 
-    - URBANopt::GeoJSON::GeoFile : Contains a +get_feature+ method that returns an
+    - URBANopt::GeoJSON::GeoFile : Contains a `get_feature` method that returns an
       instance of a Feature Subclass for the the feature type. Also contains methods to validate the GeoJSON
       file against the GeoJSON schema. 
-    - URBANopt::GeoJSON::Feature : Contains methods to return +feature+ +id+ , +name+ ,
-      +multiple+ +polygons+ +coordinates+ which are inherited by classes for all feature types.
+    - URBANopt::GeoJSON::Feature : Contains methods to return `feature id` , `name` ,
+      `multiple polygons coordinates` which are inherited by classes for all feature types.
     - URBANopt::GeoJSON::Building : A subclass of Feature, contains class methods that
       are specific to handling features of the Building type. 
     - URBANopt::GeoJSON::DistrictSystem : A subclass of Feature, contains class methods

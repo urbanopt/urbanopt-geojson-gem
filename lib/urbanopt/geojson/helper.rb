@@ -229,6 +229,14 @@ module URBANopt
         return floor_print
       end
 
+      ##
+      # Used to scale footprint to desired area while keeping the original shape.
+      #
+      # [Parameters]
+      # * +vertices+ - 
+      # * +desired_area+ - 
+      # * +runner+ - 
+      # * +
       # scale footprint to desired area, keeping the shape
       def self.adjust_vertices_to_area(vertices, desired_area, runner, eps = 0.1)
         ar = ScaleArea.new(vertices, desired_area, runner, eps)
