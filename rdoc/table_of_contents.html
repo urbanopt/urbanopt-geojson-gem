@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
 </script>
 
 <script src="./js/jquery.js"></script>
@@ -30,6 +31,10 @@
 
     <ul>
       <li><a href="CHANGELOG_md.html#label-URBANopt+GeoJSON+Gem">URBANopt GeoJSON Gem</a>
+      <li><a href="CHANGELOG_md.html#label-Version+0.4.0">Version 0.4.0</a>
+      <li><a href="CHANGELOG_md.html#label-Version+0.3.1">Version 0.3.1</a>
+      <li><a href="CHANGELOG_md.html#label-Version+0.3.0">Version 0.3.0</a>
+      <li><a href="CHANGELOG_md.html#label-Version+0.2.0">Version 0.2.0</a>
       <li><a href="CHANGELOG_md.html#label-Version+0.1.0">Version 0.1.0</a>
     </ul>
   </li>
@@ -63,6 +68,9 @@
 
 <h2 id="classes">Classes and Modules</h2>
 <ul>
+  <li class="module">
+    <a href="Newton.html">Newton</a>
+  </li>
   <li class="class">
     <a href="Object.html">Object</a>
   </li>
@@ -74,6 +82,9 @@
   </li>
   <li class="module">
     <a href="OpenStudio/Model.html">OpenStudio::Model</a>
+  </li>
+  <li class="module">
+    <a href="OpenStudio/OSVersion.html">OpenStudio::OSVersion</a>
   </li>
   <li class="module">
     <a href="URBANopt.html">URBANopt</a>
@@ -105,6 +116,9 @@
   <li class="class">
     <a href="URBANopt/GeoJSON/Region.html">URBANopt::GeoJSON::Region</a>
   </li>
+  <li class="class">
+    <a href="URBANopt/GeoJSON/ScaleArea.html">URBANopt::GeoJSON::ScaleArea</a>
+  </li>
   <li class="module">
     <a href="URBANopt/GeoJSON/Zoning.html">URBANopt::GeoJSON::Zoning</a>
   </li>
@@ -112,6 +126,11 @@
 
 <h2 id="methods">Methods</h2>
 <ul>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/Helper.html#method-c-adjust_vertices_to_area">::adjust_vertices_to_area</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::Helper</span>
 
   <li class="method">
     <a href="URBANopt/GeoJSON/Model.html#method-c-change_adjacent_surfaces_to_adiabatic">::change_adjacent_surfaces_to_adiabatic</a>
@@ -214,9 +233,24 @@
     <span class="container">URBANopt::GeoJSON::Helper</span>
 
   <li class="method">
+    <a href="Newton.html#method-c-jacobian">::jacobian</a>
+    &mdash;
+    <span class="container">Newton</span>
+
+  <li class="method">
     <a href="URBANopt/GeoJSON.html#method-c-logger">::logger</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON</span>
+
+  <li class="method">
+    <a href="Newton.html#method-c-ludecomp">::ludecomp</a>
+    &mdash;
+    <span class="container">Newton</span>
+
+  <li class="method">
+    <a href="Newton.html#method-c-lusolve">::lusolve</a>
+    &mdash;
+    <span class="container">Newton</span>
 
   <li class="method">
     <a href="URBANopt/GeoJSON/Region.html#method-c-new">::new</a>
@@ -224,14 +258,19 @@
     <span class="container">URBANopt::GeoJSON::Region</span>
 
   <li class="method">
-    <a href="URBANopt/GeoJSON/Mapper.html#method-c-new">::new</a>
-    &mdash;
-    <span class="container">URBANopt::GeoJSON::Mapper</span>
-
-  <li class="method">
     <a href="URBANopt/GeoJSON/Feature.html#method-c-new">::new</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::Feature</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/GeoFile.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::GeoFile</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/Mapper.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::Mapper</span>
 
   <li class="method">
     <a href="URBANopt/GeoJSON/Building.html#method-c-new">::new</a>
@@ -239,9 +278,9 @@
     <span class="container">URBANopt::GeoJSON::Building</span>
 
   <li class="method">
-    <a href="URBANopt/GeoJSON/GeoFile.html#method-c-new">::new</a>
+    <a href="URBANopt/GeoJSON/ScaleArea.html#method-c-new">::new</a>
     &mdash;
-    <span class="container">URBANopt::GeoJSON::GeoFile</span>
+    <span class="container">URBANopt::GeoJSON::ScaleArea</span>
 
   <li class="method">
     <a href="URBANopt/GeoJSON/Helper.html#method-c-process_other_buildings">::process_other_buildings</a>
@@ -262,6 +301,16 @@
     <a href="URBANopt/GeoJSON/GeoFile.html#method-c-validate">::validate</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::GeoFile</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/Feature.html#method-i-calculate_aspect_ratio">#calculate_aspect_ratio</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::Feature</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/Building.html#method-i-calculate_perimeter">#calculate_perimeter</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::Building</span>
 
   <li class="method">
     <a href="URBANopt/GeoJSON/Building.html#method-i-create_building">#create_building</a>
@@ -319,14 +368,14 @@
     <span class="container">URBANopt::GeoJSON::Region</span>
 
   <li class="method">
-    <a href="URBANopt/GeoJSON/Building.html#method-i-feature_type">#feature_type</a>
-    &mdash;
-    <span class="container">URBANopt::GeoJSON::Building</span>
-
-  <li class="method">
     <a href="URBANopt/GeoJSON/Feature.html#method-i-feature_type">#feature_type</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::Feature</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/Building.html#method-i-feature_type">#feature_type</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::Building</span>
 
   <li class="method">
     <a href="URBANopt/GeoJSON/GeoFile.html#method-i-features">#features</a>
@@ -337,6 +386,11 @@
     <a href="URBANopt/GeoJSON/Extension.html#method-i-files_dir">#files_dir</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::Extension</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/Feature.html#method-i-find_feature_center">#find_feature_center</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::Feature</span>
 
   <li class="method">
     <a href="Object.html#method-i-get_building_schema">#get_building_schema</a>
@@ -354,16 +408,6 @@
     <span class="container">URBANopt::GeoJSON::GeoFile</span>
 
   <li class="method">
-    <a href="Object.html#method-i-get_html_url">#get_html_url</a>
-    &mdash;
-    <span class="container">Object</span>
-
-  <li class="method">
-    <a href="Object.html#method-i-get_issue_num">#get_issue_num</a>
-    &mdash;
-    <span class="container">Object</span>
-
-  <li class="method">
     <a href="URBANopt/GeoJSON/Feature.html#method-i-get_min_lon_lat">#get_min_lon_lat</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::Feature</span>
@@ -374,9 +418,9 @@
     <span class="container">URBANopt::GeoJSON::Feature</span>
 
   <li class="method">
-    <a href="Object.html#method-i-get_num">#get_num</a>
+    <a href="URBANopt/GeoJSON/Feature.html#method-i-get_perimeter_multiplier">#get_perimeter_multiplier</a>
     &mdash;
-    <span class="container">Object</span>
+    <span class="container">URBANopt::GeoJSON::Feature</span>
 
   <li class="method">
     <a href="Object.html#method-i-get_region_schema">#get_region_schema</a>
@@ -385,11 +429,6 @@
 
   <li class="method">
     <a href="Object.html#method-i-get_taxlot_schema">#get_taxlot_schema</a>
-    &mdash;
-    <span class="container">Object</span>
-
-  <li class="method">
-    <a href="Object.html#method-i-get_title">#get_title</a>
     &mdash;
     <span class="container">Object</span>
 
@@ -429,11 +468,6 @@
     <span class="container">URBANopt::GeoJSON::Building</span>
 
   <li class="method">
-    <a href="Object.html#method-i-print_issue">#print_issue</a>
-    &mdash;
-    <span class="container">Object</span>
-
-  <li class="method">
     <a href="URBANopt/GeoJSON/Feature.html#method-i-schema">#schema</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::Feature</span>
@@ -467,13 +501,18 @@
     <a href="URBANopt/GeoJSON/Feature.html#method-i-validate_feat">#validate_feat</a>
     &mdash;
     <span class="container">URBANopt::GeoJSON::Feature</span>
+
+  <li class="method">
+    <a href="URBANopt/GeoJSON/ScaleArea.html#method-i-values">#values</a>
+    &mdash;
+    <span class="container">URBANopt::GeoJSON::ScaleArea</span>
 </ul>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

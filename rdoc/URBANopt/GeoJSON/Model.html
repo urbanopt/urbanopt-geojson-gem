@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
+  var index_rel_prefix = "../../";
 </script>
 
 <script src="../../js/jquery.js"></script>
@@ -88,8 +89,6 @@
   </section>
 
   
-  
-  
   <section id="5Buntitled-5D" class="documentation-section">
     
 
@@ -140,19 +139,18 @@ changed to adiabatic.</p>
           
           <div class="method-source-code" id="change_adjacent_surfaces_to_adiabatic-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 66</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">change_adjacent_surfaces_to_adiabatic</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">change_adjacent_surfaces_to_adiabatic</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerInfo</span>(<span class="ruby-string">&#39;Changing adjacent surfaces to adiabatic&#39;</span>)
-  <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSurfaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSurfaces</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">adjacent_surface</span> = <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">adjacentSurface</span>
     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">adjacent_surface</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-identifier">surface_construction</span> = <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">construction</span>
       <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">surface_construction</span>.<span class="ruby-identifier">empty?</span>
         <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">setConstruction</span>(<span class="ruby-identifier">surface_construction</span>.<span class="ruby-identifier">get</span>)
       <span class="ruby-keyword">end</span>
-      <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">setOutsideBoundaryCondition</span>(<span class="ruby-string">&#39;Adiabatic&#39;</span>)
-
       <span class="ruby-identifier">adjacent_surface_construction</span> = <span class="ruby-identifier">adjacent_surface</span>.<span class="ruby-identifier">get</span>.<span class="ruby-identifier">construction</span>
       <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">adjacent_surface_construction</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">setOutsideBoundaryCondition</span>(<span class="ruby-string">&#39;Adiabatic&#39;</span>)
         <span class="ruby-identifier">adjacent_surface</span>.<span class="ruby-identifier">get</span>.<span class="ruby-identifier">setConstruction</span>(<span class="ruby-identifier">adjacent_surface_construction</span>.<span class="ruby-identifier">get</span>)
       <span class="ruby-keyword">end</span>
       <span class="ruby-identifier">adjacent_surface</span>.<span class="ruby-identifier">get</span>.<span class="ruby-identifier">setOutsideBoundaryCondition</span>(<span class="ruby-string">&#39;Adiabatic&#39;</span>)
@@ -205,7 +203,7 @@ assigned.</p>
           
           <div class="method-source-code" id="create_construction_set-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 45</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create_construction_set</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_construction_set</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">default_construction_set</span> = <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">defaultConstructionSet</span>
   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">default_construction_set</span>.<span class="ruby-identifier">is_initialized</span>
     <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerInfo</span>(<span class="ruby-string">&#39;Starting model does not have a default construction set, creating new one&#39;</span>)
@@ -254,8 +252,8 @@ assigned.</p>
 
           
           <div class="method-source-code" id="create_space_type-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 118</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create_space_type</span>(<span class="ruby-identifier">bldg_use</span>, <span class="ruby-identifier">space_use</span>, <span class="ruby-identifier">model</span>)
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_space_type</span>(<span class="ruby-identifier">bldg_use</span>, <span class="ruby-identifier">space_use</span>, <span class="ruby-identifier">model</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;#{bldg_use}:#{space_use}&quot;</span>
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSpaceTypes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">get</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">name</span>
@@ -309,8 +307,8 @@ space type from the building story if no space type is assigned.</p>
 
           
           <div class="method-source-code" id="transfer_prev_model_data-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 96</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">transfer_prev_model_data</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">space_types</span>)
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">transfer_prev_model_data</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">space_types</span>)
   <span class="ruby-identifier">stories</span> = []
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuildingStorys</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">story</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stories</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">story</span> }
   <span class="ruby-identifier">stories</span>.<span class="ruby-identifier">sort!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">nominalZCoordinate</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">y</span>.<span class="ruby-identifier">nominalZCoordinate</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">to_f</span> }
@@ -341,8 +339,8 @@ space type from the building story if no space type is assigned.</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

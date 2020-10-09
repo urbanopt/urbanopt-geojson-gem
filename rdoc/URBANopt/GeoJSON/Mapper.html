@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
+  var index_rel_prefix = "../../";
 </script>
 
 <script src="../../js/jquery.js"></script>
@@ -91,8 +92,6 @@
   </section>
 
   
-  
-  
   <section id="5Buntitled-5D" class="documentation-section">
     
 
@@ -122,7 +121,7 @@
 
         <div class="method-description">
           
-          <p>This class inherits from the <code>MapperBase</code> .  Used to perform
+          <p>This class inherits from the <code>MapperBase</code> . Used to perform
 initializing functions, used to define the osw_path for baseline.osw for
 the <a href="../../URBANopt.html">URBANopt</a> <a
 href="../GeoJSON.html">GeoJSON</a> example project and the weather file.</p>
@@ -132,44 +131,43 @@ href="../GeoJSON.html">GeoJSON</a> example project and the weather file.</p>
           
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/mapper_classes.rb, line 45</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>()
-        <span class="ruby-identifier">@@instance_lock</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@osw</span>.<span class="ruby-identifier">nil?</span>
-            <span class="ruby-identifier">osw_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;baseline.osw&#39;</span>)
-            <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">osw_path</span>, <span class="ruby-string">&#39;r&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-            <span class="ruby-identifier">@@osw</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-identifier">symbolize_names</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
-            <span class="ruby-keyword">end</span>
-            <span class="ruby-identifier">@@osw</span>[<span class="ruby-value">:file_paths</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;../weather/&#39;</span>)
-            <span class="ruby-identifier">@@osw</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Extension</span>.<span class="ruby-identifier">configure_osw</span>(<span class="ruby-identifier">@@osw</span>)
-        <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">end</span>
+ <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
+   <span class="ruby-identifier">@@instance_lock</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>
+     <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@osw</span>.<span class="ruby-identifier">nil?</span>
+       <span class="ruby-identifier">osw_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;baseline.osw&#39;</span>)
+       <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">osw_path</span>, <span class="ruby-string">&#39;r&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+         <span class="ruby-identifier">@@osw</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span>, <span class="ruby-value">symbolize_names:</span> <span class="ruby-keyword">true</span>)
+       <span class="ruby-keyword">end</span>
+       <span class="ruby-identifier">@@osw</span>[<span class="ruby-value">:file_paths</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;../weather/&#39;</span>)
+       <span class="ruby-identifier">@@osw</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Extension</span>.<span class="ruby-identifier">configure_osw</span>(<span class="ruby-identifier">@@osw</span>)
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-keyword">end</span>
 
-    <span class="ruby-comment">##</span>
-    <span class="ruby-comment"># Creates an OpenStudio Workflow file for a given ScenarioBase object,</span>
-    <span class="ruby-comment"># feature id and feature name.</span>
-    <span class="ruby-comment">#</span>
-    <span class="ruby-comment"># [Parameters]</span>
-    <span class="ruby-comment"># * +scenario+ - _Type:String_ - Used to define the Scenario for the osw. </span>
-
-    <span class="ruby-comment"># * +feature_id+ - _Type:String/Number_ - Used to define the feature_id for</span>
-    <span class="ruby-comment">#   which the osw is implemented.</span>
-    <span class="ruby-comment"># </span>
-    <span class="ruby-comment"># * +feature_name+ - _Type:String_ - The name of the feature. </span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">create_osw</span>(<span class="ruby-identifier">scenario</span>, <span class="ruby-identifier">feature_id</span>, <span class="ruby-identifier">feature_name</span>)
-        <span class="ruby-comment"># get the feature from the scenario&#39;s feature_file #:nodoc:</span>
-        <span class="ruby-identifier">feature_file</span> = <span class="ruby-identifier">scenario</span>.<span class="ruby-identifier">feature_file</span>
-        <span class="ruby-identifier">feature</span> = <span class="ruby-identifier">feature_file</span>.<span class="ruby-identifier">get_feature_by_id</span>(<span class="ruby-identifier">feature_id</span>)
-
-        <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Cannot find feature &#39;#{feature_id}&#39; in &#39;#{scenario.geometry_file}&#39;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span>
-
-        <span class="ruby-comment"># deep clone of @@osw before we configure it #:nodoc:</span>
-        <span class="ruby-identifier">osw</span> = <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">@@osw</span>))
-
-        <span class="ruby-identifier">osw</span>[<span class="ruby-value">:name</span>] = <span class="ruby-identifier">feature_name</span>
-        <span class="ruby-identifier">osw</span>[<span class="ruby-value">:description</span>] = <span class="ruby-identifier">feature_name</span>
-
-        <span class="ruby-keyword">return</span> <span class="ruby-identifier">osw</span>
-    <span class="ruby-keyword">end</span>
+   <span class="ruby-comment">##</span>
+   <span class="ruby-comment"># Creates an OpenStudio Workflow file for a given ScenarioBase object,</span>
+   <span class="ruby-comment"># feature id and feature name.</span>
+   <span class="ruby-comment">#</span>
+   <span class="ruby-comment"># [Parameters]</span>
+   <span class="ruby-comment"># * +scenario+ - _Type:String_ - Used to define the Scenario for the osw.</span>
+   <span class="ruby-comment"># * +feature_id+ - _Type:String/Number_ - Used to define the feature_id for</span>
+   <span class="ruby-comment">#   which the osw is implemented.</span>
+   <span class="ruby-comment">#</span>
+   <span class="ruby-comment"># * +feature_name+ - _Type:String_ - The name of the feature.</span>
+   <span class="ruby-comment"># rubocop:disable Lint/NestedMethodDefinition</span>
+   <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_osw</span>(<span class="ruby-identifier">scenario</span>, <span class="ruby-identifier">feature_id</span>, <span class="ruby-identifier">feature_name</span>)
+     <span class="ruby-comment"># rubocop:enable Lint/NestedMethodDefinition</span>
+     <span class="ruby-comment"># get the feature from the scenario&#39;s feature_file #:nodoc:</span>
+     <span class="ruby-identifier">feature_file</span> = <span class="ruby-identifier">scenario</span>.<span class="ruby-identifier">feature_file</span>
+     <span class="ruby-identifier">feature</span> = <span class="ruby-identifier">feature_file</span>.<span class="ruby-identifier">get_feature_by_id</span>(<span class="ruby-identifier">feature_id</span>)
+     <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Cannot find feature &#39;#{feature_id}&#39; in &#39;#{scenario.geometry_file}&#39;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span>
+     <span class="ruby-comment"># deep clone of @@osw before we configure it #:nodoc:</span>
+     <span class="ruby-identifier">osw</span> = <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">@@osw</span>))
+     <span class="ruby-identifier">osw</span>[<span class="ruby-value">:name</span>] = <span class="ruby-identifier">feature_name</span>
+     <span class="ruby-identifier">osw</span>[<span class="ruby-value">:description</span>] = <span class="ruby-identifier">feature_name</span>
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-comment"># rubocop:disable Lint/ReturnInVoidContext</span>
+   <span class="ruby-keyword">return</span> <span class="ruby-identifier">osw</span>
+  <span class="ruby-comment"># rubocop:enable Lint/ReturnInVoidContext</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -202,33 +200,38 @@ href="../GeoJSON.html">GeoJSON</a> example project and the weather file.</p>
 
         <div class="method-description">
           
-          <ul><li>
+          <p>Creates an <a href="../../OpenStudio.html">OpenStudio</a> Workflow file for
+a given ScenarioBase object, feature id and feature name.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>scenario</code> - <em>Type:String</em> - Used to define the Scenario
+for the osw.</p>
+</li><li>
 <p><code>feature_id</code> - <em>Type:String/Number</em> - Used to define the
 feature_id for which the osw is implemented.</p>
 </li><li>
 <p><code>feature_name</code> - <em>Type:String</em> - The name of the feature.</p>
 </li></ul>
+
+<p>rubocop:disable Lint/NestedMethodDefinition</p>
           
           
 
           
           <div class="method-source-code" id="create_osw-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/mapper_classes.rb, line 68</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_osw</span>(<span class="ruby-identifier">scenario</span>, <span class="ruby-identifier">feature_id</span>, <span class="ruby-identifier">feature_name</span>)
-    <span class="ruby-comment"># get the feature from the scenario&#39;s feature_file #:nodoc:</span>
-    <span class="ruby-identifier">feature_file</span> = <span class="ruby-identifier">scenario</span>.<span class="ruby-identifier">feature_file</span>
-    <span class="ruby-identifier">feature</span> = <span class="ruby-identifier">feature_file</span>.<span class="ruby-identifier">get_feature_by_id</span>(<span class="ruby-identifier">feature_id</span>)
-
-    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Cannot find feature &#39;#{feature_id}&#39; in &#39;#{scenario.geometry_file}&#39;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span>
-
-    <span class="ruby-comment"># deep clone of @@osw before we configure it #:nodoc:</span>
-    <span class="ruby-identifier">osw</span> = <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">@@osw</span>))
-
-    <span class="ruby-identifier">osw</span>[<span class="ruby-value">:name</span>] = <span class="ruby-identifier">feature_name</span>
-    <span class="ruby-identifier">osw</span>[<span class="ruby-value">:description</span>] = <span class="ruby-identifier">feature_name</span>
-
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">osw</span>
-<span class="ruby-keyword">end</span></pre>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_osw</span>(<span class="ruby-identifier">scenario</span>, <span class="ruby-identifier">feature_id</span>, <span class="ruby-identifier">feature_name</span>)
+  <span class="ruby-comment"># rubocop:enable Lint/NestedMethodDefinition</span>
+  <span class="ruby-comment"># get the feature from the scenario&#39;s feature_file #:nodoc:</span>
+  <span class="ruby-identifier">feature_file</span> = <span class="ruby-identifier">scenario</span>.<span class="ruby-identifier">feature_file</span>
+  <span class="ruby-identifier">feature</span> = <span class="ruby-identifier">feature_file</span>.<span class="ruby-identifier">get_feature_by_id</span>(<span class="ruby-identifier">feature_id</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Cannot find feature &#39;#{feature_id}&#39; in &#39;#{scenario.geometry_file}&#39;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-comment"># deep clone of @@osw before we configure it #:nodoc:</span>
+  <span class="ruby-identifier">osw</span> = <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">@@osw</span>))
+  <span class="ruby-identifier">osw</span>[<span class="ruby-value">:name</span>] = <span class="ruby-identifier">feature_name</span>
+  <span class="ruby-identifier">osw</span>[<span class="ruby-value">:description</span>] = <span class="ruby-identifier">feature_name</span>
+  <span class="ruby-keyword">end</span></pre>
           </div>
           
         </div>
@@ -246,8 +249,8 @@ feature_id for which the osw is implemented.</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

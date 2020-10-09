@@ -8,6 +8,7 @@
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
 </script>
 
 <script src="./js/jquery.js"></script>
@@ -75,19 +76,9 @@
     
     <li ><a href="#method-i-get_district_system_schema">#get_district_system_schema</a>
     
-    <li ><a href="#method-i-get_html_url">#get_html_url</a>
-    
-    <li ><a href="#method-i-get_issue_num">#get_issue_num</a>
-    
-    <li ><a href="#method-i-get_num">#get_num</a>
-    
     <li ><a href="#method-i-get_region_schema">#get_region_schema</a>
     
     <li ><a href="#method-i-get_taxlot_schema">#get_taxlot_schema</a>
-    
-    <li ><a href="#method-i-get_title">#get_title</a>
-    
-    <li ><a href="#method-i-print_issue">#print_issue</a>
     
     <li ><a href="#method-i-validate">#validate</a>
     
@@ -106,8 +97,6 @@
     
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -145,7 +134,7 @@
           
           <div class="method-source-code" id="get_building_schema-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/validate_geojson.rb, line 34</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_building_schema</span>(<span class="ruby-identifier">strict</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_building_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/../schema/building_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>)
@@ -187,7 +176,7 @@
           
           <div class="method-source-code" id="get_district_system_schema-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/validate_geojson.rb, line 60</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_district_system_schema</span>(<span class="ruby-identifier">strict</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_district_system_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/../schema/district_system_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>)
@@ -198,105 +187,6 @@
     <span class="ruby-identifier">result</span>[<span class="ruby-string">&#39;additionalProperties&#39;</span>] = <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_html_url" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_html_url</span><span
-            class="method-args">(issue)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_html_url-source">
-            <pre><span class="ruby-comment"># File lib/change_log.rb, line 65</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_html_url</span>(<span class="ruby-identifier">issue</span>)
-  <span class="ruby-identifier">issue</span>.<span class="ruby-identifier">html_url</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_issue_num" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_issue_num</span><span
-            class="method-args">(issue)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_issue_num-source">
-            <pre><span class="ruby-comment"># File lib/change_log.rb, line 61</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_issue_num</span>(<span class="ruby-identifier">issue</span>)
-  <span class="ruby-node">&quot;\##{get_num(issue)}&quot;</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_num" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_num</span><span
-            class="method-args">(issue)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_num-source">
-            <pre><span class="ruby-comment"># File lib/change_log.rb, line 57</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_num</span>(<span class="ruby-identifier">issue</span>)
-  <span class="ruby-identifier">issue</span>.<span class="ruby-identifier">html_url</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;/&#39;</span>)[<span class="ruby-value">-1</span>].<span class="ruby-identifier">to_i</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -328,7 +218,7 @@
           
           <div class="method-source-code" id="get_region_schema-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/validate_geojson.rb, line 73</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_region_schema</span>(<span class="ruby-identifier">strict</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_region_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/../schema/region_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>)
@@ -370,7 +260,7 @@
           
           <div class="method-source-code" id="get_taxlot_schema-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/validate_geojson.rb, line 47</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_taxlot_schema</span>(<span class="ruby-identifier">strict</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_taxlot_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/../schema/taxlot_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>)
@@ -381,79 +271,6 @@
     <span class="ruby-identifier">result</span>[<span class="ruby-string">&#39;additionalProperties&#39;</span>] = <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_title" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_title</span><span
-            class="method-args">(issue)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_title-source">
-            <pre><span class="ruby-comment"># File lib/change_log.rb, line 69</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_title</span>(<span class="ruby-identifier">issue</span>)
-  <span class="ruby-identifier">issue</span>.<span class="ruby-identifier">title</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-print_issue" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">print_issue</span><span
-            class="method-args">(issue)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="print_issue-source">
-            <pre><span class="ruby-comment"># File lib/change_log.rb, line 73</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">print_issue</span>(<span class="ruby-identifier">issue</span>)
-  <span class="ruby-identifier">is_feature</span> = <span class="ruby-keyword">false</span>
-  <span class="ruby-identifier">issue</span>.<span class="ruby-identifier">labels</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">label</span><span class="ruby-operator">|</span> <span class="ruby-identifier">is_feature</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">label</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;Feature Request&#39;</span> }
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_feature</span>
-    <span class="ruby-node">&quot;- Improved [#{get_issue_num(issue)}]( #{get_html_url(issue)} ), #{get_title(issue)}&quot;</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-node">&quot;- Fixed [#{get_issue_num(issue)}]( #{get_html_url(issue)} ), #{get_title(issue)}&quot;</span>
-  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -485,9 +302,9 @@
           
           <div class="method-source-code" id="validate-source">
             <pre><span class="ruby-comment"># File lib/urbanopt/geojson/validate_geojson.rb, line 86</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span>(<span class="ruby-identifier">schema</span>, <span class="ruby-identifier">data</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate</span>(<span class="ruby-identifier">schema</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-comment"># validate</span>
-  <span class="ruby-identifier">errors</span> = <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Validator</span>.<span class="ruby-identifier">fully_validate</span>(<span class="ruby-identifier">schema</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">errors_as_objects</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">errors</span> = <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Validator</span>.<span class="ruby-identifier">fully_validate</span>(<span class="ruby-identifier">schema</span>, <span class="ruby-identifier">data</span>, <span class="ruby-value">errors_as_objects:</span> <span class="ruby-keyword">true</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">errors</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -507,8 +324,8 @@
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
