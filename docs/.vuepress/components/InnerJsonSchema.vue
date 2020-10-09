@@ -13,7 +13,6 @@ import highlightJson from "../highlight";
 import { emptyPromise } from '../utils';
 
 const JSONSchemaViewP = emptyPromise();
-const $RefParserP = emptyPromise();
 
 export default {
   name: "InnerJsonSchema",
@@ -24,19 +23,16 @@ export default {
     };
   },
   created() {
+    // created only runs on the client, which is good because
+    // this module causes an error if we load it in a server context
     import("json-schema-view-js").then(JSONSchemaViewP.resolve);
-    import("json-schema-ref-parser/dist/ref-parser.js").then($RefParserP.resolve);
   },
   computed: {
     view() {
-      return Promise.all([$RefParserP, JSONSchemaViewP])
-        .then(([$RefParser]) => $RefParser.default.dereference(this.schema))
-        .then(
-          s =>
-            new window.JSONSchemaView(s, 2, {
-              theme: "dark"
-            })
-        );
+      return JSONSchemaViewP
+        .then( () => new window.JSONSchemaView(this.schema, 2, {
+          theme: "dark"
+        }));
     },
     schemaFormatted() {
       return highlightJson(JSON.stringify(this.schema, null, 2));
@@ -44,7 +40,7 @@ export default {
   },
   methods: {
     async replaceRenderedSchema() {
-      const v = await this.view;
+      const v = await this.view; // this never resolves on the server
       this.$refs.schemaTarget.innerHtml = "";
       this.$refs.schemaTarget.appendChild(v.render());
     }
