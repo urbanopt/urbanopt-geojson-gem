@@ -2,7 +2,7 @@
 
 ### [back to main docs](../)
 
-The URBANopt<sup>&trade;</sup> GeoJSON Gem has been developed by restructuring methods extracted from the
+The URBANopt&trade; GeoJSON Gem has been developed by restructuring methods extracted from the
 [urban_geometry_creation](https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation)
 and
 [urban_geometry_creation_zoning.](https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation_zoning)
