@@ -249,6 +249,13 @@ module URBANopt
         end
       end
 
+      ##
+      # Used to calculate the perimeter from the floor polygon of a Feature. Returns the perimeter
+      # value.
+      #
+      # [Parameters]
+      # * +feature+ - An instance of URBANopt::GeoJSON::Feature 
+      #
       def calculate_perimeter(feature)
         model = OpenStudio::Model::Model.new
         runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
@@ -285,9 +292,8 @@ module URBANopt
       end
 
       ##
-      # Convert to a Hash equivalent for JSON serialization
-      ##
-      # - Exclude attributes with nil values.
+      # Convert to a Hash equivalent for JSON serialization.
+      # Excludes attributes with nil value.
       ##
       def to_hash
         result = {}
