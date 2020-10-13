@@ -22,19 +22,18 @@ scale the building coordinates and create the building.
 The `urban_geometry_creation_zoning` measure has the same capabilities as the
 `urban_geometry_creation` measure, however it also creates core and perimeter zones for the spaces
 in the OpenStudio Model. It takes in the `geojson_file`, `feature_id` of the building,
-`surrounding_buildings` as arguments. 
+`surrounding_buildings` as arguments.
 
 The main components of the gem are:
 
-- geojson.rb : Base gem file that imports all modules and classes. 
+- geojson.rb : Base gem file that imports all modules and classes.
 - extension.rb : The extension class inherits from OpenStudio::Extension::Extension, and
-  overrides the following methods as needed -
+  overrides the following methods as needed
     - _measures_dir_
     - _files_dir_
     - _doc_templates_dir_
-- Gemfile and .gemspec : Describe the extension dependencies on other gems. 
-- Classes and Modules within `lib/urbanopt/geojson` -
-
+- Gemfile and .gemspec : Describe the extension dependencies on other gems.
+- Classes and Modules within `lib/urbanopt/geojson`
 
     *Modules that do not require instances for calling the methods:*
 
@@ -43,17 +42,17 @@ The main components of the gem are:
     - URBANopt::GeoJSON::Zoning : Contains methods extracted from
       `urban_geometry_creation_zoning`.
     - URBANopt::GeoJSON::Model : Contains methods that perform tasks on an instance of
-      `OpenStudio::Model::Model`. 
+      `OpenStudio::Model::Model`.
 
     *Classes and subclasses that contain instance-dependant methods and private methods
     that perform tasks on the given feature.*
 
     - URBANopt::GeoJSON::GeoFile : Contains a `get_feature` method that returns an
       instance of a Feature Subclass for the the feature type. Also contains methods to validate the GeoJSON
-      file against the GeoJSON schema. 
+      file against the GeoJSON schema.
     - URBANopt::GeoJSON::Feature : Contains methods to return `feature id` , `name` ,
       `multiple polygons coordinates` which are inherited by classes for all feature types.
     - URBANopt::GeoJSON::Building : A subclass of Feature, contains class methods that
-      are specific to handling features of the Building type. 
+      are specific to handling features of the Building type.
     - URBANopt::GeoJSON::DistrictSystem : A subclass of Feature, contains class methods
-      that are specific to handling features of District System type. *Note: This subclass does not contain any methods yet*. 
+      that are specific to handling features of District System type. *Note: This subclass does not contain any methods yet*.
