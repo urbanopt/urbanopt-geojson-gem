@@ -11,8 +11,11 @@
   var index_rel_prefix = "./";
 </script>
 
-<script src="./js/jquery.js"></script>
-<script src="./js/darkfish.js"></script>
+<script src="./js/navigation.js" defer></script>
+<script src="./js/search.js" defer></script>
+<script src="./js/search_index.js" defer></script>
+<script src="./js/searcher.js" defer></script>
+<script src="./js/darkfish.js" defer></script>
 
 <link href="./css/fonts.css" rel="stylesheet">
 <link href="./css/rdoc.css" rel="stylesheet">
@@ -87,8 +90,8 @@
 
 <h3 id="label-back+to+main+docs"><a href="../">back to main docs</a><span><a href="#label-back+to+main+docs">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p>The <a href="URBANopt.html">URBANopt</a>&lt;sup&gt;™&lt;/sup&gt; GeoJSON
-Gem has been developed by restructuring methods extracted from the <a
+<p>The URBANopt™ GeoJSON Gem has been developed by restructuring methods
+extracted from the <a
 href="https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation">urban_geometry_creation</a>
 and <a
 href="https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation_zoning">urban_geometry_creation_zoning.</a></p>
@@ -97,18 +100,26 @@ href="https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/ur
 <a href="OpenStudio.html">OpenStudio</a> Model for a building feature from
 the feature file and create the surrounding buildings that are shading the
 building feature as shading objects. The arguments used in the measure are
-the +GeoJSON File+, +Feature ID+ of the building and +Surrounding
-Buildings+. The Surrounding Buildings argument takes two possible choices -
+the <code>geojson_file</code>, <code>feature_id</code> of the building,
+<code>surrounding_buildings</code> and
+<code>scale_footprint_area_by_floor_area</code>. The
+<code>surrounding_buildings</code> argument takes two possible choices -
 None or Shading Only. The None choice would create no other buildings
 adjacent to the building feature while the Shading Only option determines
 what other buildings are shading the building feature and creates them as
-<a href="OpenStudio.html">OpenStudio</a> Shading Surfaces.</p>
+<a href="OpenStudio.html">OpenStudio</a> Shading Surfaces. The
+<code>scale_footprint_area_by_floor_area</code> is an optional argument
+that is set to false by default. When set to true, the building footprint
+area is calculated from the floor_area/number_of_stories for the building
+in the GeoJSON file and this footprint area is used to scale the building
+coordinates and create the building.</p>
 
 <p>The <code>urban_geometry_creation_zoning</code> measure has the same
 capabilities as the <code>urban_geometry_creation</code> measure, however
 it also creates core and perimeter zones for the spaces in the <a
-href="OpenStudio.html">OpenStudio</a> Model. It takes in the same arguments
-as the <code>urban_geometry_creation</code> measure.</p>
+href="OpenStudio.html">OpenStudio</a> Model. It takes in the
+<code>geojson_file</code>, <code>feature_id</code> of the building,
+<code>surrounding_buildings</code> as arguments.</p>
 
 <p>The main components of the gem are:</p>
 <ul><li>
@@ -116,7 +127,7 @@ as the <code>urban_geometry_creation</code> measure.</p>
 </li><li>
 <p>extension.rb : The extension class inherits from
 OpenStudio::Extension::Extension, and  overrides the following methods as
-needed -</p>
+needed</p>
 <ul><li>
 <p><em>measures_dir</em></p>
 </li><li>
@@ -133,7 +144,7 @@ needed -</p>
 </li><li>
 <p>Gemfile and .gemspec : Describe the extension dependencies on other gems.</p>
 </li><li>
-<p>Classes and Modules within <code>lib/urbanopt/geojson</code> -</p>
+<p>Classes and Modules within <code>lib/urbanopt/geojson</code></p>
 
 <p><em>Modules that do not require instances for calling the methods:</em></p>
 <ul><li>
@@ -143,7 +154,7 @@ tasks like - <code>is_shaded</code> and <code>is_shadowed</code>.</p>
 </li><li>
 <p><a href="URBANopt/GeoJSON/Zoning.html">URBANopt::GeoJSON::Zoning</a> :
 Contains methods extracted from 
-<code>urban_geometry_creation_zoning</code> .</p>
+<code>urban_geometry_creation_zoning</code>.</p>
 </li><li>
 <p><a href="URBANopt/GeoJSON/Model.html">URBANopt::GeoJSON::Model</a> :
 Contains methods that perform tasks on an instance of 
@@ -159,10 +170,9 @@ Feature Subclass for the the feature type. Also contains methods to
 validate the GeoJSON  file against the GeoJSON schema.</p>
 </li><li>
 <p><a href="URBANopt/GeoJSON/Feature.html">URBANopt::GeoJSON::Feature</a> :
-Contains methods to return <code>feature</code> <code>id</code> ,
-<code>name</code> ,  <code>multiple</code> <code>polygons</code>
-<code>coordinates</code> which are inherited by classes for all feature
-types.</p>
+Contains methods to return <code>feature id</code> , <code>name</code> , 
+<code>multiple polygons coordinates</code> which are inherited by classes
+for all feature types.</p>
 </li><li>
 <p><a href="URBANopt/GeoJSON/Building.html">URBANopt::GeoJSON::Building</a> :
 A subclass of Feature, contains class methods that  are specific to
@@ -179,7 +189,7 @@ methods  that are specific to handling features of District System type.
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

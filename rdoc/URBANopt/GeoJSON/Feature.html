@@ -11,8 +11,11 @@
   var index_rel_prefix = "../../";
 </script>
 
-<script src="../../js/jquery.js"></script>
-<script src="../../js/darkfish.js"></script>
+<script src="../../js/navigation.js" defer></script>
+<script src="../../js/search.js" defer></script>
+<script src="../../js/search_index.js" defer></script>
+<script src="../../js/searcher.js" defer></script>
+<script src="../../js/darkfish.js" defer></script>
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
@@ -208,13 +211,13 @@ href="Feature.html#method-i-validate_feat">#validate_feat</a> method.</p>
 
         <div class="method-description">
           
-          
+          <p>Used to calculate the aspect ratio for a given floor polygon.</p>
           
           
 
           
           <div class="method-source-code" id="calculate_aspect_ratio-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 101</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">calculate_aspect_ratio</span>
   <span class="ruby-identifier">multi_polygons</span> = <span class="ruby-identifier">get_multi_polygons</span>(<span class="ruby-ivar">@feature_json</span>)
   <span class="ruby-identifier">rad_per_deg</span> = <span class="ruby-value">0.017453293</span>
@@ -322,7 +325,7 @@ feature.</p>
 
           
           <div class="method-source-code" id="create_origin_lat_lon-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 233</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 238</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_origin_lat_lon</span>(<span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">min_lon_lat</span> = <span class="ruby-identifier">get_min_lon_lat</span>
   <span class="ruby-identifier">min_lon</span> = <span class="ruby-identifier">min_lon_lat</span>[<span class="ruby-value">0</span>]
@@ -406,7 +409,7 @@ feature coordinates.</p>
 
           
           <div class="method-source-code" id="find_feature_center-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 253</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 258</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_feature_center</span>(<span class="ruby-identifier">vertices</span>)
   <span class="ruby-identifier">number_of_locations</span> = <span class="ruby-identifier">vertices</span>.<span class="ruby-identifier">length</span>
 
@@ -463,7 +466,7 @@ feature coordinates.</p>
 
           
           <div class="method-source-code" id="get_min_lon_lat-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 181</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 186</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_min_lon_lat</span>
   <span class="ruby-identifier">min_lon</span> = <span class="ruby-constant">Float</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX</span>
   <span class="ruby-identifier">min_lat</span> = <span class="ruby-constant">Float</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX</span>
@@ -528,7 +531,7 @@ feature coordinates.</p>
 
           
           <div class="method-source-code" id="get_multi_polygons-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 216</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 221</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_multi_polygons</span>(<span class="ruby-identifier">json</span> = <span class="ruby-ivar">@feature_json</span>)
   <span class="ruby-identifier">geometry_type</span> = <span class="ruby-identifier">json</span>[<span class="ruby-value">:geometry</span>][<span class="ruby-value">:type</span>]
   <span class="ruby-identifier">multi_polygons</span> = []
@@ -563,13 +566,14 @@ feature coordinates.</p>
 
         <div class="method-description">
           
-          
+          <p>Used to calculate the perimeter multiplier given the aspect ratio, original
+perimeter and area.</p>
           
           
 
           
           <div class="method-source-code" id="get_perimeter_multiplier-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 173</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_perimeter_multiplier</span>(<span class="ruby-identifier">area</span>, <span class="ruby-identifier">aspect_ratio</span>, <span class="ruby-identifier">perimeter_original</span>)
   <span class="ruby-identifier">perimeter_new</span> = <span class="ruby-value">2</span> <span class="ruby-operator">*</span> (<span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span>(<span class="ruby-identifier">area</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">aspect_ratio</span>) <span class="ruby-operator">+</span> <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span>(<span class="ruby-identifier">area</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">aspect_ratio</span>))
   <span class="ruby-identifier">perimeter_ratio</span> = <span class="ruby-identifier">perimeter_original</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">perimeter_new</span>
@@ -802,7 +806,7 @@ Feature&#39;s class.</p>
 
           
           <div class="method-source-code" id="validate_feat-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 286</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 291</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_feat</span>(<span class="ruby-identifier">feature</span>) <span class="ruby-comment">#:doc:</span>
   <span class="ruby-comment"># rubocop:enable Style/CommentedKeyword</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">empty?</span>
@@ -855,7 +859,7 @@ Feature&#39;s class.</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

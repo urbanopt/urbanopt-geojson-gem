@@ -11,8 +11,11 @@
   var index_rel_prefix = "../../";
 </script>
 
-<script src="../../js/jquery.js"></script>
-<script src="../../js/darkfish.js"></script>
+<script src="../../js/navigation.js" defer></script>
+<script src="../../js/search.js" defer></script>
+<script src="../../js/search_index.js" defer></script>
+<script src="../../js/searcher.js" defer></script>
+<script src="../../js/darkfish.js" defer></script>
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
@@ -213,13 +216,20 @@ href="Feature.html">Feature</a> class.</p>
 
         <div class="method-description">
           
-          
+          <p>Used to calculate the perimeter from the floor polygon of a <a
+href="Feature.html">Feature</a>. Returns the perimeter value.</p>
+<dl class="rdoc-list label-list"><dt>Parameters
+<dd></dd></dl>
+<ul><li>
+<p><code>feature</code> - An instance of <a
+href="Feature.html">URBANopt::GeoJSON::Feature</a></p>
+</li></ul>
           
           
 
           
           <div class="method-source-code" id="calculate_perimeter-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 252</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 259</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">calculate_perimeter</span>(<span class="ruby-identifier">feature</span>)
   <span class="ruby-identifier">model</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span><span class="ruby-operator">::</span><span class="ruby-constant">Model</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">runner</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Measure</span><span class="ruby-operator">::</span><span class="ruby-constant">OSRunner</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkflowJSON</span>.<span class="ruby-identifier">new</span>)
@@ -744,16 +754,14 @@ like to utilize aspects of function that are specific to zoning.</p>
 
         <div class="method-description">
           
-          <p>Convert to a Hash equivalent for JSON serialization</p>
-<ul><li>
-<p>Exclude attributes with nil values.</p>
-</li></ul>
+          <p>Convert to a Hash equivalent for JSON serialization. Excludes attributes
+with nil value.</p>
           
           
 
           
           <div class="method-source-code" id="to_hash-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 292</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 298</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_hash</span>
   <span class="ruby-identifier">result</span> = {}
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:id</span>] = <span class="ruby-ivar">@id</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@id</span>
@@ -843,7 +851,7 @@ href="Zoning.html">Zoning</a> is set to False by default.</p>
 
           
           <div class="method-source-code" id="create_space_per_building-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 333</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 339</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_space_per_building</span>(<span class="ruby-identifier">min_elevation</span>, <span class="ruby-identifier">max_elevation</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">other_building</span>) <span class="ruby-comment">#:doc:</span>
   <span class="ruby-comment"># rubocop: enable Style/OptionalArguments, Style/CommentedKeyword</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">other_building</span>
@@ -949,7 +957,7 @@ href="Zoning.html">Zoning</a> is set to False by default.</p>
 
           
           <div class="method-source-code" id="create_space_per_floor-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 394</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/building.rb, line 400</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_space_per_floor</span>(<span class="ruby-identifier">story_number</span>, <span class="ruby-identifier">floor_to_floor_height</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">scaled_footprint_area</span>) <span class="ruby-comment">#:doc:</span>
   <span class="ruby-comment"># rubocop:enable Style/CommentedKeyword</span>
   <span class="ruby-keyword">begin</span>
@@ -1035,7 +1043,7 @@ href="Zoning.html">Zoning</a> is set to False by default.</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
