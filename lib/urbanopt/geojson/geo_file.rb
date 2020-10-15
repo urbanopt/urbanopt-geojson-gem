@@ -199,7 +199,7 @@ module URBANopt
         add_props.each do |prop|
           if project.key?(prop[:site]) && project[prop[:site]]
             # property exists in site
-            if !feature[:properties].key?(prop[:feature]) || feature[:properties][prop[:feature]].nil? || feature[:properties][prop[:feature]].empty?
+            if !feature[:properties].key?(prop[:feature]) || feature[:properties][prop[:feature]].nil? || (feature[:properties][prop[:feature]].to_s).empty?
               # property does not exist in feature or is nil: add site property (don't overwrite)
               feature[:properties][prop[:feature]] = project[prop[:site]]
             end
