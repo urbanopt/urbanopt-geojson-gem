@@ -98,7 +98,7 @@ module URBANopt
         return @@feature_schema[feature_type]
       end
 
-      ## 
+      ##
       # Used to calculate the aspect ratio for a given floor polygon.
       #
       def calculate_aspect_ratio

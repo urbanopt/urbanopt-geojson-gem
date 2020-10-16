@@ -254,7 +254,7 @@ module URBANopt
       # value.
       #
       # [Parameters]
-      # * +feature+ - An instance of URBANopt::GeoJSON::Feature 
+      # * +feature+ - An instance of URBANopt::GeoJSON::Feature
       #
       def calculate_perimeter(feature)
         model = OpenStudio::Model::Model.new
