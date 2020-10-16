@@ -62,7 +62,7 @@ module URBANopt
         @one  = BigDecimal('1.0')
         @two  = BigDecimal('2.0')
         @ten  = BigDecimal('10.0')
-        @eps  = eps 
+        @eps  = eps
       end
 
       attr_reader :zero
@@ -75,7 +75,6 @@ module URBANopt
 
       attr_reader :eps
 
-      
       ##
       # Used to determine new scaled vertices, by iteratively passing in the perimeter distance to
       # minimise the difference of the new and scaled area. Returns the difference of the new area and desired area.
