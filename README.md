@@ -1,6 +1,6 @@
 # URBANopt GeoJSON Gem
 
-Library and measures to translate URBANopt<sup>&trade;</sup> GeoJSON format to OpenStudio. See the [developer documentation](https://urbanopt.github.io/urbanopt-geojson-gem/) for more details.
+Library and measures to translate URBANopt&trade; GeoJSON format to OpenStudio. See the [developer documentation](https://urbanopt.github.io/urbanopt-geojson-gem/) for more details.
 
 ## Installation
 
@@ -12,7 +12,7 @@ gem 'urbanopt-geojson'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 

@@ -2,9 +2,9 @@
 
 ### <StaticLink href="rdoc/">Rdocs</StaticLink>
 
-The URBANopt<sup>&trade;</sup> GeoJSON Gem is an OpenStudio Extension Gem with functionality to translate
+The URBANopt&trade; GeoJSON Gem is an OpenStudio Extension Gem with functionality to translate
 information in a GeoJSON format to energy model inputs.  GeoJSON is a commonly used
-format for describing geospatial data related to the built environment. 
+format for describing geospatial data related to the built environment.
 
 A JSON schema for the GeoJSON format is available at [geojson
 schema](https://github.com/geojson/schema).
@@ -26,5 +26,4 @@ The current functionalities of the URBANopt GeoJSON gem include:
 - Translate Building Feature to an OpenStudio Model.
 - Translate Building Feature to OpenStudio Shading Objects.
 
-The <StaticLink href="rdoc/">Rdocs</StaticLink> contain more information about the URBANopt GeoJSON Gem architecture. 
-
+The <StaticLink href="rdoc/">Rdocs</StaticLink> contain more information about the URBANopt GeoJSON Gem architecture.

@@ -1,7 +1,14 @@
 # URBANopt GeoJSON Gem
  
+## Version 0.5.0
+Date Range 09/26/20 - 12/02/20
+
+- Fixed [#124]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/124 ), DOCUMENTATION: Add docs on scaling for building footprint using building area
+- Fixed [#126]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/126 ), [BUG] setting timesteps_per_hour in a feature throws an error
+- Fixed [#131]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/131 ), OpenStudio 3.1.0 support
+
 ## Version 0.4.0
-Date Rage 08/08/20 - 09/25/20
+Date Range 08/08/20 - 09/25/20
 
 Accepted Pull Requests: 11
 - Fixed [#92]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/92 ), Adds scaling for building footprint using building area

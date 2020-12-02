@@ -43,6 +43,8 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     feature = geofile.get_feature_by_id('59a9ce2b42f7d007c059d306')
     expect(feature.feature_json[:type]).to eq('Feature')
     expect(feature.feature_json[:properties][:name]).to eq('Thermal Test Facility')
+    expect((feature.feature_json[:properties][:timesteps_per_hour]).to_s).to eq('2')
+    expect((feature.feature_json[:properties][:timesteps_per_hour]).to_s).not_to be_empty
   end
 
   it 'gets feature, given a feature_id geojson example' do

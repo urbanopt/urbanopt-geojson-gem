@@ -98,6 +98,9 @@ module URBANopt
         return @@feature_schema[feature_type]
       end
 
+      ##
+      # Used to calculate the aspect ratio for a given floor polygon.
+      #
       def calculate_aspect_ratio
         multi_polygons = get_multi_polygons(@feature_json)
         rad_per_deg = 0.017453293
@@ -170,6 +173,8 @@ module URBANopt
         end
       end
 
+      ##
+      # Used to calculate the perimeter multiplier given the aspect ratio, original perimeter and area.
       def get_perimeter_multiplier(area, aspect_ratio, perimeter_original)
         perimeter_new = 2 * (Math.sqrt(area * aspect_ratio) + Math.sqrt(area / aspect_ratio))
         perimeter_ratio = perimeter_original / perimeter_new

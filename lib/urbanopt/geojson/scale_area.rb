@@ -62,7 +62,7 @@ module URBANopt
         @one  = BigDecimal('1.0')
         @two  = BigDecimal('2.0')
         @ten  = BigDecimal('10.0')
-        @eps  = eps # BigDecimal::new(eps)
+        @eps  = eps
       end
 
       attr_reader :zero
@@ -75,7 +75,10 @@ module URBANopt
 
       attr_reader :eps
 
-      # compute value
+      ##
+      # Used to determine new scaled vertices, by iteratively passing in the perimeter distance to
+      # minimise the difference of the new and scaled area. Returns the difference of the new area and desired area.
+      #
       def values(x)
         @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, x[0].to_f, @runner, scale = true)
         new_area = OpenStudio.getArea(@new_vertices)
