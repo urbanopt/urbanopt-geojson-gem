@@ -17,8 +17,8 @@ elsif allow_local
   gem 'openstudio-extension', github: 'NREL/openstudio-extension-gem', branch: 'develop'
 end
 
-#if allow_local && File.exist?('../urbanopt-core-gem')
-#  gem 'urbanopt-core', path: '../urbanopt-core-gem'
-#elsif allow_local
-  gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'os_3.1.0'
-#end
+if allow_local && File.exist?('../urbanopt-core-gem')
+  gem 'urbanopt-core', path: '../urbanopt-core-gem'
+elsif allow_local
+  gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'develop'
+end
