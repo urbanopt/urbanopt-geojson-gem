@@ -1,6 +1,6 @@
 # URBANopt GeoJSON Gem
 
- ## Version 0.5.1
+## Version 0.5.1
 
  Date Range: 12/02/20 - 12/09/20
 
