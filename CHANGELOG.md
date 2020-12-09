@@ -1,5 +1,12 @@
 # URBANopt GeoJSON Gem
- 
+
+## Version 0.5.1
+
+ Date Range: 12/02/20 - 12/09/20
+
+- Fixed [#131]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/131 ), OpenStudio 3.1.0 support
+- Fixed [#135]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/135 ), simplify dependencies
+
 ## Version 0.5.0
 Date Range 09/26/20 - 12/02/20
 
@@ -43,7 +50,7 @@ Date Range 3/25/20 - 06/04/20
 
 Updating to use with OpenStudio 3.0 and Ruby 2.5
 
-Accepted Pull Requests: 
+Accepted Pull Requests:
 - Fixed [#60]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/60 ), HPXML-based workflow for residential buildings
 - Fixed [#83]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/83 ), Add new system types to building properties schema
 - Fixed [#84]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/84 ), Updated system types with OpenStudio
@@ -84,6 +91,6 @@ error
 - Fixed [#78]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/78 ), 0.2.0.pre2
 - Fixed [#80]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/80 ), look for site features in project key instead of Site Origin feature
 
-## Version 0.1.0 
+## Version 0.1.0
 
 * Initial release of the URBANopt GeoJSON Gem
