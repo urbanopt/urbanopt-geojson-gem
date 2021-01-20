@@ -227,7 +227,7 @@
       "description": "Arbitrary user data"
     },
     "ev_charging": {
-      "description": "Indicates true if ev charging is associated with the building.",
+      "description": "Set to true if ev charging is associated with the building.",
       "type": "boolean"
     },
     "ev_charging_station_type": {
@@ -240,7 +240,7 @@
       ]
     },
     "delay_type": {
-      "description": "Adds workplace charging flexibility to charging for different flexibility scenarios. Min delay scenario indicates EV charging immediately upon arriving to work, Max delay indicates not charging until necessary, shifting EV charging load to later in the day and Min power indicates charging EVs at a minimum rate over the parking event.",
+      "description": "Adds workplace charging flexibility for different scenarios. Min delay scenario indicates EV charging immediately upon arriving to work, Max delay indicates not charging until necessary thereby shifting EV charging load to later in the day and Min power indicates charging EVs at a minimum rate over the parking event.",
       "type": "string",
       "enum": [
         "Min Delay",
@@ -249,7 +249,7 @@
       ]
     },
     "ev_charging_behavior": {
-      "description": "Describes scenarios for EV charging behavior, Business as Usual implies home dominant charging behavior, Free Workplace Charging at Project Site implies peak power draw from EV charging during morning hours due to EV charging at workplaces and Free Workplace Charging Across Metro Area scenario reduces Home EV charging relative to Free Workplace Charging at Project Site” scenario, for residents who work elsewhere and can charge their vehicles for free at those workplaces.",
+      "description": "Describes scenarios for EV charging behavior, Business as Usual implies home dominant charging behavior, Free Workplace Charging at Project Site implies peak power draw from EV charging during morning hours due to EV charging at workplaces and Free Workplace Charging Across Metro Area scenario reduces Home EV charging relative to Free Workplace Charging at Project Site for residents who work elsewhere and can charge their vehicles for free at those workplaces.",
       "type": "string",
       "enum": [
         "Business as Usual",
@@ -258,7 +258,7 @@
       ]
     },
     "ev_percent": {
-      "description": "Denotes the number of vehicles parked at the building that are EVs.",
+      "description": "Denotes the % of vehicles parked at the building that are EVs.",
       "type": "number"
     },
     "ev_curtailment_frac": {
