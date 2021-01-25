@@ -231,7 +231,7 @@
       "type": "boolean"
     },
     "ev_charging_station_type": {
-      "description": "Indicates whether ev charging associated with the building is for Typical Home, Public or Work charging station",
+      "description": "Indicates whether EV charging associated with the building is for Typical Home, Public or Work charging station",
       "type": "string",
       "enum": [
         "Typical Home",
