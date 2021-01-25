@@ -227,7 +227,7 @@
       "description": "Arbitrary user data"
     },
     "ev_charging": {
-      "description": "Set to true if ev charging is associated with the building.",
+      "description": "Should be set to true if EV charging is associated with the building.",
       "type": "boolean"
     },
     "ev_charging_station_type": {
