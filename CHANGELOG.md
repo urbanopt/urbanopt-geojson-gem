@@ -1,5 +1,11 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.5.2
+
+Date Range: 12/10/20 - 02/12/21
+
+- Fixed [#140]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/140 ), Add fields associated to EV charging to building properties schema.
+
 ## Version 0.5.1
 
  Date Range: 12/02/20 - 12/09/20
