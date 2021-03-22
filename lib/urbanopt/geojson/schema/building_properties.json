@@ -142,7 +142,7 @@
       "$ref": "#/definitions/heatingSystemFuelType"
     },
     "weekday_start_time": {
-      "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default. Should this be part of a mixed type struct?",
+      "description": "Weekday operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default.",
       "type": "string"
     },
     "weekday_duration": {
@@ -150,7 +150,7 @@
       "type": "string"
     },
     "weekend_start_time": {
-      "description": "Weekend operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default. Should this be part of a mixed type struct?",
+      "description": "Weekend operating hours start time in 08:30 format, using 24-hr clock. Leave blank to use default.",
       "type": "string"
     },
     "weekend_duration": {
@@ -293,7 +293,7 @@
         "building_type": {
           "enum": [
             "Single-Family Attached"
-           ]
+          ]
         }
       },
       "required": [
@@ -315,7 +315,7 @@
         "building_type": {
           "enum": [
             "Multifamily"
-           ]
+          ]
         }
       },
       "required": [
@@ -412,7 +412,7 @@
       ]
     },
     "systemType": {
-      "description": "Building HVAC system type. Should this be part of a mixed type struct?",
+      "description": "Building HVAC system type.",
       "type": "string",
       "enum": [
         "PTAC with baseboard electric",
@@ -476,7 +476,7 @@
         "Direct evap coolers with baseboard electric",
         "Direct evap coolers with baseboard gas boiler",
         "Direct evap coolers with baseboard central air source heat pump",
-        "Direct evap coolers with no heat",  
+        "Direct evap coolers with no heat",
         "Direct evap coolers with gas unit heaters",
         "Direct evap coolers with forced air furnace",
         "Gas unit heaters",
