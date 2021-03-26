@@ -272,8 +272,8 @@ module URBANopt
 
         x = y = z = 0.0
         vertices.each do |station|
-          latitude = station[0] * Math::PI / 180
-          longitude = station[1] * Math::PI / 180
+          latitude = station[1] * Math::PI / 180
+          longitude = station[0] * Math::PI / 180
 
           x += Math.cos(latitude) * Math.cos(longitude)
           y += Math.cos(latitude) * Math.sin(longitude)
