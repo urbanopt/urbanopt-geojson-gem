@@ -1,5 +1,13 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.5.3
+
+Date Range: 02/13/21 - 04/01/21
+
+- Fixed [#142]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/142 ), Update copyrights for 2021
+- Fixed [#146]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/146 ), Fix longitude, latitude input when calculating the feature center (long,lat).
+- Fixed [#148]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/148 ), remove comments in json schema element descriptions
+
 ## Version 0.5.2
 
 Date Range: 12/10/20 - 02/12/21
