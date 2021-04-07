@@ -147,7 +147,7 @@ to scale the vertices to</p>
 
           
           <div class="method-source-code" id="adjust_vertices_to_area-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 240</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 250</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">adjust_vertices_to_area</span>(<span class="ruby-identifier">vertices</span>, <span class="ruby-identifier">desired_area</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">eps</span> = <span class="ruby-value">0.1</span>)
   <span class="ruby-identifier">ar</span> = <span class="ruby-constant">ScaleArea</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">vertices</span>, <span class="ruby-identifier">desired_area</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">eps</span>)
 
@@ -197,7 +197,7 @@ space, if any.</p>
 
           
           <div class="method-source-code" id="convert_to_shading_surface_group-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">convert_to_shading_surface_group</span>(<span class="ruby-identifier">space</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-identifier">space</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">model</span> = <span class="ruby-identifier">space</span>.<span class="ruby-identifier">model</span>
@@ -269,7 +269,7 @@ height.</p>
 
           
           <div class="method-source-code" id="create_photovoltaics-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 77</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_photovoltaics</span>(<span class="ruby-identifier">feature</span>, <span class="ruby-identifier">height</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">feature_id</span> = <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">feature_json</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:properties</span>]
   <span class="ruby-identifier">name</span> = <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">name</span>
@@ -362,7 +362,7 @@ of <em>OpenStudio::Measure::OSRunner</em> .</p>
 
           
           <div class="method-source-code" id="create_shading_surfaces-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 141</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_shading_surfaces</span>(<span class="ruby-identifier">feature</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">spaces</span>)
   <span class="ruby-identifier">max_z</span> = <span class="ruby-value">0</span>
   <span class="ruby-identifier">spaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">space</span><span class="ruby-operator">|</span>
@@ -417,7 +417,7 @@ of <em>OpenStudio::Measure::OSRunner</em> .</p>
 
           
           <div class="method-source-code" id="create_space_types-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 152</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 162</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_space_types</span>(<span class="ruby-identifier">stories</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">space_types</span> = []
   <span class="ruby-identifier">stories</span>.<span class="ruby-identifier">each_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
@@ -495,7 +495,7 @@ the floor area. 0 by default (no scaling).</p>
 
           
           <div class="method-source-code" id="floor_print_from_polygon-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 188</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 198</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">floor_print_from_polygon</span>(<span class="ruby-identifier">polygon</span>, <span class="ruby-identifier">elevation</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">scaled_footprint_area</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">floor_print</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Point3dVector</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">all_points</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Point3dVector</span>.<span class="ruby-identifier">new</span>
@@ -581,7 +581,7 @@ OpenStudio::PointLatLon indicating the origin&#39;s latitude and longitude.</p>
 
           
           <div class="method-source-code" id="is_shadowed-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 323</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 333</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">is_shadowed</span>(<span class="ruby-identifier">potentially_shaded</span>, <span class="ruby-identifier">potential_shader</span>, <span class="ruby-identifier">origin_lat_lon</span>)
   <span class="ruby-identifier">all_pairs</span> = []
   <span class="ruby-identifier">potentially_shaded</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">building_point</span><span class="ruby-operator">|</span>
@@ -661,7 +661,7 @@ href="Zoning.html">Zoning</a> is set to false by default.</p>
 
           
           <div class="method-source-code" id="process_other_buildings-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 261</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 271</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">process_other_buildings</span>(<span class="ruby-identifier">building</span>, <span class="ruby-identifier">other_building_type</span>, <span class="ruby-identifier">other_buildings</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-comment"># Empty array to store the new OpenStudio model spaces that need to be converted to shading objects</span>
   <span class="ruby-identifier">feature_points</span> = <span class="ruby-identifier">building</span>.<span class="ruby-identifier">feature_points</span>(<span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
