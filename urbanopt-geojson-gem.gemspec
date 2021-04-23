@@ -30,5 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.7'
 
   spec.add_runtime_dependency 'json-schema', '~> 2.8'
-  spec.add_runtime_dependency 'urbanopt-core', '~> 0.5.1'
+  # spec.add_runtime_dependency 'urbanopt-core', '~> 0.5.1' # uncomment and fix this line
 end
