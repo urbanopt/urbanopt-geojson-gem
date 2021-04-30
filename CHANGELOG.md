@@ -1,5 +1,12 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.1
+
+Date Range: 04/27/21 - 04/29/21
+
+- Fixed [#155]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/155 ), Adjacent buildings do not show up as shading objects
+- Fixed [#158]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/158 ), Fix coordinates
+
 ## Version 0.6.0
 
 Date Range: 04/02/21 - 04/26/21

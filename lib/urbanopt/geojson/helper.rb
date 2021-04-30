@@ -308,8 +308,11 @@ module URBANopt
             # find the polygon of the other_building by passing it to the get_multi_polygons method
             other_building_points = building.other_points(other_building, other_height, origin_lat_lon, runner, zoning)
             shadowed = URBANopt::GeoJSON::Helper.is_shadowed(feature_points, other_building_points, origin_lat_lon)
+            if shadowed
+              runner.registerInfo("Feature #{other_building[:properties][:id]} is acting as shading object for #{building.id}")
+            end
             next unless shadowed
-            new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, other_building)
+            new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, 0, other_building)
             if new_building.nil? || new_building.empty?
               runner.registerWarning("Failed to create spaces for other building '#{name}'")
             end

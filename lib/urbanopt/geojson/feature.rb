@@ -261,10 +261,12 @@ module URBANopt
       end
 
       ##
-      # Used to determine the centroid for the feature's coordinates.
+      # Used to determine the centroid for the feature's geojson coordinates.
       #
       # [Parameters]
       # * +vertices+ - The first set polygon vertices in the array of feature coordinates.
+      # [Returns]
+      # Returns Feature centroid coordinates [long, lat]
       def find_feature_center(vertices)
         number_of_locations = vertices.length
 
@@ -288,8 +290,9 @@ module URBANopt
         central_square_root = Math.sqrt(x * x + y * y)
         central_latitude = Math.atan2(z, central_square_root)
 
-        [central_latitude * 180 / Math::PI,
-         central_longitude * 180 / Math::PI]
+        [central_longitude * 180 / Math::PI,
+          central_latitude * 180 / Math::PI]
+         
       end
 
       private
