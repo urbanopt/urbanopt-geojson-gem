@@ -1,5 +1,10 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.2
+Date Range: 04/30/21 - 05/06/21
+
+- Fixed [#161]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/161 ), Add 90.1-2016 and 90.1-2019 to UO geojson schema
+
 ## Version 0.6.1
 
 Date Range: 04/27/21 - 04/29/21
