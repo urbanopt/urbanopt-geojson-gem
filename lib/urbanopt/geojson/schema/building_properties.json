@@ -53,15 +53,15 @@
       "type": "string"
     },
     "weather_filename": {
-      "description": "Name of EPW weather file for this building.  Defaults to site's weather_filename.",
+      "description": "Name of EPW weather file for this building. Defaults to site's weather_filename.",
       "type": "string"
     },
     "tariff_filename": {
-      "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
+      "description": "Name of the tariff file for this building. Defaults to site's tariff_filename.",
       "type": "string"
     },
     "surface_elevation": {
-      "description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
+      "description": "The surface elevation (above NAVD88 datum) of the building (ft). This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
       "type": "number"
     },
     "timesteps_per_hour": {
@@ -103,19 +103,23 @@
       "type": "number"
     },
     "roof_type": {
-      "description": "The type of roof. Defaults to flat.",
-      "type": "string",
-      "enum": [
-        "Flat",
-        "Gable",
-        "Hip"
-      ]
+      "$ref": "#/definitions/roofType"
     },
     "foundation_type": {
       "$ref": "#/definitions/foundationType"
     },
     "attic_type": {
       "$ref": "#/definitions/atticType"
+    },
+    "schedules_variation": {
+      "$ref": "#/definitions/schedulesVariation"
+    },
+    "schedules_type": {
+      "$ref": "#/definitions/schedulesType"
+    },
+    "schedules_path": {
+      "description": "Absolute (or relative) path of the csv file containing user-specified occupancy schedules. Required if schedules type is user-specified.",
+      "type": "string"
     },
     "footprint_area": {
       "description": "Area of the footprint (ft^2).  Calculated on export.",
@@ -537,8 +541,8 @@
         "90.1-2007",
         "90.1-2010",
         "90.1-2013",
-		"90.1-2016",
-		"90.1-2019",
+        "90.1-2016",
+        "90.1-2019",
         "NREL ZNE Ready 2017",
         "DEER Pre-1975",
         "DEER 1985",
@@ -568,6 +572,15 @@
         "Residential IECC 2018 - Customizable Template Sep 2020"
       ]
     },
+    "roofType": {
+      "description": "The type of roof. Defaults to flat.",
+      "type": "string",
+      "enum": [
+        "Flat",
+        "Gable",
+        "Hip"
+      ]
+    },
     "foundationType": {
       "description": "The foundation type of the building. Required for residential buildings.",
       "type": "string",
@@ -589,6 +602,23 @@
         "attic - conditioned",
         "flat roof"
       ]
+    },
+    "schedulesVariation": {
+      "description": "Whether schedules vary by unit or by building. Defaults to unit-to-unit. Choice unit-to-unit only applies when schedules type is stochastic.",
+      "type": "string",
+      "enum": [
+        "unit-to-unit",
+        "building-to-building"        
+      ]      
+    },
+    "schedulesType": {
+      "description": "The type of occupant-related schedules to use. Defaults to stochastic.",
+      "type": "string",
+      "enum": [
+        "default",
+        "stochastic",
+        "user-specified"
+      ]  
     }
   }
 }
