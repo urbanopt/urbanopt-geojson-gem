@@ -29,6 +29,7 @@
     "lodash.template": ">=4.5.0",
     "minimist": ">=1.2.3",
     "mixin-deep": "^2.0.1",
+    "postcss": ">=8.2.15",
     "serialize-javascript": "^5.0.1",
     "set-value": "^3.0.2",
     "ssri": "^8.0.1",
