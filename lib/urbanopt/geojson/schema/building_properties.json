@@ -117,10 +117,6 @@
     "schedules_type": {
       "$ref": "#/definitions/schedulesType"
     },
-    "schedules_path": {
-      "description": "Absolute (or relative) path of the csv file containing user-specified occupancy schedules. Required if schedules type is user-specified.",
-      "type": "string"
-    },
     "footprint_area": {
       "description": "Area of the footprint (ft^2).  Calculated on export.",
       "type": "number"
@@ -616,8 +612,7 @@
       "type": "string",
       "enum": [
         "default",
-        "stochastic",
-        "user-specified"
+        "stochastic"
       ]  
     }
   }
