@@ -340,7 +340,7 @@ module URBANopt
           potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
             distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
-            if min_distance nil || distance < min_distance
+            if min_distance.nil? || distance < min_distance
               min_pair = {
                 building_point: building_point,
                 other_building_point: other_building_point,
