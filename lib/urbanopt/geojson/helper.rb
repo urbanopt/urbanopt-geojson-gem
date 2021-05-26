@@ -364,34 +364,27 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the
       #   origin's latitude and longitude.
       def self.is_shaded(building_point, other_building_point, origin_lat_lon)
+        # not using origin_lat_lon but have not removed it yet
         vector = other_building_point - building_point
-        height = vector.z
         distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
         if distance < 1
           return true
         end
-        hour_angle_rad = Math.atan2(-vector.x, -vector.y)
-        hour_angle = OpenStudio.radToDeg(hour_angle_rad)
-        latitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)
-        result = false
-        (-24..24).each do |declination|
-          declination_rad = OpenStudio.degToRad(declination)
-          zenith_angle_rad = Math.acos(Math.sin(latitude_rad) * Math.sin(declination_rad) + Math.cos(latitude_rad) * Math.cos(declination_rad) * Math.cos(hour_angle_rad))
-          zenith_angle = OpenStudio.radToDeg(zenith_angle_rad)
-          elevation_angle = 90 - zenith_angle
-          apparent_angle_rad = Math.atan2(height, distance)
-          apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
-          if elevation_angle > 0 && elevation_angle < apparent_angle
-            result = true
-            break
-          end
+        elevation_angle = 2.5 # not sure of best value maybe allow as project level argument
+        height = vector.z
+        apparent_angle_rad = Math.atan2(height, distance)
+        apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
+        if elevation_angle < apparent_angle
+          result = true
+        else
+          result = false
         end
         return result
       end
 
-      class << self
-        private :is_shaded
+            class << self
+              private :is_shaded
+            end
+          end
+        end
       end
-    end
-  end
-end
