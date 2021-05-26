@@ -336,11 +336,13 @@ module URBANopt
       def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
         # not using origin_lat_lon but have not removed it yet
         min_distance = nil
+        min_pair = nil
         potentially_shaded.each do |building_point|
           potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
             distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
             if min_distance.nil? || distance < min_distance
+              min_distance = distance
               min_pair = {
                 building_point: building_point,
                 other_building_point: other_building_point,
