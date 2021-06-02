@@ -374,7 +374,7 @@ module URBANopt
         if distance < 1
           return true
         end
-        elevation_angle = 2.5 # not sure of best value maybe allow as project level argument
+        elevation_angle = 2.5 #not sure of best value maybe allow as project level argument
         height = vector.z
         apparent_angle_rad = Math.atan2(height, distance)
         apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
