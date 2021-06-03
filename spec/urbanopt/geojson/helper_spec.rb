@@ -54,7 +54,7 @@ RSpec.describe URBANopt::GeoJSON do
     expect(feature.class).to eq(URBANopt::GeoJSON::Building)
     spaces = feature.create_other_buildings('ShadingOnly', all_buildings.json, @model, @origin_lat_lon, @runner)
     surfaces = URBANopt::GeoJSON::Helper.create_shading_surfaces(feature, @model, @origin_lat_lon, @runner, spaces)
-    expect(spaces.size).to eq(17)
+    expect(spaces.size).to eq(43)
     expect(surfaces[0].class).to eq(OpenStudio::Model::ShadingSurface)
   end
 

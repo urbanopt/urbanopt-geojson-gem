@@ -118,13 +118,13 @@ RSpec.describe URBANopt::GeoJSON do
     expect(building_story_1.nameString).to eq(building_story_2.nameString)
     other_buildings = feature.create_other_buildings('ShadingOnly', all_features.json, @model, @origin_lat_lon, @runner, true)
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 11
+    expect(other_buildings.size).to eq 37
   end
 
   it 'creates other buildings using ShadingOnly create method, given a feature, surrounding_buildings, model, origin_lat_lon, runner' do
     other_buildings = @building.create_other_buildings('ShadingOnly', @all_buildings.json, @model, @origin_lat_lon, @runner)
     expect(other_buildings[0].class).to eq OpenStudio::Model::Space
-    expect(other_buildings.size).to eq 6
+    expect(other_buildings.size).to eq 27
   end
 
   it 'creates other buildings using ShadingOnly create method for modified geojson' do
@@ -150,8 +150,8 @@ RSpec.describe URBANopt::GeoJSON do
     windows = @building.create_windows(spaces)
     expect(windows[0].class).to eq(OpenStudio::Model::Space)
     expect(windows.empty?).to be false
-    expect(spaces.size).to eq(6)
-    expect(windows.size).to eq(6)
+    expect(spaces.size).to eq(27)
+    expect(windows.size).to eq(27)
     spaces.each do |space|
       space.surfaces.each do |surface|
         if surface.surfaceType == 'Wall' && surface.outsideBoundaryCondition == 'Outdoors'

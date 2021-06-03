@@ -331,23 +331,27 @@ module URBANopt
       # * +origin_lat_lon+ _Type:Float_ - An instance of OpenStudio::PointLatLon indicating the origin's
       #   latitude and longitude.
       def self.is_shadowed(potentially_shaded, potential_shader, origin_lat_lon)
-        all_pairs = []
+        # not using origin_lat_lon but have not removed it yet
+        min_distance = nil
+        min_pair = nil
         potentially_shaded.each do |building_point|
           potential_shader.each do |other_building_point|
             vector = other_building_point - building_point
-            all_pairs << {
-              building_point: building_point,
-              other_building_point: other_building_point,
-              vector: vector,
-              distance: vector.length
-            }
+            distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
+            if min_distance.nil? || distance < min_distance
+              min_distance = distance
+              min_pair = {
+                building_point: building_point,
+                other_building_point: other_building_point,
+                vector: vector,
+                distance: vector.length
+              }
+            end
           end
         end
-        all_pairs.sort! { |x, y| x[:distance] <=> y[:distance] }
-        all_pairs.each do |pair|
-          if is_shaded(pair[:building_point], pair[:other_building_point], origin_lat_lon)
-            return true
-          end
+
+        if is_shaded(min_pair[:building_point], min_pair[:other_building_point], origin_lat_lon)
+          return true
         end
         return false
       end
@@ -361,34 +365,28 @@ module URBANopt
       # * +origin_lat_lon+ - _Type:Float_ - An instance of +OpenStudio::PointLatLon+ indicating the
       #   origin's latitude and longitude.
       def self.is_shaded(building_point, other_building_point, origin_lat_lon)
+        # not using origin_lat_lon but have not removed it yet
         vector = other_building_point - building_point
-        height = vector.z
         distance = Math.sqrt(vector.x * vector.x + vector.y * vector.y)
         if distance < 1
           return true
         end
-        hour_angle_rad = Math.atan2(-vector.x, -vector.y)
-        hour_angle = OpenStudio.radToDeg(hour_angle_rad)
-        latitude_rad = OpenStudio.degToRad(origin_lat_lon.lat)
-        result = false
-        (-24..24).each do |declination|
-          declination_rad = OpenStudio.degToRad(declination)
-          zenith_angle_rad = Math.acos(Math.sin(latitude_rad) * Math.sin(declination_rad) + Math.cos(latitude_rad) * Math.cos(declination_rad) * Math.cos(hour_angle_rad))
-          zenith_angle = OpenStudio.radToDeg(zenith_angle_rad)
-          elevation_angle = 90 - zenith_angle
-          apparent_angle_rad = Math.atan2(height, distance)
-          apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
-          if elevation_angle > 0 && elevation_angle < apparent_angle
-            result = true
-            break
-          end
+        elevation_angle = 2.5 #not sure of best value maybe allow as project level argument
+        height = vector.z
+        apparent_angle_rad = Math.atan2(height, distance)
+        apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
+        if elevation_angle < apparent_angle
+          result = true
+        else
+          result = false
         end
         return result
       end
-
+      
       class << self
         private :is_shaded
       end
+
     end
   end
 end
