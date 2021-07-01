@@ -1,5 +1,16 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.3
+Date Range: 05/07/21 - 7/1/21
+
+- Fixed [#178](https://github.com/urbanopt/urbanopt-geojson-gem/issues/178), Remove NREL ZNE Ready
+  2017 template from schema
+- Fixed [#176](https://github.com/urbanopt/urbanopt-geojson-gem/issues/176), Update rubocop configs to v4
+- Fixed [#173](https://github.com/urbanopt/urbanopt-geojson-gem/issues/173), Add necessary fields
+  for RNM-US analysis
+- Fixed [#169](https://github.com/urbanopt/urbanopt-geojson-gem/issues/169), Adjacent buildings not being created as shading objects
+
+
 ## Version 0.6.2
 Date Range: 04/30/21 - 05/06/21
 
