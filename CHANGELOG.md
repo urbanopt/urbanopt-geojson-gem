@@ -8,7 +8,7 @@ Date Range: 05/07/21 - 7/1/21
 - Fixed [#176](https://github.com/urbanopt/urbanopt-geojson-gem/issues/176), Update rubocop configs to v4
 - Fixed [#173](https://github.com/urbanopt/urbanopt-geojson-gem/issues/173), Add necessary fields
   for RNM-US analysis
-- Fixed [#169](https://github.com/urbanopt/urbanopt-geojson-gem/issues/169), Adjacent buildings not being created as shading objects #169
+- Fixed [#169](https://github.com/urbanopt/urbanopt-geojson-gem/issues/169), Adjacent buildings not being created as shading objects
 
 
 ## Version 0.6.2
