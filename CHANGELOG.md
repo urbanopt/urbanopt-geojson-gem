@@ -1,7 +1,12 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.4
+Date Range: 07/01/21 - 07/07/21
+
+- Fixed [#184](https://github.com/urbanopt/urbanopt-geojson-gem/issues/184), Add missing transformers to equipment enum so that validation passes
+
 ## Version 0.6.3
-Date Range: 05/07/21 - 7/1/21
+Date Range: 05/07/21 - 07/01/21
 
 - Fixed [#178](https://github.com/urbanopt/urbanopt-geojson-gem/issues/178), Remove NREL ZNE Ready
   2017 template from schema
