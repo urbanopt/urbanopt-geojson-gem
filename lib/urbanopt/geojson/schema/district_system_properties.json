@@ -130,6 +130,8 @@
         "Transformer--100KVA PM",
         "Transformer--150KVA PM",
         "Transformer--300KVA PM",
+        "Transformer--500KVA PM",
+        "Transformer--750KVA PM",
         "Waste Heat Source--Hot Water",
         "Waste Heat Source--Ambient Water"
       ]
