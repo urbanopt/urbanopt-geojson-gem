@@ -1,5 +1,10 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.5
+Date Range: 07/08/21 - 07/21/21
+
+- Fixed [#188]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/188 ), Add RNM field for max_number_of_lv_nodes_per_building
+
 ## Version 0.6.4
 Date Range: 07/01/21 - 07/07/21
 
