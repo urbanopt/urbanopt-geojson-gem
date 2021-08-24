@@ -264,6 +264,10 @@
     "ev_curtailment_frac": {
       "description": "Fraction between 0 and 1 that denotes curtailment of EV charging load to better align EV charging with expected energy production from a solar PV system",
       "type": "number"
+    },
+    "percent_roof_area_for_pv": {
+      "description": "Percentage (%) of the available roof area that can be used for PV. If specified, this field will override the default calculation of the perc_roof_area field specified in the REopt base_assumptions files times the available_roof_area calculated by OpenStudio",
+      "type": "number"
     }
   },
   "oneOf": [
