@@ -30,7 +30,7 @@
     "minimist": ">=1.2.3",
     "mixin-deep": "^2.0.1",
     "serialize-javascript": "^5.0.1",
-    "set-value": "^3.0.2",
+    "set-value": "^4.0.1",
     "ssri": "^8.0.1",
     "webpack": "^4.46.0",
     "yargs-parser": "^20.2.3"
