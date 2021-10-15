@@ -1,13 +1,24 @@
 # URBANopt GeoJSON Gem
 
-## Version 0.6.4
+## Version 0.6.6
+Date Range: 07/21/21 - 10/15/21
 
 - Fixed [#43]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/43 ), urbanopt-geojson-gem doesn't work when run without gem repo checked out.
 - Fixed [#190]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/190 ), Update FIXME in schema
 - Fixed [#194]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/194 ), Schema changes for rooftop PV
 - Fixed [#196]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/196 ), adding fields for ground-mount PV
+## Version 0.6.5
+Date Range: 07/08/21 - 07/21/21
+
+- Fixed [#188]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/188 ), Add RNM field for max_number_of_lv_nodes_per_building
+
+## Version 0.6.4
+Date Range: 07/01/21 - 07/07/21
+
+- Fixed [#184](https://github.com/urbanopt/urbanopt-geojson-gem/issues/184), Add missing transformers to equipment enum so that validation passes
+
 ## Version 0.6.3
-Date Range: 05/07/21 - 7/1/21
+Date Range: 05/07/21 - 07/01/21
 
 - Fixed [#178](https://github.com/urbanopt/urbanopt-geojson-gem/issues/178), Remove NREL ZNE Ready
   2017 template from schema
