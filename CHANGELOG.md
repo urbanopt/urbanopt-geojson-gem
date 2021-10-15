@@ -1,5 +1,11 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.4
+
+- Fixed [#43]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/43 ), urbanopt-geojson-gem doesn't work when run without gem repo checked out.
+- Fixed [#190]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/190 ), Update FIXME in schema
+- Fixed [#194]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/194 ), Schema changes for rooftop PV
+- Fixed [#196]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/196 ), adding fields for ground-mount PV
 ## Version 0.6.3
 Date Range: 05/07/21 - 7/1/21
 
