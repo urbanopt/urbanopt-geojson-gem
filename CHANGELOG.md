@@ -1,5 +1,10 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.6.6
+Date Range: 07/21/21 - 10/15/21
+
+- Fixed [#194]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/194 ), Schema changes for rooftop PV
+- Fixed [#196]( https://github.com/urbanopt/urbanopt-geojson-gem/issues/196 ), adding fields for ground-mount PV
 ## Version 0.6.5
 Date Range: 07/08/21 - 07/21/21
 
