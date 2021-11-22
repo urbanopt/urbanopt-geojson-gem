@@ -22,3 +22,5 @@ if allow_local && File.exist?('../urbanopt-core-gem')
 elsif allow_local
   gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'develop'
 end
+# temporary
+gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'OS_3.3'

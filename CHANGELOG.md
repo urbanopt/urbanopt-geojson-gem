@@ -1,5 +1,10 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.7.0
+Date Range: 10/16/21 - 11/22/21
+
+- Updated dependencies for OpenStudio 3.3.0
+
 ## Version 0.6.6
 Date Range: 07/21/21 - 10/15/21
 
