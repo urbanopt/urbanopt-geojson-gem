@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/distribution_generator_properties.json#",
+  "title": "URBANopt Distribution Generator",
+  "description": "Schema for an URBANopt RNM Distribution Generator object",
+  "type": "object",
+  "properties": {
+    "Capac_kW": {
+      "description": "Capacity / installed power in kW.",
+      "type": "string"
+    }, 
+    "GenP_kW": {
+      "description": "Peak active power kW. Used to model the network.",
+      "type": "string"
+    }, 
+    "GenQ_kVAr": {
+      "description": "Peak reactive power in kVAr. Used to model the network.",
+      "type": "string"
+    }, 
+    "Pinst_kW": {
+      "description": "Installed active power in kW.",
+      "type": "string"
+    },
+    "Code": {
+      "description": "Unique name/ID of the feature in the RNM analysis.",
+      "type": "string"
+    },
+    "Node": {
+      "description": "Name/ID of the RNM analysis feature it is associated with.",
+      "type": "string"
+    },
+    "NomV_kV": {
+      "description": "Nominal Voltage in kV.",
+      "type": "string"
+    },
+    "Subest": {
+      "description": "Substation the generator is connected to.",
+      "type": "string"
+    },
+    "Feeder": {
+      "description": "Feeder the generator is connected to.",
+      "type": "string"
+    }

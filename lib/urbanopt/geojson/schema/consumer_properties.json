@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/consumer_properties.json#",
+  "title": "URBANopt Consumer",
+  "description": "Schema for an URBANopt RNM Consumer object",
+  "type": "object",
+  "properties": {
+    "Code": {
+      "description": "Unique name/ID of the feature in the RNM analysis.",
+      "type": "string"
+    },
+    "Node": {
+    	"description": "Name/ID of the RNM analysis feature it is associated with.",
+      "type": "string"
+    },
+    "Phases": {
+    	"description": "Phase",
+      "type": "string",
+      "enum": ["1", "3"]  
+    },
+    "Nvolt_kV": {
+    	"description": "Voltage level in kV. Low voltage is represented as 0.42kV, medium voltage as 12.47kV.",
+      "type": "string"
+    },
+    "DemP_kW": {
+    	"description": "Demand active power, in kW.",
+      "type": "string"
+    },
+    "DemQ_kVAr": {
+    	"description": "Demand reactive power, in kVAr.",
+      "type": "string"
+    },
+    "Subest": {
+    	"description": "Substation the consumer is connected to.",
+      "type": "string"
+    },
+    "Feeder": {
+    	"description": "Feeder the consumer is connected to.",
+      "type": "string"
+    },
+    "Pinst_kW": {
+    	"description": "Installed active power in kW. Consumers are modeled in RNM so that installed power equals demand power.",
+      "type": "string"
+    },
+    "Qinst_kVAr": {
+    	"description": "Installed reactive power in KVAr.",
+      "type": "string"
+    },
+    "Yearly_kWh": {
+    	"description": "Annual energy consumption in kWh, extracted from URBANopt reports.",
+      "type": "string"
+    },
+    "NumCust": {
+    	"description": "Number of customers, extracted from URBANopt default feature reports.",
+      "type": "string"
+    }
+  }
+}

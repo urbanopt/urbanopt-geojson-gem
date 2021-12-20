@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/breaker_properties.json#",
+  "title": "URBANopt Breaker",
+  "description": "Schema for an URBANopt RNM Breaker object",
+  "type": "object",
+  "properties": {
+  	"Code": {
+      "description": "Unique name/ID of the feature in the RNM analysis.",
+      "type": "string"
+    },
+    "NodeA": {
+      "description": "Name/ID of the RNM 'From' Node it is associated with.",
+      "type": "string"
+    },
+    "NodeB": {
+      "description": "Name/ID of the RNM 'To' Node it is associated with.",
+      "type": "string"
+    },
+    "NomV_kV": {
+      "description": "Nominal Voltage in kV.",
+      "type": "string"
+    },
+    "Subest": {
+      "description": "Substation the breaker is connected to.",
+      "type": "string"
+    },
+    "Feeder": {
+      "description": "Feeder the breaker is connected to.",
+      "type": "string"
+    }
+  }
+}
