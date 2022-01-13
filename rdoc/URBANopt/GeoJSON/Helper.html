@@ -19,7 +19,11 @@
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
+
+
 <link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
 
 
 
@@ -133,14 +137,11 @@
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>vertices</code> - <em>Type:Array</em> - An array of vertices for the
-original floorprint</p>
+<p><code>vertices</code> - <em>Type:Array</em> - An array of vertices for the original floorprint</p>
 </li><li>
-<p><code>desired_area</code> - <em>Type:String</em> - Area to which you want
-to scale the vertices to</p>
+<p><code>desired_area</code> - <em>Type:String</em> - Area to which you want to scale the vertices to</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li></ul>
           
           
@@ -178,19 +179,15 @@ to scale the vertices to</p>
 
         <div class="method-description">
           
-          <p>This method loops though all the surfaces of the space and creates shading
-surfaces. It also removes the thermal zone and space type assigned to the
-space, if any.</p>
+          <p>This method loops though all the surfaces of the space and creates shading surfaces. It also removes the thermal zone and space type assigned to the space, if any.</p>
 
-<p>Returns an Array of instances of
-<code>OpenStudio::Model::ShadingSurfaceGroup</code> .</p>
+<p>Returns an Array of instances of <code>OpenStudio::Model::ShadingSurfaceGroup</code> .</p>
 
 <p>Used to convert adjacent buildings to shading surfaces.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>space</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Space</code> .</p>
+<p><code>space</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Space</code> .</p>
 </li></ul>
           
           
@@ -241,28 +238,21 @@ space, if any.</p>
 
         <div class="method-description">
           
-          <p>Returns array containing instance of
-<code>OpenStudio::Model::ShadingSurface</code> .</p>
+          <p>Returns array containing instance of <code>OpenStudio::Model::ShadingSurface</code> .</p>
 
 <p>Used to create Photovoltaics and assign efficiency.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>feature</code> - <em>Type:String</em> - An instance of <a
-href="Feature.html">Feature</a> class.</p>
+<p><code>feature</code> - <em>Type:String</em> - An instance of <a href="Feature.html"><code>Feature</code></a> class.</p>
 </li><li>
-<p><code>height</code> - <em>Type:Integer</em> - Indicates the building
-height.</p>
+<p><code>height</code> - <em>Type:Integer</em> - Indicates the building height.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code> .</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude
-&amp; longitude.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude &amp; longitude.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li></ul>
           
           
@@ -336,26 +326,19 @@ height.</p>
 
         <div class="method-description">
           
-          <p>Returns array containing instance of
-<code>OpenStudio::Model::ShadingSurface</code> .</p>
+          <p>Returns array containing instance of <code>OpenStudio::Model::ShadingSurface</code> .</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>feature</code> - <em>Type:String</em> - An instance of <a
-href="Feature.html">Feature</a> class.</p>
+<p><code>feature</code> - <em>Type:String</em> - An instance of <a href="Feature.html"><code>Feature</code></a> class.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<em>OpenStudio::Model::Model</em> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <em>OpenStudio::Model::Model</em> .</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<em>OpenStudio::PointLatLon</em> indicating the origin&#39;s latitude and
-longitude.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <em>OpenStudio::PointLatLon</em> indicating the origin&#39;s latitude and longitude.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - The measure run&#39;s instance
-of <em>OpenStudio::Measure::OSRunner</em> .</p>
+<p><code>runner</code> - <em>Type:String</em> - The measure run&#39;s instance of <em>OpenStudio::Measure::OSRunner</em> .</p>
 </li><li>
-<p><code>spaces</code> -<em>Type:Array</em> - Instances of
-<em>OpenStudio::Model::Space</em> .</p>
+<p><code>spaces</code> -<em>Type:Array</em> - Instances of <em>OpenStudio::Model::Space</em> .</p>
 </li></ul>
           
           
@@ -394,8 +377,7 @@ of <em>OpenStudio::Measure::OSRunner</em> .</p>
 
         <div class="method-description">
           
-          <p>This method loops through all the stories in the model, and returns any
-space types previously assigned.</p>
+          <p>This method loops through all the stories in the model, and returns any space types previously assigned.</p>
 
 <p>Returns array of <code>OpenStudio::Model::SpaceTypes</code> .</p>
 
@@ -403,14 +385,11 @@ space types previously assigned.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>stories</code> - <em>Type:Array</em> - An array of model/building
-stories.</p>
+<p><code>stories</code> - <em>Type:Array</em> - An array of model/building stories.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<em>OpenStudio::Model::Model</em> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <em>OpenStudio::Model::Model</em> .</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - The measure run&#39;s instance
-of <em>OpenStudio::Measure::OSRunner</em> .</p>
+<p><code>runner</code> - <em>Type:String</em> - The measure run&#39;s instance of <em>OpenStudio::Measure::OSRunner</em> .</p>
 </li></ul>
           
           
@@ -476,19 +455,13 @@ of <em>OpenStudio::Measure::OSRunner</em> .</p>
 <ul><li>
 <p><code>elevation</code> - <em>Type:Integer</em> - Indicates the elevation.</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude
-and longitude.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude and longitude.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - The measure run&#39;s instance
-of <code>OpenStudio::Measure::OSRunner</code> .</p>
+<p><code>runner</code> - <em>Type:String</em> - The measure run&#39;s instance of <code>OpenStudio::Measure::OSRunner</code> .</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>True</code> if
-utilizing detailed zoning, else <code>False</code>. <a
-href="Zoning.html">Zoning</a> is set to False by default.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>True</code> if utilizing detailed zoning, else <code>False</code>. <a href="Zoning.html"><code>Zoning</code></a> is set to False by default.</p>
 </li><li>
-<p><code>scaled_footprint_area</code> - Used to scale the footprint area using
-the floor area. 0 by default (no scaling).</p>
+<p><code>scaled_footprint_area</code> - Used to scale the footprint area using the floor area. 0 by default (no scaling).</p>
 </li></ul>
           
           
@@ -562,44 +535,44 @@ the floor area. 0 by default (no scaling).</p>
 
         <div class="method-description">
           
-          <p>Returns Boolean which indicates whether the specified building is shadowed
-by other building.</p>
+          <p>Returns Boolean which indicates whether the specified building is shadowed by other building.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>potentially_shaded</code> - <em>Type:Array</em> - An array of
-instances of <code>OpenStudio::Point3d</code> .</p>
+<p><code>potentially_shaded</code> - <em>Type:Array</em> - An array of instances of <code>OpenStudio::Point3d</code> .</p>
 </li><li>
-<p><code>potential_shader</code> - <em>Type:Array</em> - Other array of
-instances of <code>OpenStudio::Point3d</code> .</p>
+<p><code>potential_shader</code> - <em>Type:Array</em> - Other array of instances of <code>OpenStudio::Point3d</code> .</p>
 </li><li>
-<p><code>origin_lat_lon</code> <em>Type:Float</em> - An instance of
-OpenStudio::PointLatLon indicating the origin&#39;s latitude and longitude.</p>
+<p><code>origin_lat_lon</code> <em>Type:Float</em> - An instance of OpenStudio::PointLatLon indicating the origin&#39;s latitude and longitude.</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="is_shadowed-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 333</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/helper.rb, line 336</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">is_shadowed</span>(<span class="ruby-identifier">potentially_shaded</span>, <span class="ruby-identifier">potential_shader</span>, <span class="ruby-identifier">origin_lat_lon</span>)
-  <span class="ruby-identifier">all_pairs</span> = []
+  <span class="ruby-comment"># not using origin_lat_lon but have not removed it yet</span>
+  <span class="ruby-identifier">min_distance</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">min_pair</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">potentially_shaded</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">building_point</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">potential_shader</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">other_building_point</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">vector</span> = <span class="ruby-identifier">other_building_point</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">building_point</span>
-      <span class="ruby-identifier">all_pairs</span> <span class="ruby-operator">&lt;&lt;</span> {
-        <span class="ruby-value">building_point:</span> <span class="ruby-identifier">building_point</span>,
-        <span class="ruby-value">other_building_point:</span> <span class="ruby-identifier">other_building_point</span>,
-        <span class="ruby-value">vector:</span> <span class="ruby-identifier">vector</span>,
-        <span class="ruby-value">distance:</span> <span class="ruby-identifier">vector</span>.<span class="ruby-identifier">length</span>
-      }
+      <span class="ruby-identifier">distance</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span>(<span class="ruby-identifier">vector</span>.<span class="ruby-identifier">x</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">vector</span>.<span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">vector</span>.<span class="ruby-identifier">y</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">vector</span>.<span class="ruby-identifier">y</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">min_distance</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">distance</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">min_distance</span>
+        <span class="ruby-identifier">min_distance</span> = <span class="ruby-identifier">distance</span>
+        <span class="ruby-identifier">min_pair</span> = {
+          <span class="ruby-value">building_point:</span> <span class="ruby-identifier">building_point</span>,
+          <span class="ruby-value">other_building_point:</span> <span class="ruby-identifier">other_building_point</span>,
+          <span class="ruby-value">vector:</span> <span class="ruby-identifier">vector</span>,
+          <span class="ruby-value">distance:</span> <span class="ruby-identifier">vector</span>.<span class="ruby-identifier">length</span>
+        }
+      <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">all_pairs</span>.<span class="ruby-identifier">sort!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>[<span class="ruby-value">:distance</span>] <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">y</span>[<span class="ruby-value">:distance</span>] }
-  <span class="ruby-identifier">all_pairs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_shaded</span>(<span class="ruby-identifier">pair</span>[<span class="ruby-value">:building_point</span>], <span class="ruby-identifier">pair</span>[<span class="ruby-value">:other_building_point</span>], <span class="ruby-identifier">origin_lat_lon</span>)
-      <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
-    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_shaded</span>(<span class="ruby-identifier">min_pair</span>[<span class="ruby-value">:building_point</span>], <span class="ruby-identifier">min_pair</span>[<span class="ruby-value">:other_building_point</span>], <span class="ruby-identifier">origin_lat_lon</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -626,35 +599,23 @@ OpenStudio::PointLatLon indicating the origin&#39;s latitude and longitude.</p>
 
         <div class="method-description">
           
-          <p>Calculate which other buildings are shading the current feature and return
-as an array of <code>OpenStudio::Model::Space</code>.</p>
+          <p>Calculate which other buildings are shading the current feature and return as an array of <code>OpenStudio::Model::Space</code>.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>building</code> - <em>Type:URBANopt::GeoJSON::Building</em> - The
-core building that other buildings will be referenced.</p>
+<p><code>building</code> - <em>Type:URBANopt::GeoJSON::Building</em> - The core building that other buildings will be referenced.</p>
 </li><li>
-<p><code>other_building_type</code> - <em>Type:String</em> - Describes the
-surrounding buildings.</p>
+<p><code>other_building_type</code> - <em>Type:String</em> - Describes the surrounding buildings.</p>
 </li><li>
-<p><code>other_buildings</code> -
-<em>Type:URBANopt::GeoJSON::FeatureCollection</em> - List of surrounding
-buildings to include (self will be ignored if present in list).</p>
+<p><code>other_buildings</code> - <em>Type:URBANopt::GeoJSON::FeatureCollection</em> - List of surrounding buildings to include (self will be ignored if present in list).</p>
 </li><li>
-<p><code>model</code> - <em>Type:OpenStudio::Model::Model</em> - An instance
-of an <a href="../../OpenStudio.html">OpenStudio</a> <a
-href="Model.html">Model</a>.</p>
+<p><code>model</code> - <em>Type:OpenStudio::Model::Model</em> - An instance of an OpenStudio <a href="Model.html"><code>Model</code></a>.</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
-of the origin.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the latitude and longitude of the origin.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
-utilizing detailed zoning, else <code>false</code>. <a
-href="Zoning.html">Zoning</a> is set to false by default.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if utilizing detailed zoning, else <code>false</code>. <a href="Zoning.html"><code>Zoning</code></a> is set to false by default.</p>
 </li></ul>
           
           
@@ -702,8 +663,11 @@ href="Zoning.html">Zoning</a> is set to false by default.</p>
       <span class="ruby-comment"># find the polygon of the other_building by passing it to the get_multi_polygons method</span>
       <span class="ruby-identifier">other_building_points</span> = <span class="ruby-identifier">building</span>.<span class="ruby-identifier">other_points</span>(<span class="ruby-identifier">other_building</span>, <span class="ruby-identifier">other_height</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>)
       <span class="ruby-identifier">shadowed</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Helper</span>.<span class="ruby-identifier">is_shadowed</span>(<span class="ruby-identifier">feature_points</span>, <span class="ruby-identifier">other_building_points</span>, <span class="ruby-identifier">origin_lat_lon</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">shadowed</span>
+        <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerInfo</span>(<span class="ruby-node">&quot;Feature #{other_building[:properties][:id]} is acting as shading object for #{building.id}&quot;</span>)
+      <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">shadowed</span>
-      <span class="ruby-identifier">new_building</span> = <span class="ruby-identifier">building</span>.<span class="ruby-identifier">create_other_building</span>(<span class="ruby-value">:space_per_building</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>, <span class="ruby-identifier">other_building</span>)
+      <span class="ruby-identifier">new_building</span> = <span class="ruby-identifier">building</span>.<span class="ruby-identifier">create_other_building</span>(<span class="ruby-value">:space_per_building</span>, <span class="ruby-identifier">model</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">zoning</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">other_building</span>)
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_building</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">new_building</span>.<span class="ruby-identifier">empty?</span>
         <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerWarning</span>(<span class="ruby-node">&quot;Failed to create spaces for other building &#39;#{name}&#39;&quot;</span>)
       <span class="ruby-keyword">end</span>
@@ -727,12 +691,13 @@ href="Zoning.html">Zoning</a> is set to false by default.</p>
     </section>
   
   </section>
+
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

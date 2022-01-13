@@ -19,7 +19,11 @@
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
+
+
 <link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
 
 
 
@@ -146,13 +150,12 @@
 
         <div class="method-description">
           
-          <p>Used to initialize the feature. This method is inherited from the <a
-href="Feature.html">Feature</a> class.</p>
+          <p>Used to initialize the feature. This method is inherited from the <a href="Feature.html"><code>Feature</code></a> class.</p>
           
           
             <div class="method-calls-super">
               Calls superclass method
-              <a href="Feature.html#method-c-new">URBANopt::GeoJSON::Feature.new</a>
+              <a href="Feature.html#method-c-new"><code>URBANopt::GeoJSON::Feature::new</code></a>
             </div>
           
 
@@ -216,13 +219,11 @@ href="Feature.html">Feature</a> class.</p>
 
         <div class="method-description">
           
-          <p>Used to calculate the perimeter from the floor polygon of a <a
-href="Feature.html">Feature</a>. Returns the perimeter value.</p>
+          <p>Used to calculate the perimeter from the floor polygon of a <a href="Feature.html"><code>Feature</code></a>. Returns the perimeter value.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>feature</code> - An instance of <a
-href="Feature.html">URBANopt::GeoJSON::Feature</a></p>
+<p><code>feature</code> - An instance of <a href="Feature.html"><code>URBANopt::GeoJSON::Feature</code></a></p>
 </li></ul>
           
           
@@ -287,37 +288,25 @@ href="Feature.html">URBANopt::GeoJSON::Feature</a></p>
 
         <div class="method-description">
           
-          <p>This method creates a building for a given feature specified in the
-feature_json as per the create_method.</p>
+          <p>This method creates a building for a given feature specified in the feature_json as per the create_method.</p>
 
 <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> .</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>create_method</code> - <em>Type:Symbol</em> -
-<code>:space_per_floor</code> or <code>:space_per_building</code> methods
-can be used.</p>
+<p><code>create_method</code> - <em>Type:Symbol</em> - <code>:space_per_floor</code> or <code>:space_per_building</code> methods can be used.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-+OpenStudio::Model::Model+_ .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of +OpenStudio::Model::Model+_ .</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
-of the origin.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the latitude and longitude of the origin.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
-utilizing detailed zoning, else <code>false</code> <a
-href="Zoning.html">Zoning</a> is set to False by default.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if utilizing detailed zoning, else <code>false</code> <a href="Zoning.html"><code>Zoning</code></a> is set to False by default.</p>
 </li><li>
-<p><code>scaled_footprint_area</code> - Used to scale the footprint area using
-the floor area. 0 by default (no scaling).</p>
+<p><code>scaled_footprint_area</code> - Used to scale the footprint area using the floor area. 0 by default (no scaling).</p>
 </li><li>
-<p><code>other_building</code> - _Type:URBANopt::GeoJSON::Feature - Optional,
-allow the user to pass in a different building to process. This is used for
-creating the other buildings for shading.</p>
+<p><code>other_building</code> - _Type:URBANopt::GeoJSON::Feature - Optional, allow the user to pass in a different building to process. This is used for creating the other buildings for shading.</p>
 </li></ul>
           
           
@@ -433,28 +422,17 @@ creating the other buildings for shading.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>other_building_type</code> - <em>Type:String</em> - Describes the
-surrounding buildings. Supports &#39;None&#39;, &#39;ShadingOnly&#39;
-options.</p>
+<p><code>other_building_type</code> - <em>Type:String</em> - Describes the surrounding buildings. Supports &#39;None&#39;, &#39;ShadingOnly&#39; options.</p>
 </li><li>
-<p><code>other_buildings</code> -
-<em>Type:URBANopt::GeoJSON::FeatureCollection</em> - List of all
-surrounding features to include (self will be ignored if present in list).</p>
+<p><code>other_buildings</code> - <em>Type:URBANopt::GeoJSON::FeatureCollection</em> - List of all surrounding features to include (self will be ignored if present in list).</p>
 </li><li>
-<p><code>model</code> - <em>Type:OpenStudio::Model::Model</em> - An instance
-of an <a href="../../OpenStudio.html">OpenStudio</a> <a
-href="Model.html">Model</a>.</p>
+<p><code>model</code> - <em>Type:OpenStudio::Model::Model</em> - An instance of an OpenStudio <a href="Model.html"><code>Model</code></a>.</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
-of the origin.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the latitude and longitude of the origin.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>True</code> if
-utilizing detailed zoning, else <code>False</code>. <a
-href="Zoning.html">Zoning</a> is set to False by default.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>True</code> if utilizing detailed zoning, else <code>False</code>. <a href="Zoning.html"><code>Zoning</code></a> is set to False by default.</p>
 </li></ul>
           
           
@@ -506,17 +484,13 @@ href="Zoning.html">Zoning</a> is set to False by default.</p>
 
         <div class="method-description">
           
-          <p>This method loops through all the spaces of the building and for each Wall
-surface with Outdoors boundary condition, sets the window to wall ratio as
-per the specified value or as a default value of 0.3.</p>
+          <p>This method loops through all the spaces of the building and for each Wall surface with Outdoors boundary condition, sets the window to wall ratio as per the specified value or as a default value of 0.3.</p>
 
-<p>Returns an array of instances of <code>OpenStudio::Model::Space</code> with
-windows.</p>
+<p>Returns an array of instances of <code>OpenStudio::Model::Space</code> with windows.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>spaces</code> - <em>Type:Array</em> - Contains instances of
-<code>OpenStudio::Model::Space</code> .</p>
+<p><code>spaces</code> - <em>Type:Array</em> - Contains instances of <code>OpenStudio::Model::Space</code> .</p>
 </li></ul>
           
           
@@ -560,20 +534,15 @@ windows.</p>
 
         <div class="method-description">
           
-          <p>Return the features multi polygon in an array of the form coordinate pairs
-in double nested Array.</p>
+          <p>Return the features multi polygon in an array of the form coordinate pairs in double nested Array.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
-of the origin.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the latitude and longitude of the origin.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Should be true if you&#39;d
-like to utilize aspects of function that are specific to zoning.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Should be true if you&#39;d like to utilize aspects of function that are specific to zoning.</p>
 </li></ul>
           
           
@@ -621,8 +590,7 @@ like to utilize aspects of function that are specific to zoning.</p>
 
         <div class="method-description">
           
-          <p>Used to describe the <a href="Building.html">Building</a> feature type
-using the base method from the <a href="Feature.html">Feature</a> class.</p>
+          <p>Used to describe the <a href="Building.html"><code>Building</code></a> feature type using the base method from the <a href="Feature.html"><code>Feature</code></a> class.</p>
           
           
 
@@ -655,26 +623,19 @@ using the base method from the <a href="Feature.html">Feature</a> class.</p>
 
         <div class="method-description">
           
-          <p>Return the points of the other building object. This method is similar to
-<a href="Building.html#method-i-feature_points">#feature_points</a>, but
-accepts the other building and other height.</p>
+          <p>Return the points of the other building object. This method is similar to <a href="Building.html#method-i-feature_points"><code>feature_points</code></a>, but accepts the other building and other height.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
 <p><code>other_building</code> - <em>Type:Array</em> - Array of points.</p>
 </li><li>
-<p><code>other_height</code> - <em>Type:Double</em> - Value of the other
-height from which to create the floor prints.</p>
+<p><code>other_height</code> - <em>Type:Double</em> - Value of the other height from which to create the floor prints.</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the latitude and longitude
-of the origin.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the latitude and longitude of the origin.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Should be true if you&#39;d
-like to utilize aspects of function that are specific to zoning.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Should be true if you&#39;d like to utilize aspects of function that are specific to zoning.</p>
 </li></ul>
           
           
@@ -754,8 +715,7 @@ like to utilize aspects of function that are specific to zoning.</p>
 
         <div class="method-description">
           
-          <p>Convert to a Hash equivalent for JSON serialization. Excludes attributes
-with nil value.</p>
+          <p>Convert to a Hash equivalent for JSON serialization. Excludes attributes with nil value.</p>
           
           
 
@@ -819,30 +779,21 @@ with nil value.</p>
 
         <div class="method-description">
           
-          <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> per
-building.</p>
+          <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> per building.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>min_elevation</code> - <em>Type:Integer</em> - Indicates minimum
-elevation across all buildings.</p>
+<p><code>min_elevation</code> - <em>Type:Integer</em> - Indicates minimum elevation across all buildings.</p>
 </li><li>
-<p><code>max_elevation</code> - <em>Type:Integer</em> - Indicates maximum
-elevation across all buildings.</p>
+<p><code>max_elevation</code> - <em>Type:Integer</em> - Indicates maximum elevation across all buildings.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code> .</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the latidude and longitude
-of the origin.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the latidude and longitude of the origin.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
-utilizing detailed zoning, else <code>false</code>. <a
-href="Zoning.html">Zoning</a> is set to False by default.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if utilizing detailed zoning, else <code>false</code>. <a href="Zoning.html"><code>Zoning</code></a> is set to False by default.</p>
 </li></ul>
 
 <p>rubocop:disable Style/OptionalArguments, Style/CommentedKeyword</p>
@@ -921,34 +872,23 @@ href="Zoning.html">Zoning</a> is set to False by default.</p>
 
         <div class="method-description">
           
-          <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> per
-floor.</p>
+          <p>Returns an array of instances of <code>OpenStudio::Model::Space</code> per floor.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>feature</code> - <em>Type:String</em> - An instance of <a
-href="Feature.html">Feature</a> class built off of the <a
-href="../GeoJSON.html">GeoJSON</a> file.</p>
+<p><code>feature</code> - <em>Type:String</em> - An instance of <a href="Feature.html"><code>Feature</code></a> class built off of the <a href="../GeoJSON.html"><code>GeoJSON</code></a> file.</p>
 </li><li>
-<p><code>story_number</code> - <em>Type:Integer</em> - Number of floors in the
-building.</p>
+<p><code>story_number</code> - <em>Type:Integer</em> - Number of floors in the building.</p>
 </li><li>
-<p><code>floor_to_floor_height</code> - <em>Type:Integer</em> - Height of the
-building stories.</p>
+<p><code>floor_to_floor_height</code> - <em>Type:Integer</em> - Height of the building stories.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code>.</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code>.</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude
-and longitude.</p>
+<p><code>origin_lat_lon</code> - <em>Type:Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating the origin&#39;s latitude and longitude.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - <em>Type:String</em> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li><li>
-<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if
-utilizing detailed zoning, else <code>false</code>. <a
-href="Zoning.html">Zoning</a> is set to False by default.</p>
+<p><code>zoning</code> - <em>Type:Boolean</em> - Value is <code>true</code> if utilizing detailed zoning, else <code>false</code>. <a href="Zoning.html"><code>Zoning</code></a> is set to False by default.</p>
 </li></ul>
 
 <p>rubocop:disable Style/CommentedKeyword</p>
@@ -1038,12 +978,13 @@ href="Zoning.html">Zoning</a> is set to False by default.</p>
     </section>
   
   </section>
+
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

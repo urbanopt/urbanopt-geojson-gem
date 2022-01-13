@@ -19,7 +19,11 @@
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
+
+
 <link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
 
 
 
@@ -169,8 +173,7 @@
 
         <div class="method-description">
           
-          <p>Used to validate the feature using the <a
-href="Feature.html#method-i-validate_feat">#validate_feat</a> method.</p>
+          <p>Used to validate the feature using the <a href="Feature.html#method-i-validate_feat"><code>validate_feat</code></a> method.</p>
           
           
 
@@ -312,13 +315,11 @@ href="Feature.html#method-i-validate_feat">#validate_feat</a> method.</p>
 
         <div class="method-description">
           
-          <p>Returns instance of OpenStudio::PointLatLon for latitude and longitude of
-feature.</p>
+          <p>Returns instance of OpenStudio::PointLatLon for latitude and longitude of feature.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>runner</code> - An instance of
-<code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
+<p><code>runner</code> - An instance of <code>Openstudio::Measure::OSRunner</code> for the measure run.</p>
 </li></ul>
           
           
@@ -363,8 +364,7 @@ feature.</p>
 
         <div class="method-description">
           
-          <p>Raises an error if the <code>feature_type</code> is not specified the the
-Feature&#39;s class.</p>
+          <p>Raises an error if the <code>feature_type</code> is not specified the the Feature&#39;s class.</p>
           
           
 
@@ -397,19 +397,22 @@ Feature&#39;s class.</p>
 
         <div class="method-description">
           
-          <p>Used to determine the centroid for the feature&#39;s coordinates.</p>
+          <p>Used to determine the centroid for the feature&#39;s geojson coordinates.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>vertices</code> - The first set polygon vertices in the array of
-feature coordinates.</p>
+<p><code>vertices</code> - The first set polygon vertices in the array of feature coordinates.</p>
 </li></ul>
+<dl class="rdoc-list label-list"><dt>Returns
+<dd>
+<p>Returns <a href="Feature.html"><code>Feature</code></a> centroid coordinates [long, lat]</p>
+</dd></dl>
           
           
 
           
           <div class="method-source-code" id="find_feature_center-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 268</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 270</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_feature_center</span>(<span class="ruby-identifier">vertices</span>)
   <span class="ruby-identifier">number_of_locations</span> = <span class="ruby-identifier">vertices</span>.<span class="ruby-identifier">length</span>
 
@@ -433,8 +436,9 @@ feature coordinates.</p>
   <span class="ruby-identifier">central_square_root</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">sqrt</span>(<span class="ruby-identifier">x</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">y</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">y</span>)
   <span class="ruby-identifier">central_latitude</span> = <span class="ruby-constant">Math</span>.<span class="ruby-identifier">atan2</span>(<span class="ruby-identifier">z</span>, <span class="ruby-identifier">central_square_root</span>)
 
-  [<span class="ruby-identifier">central_latitude</span> <span class="ruby-operator">*</span> <span class="ruby-value">180</span> <span class="ruby-operator">/</span> <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span>,
-   <span class="ruby-identifier">central_longitude</span> <span class="ruby-operator">*</span> <span class="ruby-value">180</span> <span class="ruby-operator">/</span> <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span>]
+  [<span class="ruby-identifier">central_longitude</span> <span class="ruby-operator">*</span> <span class="ruby-value">180</span> <span class="ruby-operator">/</span> <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span>,
+    <span class="ruby-identifier">central_latitude</span> <span class="ruby-operator">*</span> <span class="ruby-value">180</span> <span class="ruby-operator">/</span> <span class="ruby-constant">Math</span><span class="ruby-operator">::</span><span class="ruby-constant">PI</span>]
+   
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -459,8 +463,7 @@ feature coordinates.</p>
 
         <div class="method-description">
           
-          <p>Returns coordinate with the minimum longitute and latitude within a given
-<code>building_json</code> .</p>
+          <p>Returns coordinate with the minimum longitute and latitude within a given <code>building_json</code> .</p>
           
           
 
@@ -566,8 +569,7 @@ feature coordinates.</p>
 
         <div class="method-description">
           
-          <p>Used to calculate the perimeter multiplier given the aspect ratio, original
-perimeter and area.</p>
+          <p>Used to calculate the perimeter multiplier given the aspect ratio, original perimeter and area.</p>
           
           
 
@@ -756,8 +758,7 @@ perimeter and area.</p>
 
         <div class="method-description">
           
-          <p>Raises an error if the <code>schema_file</code> is not specified the the
-Feature&#39;s class.</p>
+          <p>Raises an error if the <code>schema_file</code> is not specified the the Feature&#39;s class.</p>
           
           
 
@@ -798,15 +799,13 @@ Feature&#39;s class.</p>
 
         <div class="method-description">
           
-          <p>Used to validate the feature by checking <code>feature_id</code> ,
-<code>geometry</code>, <code>properties</code> and
-<code>geometry_type</code> . rubocop:disable Style/CommentedKeyword</p>
+          <p>Used to validate the feature by checking <code>feature_id</code> , <code>geometry</code>, <code>properties</code> and <code>geometry_type</code> . rubocop:disable Style/CommentedKeyword</p>
           
           
 
           
           <div class="method-source-code" id="validate_feat-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 301</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/feature.rb, line 304</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">validate_feat</span>(<span class="ruby-identifier">feature</span>) <span class="ruby-comment">#:doc:</span>
   <span class="ruby-comment"># rubocop:enable Style/CommentedKeyword</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">feature</span>.<span class="ruby-identifier">empty?</span>
@@ -854,12 +853,13 @@ Feature&#39;s class.</p>
     </section>
   
   </section>
+
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

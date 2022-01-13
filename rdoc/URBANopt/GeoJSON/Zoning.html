@@ -19,7 +19,11 @@
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
+
+
 <link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
 
 
 
@@ -117,32 +121,26 @@
 
         <div class="method-description">
           
-          <p>This method divides the floor print using perimeter and core zoning at the
-depth of the <code>perimeter_depth</code>.</p>
+          <p>This method divides the floor print using perimeter and core zoning at the depth of the <code>perimeter_depth</code>.</p>
 
-<p>It returns an Array of Arrays containing instances of
-<code>OpenStudio::Point3d</code> .</p>
+<p>It returns an Array of Arrays containing instances of <code>OpenStudio::Point3d</code> .</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>floor_print</code> - <em>Type:Array</em> - An instance of
-<code>OpenStudio::Point3dVector.new</code> .</p>
+<p><code>floor_print</code> - <em>Type:Array</em> - An instance of <code>OpenStudio::Point3dVector.new</code> .</p>
 </li><li>
-<p><code>perimeter_depth</code> - <em>Type:Float</em> - Represents perimeter
-depth.</p>
+<p><code>perimeter_depth</code> - <em>Type:Float</em> - Represents perimeter depth.</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of
-<code>OpenStudio::Measure::OSRunner</code> .</p>
+<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of <code>OpenStudio::Measure::OSRunner</code> .</p>
 </li><li>
-<p><code>scale</code> - <em>Type:Boolean</em> - Checks whether floor print is
-to be scaled. Default is false.</p>
+<p><code>scale</code> - <em>Type:Boolean</em> - Checks whether floor print is to be scaled. Default is false.</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="divide_floor_print-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/zoning.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/zoning.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">divide_floor_print</span>(<span class="ruby-identifier">floor_print</span>, <span class="ruby-identifier">perimeter_depth</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">scale</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-identifier">t_inv</span> = <span class="ruby-constant">OpenStudio</span><span class="ruby-operator">::</span><span class="ruby-constant">Transformation</span>.<span class="ruby-identifier">alignFace</span>(<span class="ruby-identifier">floor_print</span>)
@@ -233,31 +231,24 @@ to be scaled. Default is false.</p>
 
         <div class="method-description">
           
-          <p>The <a
-href="Zoning.html#method-c-get_first_floor_points">::get_first_floor_points</a>
-is used to return the points for the first floor.</p>
+          <p>The <a href="Zoning.html#method-c-get_first_floor_points"><code>get_first_floor_points</code></a> is used to return the points for the first floor.</p>
 
-<p>It returns an Array containing instances of
-<code>OpenStudio::Point3d</code>.</p>
+<p>It returns an Array containing instances of <code>OpenStudio::Point3d</code>.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>multi_polygons</code> - <em>Type-Array</em> - Coordinate pairs in
-double nested <code>Array</code> .</p>
+<p><code>multi_polygons</code> - <em>Type-Array</em> - Coordinate pairs in double nested <code>Array</code> .</p>
 </li><li>
-<p><code>origin_lat_lon</code> - <em>Type-Float</em> - An instance of
-<code>OpenStudio::PointLatLon</code> indicating origin latitude and
-longitude.</p>
+<p><code>origin_lat_lon</code> - <em>Type-Float</em> - An instance of <code>OpenStudio::PointLatLon</code> indicating origin latitude and longitude.</p>
 </li><li>
-<p><code>runner</code> - <em>Type-String</em> - Measure run&#39;s instance of
-<code>OpenStudio::Measure::OSRunner</code> .</p>
+<p><code>runner</code> - <em>Type-String</em> - Measure run&#39;s instance of <code>OpenStudio::Measure::OSRunner</code> .</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="get_first_floor_points-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/zoning.rb, line 123</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/zoning.rb, line 133</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_first_floor_points</span>(<span class="ruby-identifier">multi_polygons</span>, <span class="ruby-identifier">origin_lat_lon</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">building_points</span> = []
   <span class="ruby-identifier">multi_polygons</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">multi_polygon</span><span class="ruby-operator">|</span>
@@ -285,12 +276,13 @@ longitude.</p>
     </section>
   
   </section>
+
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

@@ -19,7 +19,11 @@
 
 <link href="../../css/fonts.css" rel="stylesheet">
 <link href="../../css/rdoc.css" rel="stylesheet">
+
+
 <link href="../../custom_rdoc_styles.css" rel="stylesheet">
+
+
 
 
 
@@ -121,27 +125,22 @@
 
         <div class="method-description">
           
-          <p>This method loops through each surface of the model for adjacent surfaces.
-It sets the outside boundary condition to these surfaces as  Adiabatic and
-hard assigns the construction.</p>
+          <p>This method loops through each surface of the model for adjacent surfaces. It sets the outside boundary condition to these surfaces as  Adiabatic and hard assigns the construction.</p>
 
-<p>Returns an instance of <code>OpenStudio::Model::Model</code> with surfaces
-changed to adiabatic.</p>
+<p>Returns an instance of <code>OpenStudio::Model::Model</code> with surfaces changed to adiabatic.</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code> .</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of
-<code>OpenStudio::Measure::OSRunner</code> .</p>
+<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of <code>OpenStudio::Measure::OSRunner</code> .</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="change_adjacent_surfaces_to_adiabatic-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 66</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">change_adjacent_surfaces_to_adiabatic</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerInfo</span>(<span class="ruby-string">&#39;Changing adjacent surfaces to adiabatic&#39;</span>)
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSurfaces</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
@@ -184,28 +183,22 @@ changed to adiabatic.</p>
 
         <div class="method-description">
           
-          <p>Used to add construction to the model. This method uses the default
-construction to the building, or creates a
-new+OpenStudio::Model::DefaultConstructionSet+ if no construction set is
-assigned.</p>
+          <p>Used to add construction to the model. This method uses the default construction to the building, or creates a new+OpenStudio::Model::DefaultConstructionSet+ if no construction set is assigned.</p>
 
-<p>Returns an instance of
-<code>OpenStudio::Model::DefaultConstructionSet</code> .</p>
+<p>Returns an instance of <code>OpenStudio::Model::DefaultConstructionSet</code> .</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code> .</p>
 </li><li>
-<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of
-<code>OpenStudio::Measure::OSRunner</code> .</p>
+<p><code>runner</code> - <em>Type:String</em> - Measure run&#39;s instance of <code>OpenStudio::Measure::OSRunner</code> .</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="create_construction_set-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_construction_set</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">default_construction_set</span> = <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">defaultConstructionSet</span>
   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">default_construction_set</span>.<span class="ruby-identifier">is_initialized</span>
@@ -247,15 +240,14 @@ assigned.</p>
 </li><li>
 <p><code>space_use</code> - <em>Type:String</em> - Indicates the space use.</p>
 </li><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code> .</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="create_space_type-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 117</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_space_type</span>(<span class="ruby-identifier">bldg_use</span>, <span class="ruby-identifier">space_use</span>, <span class="ruby-identifier">model</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;#{bldg_use}:#{space_use}&quot;</span>
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSpaceTypes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
@@ -292,25 +284,22 @@ assigned.</p>
 
         <div class="method-description">
           
-          <p>Loops through all the building stories in the model and for each space sets
-space type from the building story if no space type is assigned.</p>
+          <p>Loops through all the building stories in the model and for each space sets space type from the building story if no space type is assigned.</p>
 
 <p>Returns an Array of instances of <code>OpenStudio::Model::Story</code> .</p>
 <dl class="rdoc-list label-list"><dt>Parameters
 <dd></dd></dl>
 <ul><li>
-<p><code>model</code> - <em>Type:String</em> - An instance of
-<code>OpenStudio::Model::Model</code> .</p>
+<p><code>model</code> - <em>Type:String</em> - An instance of <code>OpenStudio::Model::Model</code> .</p>
 </li><li>
-<p><code>space_types</code> - <em>Type:Array</em> - Instances of
-<code>OpenStudio::Model::SpaceType</code> .</p>
+<p><code>space_types</code> - <em>Type:Array</em> - Instances of <code>OpenStudio::Model::SpaceType</code> .</p>
 </li></ul>
           
           
 
           
           <div class="method-source-code" id="transfer_prev_model_data-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 95</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 105</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">transfer_prev_model_data</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">space_types</span>)
   <span class="ruby-identifier">stories</span> = []
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuildingStorys</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">story</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stories</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">story</span> }
@@ -338,12 +327,13 @@ space type from the building story if no space type is assigned.</p>
     </section>
   
   </section>
+
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
