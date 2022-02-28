@@ -60,6 +60,10 @@
       "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
       "type": "string"
     },
+    "hpxml_directory": {
+      "description": "TODO.",
+      "type": "string"
+    },
     "surface_elevation": {
       "description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
       "type": "number"
@@ -537,8 +541,8 @@
         "90.1-2007",
         "90.1-2010",
         "90.1-2013",
-    	"90.1-2016",
-	"90.1-2019",
+        "90.1-2016",
+        "90.1-2019",
         "DEER Pre-1975",
         "DEER 1985",
         "DEER 1996",
