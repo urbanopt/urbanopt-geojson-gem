@@ -60,6 +60,14 @@
       "description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
       "type": "string"
     },
+    "occupancy_calculation_type": {
+      "description": "The occupancy calculation type. Defaults to asset.",
+      "type": "string",
+      "enum": [
+        "asset",
+        "operational"
+      ]
+    },
     "surface_elevation": {
       "description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
       "type": "number"
