@@ -209,6 +209,10 @@
       "description": "Total number of bedrooms in the building. Required for residential buildings. Must be divisible by the number of residential units.",
       "type": "integer"
     },
+    "number_of_occupants": {
+      "description": "Total number of occupants in the building. Must be divisible by the number of residential units. Defaults to the total number of bedrooms in the building.",
+      "type": "integer"
+    },
     "exterior_lighting_zone": {
       "description": "Choice of exterior lighting zone.",
       "type": "string",
