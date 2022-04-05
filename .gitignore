@@ -21,4 +21,5 @@ out.txt
 # Ignore IDE files
 /.idea
 .DS_Store
+.vscode/
 urbanopt-geojson-*.gem
