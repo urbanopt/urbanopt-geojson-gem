@@ -42,12 +42,12 @@ require_relative '../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
-    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    @feature_file = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
     feature_id = '59a9ce2b42f7d007c059d2fa'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
-    @all_buildings = URBANopt::GeoJSON::GeoFile.from_file(path)
+    @all_buildings = URBANopt::GeoJSON::GeoFile.from_file(@feature_file)
     @building = @all_buildings.get_feature_by_id(feature_id)
   end
 
@@ -174,5 +174,20 @@ RSpec.describe URBANopt::GeoJSON do
   it 'can calculate perimeter for a building' do
     perimeter = @building.calculate_perimeter(@building)
     expect(perimeter).to eq(518.892)
+  end
+
+  it 'validate building properties in a geojson feature file' do
+    geojson_file = File.open(@feature_file) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    path_to_geojson_schema = File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'urbanopt', 'geojson', 'schema', 'building_properties.json')
+    schema = File.open(path_to_geojson_schema) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+
+    expect(geojson_errors).to be_empty
   end
 end
