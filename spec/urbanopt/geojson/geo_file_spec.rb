@@ -82,6 +82,21 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(geojson_errors).to be_empty
   end
 
+  it 'validate building properties in a geojson feature file' do
+    geojson_file = File.open(File.join(@spec_files_dir, 'nrel_stm_footprints.geojson')) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    path_to_geojson_schema = File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'urbanopt', 'geojson', 'schema', 'building_properties.json')
+    schema = File.open(path_to_geojson_schema) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+
+    expect(geojson_errors).to be_empty
+  end
+
   it 'raise error' do
     geojson_file = File.open(File.join(@spec_files_dir, 'invalid.geojson')) do |f|
       result = JSON.parse(f.read, symbolize_names: true)
