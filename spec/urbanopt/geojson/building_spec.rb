@@ -177,16 +177,16 @@ RSpec.describe URBANopt::GeoJSON do
   end
 
   it 'validate building properties in a geojson feature file' do
-    geojson_file = File.open(@feature_file) do |f|
-      result = JSON.parse(f.read, symbolize_names: true)
-    end
+    # geojson_file = File.open(@feature_file) do |f|
+    #   result = JSON.parse(f.read, symbolize_names: true)
+    # end
 
     path_to_geojson_schema = File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'urbanopt', 'geojson', 'schema', 'building_properties.json')
     schema = File.open(path_to_geojson_schema) do |f|
       result = JSON.parse(f.read, symbolize_names: true)
     end
 
-    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, @building)
 
     expect(geojson_errors).to be_empty
   end
