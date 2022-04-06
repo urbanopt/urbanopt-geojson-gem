@@ -102,6 +102,7 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
       result = JSON.parse(f.read, symbolize_names: true)
     end
 
+    path_to_geojson_schema = File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'urbanopt', 'geojson', 'schema', 'geojson_schema.json')
     schema = File.open(path_to_geojson_schema) do |f|
       result = JSON.parse(f.read, symbolize_names: true)
     end
