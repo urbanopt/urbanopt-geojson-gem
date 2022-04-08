@@ -60,7 +60,7 @@
       "type": "string"
     },
     "equipment": {
-      "description": "List of equipment in this plant",
+      "description": "List of equipment in this plant. This is no longer used for Electrical workflow; use electrical_catalog_name field istead.",
       "type": "array",
       "items": {
           "$ref": "#/definitions/equipmentType",
@@ -70,6 +70,14 @@
     "associated_building_id": {
       "description": "ID of the building associated with the Ground-Mount PV System",
       "type": "string"
+    },
+    "electrical_catalog_name": {
+      "description": "Name of the equipment as specified in the OpenDSS/RNM electrical catalog (extended_catalog.json)",
+      "type": "string"
+    },
+    "phases": {
+      "description": "Equipment Phases information. Required by the OpenDSS workflow. Example: ['A', 'B', 'C']",
+      "type": "array"
     },
     "user_data": {
       "description": "Arbitrary user data"
@@ -130,17 +138,6 @@
         "Storage--Hot Water",
         "Storage--Cold Water",
         "Storage--Ambient Water",
-        "Transformer--25KVA CT",
-        "Transformer--50KVA CT",
-        "Transformer--75KVA CT",
-        "Transformer--25KVA PM",
-        "Transformer--50KVA PM",
-        "Transformer--75KVA PM",
-        "Transformer--100KVA PM",
-        "Transformer--150KVA PM",
-        "Transformer--300KVA PM",
-        "Transformer--500KVA PM",
-        "Transformer--750KVA PM",
         "Waste Heat Source--Hot Water",
         "Waste Heat Source--Ambient Water"
       ]
