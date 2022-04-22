@@ -203,7 +203,14 @@ module URBANopt
           { site: :climate_zone, feature: :climate_zone },
           { site: :default_template, feature: :template },
           { site: :weather_filename, feature: :weather_filename },
-          { site: :tariff_filename, feature: :tariff_filename }
+          { site: :tariff_filename, feature: :tariff_filename },
+          { site: :emissions, feature: :emissions },
+          { site: :emissions_future_subregion, feature: :emissions_future_subregion },
+          { site: :emissions_hourly_historical_subregion, feature: :emissions_hourly_historical_subregion },
+          { site: :emissions_annual_historical_subregion, feature: :emissions_annual_historical_subregion },
+          { site: :emissions_future_year, feature: :emissions_future_year },
+          { site: :emissions_hourly_historical_year, feature: :emissions_hourly_historical_year },
+          { site: :emissions_annual_historical_year, feature: :emissions_annual_historical_year },
         ]
 
         add_props.each do |prop|
