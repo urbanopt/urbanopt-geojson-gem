@@ -261,7 +261,7 @@
       "description": "Denotes the % of vehicles parked at the building that are EVs.",
       "type": "number"
     },
-    "use_model_occupancy": {
+    "ev_use_model_occupancy": {
       "description": "If true, will scale the EV profiles as per the modeled occupancy of the OpenStudio building model. When false, will resort to default behavior of using typical EV load profiles for charging station type",
       "type": "boolean"
     },
