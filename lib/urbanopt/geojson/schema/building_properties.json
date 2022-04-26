@@ -262,7 +262,7 @@
       "type": "number"
     },
     "ev_use_model_occupancy": {
-      "description": "If true, will scale the EV profiles as per the modeled occupancy of the OpenStudio building model. When false, will resort to default behavior of using typical EV load profiles for charging station type",
+      "description": "When true, will scale the EV profiles as per the modeled occupancy of the OpenStudio building model. When false, will resort to default behavior of using typical EV load profiles for charging station type",
       "type": "boolean"
     },
     "ev_curtailment_frac": {
