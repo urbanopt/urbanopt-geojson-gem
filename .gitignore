@@ -19,6 +19,7 @@ out.txt
 .rspec_status
 
 # Ignore IDE files
+.vscode/
 /.idea
 .DS_Store
 urbanopt-geojson-*.gem
