@@ -41,3 +41,5 @@
       "description": "Feeder the generator is connected to.",
       "type": "string"
     }
+  }
+}

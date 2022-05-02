@@ -18,7 +18,7 @@
       "type": "string"
     },
     "Vnom1": {
-      "description": "Nominal high voltange in kV.",
+      "description": "Nominal high voltage in kV.",
       "type": "string"
     },
     "Vnom2": {
