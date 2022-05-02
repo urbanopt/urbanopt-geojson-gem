@@ -271,27 +271,124 @@
 		},
 		"emissions_future_subregion": {
 			"description": "Future subregion. Options are: AZNMc, CAMXc, ERCTc, FRCCc, MROEc, MROWc, NEWEc, NWPPc, NYSTc, RFCEc, RFCMc, RFCWc, RMPAc, SPNOc, SPSOc, SRMVc, SRMWc, SRSOc, SRTVc, and SRVCc",
-			"type": "string"
+			"type": "string",
+			"enum": [
+				"AZNMc",
+				"CAMXc",
+				"ERCTc",
+				"FRCCc",
+				"MROEc",
+				"MROWc",
+				"NEWEc",
+				"NWPPc",
+				"NYSTc",
+				"RFCEc",
+				"RFCMc",
+				"RFCWc",
+				"RMPAc",
+				"SPNOc",
+				"SPSOc",
+				"SRMVc",
+				"SRMWc",
+				"SRSOc",
+				"SRTVc",
+				"SRVCc"
+			]
 		},
 		"emissions_hourly_historical_subregion": {
 			"description": "Historical hourly subregion. Options are: California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, New York, Northwest, Rocky Mountains, Southeast, Southwest, Tennessee, and Texas",
-			"type": "string"
+			"type": "string",
+			"enum": [
+				"California",
+				"Carolinas",
+				"Central",
+				"Florida",
+				"Mid-Atlantic",
+				"Midwest",
+				"New England",
+				"New York",
+				"Northwest",
+				"Rocky Mountains",
+				"Southeast",
+				"Southwest",
+				"Tennessee",
+				"Texas"
+			]
 		},
 		"emissions_annual_historical_subregion": {
 			"description": "Historical annual subregion. Options are: AKGD, AKMS, AZNM, CAMX, ERCT, FRCC, HIMS, HIOA, MROE, MROW, NEWE, NWPP, NYCW, NYLI, NYUP, RFCE, RFCM, RFCW, RMPA, SPNO, SPSO, SRMV, SRMW, SRSO, SRTV, and SRVC",
-			"type": "string"
+			"type": "string",
+			"enum": [
+				"AKGD",
+				"AKMS",
+				"AZNM",
+				"CAMX",
+				"ERCT",
+				"FRCC",
+				"HIMS",
+				"HIOA",
+				"MROE",
+				"MROW",
+				"NEWE",
+				"NWPP",
+				"NYCW",
+				"NYLI",
+				"NYUP",
+				"RFCE",
+				"RFCM",
+				"RFCW",
+				"RMPA",
+				"SPNO",
+				"SPSO",
+				"SRMV",
+				"SRMW",
+				"SRSO",
+				"SRTV",
+				"SRVC"
+			]
 		},
 		"emissions_future_year": {
 			"description": "Future Year. Options are: 2020 to 2050 in two year increments",
-			"type": "number"
+			"type": "number",
+			"enum": [
+				2020,
+				2022,
+				2024,
+				2026,
+				2028,
+				2030,
+				2032,
+				2034,
+				2036,
+				2038,
+				2040,
+				2042,
+				2044,
+				2046,
+				2048,
+				2050
+			]
 		},
 		"emissions_hourly_historical_year": {
 			"description": "Hourly Historical Year. Options are: 2019.",
-			"type": "number"
+			"type": "number",
+			"enum": [
+				2019
+			]
 		},
 		"emissions_annual_historical_year": {
 			"description": "Annual Historical Year. Options are: 2007, 2009, 2010, 2012, 2014, 2016, 2018, and 2019.",
-			"type": "number"
+			"type": "number",
+			"enum": [
+				2007,
+				2009,
+				2010,
+				2012,
+				2014,
+				2016,
+				2018,
+				2019
+			]
 		}
 	},
 	"oneOf": [
@@ -591,7 +688,12 @@
 				"Residential IECC 2009 - Customizable Template Sep 2020",
 				"Residential IECC 2012 - Customizable Template Sep 2020",
 				"Residential IECC 2015 - Customizable Template Sep 2020",
-				"Residential IECC 2018 - Customizable Template Sep 2020"
+				"Residential IECC 2018 - Customizable Template Sep 2020",
+				"Residential IECC 2006 - Customizable Template Apr 2022",
+				"Residential IECC 2009 - Customizable Template Apr 2022",
+				"Residential IECC 2012 - Customizable Template Apr 2022",
+				"Residential IECC 2015 - Customizable Template Apr 2022",
+				"Residential IECC 2018 - Customizable Template Apr 2022"
 			]
 		},
 		"foundationType": {
