@@ -517,7 +517,11 @@
         "Residential - boiler and evaporative cooler",
         "Residential - air-to-air heat pump",
         "Residential - mini-split heat pump",
-        "Residential - ground-to-air heat pump"
+        "Residential - ground-to-air heat pump",
+        "Residential - shared boiler and no cooling",
+        "Residential - shared boiler and central air conditioner",
+        "Residential - shared boiler and room air conditioner",
+        "Residential - shared boiler and evaporative cooler"
       ]
     },
     "heatingSystemFuelType": {
