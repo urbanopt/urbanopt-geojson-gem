@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/hvmv_substation_properties.json#",
+  "title": "URBANopt HVMV Substation",
+  "description": "Schema for an URBANopt RNM HVMV Substation object",
+  "type": "object",
+  "properties": {
+    "Code": {
+      "description": "Unique name/ID of the feature in the RNM analysis.",
+      "type": "string"
+    },
+    "NodeA": {
+      "description": "Name/ID of the RNM 'From' Node it is associated with.",
+      "type": "string"
+    },
+    "NodeB": {
+      "description": "Name/ID of the RNM 'To' Node it is associated with.",
+      "type": "string"
+    },
+    "Vnom1": {
+      "description": "Nominal high voltange in kV.",
+      "type": "string"
+    },
+    "Vnom2": {
+      "description": "Nominal low voltage in kV.",
+      "type": "string"
+    },
+    "Phases": {
+      "description": "Phase",
+      "type": "string",
+      "enum": ["3-phase", "single phase"]  
+    },
+    "Xsc(pu)": {
+      "description": "Reactance short-circuit (per unit). How much deviation per unit (multiplier).",
+      "type": "string"
+    },
+    "TapMin": {
+      "description": "Tap minimum. How much the voltage value can be decreased (multiplier).",
+      "type": "string"
+    },
+    "TapMax": {
+      "description": "Tap maximum. How much the voltage value can be increased (multiplier).",
+      "type": "string"
+    },
+    "Subest": {
+      "description": "Substation the substation is connected to.",
+      "type": "string"
+    },
+    "Feeder": {
+      "description": "Feeder the substation is connected to.",
+      "type": "string"
+    }
+  }
+}
