@@ -52,10 +52,10 @@
 			"description": "Name of a detailed model which can be loaded from disk as a seed model or complete model. Mapper class decides which measures to disable if this is present.",
 			"type": "string"
 		},
-    "hpxml_directory": {
-      "description": "Name of the folder containing pre-built HPXML files. Optional for residential buildings.",
-      "type": "string"
-    },
+		"hpxml_directory": {
+			"description": "Name of the folder containing pre-built HPXML files. Optional for residential buildings.",
+			"type": "string"
+		},
 		"weather_filename": {
 			"description": "Name of EPW weather file for this building.  Defaults to site's weather_filename.",
 			"type": "string"
