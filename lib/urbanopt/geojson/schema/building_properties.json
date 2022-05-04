@@ -395,16 +395,6 @@
 			]
 		}
 	},
-	"dependencies": {
-		"emissions": [
-			"emissions_future_subregion",
-			"emissions_hourly_historical_subregion",
-			"emissions_annual_historical_subregion",
-			"emissions_future_year",
-			"emissions_hourly_historical_year",
-			"emissions_annual_historical_year"
-		]
-	},
 	"oneOf": [
 		{
 			"properties": {
