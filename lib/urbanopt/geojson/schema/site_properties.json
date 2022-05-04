@@ -105,15 +105,15 @@
 		},
 		"emissions_future_year": {
 			"description": "Future Year. Options are: 2020 to 2050 in two year increments",
-			"type": "number"
+			"type": "string"
 		},
 		"emissions_hourly_historical_year": {
 			"description": "Hourly Historical Year. Options are: 2019.",
-			"type": "number"
+			"type": "string"
 		},
 		"emissions_annual_historical_year": {
 			"description": "Annual Historical Year. Options are: 2007, 2009, 2010, 2012, 2014, 2016, 2018, and 2019.",
-			"type": "number"
+			"type": "string"
 		},
 		"user_data": {
 			"description": "Arbitrary user data"
