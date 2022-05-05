@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/dummy_node_properties.json#",
+  "title": "URBANopt Dummy Node",
+  "description": "Schema for an URBANopt RNM Dummy Node object",
+  "type": "object",
+  "properties": {
+    "Node": {
+      "description": "Unique name/id of the feature in the RNM analysis.",
+      "type": "string"
+    },
+    "Subest": {
+      "description": "Substation the node is connected to",
+      "type": "string"
+    },
+    "Feeder": {
+    	"description": "Feeder the node is connected to",
+      "type": "string"
+    }
+  }
+}

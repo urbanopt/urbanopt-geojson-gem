@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://json-schema.org/openstudio-urban-modeling/line_properties.json#",
+  "title": "URBANopt Line",
+  "description": "Schema for an URBANopt RNM Line object",
+  "type": "object",
+  "properties": {
+  	"Code": {
+      "description": "Unique name/ID of the feature in the RNM analysis.",
+      "type": "string"
+    },
+    "NodeA": {
+    	"description": "Name/ID of the RNM 'From' Node it is associated with.",
+      "type": "string"
+    },
+    "NodeB": {
+    	"description": "Name/ID of the RNM 'To' Node it is associated with.",
+      "type": "string"
+    },
+    "NomV": {
+    	"description": "Nominal Voltage in kV.",
+    	"type": "string"
+    },
+    "Len": {
+    	"description": "Length of line in km.",
+    	"type": "string"
+    },
+    "Equip": {
+    	"description": "Type of line used. Options can be found in the electrical catalog.",
+    	"type": "string"
+    },
+    "R": {
+    	"description": "Resistance in ohms.",
+    	"type": "string"
+    },
+    "X": {
+    	"description": "Impedance in ohms/km.",
+    	"type": "string"
+    },
+    "C": {
+    	"description": "Capacitance in nF/km.",
+    	"type": "string"
+    },
+    "R0": {
+    	"description": "0-Resistance in ohms.",
+    	"type": "string"
+    },
+    "X0": {
+    	"description": "0-Impedance in ohms/km.",
+    	"type": "string"
+    },
+    "C0": {
+    	"description": "0-Capacitance in nF/km.",
+    	"type": "string"
+    },
+    "Imax": {
+    	"description": "Maximum current in A.",
+    	"type": "string"
+    },
+    "Status": {
+    	"description": "Line Status. If 1, the power line is closed (operating); if 0, the line is open (not operating).",
+    	"type": "string"
+    },
+    "Phases": {
+    	"description": "Phase of the line. If single phase, options are: A, B, or C (separated from 3-phase). If 3-phase: ABC.",
+    	"type": "string"
+    }
+  } 
+}
