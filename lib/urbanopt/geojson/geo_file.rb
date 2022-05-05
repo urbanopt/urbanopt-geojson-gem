@@ -100,7 +100,7 @@ module URBANopt
 
           case type
           when 'Building'
-            # Incase detailed_model_filename present check for fewer properties
+            # In case detailed_model_filename present check for fewer properties
             if feature[:properties][:detailed_model_filename]
               if feature[:properties][:id].nil?
                 raise('No id found for Building Feature')
@@ -112,6 +112,14 @@ module URBANopt
                 @@logger.warn("Number of stories is required to calculate shading using the UrbanGeometryCreation measure...ignoring #{feature[:properties][:id]} in shading calculations")
               end
               feature[:additionalProperties] = true
+            # In case hpxml_directory present check for fewer properties
+            elsif feature[:properties][:hpxml_directory]
+              if feature[:properties][:id].nil?
+                raise('No id found for Building Feature')
+              end
+              if feature[:properties][:name].nil?
+                raise('No name found for Building Feature')
+              end
             # Else validate for all required properties in the schema
             else
               errors = validate(@@building_schema, properties)
