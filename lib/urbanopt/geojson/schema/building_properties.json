@@ -115,10 +115,9 @@
 			"type": "number"
 		},
 		"roof_type": {
-			"description": "The type of roof. Defaults to flat.",
+			"description": "The type of roof. Optional for residential buildings. Defaults to Gable.",
 			"type": "string",
 			"enum": [
-				"Flat",
 				"Gable",
 				"Hip"
 			]
@@ -621,7 +620,7 @@
 			]
 		},
 		"atticType": {
-			"description": "The attic type of the building. Required for single-family residential buildings.",
+			"description": "The attic type of the building. Required for residential buildings.",
 			"type": "string",
 			"enum": [
 				"attic - vented",
