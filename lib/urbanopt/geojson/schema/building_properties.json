@@ -410,6 +410,15 @@
 			]
 		}
 	},
+ "required": [
+		"building_type",
+		"floor_area",
+		"footprint_area",
+		"id",
+		"name",
+		"number_of_stories",
+		"type"
+	],
 	"definitions": {
 		"buildingType": {
 			"description": "Primary building space type.",
