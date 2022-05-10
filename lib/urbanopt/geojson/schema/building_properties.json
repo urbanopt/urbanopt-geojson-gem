@@ -90,6 +90,14 @@
 			"description": "CEC Title24 climate zone. Defaults to site's cec_climate_zone",
 			"type": "string"
 		},
+		"occupancy_calculation_type": {
+			"description": "The occupancy calculation type. Optional for residential buildings. Defaults to asset.",
+			"type": "string",
+			"enum": [
+				"asset",
+				"operational"
+			]
+		},
 		"floor_area": {
 			"description": "Usable floor area (ft^2). Required for residential buildings, this represents conditioned floor area.",
 			"type": "number"
@@ -99,7 +107,7 @@
 			"type": "integer"
 		},
 		"number_of_stories_above_ground": {
-			"description": "The number of building stories above ground. Defaults to number_of_stories. Required for residential buildings.",
+			"description": "The number of building stories above ground. Required for residential buildings.",
 			"type": "integer"
 		},
 		"maximum_roof_height": {
@@ -107,10 +115,9 @@
 			"type": "number"
 		},
 		"roof_type": {
-			"description": "The type of roof. Defaults to flat.",
+			"description": "The type of roof. Optional for residential buildings. Defaults to Gable.",
 			"type": "string",
 			"enum": [
-				"Flat",
 				"Gable",
 				"Hip"
 			]
@@ -203,6 +210,10 @@
 		},
 		"number_of_bedrooms": {
 			"description": "Total number of bedrooms in the building. Required for residential buildings. Must be divisible by the number of residential units.",
+			"type": "integer"
+		},
+		"number_of_occupants": {
+			"description": "Total number of occupants in the building. Optional for residential buildings. Must be divisible by the number of residential units. Defaults to the total number of bedrooms in the building.",
 			"type": "integer"
 		},
 		"exterior_lighting_zone": {
@@ -612,13 +623,14 @@
 				"slab",
 				"crawlspace - vented",
 				"crawlspace - unvented",
+				"crawlspace - conditioned",
 				"basement - unconditioned",
 				"basement - conditioned",
 				"ambient"
 			]
 		},
 		"atticType": {
-			"description": "The attic type of the building. Required for single-family residential buildings.",
+			"description": "The attic type of the building. Required for residential buildings.",
 			"type": "string",
 			"enum": [
 				"attic - vented",
