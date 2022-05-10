@@ -318,7 +318,7 @@ module URBANopt
           return false
         end
 
-        unless feature[:properties][:detailed_model_filename]
+        unless feature[:properties][:detailed_model_filename] || feature[:properties][:hpxml_directory]
           errors = JSON::Validator.fully_validate(schema, feature[:properties])
           if !errors.empty?
             raise("Invalid properties for '#{feature[:properties][:name]}'\n  #{errors.join('\n  ')}")
