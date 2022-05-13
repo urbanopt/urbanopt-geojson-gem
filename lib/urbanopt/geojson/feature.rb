@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt™, Copyright (c) 2019-2021, Alliance for Sustainable Energy, LLC, and other
+# URBANopt™, Copyright (c) 2019-2022, Alliance for Sustainable Energy, LLC, and other
 # contributors. All rights reserved.
 
 # Redistribution and use in source and binary forms, with or without modification,
@@ -318,7 +318,7 @@ module URBANopt
           return false
         end
 
-        unless feature[:properties][:detailed_model_filename]
+        unless feature[:properties][:detailed_model_filename] || feature[:properties][:hpxml_directory]
           errors = JSON::Validator.fully_validate(schema, feature[:properties])
           if !errors.empty?
             raise("Invalid properties for '#{feature[:properties][:name]}'\n  #{errors.join('\n  ')}")

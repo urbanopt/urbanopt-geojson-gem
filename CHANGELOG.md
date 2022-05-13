@@ -1,5 +1,27 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.8.0
+Date Range: 11/23/21 - 05/10/21
+- Fixed [#205]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/205 ), adding RNM result fields
+- Fixed [#206]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/206 ), Bump follow-redirects from 1.13.3 to 1.14.7 in /docs
+- Fixed [#207]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/207 ), Bump follow-redirects from 1.13.3 to 1.14.8 in /docs
+- Fixed [#208]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/208 ), Bump url-parse from 1.5.3 to 1.5.7 in /docs
+- Fixed [#209]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/209 ), Regenerating docs
+- Fixed [#210]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/210 ), Bump prismjs from 1.25.0 to 1.27.0 in /docs
+- Fixed [#211]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/211 ), Bump url-parse from 1.5.3 to 1.5.10 in /docs
+- Fixed [#212]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/212 ), Support for custom HPXMLs
+- Fixed [#213]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/213 ), Update licenses
+- Fixed [#215]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/215 ), Schema validation of feature file
+- Fixed [#216]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/216 ), changes for opendss-rnm-us catalog alignment
+- Fixed [#218]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/218 ), Adds new template to turn off appliances and modify appliance efficiency
+- Fixed [#219]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/219 ), added emissions properties/attributes to GeoJSON schemas
+- Fixed [#221]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/221 ), Ev charging
+- Fixed [#222]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/222 ), Bump async from 2.6.3 to 2.6.4 in /docs
+- Fixed [#223]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/223 ), ADD EMISSIONS
+- Fixed [#224]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/224 ), removed dependencies from buildings schema
+- Fixed [#227]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/227 ), restore required fields in building schema definition
+- Fixed [#228]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/228 ), missed one instance of skipping validation when hpxml directory is present
+
 ## Version 0.7.0
 Date Range: 10/16/21 - 11/22/21
 
