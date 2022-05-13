@@ -19,6 +19,8 @@ Date Range: 11/23/21 - 05/10/21
 - Fixed [#222]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/222 ), Bump async from 2.6.3 to 2.6.4 in /docs
 - Fixed [#223]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/223 ), ADD EMISSIONS
 - Fixed [#224]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/224 ), removed dependencies from buildings schema
+- Fixed [#227]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/227 ), restore required fields in building schema definition
+- Fixed [#228]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/228 ), missed one instance of skipping validation when hpxml directory is present
 
 ## Version 0.7.0
 Date Range: 10/16/21 - 11/22/21
