@@ -211,14 +211,6 @@
 				"2018",
 				"2019"
 			]
-		},
-		"emissions_annual_historical_year_natural_gas": {
-			"type": "string",
-			"enum": [
-				"2018",
-				"2019",
-				"2020"
-			]
 		}
 	},
 	"required": [
