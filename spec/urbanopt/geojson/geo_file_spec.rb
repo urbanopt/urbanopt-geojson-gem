@@ -94,4 +94,19 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
 
     expect(geojson_errors).not_to be_nil
   end
+
+  it 'raise error for emissions' do
+    geojson_file = File.open(File.join(@spec_files_dir, 'invalid_emissions.json')) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    schema = File.open(File.dirname(__FILE__) + '/../../../lib/urbanopt/geojson/schema/site_properties.json') do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+
+    expect(geojson_errors).not_to be_nil
+  end
+
 end
