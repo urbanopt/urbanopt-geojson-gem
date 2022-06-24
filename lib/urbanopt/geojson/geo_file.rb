@@ -82,6 +82,7 @@ module URBANopt
           symbolize_names: true
         )
 
+
         # validate geojson file against schema
         geojson_errors = validate(@@geojson_schema, geojson_file)
         unless geojson_errors.empty?
@@ -90,6 +91,15 @@ module URBANopt
 
         # initialize @@logger
         @@logger ||= URBANopt::GeoJSON.logger
+
+        # validate project section first
+        if geojson_file.key?(:project)
+          errors = validate(@@site_schema, geojson_file[:project])
+
+          unless errors.empty?
+            raise "Project section does not adhere to schema: \n #{errors.join('\n  ')}"
+          end
+        end
 
         # validate each feature against schema
         geojson_file[:features].each do |feature|
@@ -295,6 +305,19 @@ module URBANopt
         return result
       end
 
+      def self.get_site_schema(strict)
+        result = nil
+        File.open(File.dirname(__FILE__) + '/schema/site_properties.json') do |f|
+          result = JSON.parse(f.read)
+        end
+        if strict
+          result['additionalProperties'] = true
+        else
+          result['additionalProperties'] = false
+        end
+        return result
+      end
+
       def self.get_electrical_connector_schema(strict)
         result = nil
         File.open(File.dirname(__FILE__) + '/schema/electrical_connector_properties.json') do |f|
@@ -356,6 +379,7 @@ module URBANopt
       @@electrical_junction_schema = get_electrical_junction_schema(strict)
       @@thermal_connector_schema = get_thermal_connector_schema(strict)
       @@thermal_junction_schema = get_thermal_junction_schema(strict)
+      @@site_schema = get_site_schema(strict)
     end
   end
 end

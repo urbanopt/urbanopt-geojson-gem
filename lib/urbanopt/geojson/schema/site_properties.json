@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-04/schema#",
-	"id": "http://json-schema.org/openstudio-urban-modeling/taxlot_properties.json#",
+	"id": "http://json-schema.org/openstudio-urban-modeling/site_properties.json#",
 	"title": "URBANopt Site",
 	"description": "Schema for an URBANopt Site object",
 	"type": "object",
@@ -35,11 +35,11 @@
 		},
 		"surface_elevation": {
 			"description": "The surface elevation (above NAVD88 datum) of the project (ft).  ",
-			"type": "number"
+			"type": ["number", "null"]
 		},
 		"import_surrounding_buildings_as_shading": {
 			"description": "If true, import geometry from surrounding buildings when performing energy calculations.",
-			"type": "boolean"
+			"type": ["boolean", "null"]
 		},
 		"timesteps_per_hour": {
 			"description": "Number of timesteps per hour for energy simulations.",
@@ -57,11 +57,11 @@
 		},
 		"climate_zone": {
 			"description": "ASHRAE 169 climate zone.",
-			"type": "string"
+			"type": ["string", "null"]
 		},
 		"cec_climate_zone": {
 			"description": "CEC Title24 climate zone.",
-			"type": "string"
+			"type": ["string", "null"]
 		},
 		"default_template": {
 			"description": "Default OpenStudio Standards template.",
@@ -73,7 +73,7 @@
 		},
 		"tariff_filename": {
 			"description": "Name of utility tariff file in IDF or URDB format.",
-			"type": "string"
+			"type": ["string", "null"]
 		},
 		"underground_cables_ratio": {
 			"description": "Ratio of overall cables that are underground vs. overhead for RNM analysis.",
@@ -214,8 +214,6 @@
 		}
 	},
 	"required": [
-		"latitude",
-		"longitude"
 	],
 	"additionalProperties": false
 }
