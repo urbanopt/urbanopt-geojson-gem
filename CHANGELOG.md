@@ -1,7 +1,12 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.8.1
+Date Range: 05/11/22 - 06/27/22
+
+- Fixed [#233]( https://github.com//urbanopt/urbanopt-geojson-gem/pull/233 ), Emissions workflow enhancements
+
 ## Version 0.8.0
-Date Range: 11/23/21 - 05/10/21
+Date Range: 11/23/21 - 05/10/22
 - Fixed [#205]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/205 ), adding RNM result fields
 - Fixed [#206]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/206 ), Bump follow-redirects from 1.13.3 to 1.14.7 in /docs
 - Fixed [#207]( https://github.com/urbanopt/urbanopt-geojson-gem/pull/207 ), Bump follow-redirects from 1.13.3 to 1.14.8 in /docs
