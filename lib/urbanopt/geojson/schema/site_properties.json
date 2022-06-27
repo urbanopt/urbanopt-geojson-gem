@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-04/schema#",
-	"id": "http://json-schema.org/openstudio-urban-modeling/taxlot_properties.json#",
+	"id": "http://json-schema.org/openstudio-urban-modeling/site_properties.json#",
 	"title": "URBANopt Site",
 	"description": "Schema for an URBANopt Site object",
 	"type": "object",
@@ -35,11 +35,11 @@
 		},
 		"surface_elevation": {
 			"description": "The surface elevation (above NAVD88 datum) of the project (ft).  ",
-			"type": "number"
+			"type": ["number", "null"]
 		},
 		"import_surrounding_buildings_as_shading": {
 			"description": "If true, import geometry from surrounding buildings when performing energy calculations.",
-			"type": "boolean"
+			"type": ["boolean", "null"]
 		},
 		"timesteps_per_hour": {
 			"description": "Number of timesteps per hour for energy simulations.",
@@ -57,11 +57,11 @@
 		},
 		"climate_zone": {
 			"description": "ASHRAE 169 climate zone.",
-			"type": "string"
+			"type": ["string", "null"]
 		},
 		"cec_climate_zone": {
 			"description": "CEC Title24 climate zone.",
-			"type": "string"
+			"type": ["string", "null"]
 		},
 		"default_template": {
 			"description": "Default OpenStudio Standards template.",
@@ -73,7 +73,7 @@
 		},
 		"tariff_filename": {
 			"description": "Name of utility tariff file in IDF or URDB format.",
-			"type": "string"
+			"type": ["string", "null"]
 		},
 		"underground_cables_ratio": {
 			"description": "Ratio of overall cables that are underground vs. overhead for RNM analysis.",
@@ -88,40 +88,132 @@
 			"type": "number"
 		},
 		"emissions": {
-			"description": "Should be set to true to calculate emissions for the associated building.",
+			"description": "Should be set to true to calculate electricity emissions for the associated building.",
 			"type": "boolean"
 		},
-		"emissions_future_subregion": {
-			"description": "Future subregion. Options are: AZNMc, CAMXc, ERCTc, FRCCc, MROEc, MROWc, NEWEc, NWPPc, NYSTc, RFCEc, RFCMc, RFCWc, RMPAc, SPNOc, SPSOc, SRMVc, SRMWc, SRSOc, SRTVc, and SRVCc",
-			"type": "string"
+		"electricity_emissions_future_subregion": {
+			"description": "Future subregion for electricity emssions. Options: AZNMc, CAMXc, ERCTc, FRCCc, MROEc, MROWc, NEWEc, NWPPc, NYSTc, RFCEc, RFCMc, RFCWc, RMPAc, SPNOc, SPSOc, SRMVc, SRMWc, SRSOc, SRTVc, and SRVCc",
+			"type": "string",
+			"enum": [
+				"AZNMc",
+				"CAMXc",
+				"ERCTc",
+				"FRCCc",
+				"MROEc",
+				"MROWc",
+				"NEWEc",
+				"NWPPc",
+				"NYSTc",
+				"RFCEc",
+				"RFCMc",
+				"RFCWc",
+				"RMPAc",
+				"SPNOc",
+				"SPSOc",
+				"SRMVc",
+				"SRMWc",
+				"SRSOc",
+				"SRTVc",
+				"SRVCc"
+			]
 		},
-		"emissions_hourly_historical_subregion": {
-			"description": "Historical hourly subregion. Options are: California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, New York, Northwest, Rocky Mountains, Southeast, Southwest, Tennessee, and Texas",
-			"type": "string"
+		"electricity_emissions_hourly_historical_subregion": {
+			"description": "Historical hourly subregion for electricity emissions. Options: California, Carolinas, Central, Florida, Mid-Atlantic, Midwest, New England, New York, Northwest, Rocky Mountains, Southeast, Southwest, Tennessee, and Texas",
+			"type": "string",
+			"enum": [
+				"California",
+				"Carolinas",
+				"Central",
+				"Florida",
+				"Mid-Atlantic",
+				"Midwest",
+				"New England",
+				"New York",
+				"Northwest",
+				"Rocky Mountains",
+				"Southeast",
+				"Southwest",
+				"Tennessee",
+				"Texas"
+			]
 		},
-		"emissions_annual_historical_subregion": {
-			"description": "Historical annual subregion. Options are: AKGD, AKMS, AZNM, CAMX, ERCT, FRCC, HIMS, HIOA, MROE, MROW, NEWE, NWPP, NYCW, NYLI, NYUP, RFCE, RFCM, RFCW, RMPA, SPNO, SPSO, SRMV, SRMW, SRSO, SRTV, and SRVC",
-			"type": "string"
+		"electricity_emissions_annual_historical_subregion": {
+			"description": "Historical annual subregion for electricity emissions. Options: AKGD, AKMS, AZNM, CAMX, ERCT, FRCC, HIMS, HIOA, MROE, MROW, NEWE, NWPP, NYCW, NYLI, NYUP, RFCE, RFCM, RFCW, RMPA, SPNO, SPSO, SRMV, SRMW, SRSO, SRTV, and SRVC",
+			"type": "string",
+			"enum": [
+				"AKGD",
+				"AKMS",
+				"AZNM",
+				"CAMX",
+				"ERCT",
+				"FRCC",
+				"HIMS",
+				"HIOA",
+				"MROE",
+				"MROW",
+				"NEWE",
+				"NWPP",
+				"NYCW",
+				"NYLI",
+				"NYUP",
+				"RFCE",
+				"RFCM",
+				"RFCW",
+				"RMPA",
+				"SPNO",
+				"SPSO",
+				"SRMV",
+				"SRMW",
+				"SRSO",
+				"SRTV",
+				"SRVC"
+			]
 		},
-		"emissions_future_year": {
-			"description": "Future Year. Options are: 2020 to 2050 in two year increments",
-			"type": "string"
+		"electricity_emissions_future_year": {
+			"description": "Future Year for electricity emissions. Options: 2020 to 2050 in two year increments",
+			"type": "string",
+			"enum": [
+				"2020",
+				"2022",
+				"2024",
+				"2026",
+				"2028",
+				"2030",
+				"2032",
+				"2034",
+				"2036",
+				"2038",
+				"2040",
+				"2042",
+				"2044",
+				"2046",
+				"2048",
+				"2050"
+			]
 		},
-		"emissions_hourly_historical_year": {
-			"description": "Hourly Historical Year. Options are: 2019.",
-			"type": "string"
+		"electricity_emissions_hourly_historical_year": {
+			"description": "Hourly Historical Year for elecrtricity emissions. Options: 2019.",
+			"type": "string",
+			"enum": [
+				"2019"
+			]
 		},
-		"emissions_annual_historical_year": {
-			"description": "Annual Historical Year. Options are: 2007, 2009, 2010, 2012, 2014, 2016, 2018, and 2019.",
-			"type": "string"
-		},
-		"user_data": {
-			"description": "Arbitrary user data"
+		"electricity_emissions_annual_historical_year": {
+			"description": "Annual Historical Year for electricity emissions. Options: 2007, 2009, 2010, 2012, 2014, 2016, 2018, and 2019.",
+			"type": "string",
+			"enum": [
+				"2007",
+				"2009",
+				"2010",
+				"2012",
+				"2014",
+				"2016",
+				"2018",
+				"2019"
+			]
 		}
 	},
 	"required": [
-		"latitude",
-		"longitude"
 	],
 	"additionalProperties": false
 }
