@@ -1,5 +1,7 @@
 # URBANopt GeoJSON Gem
 
+[![Coverage Status](https://coveralls.io/repos/github/urbanopt/urbanopt-geojson-gem/badge.svg?branch=github-action-coveralls)](https://coveralls.io/github/urbanopt/urbanopt-geojson-gem?branch=github-action-coveralls)
+
 Library and measures to translate URBANopt&trade; GeoJSON format to OpenStudio. See the [developer documentation](https://urbanopt.github.io/urbanopt-geojson-gem/) for more details.
 
 ## Installation
