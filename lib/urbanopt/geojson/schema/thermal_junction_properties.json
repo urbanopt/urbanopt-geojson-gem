@@ -32,7 +32,7 @@
       "description": "Feature name",
       "type": "string"
     },
-    "connector_type": {
+    "junction_type": {
       "$ref": "#/definitions/ThermalJunctionType"
     },
     "building_id": {
@@ -57,7 +57,7 @@
   },
   "required": [
     "type",
-    "connector_type",
+    "junction_type",
     "connection_type"
   ],
   "additionalProperties": false,
