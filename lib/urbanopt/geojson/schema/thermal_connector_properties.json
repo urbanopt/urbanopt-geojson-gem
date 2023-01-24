@@ -46,11 +46,11 @@
       "description": "Total length of the connector in ft, generated on export.",
       "type": "number"
     },
-    "start_junction_id": {
+    "startJunctionId": {
       "description": "Id of the junction that this connector starts at.",
       "type": "string"
     },
-    "end_junction_id": {
+    "endJunctionId": {
       "description": "Id of the junction that this connector ends at.",
       "type": "string"
     },
@@ -69,8 +69,8 @@
   "required": [
     "type",
     "connector_type",
-    "start_junction_id",
-    "end_junction_id",
+    "startJunctionId",
+    "endJunctionId",
     "fluid_temperature_type",
     "flow_direction"
   ],
