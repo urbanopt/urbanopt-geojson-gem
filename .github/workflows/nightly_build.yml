@@ -1,4 +1,3 @@
-
 name: nightly_build
 
 on:
@@ -7,12 +6,6 @@ on:
     # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
     # 5 am UTC (11pm MDT the day before) every weekday night in MDT
     - cron: '21 5 * * 2-6'
-
-# Cancels an existing job (of the same workflow) if it is still running
-# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-only-cancel-in-progress-jobs-or-runs-for-the-current-workflow
-# concurrency:
-#   group: ${{ github.workflow }}-${{ github.ref }}
-#   cancel-in-progress: true
 
 env:
   # This env var should enforce develop branch of all dependencies
@@ -27,11 +20,9 @@ jobs:
     container:
       image: docker://nrel/openstudio:3.5.1
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Update gems
-        run: |
-          bundle update
+        run: bundle update
       - name: Run Rspec
         run: bundle exec rspec
       # coveralls action docs: https://github.com/marketplace/actions/coveralls-github-action
