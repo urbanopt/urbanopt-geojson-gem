@@ -103,7 +103,8 @@
         "Transformer",
         "Transformer with Storage",
 		    "Capacitor",
-		    "Electrical Substation" 
+		    "Electrical Substation",
+        "Ground Heat Exchanger"
       ]
     },
     "equipmentType": {
