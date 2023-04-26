@@ -119,7 +119,8 @@ module URBANopt
                 raise('No name found for Building Feature')
               end
               if feature[:properties][:number_of_stories].nil?
-                @@logger.warn("Number of stories is required to calculate shading using the UrbanGeometryCreation measure...ignoring #{feature[:properties][:id]} in shading calculations")
+                @@logger.warn("Number of stories is required to calculate shading using the UrbanGeometryCreation measure.\n" \
+                  "Not validating #{feature[:properties][:id]} against schema and ignoring in shading calculations")
               end
               feature[:additionalProperties] = true
             # In case hpxml_directory present check for fewer properties
@@ -130,6 +131,8 @@ module URBANopt
               if feature[:properties][:name].nil?
                 raise('No name found for Building Feature')
               end
+              @@logger.warn("OS-HPXML files may not conform to schema, which is usually ok.\n" \
+                "Not validating #{feature[:properties][:id]} against schema")
             # Else validate for all required properties in the schema
             else
               errors = validate(@@building_schema, properties)
