@@ -47,7 +47,7 @@ require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
 
-class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
+class UrbanGeometryCreationTest < MiniTest::Test
   def test_one_building
     # create an instance of the measure
     measure = UrbanGeometryCreation.new
