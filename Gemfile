@@ -11,6 +11,9 @@ gemspec
 # checkout the latest version (develop) from github.
 allow_local = ENV['FAVOR_LOCAL_GEMS']
 
+# pin this dependency to avoid unicode_normalize error
+gem 'addressable', '2.8.1'
+
 # if allow_local && File.exist?('../openstudio-extension-gem')
 #   gem 'openstudio-extension', path: '../openstudio-extension-gem'
 # elsif allow_local
