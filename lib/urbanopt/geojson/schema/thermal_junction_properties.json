@@ -47,6 +47,10 @@
       "description": "Presence of pump: true if present, false if absent",
       "type": "boolean"
     },
+    "is_ghe_start_loop": {
+      "description": "Determines whether this junction is present at the start of the loop for a Ground Heat Exchanger Network.",
+      "type": "boolean"
+    },
     "connection_type": {
       "description": "Characterize the connection as series or parallel",
       "$ref": "#/definitions/ThermalJunctionConnectionType"

@@ -795,7 +795,8 @@
       "properties": {
         "id": "0c1b5138-e3cc-4ccb-b4ff-403fad55e9c3",
         "type": "ThermalJunction",
-        "DSId": "8c369df2-18e9-439a-8c25-875851c5aaf0"
+        "DSId": "8c369df2-18e9-439a-8c25-875851c5aaf0",
+        "is_ghe_start_loop": true
       },
       "geometry": {
         "type": "Point",
@@ -823,8 +824,8 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "ThermalConnector",
         "id": "06279e72-cc7a-4bcc-9936-47805613c4e5",
+        "type": "ThermalConnector",
         "startJunctionId": "0c1b5138-e3cc-4ccb-b4ff-403fad55e9c3",
         "endJunctionId": "76bcf271-177c-46e6-8682-e70f3d376472",
         "startFeatureId": "8c369df2-18e9-439a-8c25-875851c5aaf0",
@@ -878,8 +879,8 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "ThermalConnector",
         "id": "aa465802-9736-4811-8629-0ff6624b1735",
+        "type": "ThermalConnector",
         "startJunctionId": "62d93293-5c48-4b55-aa97-67c7a8d19f72",
         "endJunctionId": "b0c5d72f-ec40-4213-b7d5-9329ded57d7b",
         "startFeatureId": "9",
@@ -903,29 +904,30 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "2c1ec1a1-1f3b-4f90-baf7-7a80274e1c6a",
+        "id": "8d29ddda-d3de-4ee7-9de9-3ee05041d0c3",
         "type": "ThermalJunction",
         "buildingId": "8"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -78.85070811348395,
-          42.81571923041244
+          -78.8506279609464,
+          42.81554475718902
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "1467162d-a43d-4943-bf74-1f3b6091010c",
-        "type": "ThermalJunction"
+        "id": "32adaea4-f926-4dc6-94e2-634cf8fef84c",
+        "type": "ThermalJunction",
+        "DSId": "8c369df2-18e9-439a-8c25-875851c5aaf0"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -78.85222662889504,
-          42.81602330367081
+          -78.8523321619394,
+          42.8159973449965
         ]
       }
     },
@@ -933,33 +935,26 @@
       "type": "Feature",
       "properties": {
         "type": "ThermalConnector",
-        "id": "34e00c34-4777-44cb-8d7c-f9ab6164a5a7",
-        "startJunctionId": "2c1ec1a1-1f3b-4f90-baf7-7a80274e1c6a",
-        "endJunctionId": "1467162d-a43d-4943-bf74-1f3b6091010c",
+        "id": "fc0a12a2-a722-4998-9454-9a12b1121bf4",
+        "startJunctionId": "8d29ddda-d3de-4ee7-9de9-3ee05041d0c3",
+        "endJunctionId": "32adaea4-f926-4dc6-94e2-634cf8fef84c",
         "startFeatureId": "8",
-        "total_length": 421
+        "endFeatureId": "8c369df2-18e9-439a-8c25-875851c5aaf0",
+        "total_length": 485
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [
-            -78.85070811348395,
-            42.81571923041244
+            -78.8506279609464,
+            42.81554475718902
           ],
           [
-            -78.85222662889504,
-            42.81602330367081
+            -78.8523321619394,
+            42.8159973449965
           ]
         ]
       }
-    }
-  ],
-  "mappers": [],
-  "scenarios": [
-    {
-      "feature_mappings": [],
-      "id": "72301739-c6c3-4dd7-bf1a-f37c8eff40db",
-      "name": "New Scenario"
     }
   ]
 }
