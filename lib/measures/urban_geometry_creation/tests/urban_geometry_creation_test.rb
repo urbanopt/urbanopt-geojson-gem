@@ -9,7 +9,7 @@ require 'openstudio'
 require 'openstudio/ruleset/ShowRunnerOutput'
 require 'urbanopt/geojson'
 require 'minitest/autorun'
-require_relative '../measure.rb'
+require_relative '../measure'
 require 'fileutils'
 
 class UrbanGeometryCreationTest < MiniTest::Unit::TestCase

@@ -113,7 +113,8 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
       @runner.registerWarning("Surface elevation not set for building '#{name}'")
     end
 
-    if feature.type == 'Building'
+    case feature.type
+    when 'Building'
       # make requested building
       # pass in scaled_footprint_area (calculated from floor_area / number_of_stories)
       scaled_footprint_area = 0
@@ -170,7 +171,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
         URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(space)
       end
 
-    elsif feature.type == 'District System'
+    when 'District System'
       district_system_type = feature[:properties][:district_system_type]
       if district_system_type == 'Community Photovoltaic'
         shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
