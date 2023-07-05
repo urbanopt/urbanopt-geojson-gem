@@ -1,5 +1,5 @@
 # *********************************************************************************
-# URBANopt™, Copyright © Alliance for Sustainable Energy, LLC.
+# URBANopt (tm), Copyright (c) Alliance for Sustainable Energy, LLC.
 # See also https://github.com/urbanopt/urbanopt-geojson-gem/blob/develop/LICENSE.md
 # *********************************************************************************
 
@@ -11,7 +11,6 @@ require 'urbanopt/geojson/geo_file'
 require 'urbanopt/geojson/helper'
 require 'urbanopt/geojson/model'
 require 'urbanopt/geojson/zoning'
-require 'urbanopt/geojson/model'
 require 'urbanopt/geojson/derived_extension'
 require 'urbanopt/geojson/logging'
 require 'urbanopt/geojson/scale_area'
