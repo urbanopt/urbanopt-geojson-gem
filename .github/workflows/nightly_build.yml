@@ -14,15 +14,15 @@ env:
 
 jobs:
   weeknight-tests:
-    # ubuntu-latest works since https://github.com/rbenv/ruby-build/releases/tag/v20220710 (July 10, 2022)
-    # https://github.com/rbenv/ruby-build/discussions/1940
     runs-on: ubuntu-latest
     container:
       image: docker://nrel/openstudio:3.6.1
     steps:
       - uses: actions/checkout@v3
       - name: Update gems
-        run: bundle update
+        run: |
+          ruby --version
+          bundle update
       - name: List OpenStudio measures
         run: bundle exec rake openstudio:list_measures
       - name: Update OpenStudio measures
@@ -31,9 +31,9 @@ jobs:
         run: bundle exec rake openstudio:test_with_openstudio
       - name: Run Rspec
         run: bundle exec rspec
-      # coveralls action docs: https://github.com/marketplace/actions/coveralls-github-action
       - name: Coveralls
-        uses: coverallsapp/github-action@master
+        # coveralls action docs: https://github.com/marketplace/actions/coveralls-github-action
+        uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: "./coverage/lcov/urbanopt-geojson-gem.lcov"
