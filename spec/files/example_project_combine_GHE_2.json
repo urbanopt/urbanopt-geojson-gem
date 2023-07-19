@@ -760,6 +760,7 @@
         "geometryType": "Rectangle",
         "name": "New District System_1",
         "type": "District System",
+        "districtSystemType":"Ground Heat Exchanger",
         "footprint_area": 45601,
         "footprint_perimeter": 873,
         "floor_area": 45601
@@ -799,6 +800,7 @@
         "geometryType": "Rectangle",
         "name": "New District System_2",
         "type": "District System",
+        "districtSystemType": "Ground Heat Exchanger",
         "footprint_area": 32651,
         "footprint_perimeter": 735,
         "floor_area": 32651
