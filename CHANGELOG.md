@@ -1,10 +1,11 @@
 # URBANopt GeoJSON Gem
 
 ## Version 0.10.0
-Date Range: 12/5/22 - 6/30/23
+Date Range: 12/5/22 - 7/19/23
 
 - Updating dependencies for OpenStudio 3.6.1
 - Update license and references to the license file
+- Add GHE district system type [#256](https://github.com/urbanopt/urbanopt-geojson-gem/issues/256)
 
 ## Version 0.9.0
 Date Range: 06/28/22 - 12/5/22

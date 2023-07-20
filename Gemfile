@@ -25,5 +25,5 @@ gem 'parser', '3.2.2.2'
 # if allow_local && File.exist?('../urbanopt-core-gem')
 #   gem 'urbanopt-core', path: '../urbanopt-core-gem'
 # elsif allow_local
- gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'more-361-updates'
+# gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'develop'
 # end
