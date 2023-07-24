@@ -140,7 +140,7 @@
 
           
           <div class="method-source-code" id="change_adjacent_surfaces_to_adiabatic-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 76</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">change_adjacent_surfaces_to_adiabatic</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">runner</span>.<span class="ruby-identifier">registerInfo</span>(<span class="ruby-string">&#39;Changing adjacent surfaces to adiabatic&#39;</span>)
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSurfaces</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
@@ -198,7 +198,7 @@
 
           
           <div class="method-source-code" id="create_construction_set-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 55</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_construction_set</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">runner</span>)
   <span class="ruby-identifier">default_construction_set</span> = <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuilding</span>.<span class="ruby-identifier">defaultConstructionSet</span>
   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">default_construction_set</span>.<span class="ruby-identifier">is_initialized</span>
@@ -247,7 +247,7 @@
 
           
           <div class="method-source-code" id="create_space_type-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 92</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create_space_type</span>(<span class="ruby-identifier">bldg_use</span>, <span class="ruby-identifier">space_use</span>, <span class="ruby-identifier">model</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;#{bldg_use}:#{space_use}&quot;</span>
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getSpaceTypes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
@@ -299,7 +299,7 @@
 
           
           <div class="method-source-code" id="transfer_prev_model_data-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 105</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/model.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">transfer_prev_model_data</span>(<span class="ruby-identifier">model</span>, <span class="ruby-identifier">space_types</span>)
   <span class="ruby-identifier">stories</span> = []
   <span class="ruby-identifier">model</span>.<span class="ruby-identifier">getBuildingStorys</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">story</span><span class="ruby-operator">|</span> <span class="ruby-identifier">stories</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">story</span> }

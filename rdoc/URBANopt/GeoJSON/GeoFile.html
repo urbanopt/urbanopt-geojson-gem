@@ -93,6 +93,8 @@
     
     <li ><a href="#method-c-get_region_schema">::get_region_schema</a>
     
+    <li ><a href="#method-c-get_site_schema">::get_site_schema</a>
+    
     <li ><a href="#method-c-get_thermal_connector_schema">::get_thermal_connector_schema</a>
     
     <li ><a href="#method-c-get_thermal_junction_schema">::get_thermal_junction_schema</a>
@@ -187,7 +189,7 @@
 
           
           <div class="method-source-code" id="from_file-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">from_file</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">empty?</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;GeoJSON file &#39;#{path}&#39; could not be found&quot;</span>
@@ -202,6 +204,7 @@
     <span class="ruby-value">symbolize_names:</span> <span class="ruby-keyword">true</span>
   )
 
+
   <span class="ruby-comment"># validate geojson file against schema</span>
   <span class="ruby-identifier">geojson_errors</span> = <span class="ruby-identifier">validate</span>(<span class="ruby-identifier">@@geojson_schema</span>, <span class="ruby-identifier">geojson_file</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">geojson_errors</span>.<span class="ruby-identifier">empty?</span>
@@ -210,6 +213,15 @@
 
   <span class="ruby-comment"># initialize @@logger</span>
   <span class="ruby-identifier">@@logger</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span>.<span class="ruby-identifier">logger</span>
+
+  <span class="ruby-comment"># validate project section first</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">geojson_file</span>.<span class="ruby-identifier">key?</span>(<span class="ruby-value">:project</span>)
+    <span class="ruby-identifier">errors</span> = <span class="ruby-identifier">validate</span>(<span class="ruby-identifier">@@site_schema</span>, <span class="ruby-identifier">geojson_file</span>[<span class="ruby-value">:project</span>])
+
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Project section does not adhere to schema: \n #{errors.join(&#39;\n  &#39;)}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment"># validate each feature against schema</span>
   <span class="ruby-identifier">geojson_file</span>[<span class="ruby-value">:features</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">feature</span><span class="ruby-operator">|</span>
@@ -293,7 +305,7 @@
 
           
           <div class="method-source-code" id="get_building_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 259</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 234</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_building_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/building_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -335,7 +347,7 @@
 
           
           <div class="method-source-code" id="get_district_system_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 272</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 247</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_district_system_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/district_system_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -377,7 +389,7 @@
 
           
           <div class="method-source-code" id="get_electrical_connector_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 298</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 286</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_electrical_connector_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/electrical_connector_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -419,7 +431,7 @@
 
           
           <div class="method-source-code" id="get_electrical_junction_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 311</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 299</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_electrical_junction_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/electrical_junction_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -461,7 +473,7 @@
 
           
           <div class="method-source-code" id="get_geojson_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 247</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 222</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_geojson_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@geojson_schema</span>.<span class="ruby-identifier">nil?</span>
@@ -502,10 +514,52 @@
 
           
           <div class="method-source-code" id="get_region_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 285</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 260</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_region_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/region_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">result</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">strict</span>
+    <span class="ruby-identifier">result</span>[<span class="ruby-string">&#39;additionalProperties&#39;</span>] = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">result</span>[<span class="ruby-string">&#39;additionalProperties&#39;</span>] = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-get_site_schema" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_site_schema</span><span
+            class="method-args">(strict)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_site_schema-source">
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 273</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_site_schema</span>(<span class="ruby-identifier">strict</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/site_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">strict</span>
@@ -544,7 +598,7 @@
 
           
           <div class="method-source-code" id="get_thermal_connector_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 324</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 312</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_thermal_connector_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/thermal_connector_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -586,7 +640,7 @@
 
           
           <div class="method-source-code" id="get_thermal_junction_schema-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 337</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 325</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_thermal_junction_schema</span>(<span class="ruby-identifier">strict</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/schema/thermal_junction_properties.json&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -635,7 +689,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 61</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">geojson_file</span>, <span class="ruby-identifier">path</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@path</span> = <span class="ruby-identifier">path</span>
   <span class="ruby-ivar">@geojson_file</span> = <span class="ruby-identifier">geojson_file</span>
@@ -674,7 +728,7 @@
 
           
           <div class="method-source-code" id="validate-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 242</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 217</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">validate</span>(<span class="ruby-identifier">schema_json</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-identifier">errors</span> = <span class="ruby-constant">JSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Validator</span>.<span class="ruby-identifier">fully_validate</span>(<span class="ruby-identifier">schema_json</span>, <span class="ruby-identifier">data</span>, <span class="ruby-value">errors_as_objects:</span> <span class="ruby-keyword">true</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">errors</span>
@@ -716,7 +770,7 @@
 
           
           <div class="method-source-code" id="features-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 158</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 133</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">features</span>
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-ivar">@geojson_file</span>[<span class="ruby-value">:features</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -762,7 +816,7 @@
 
           
           <div class="method-source-code" id="get_feature_by_id-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 177</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_feature_by_id</span>(<span class="ruby-identifier">feature_id</span>)
   <span class="ruby-ivar">@geojson_file</span>[<span class="ruby-value">:features</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">f</span>[<span class="ruby-value">:properties</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">f</span>[<span class="ruby-value">:properties</span>][<span class="ruby-value">:id</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">feature_id</span>
@@ -807,7 +861,7 @@
 
           
           <div class="method-source-code" id="json-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 148</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 123</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">json</span>
   <span class="ruby-ivar">@geojson_file</span>
 <span class="ruby-keyword">end</span></pre>
@@ -844,7 +898,7 @@
 
           
           <div class="method-source-code" id="merge_site_properties-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 198</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/geo_file.rb, line 173</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">merge_site_properties</span>(<span class="ruby-identifier">feature</span>)
   <span class="ruby-identifier">project</span> = {}
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@geojson_file</span>.<span class="ruby-identifier">key?</span>(<span class="ruby-value">:project</span>)
@@ -863,12 +917,12 @@
     { <span class="ruby-value">site:</span> <span class="ruby-value">:weather_filename</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:weather_filename</span> },
     { <span class="ruby-value">site:</span> <span class="ruby-value">:tariff_filename</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:tariff_filename</span> },
     { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions</span> },
-    { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions_future_subregion</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions_future_subregion</span> },
-    { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions_hourly_historical_subregion</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions_hourly_historical_subregion</span> },
-    { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions_annual_historical_subregion</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions_annual_historical_subregion</span> },
-    { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions_future_year</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions_future_year</span> },
-    { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions_hourly_historical_year</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions_hourly_historical_year</span> },
-    { <span class="ruby-value">site:</span> <span class="ruby-value">:emissions_annual_historical_year</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:emissions_annual_historical_year</span> }
+    { <span class="ruby-value">site:</span> <span class="ruby-value">:electricity_emissions_future_subregion</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:electricity_emissions_future_subregion</span> },
+    { <span class="ruby-value">site:</span> <span class="ruby-value">:electricity_emissions_hourly_historical_subregion</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:electricity_emissions_hourly_historical_subregion</span> },
+    { <span class="ruby-value">site:</span> <span class="ruby-value">:electricity_emissions_annual_historical_subregion</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:electricity_emissions_annual_historical_subregion</span> },
+    { <span class="ruby-value">site:</span> <span class="ruby-value">:electricity_emissions_future_year</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:electricity_emissions_future_year</span> },
+    { <span class="ruby-value">site:</span> <span class="ruby-value">:electricity_emissions_hourly_historical_year</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:electricity_emissions_hourly_historical_year</span> },
+    { <span class="ruby-value">site:</span> <span class="ruby-value">:electricity_emissions_annual_historical_year</span>, <span class="ruby-value">feature:</span> <span class="ruby-value">:electricity_emissions_annual_historical_year</span> }
   ]
 
   <span class="ruby-identifier">add_props</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prop</span><span class="ruby-operator">|</span>

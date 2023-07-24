@@ -220,7 +220,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/scale_area.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/scale_area.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">vertices</span>, <span class="ruby-identifier">desired_area</span>, <span class="ruby-identifier">runner</span>, <span class="ruby-identifier">eps</span>)
   <span class="ruby-ivar">@vertices</span> = <span class="ruby-identifier">vertices</span>
   <span class="ruby-ivar">@centroid</span> = <span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">getCentroid</span>(<span class="ruby-identifier">vertices</span>)
@@ -272,7 +272,7 @@
 
           
           <div class="method-source-code" id="values-source">
-            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/scale_area.rb, line 93</span>
+            <pre><span class="ruby-comment"># File lib/urbanopt/geojson/scale_area.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">values</span>(<span class="ruby-identifier">x</span>)
   <span class="ruby-ivar">@new_vertices</span> = <span class="ruby-constant">URBANopt</span><span class="ruby-operator">::</span><span class="ruby-constant">GeoJSON</span><span class="ruby-operator">::</span><span class="ruby-constant">Zoning</span>.<span class="ruby-identifier">divide_floor_print</span>(<span class="ruby-ivar">@vertices</span>, <span class="ruby-identifier">x</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_f</span>, <span class="ruby-ivar">@runner</span>, <span class="ruby-identifier">scale</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-identifier">new_area</span> = <span class="ruby-constant">OpenStudio</span>.<span class="ruby-identifier">getArea</span>(<span class="ruby-ivar">@new_vertices</span>)
