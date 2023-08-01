@@ -67,12 +67,9 @@
     }
   },
   "required": [
-    "type",
-    "connector_type",
+    "id",
     "startJunctionId",
-    "endJunctionId",
-    "fluid_temperature_type",
-    "flow_direction"
+    "endJunctionId"
   ],
   "additionalProperties": false,
   "definitions": {
