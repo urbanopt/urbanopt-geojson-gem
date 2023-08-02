@@ -60,7 +60,8 @@
     }
   },
   "required": [
-    "id"
+    "id",
+    "type"
   ],
   "additionalProperties": false,
   "definitions": {
