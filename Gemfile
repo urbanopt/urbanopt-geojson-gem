@@ -13,6 +13,8 @@ allow_local = ENV['FAVOR_LOCAL_GEMS']
 
 # pin this dependency to avoid unicode_normalize error
 gem 'addressable', '2.8.1'
+# pin this dependency to avoid using racc dependency (which has native extensions)
+gem 'parser', '3.2.2.2'
 
 # if allow_local && File.exist?('../openstudio-extension-gem')
 #   gem 'openstudio-extension', path: '../openstudio-extension-gem'
@@ -23,5 +25,5 @@ gem 'addressable', '2.8.1'
 # if allow_local && File.exist?('../urbanopt-core-gem')
 #   gem 'urbanopt-core', path: '../urbanopt-core-gem'
 # elsif allow_local
-#  gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'develop'
+# gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'develop'
 # end

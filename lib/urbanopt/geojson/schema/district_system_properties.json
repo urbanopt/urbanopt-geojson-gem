@@ -97,8 +97,8 @@
         "Central Hot Water",
         "Central Hot and Chilled Water",
 		    "Central Ambient Water",
-		    "Central Hot and Cold Water", 
-		    "Community Photovoltaic", 
+		    "Central Hot and Cold Water",
+		    "Community Photovoltaic",
         "Ground Mount Photovoltaic",
         "Transformer",
         "Transformer with Storage",
@@ -108,7 +108,7 @@
       ]
     },
     "equipmentType": {
-      "description": "Type of districct energy system equipment, listed in order of load served.",
+      "description": "Type of district energy system equipment, listed in order of load served.",
       "type": "string",
       "enum": [
         "Air-Cooled Chiller--Cold Water",
