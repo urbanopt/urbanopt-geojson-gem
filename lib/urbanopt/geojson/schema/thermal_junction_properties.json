@@ -60,9 +60,8 @@
     }
   },
   "required": [
-    "type",
-    "junction_type",
-    "connection_type"
+    "id",
+    "type"
   ],
   "additionalProperties": false,
   "definitions": {
