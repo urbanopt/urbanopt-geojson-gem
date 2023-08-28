@@ -69,6 +69,21 @@ RSpec.describe URBANopt::GeoJSON::GeoFile do
     expect(geojson_errors).to be_empty
   end
 
+  it 'validate geojson file with two ground heat exchangers_2' do
+    geojson_file = File.open(File.join(@spec_files_dir, 'example_project_with_ghe.json')) do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    schema = File.open(File.dirname(__FILE__) + '/../../../lib/urbanopt/geojson/schema/geojson_schema.json') do |f|
+      result = JSON.parse(f.read, symbolize_names: true)
+    end
+
+    geojson_errors = URBANopt::GeoJSON::GeoFile.validate(schema, geojson_file)
+
+    expect(geojson_errors).to be_empty
+  end
+
+
   it 'raise error' do
     geojson_file = File.open(spec_files_dir / 'invalid.geojson') do |f|
       result = JSON.parse(f.read, symbolize_names: true)
