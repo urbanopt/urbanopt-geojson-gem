@@ -12,7 +12,7 @@ require 'minitest/autorun'
 require_relative '../measure'
 require 'fileutils'
 
-class UrbanGeometryCreationTest < MiniTest::Unit::TestCase
+class UrbanGeometryCreationTest < MiniTest::Test
   def test_shadowed_case
     denver_zoo = OpenStudio::PointLatLon.new(39.749242, -104.951024, 0)
     blocky = [

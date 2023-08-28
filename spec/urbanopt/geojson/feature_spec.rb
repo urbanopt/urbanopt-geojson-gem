@@ -7,12 +7,16 @@ require_relative '../../spec_helper'
 
 RSpec.describe URBANopt::GeoJSON do
   before(:each) do
-    path = File.join(File.dirname(__FILE__), '..', '..', 'files', 'nrel_stm_footprints.geojson')
+    path = Pathname(__FILE__).dirname.parent.parent / 'files' / 'nrel_stm_footprints.geojson'
     feature_id = '59a9ce2b42f7d007c059d2fa'
     @model = OpenStudio::Model::Model.new
     @origin_lat_lon = OpenStudio::PointLatLon.new(0, 0, 0)
     @runner = OpenStudio::Measure::OSRunner.new(OpenStudio::WorkflowJSON.new)
     @feature = URBANopt::GeoJSON::GeoFile.from_file(path).get_feature_by_id(feature_id)
+  end
+
+  it 'validates that the feature is valid' do
+    expect { @feature }.not_to raise_error
   end
 
   it 'creates minimum longitute and latitude given a polygon' do
