@@ -43,7 +43,7 @@ Select which surrounding buildings to include.
 **Required:** true,
 **Model Dependent:** false
 
-### Scale Footprint Area by the Floor Area?
+### Scale Footprint Area by the Floor Area
 If true, the footprint area from GeoJSON will be scaled by the floor_area provided by the user in URBANopt.
 **Name:** scale_footprint_area_by_floor_area,
 **Type:** Boolean,
