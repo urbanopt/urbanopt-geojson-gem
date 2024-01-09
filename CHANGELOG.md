@@ -1,5 +1,18 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.11.0
+Date Range: 7/19/23 - 01/09/24
+
+* Remove jenkins by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/260
+* also run CI when a PR gets a review request by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/263
+* modify connectors and junctions schema by @tanushree04 in https://github.com/urbanopt/urbanopt-geojson-gem/pull/261
+* More tests by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/248
+* this fixes a test that didn't get merged properly in the tests PR by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/264
+* Support OpenStudio 3.7 by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/265
+
+
+**Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.10.0...v0.11.0
+
 ## Version 0.10.0
 Date Range: 12/5/22 - 7/19/23
 
