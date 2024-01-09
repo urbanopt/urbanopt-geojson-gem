@@ -1,6 +1,6 @@
 # URBANopt GeoJSON Gem
 
-## What's Changed
+## Version 0.11.1
 Date Range: 01/09/24
 
 * downgrade json-schema to 2.7 by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/267
