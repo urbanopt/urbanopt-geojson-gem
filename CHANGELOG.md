@@ -1,5 +1,12 @@
 # URBANopt GeoJSON Gem
 
+## What's Changed
+Date Range: 01/09/24
+
+* downgrade json-schema to 2.7 by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/267
+
+**Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.11.0...v0.11.1
+
 ## Version 0.11.0
 Date Range: 7/19/23 - 01/09/24
 
@@ -9,7 +16,6 @@ Date Range: 7/19/23 - 01/09/24
 * More tests by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/248
 * this fixes a test that didn't get merged properly in the tests PR by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/264
 * Support OpenStudio 3.7 by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/265
-
 
 **Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.10.0...v0.11.0
 
