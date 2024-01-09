@@ -59,7 +59,7 @@
       "$ref": "#/definitions/TemperatureType"
     },
     "flow_direction": {
-      "description": "Charcterization of connector, relative to the central plant",
+      "description": "Characterization of connector, relative to the central plant",
       "$ref": "#/definitions/FlowDirection"
     },
     "user_data": {
@@ -67,12 +67,10 @@
     }
   },
   "required": [
+    "id",
     "type",
-    "connector_type",
     "startJunctionId",
-    "endJunctionId",
-    "fluid_temperature_type",
-    "flow_direction"
+    "endJunctionId"
   ],
   "additionalProperties": false,
   "definitions": {

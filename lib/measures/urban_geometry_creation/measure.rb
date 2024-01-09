@@ -51,8 +51,8 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
     surrounding_buildings.setDefaultValue('ShadingOnly')
     args << surrounding_buildings
     # not a required argument
-    scale_footprint_area_by_floor_area = OpenStudio::Ruleset::OSArgument.makeBoolArgument('scale_footprint_area_by_floor_area', false)
-    scale_footprint_area_by_floor_area.setDisplayName('Scale Footprint Area by the Floor Area?')
+    scale_footprint_area_by_floor_area = OpenStudio::Measure::OSArgument.makeBoolArgument('scale_footprint_area_by_floor_area', false)
+    scale_footprint_area_by_floor_area.setDisplayName('Scale Footprint Area by the Floor Area')
     scale_footprint_area_by_floor_area.setDescription('If true, the footprint area from GeoJSON will be scaled by the floor_area provided by the user in URBANopt.')
     scale_footprint_area_by_floor_area.setDefaultValue(false)
     args << scale_footprint_area_by_floor_area
