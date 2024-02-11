@@ -35,8 +35,6 @@ module URBANopt
         @mixed_type_3_percentage = feature[:properties][:mixed_type_3_percentage]
         @mixed_type_4 = feature[:properties][:mixed_type_4]
         @mixed_type_4_percentage = feature[:properties][:mixed_type_4_percentage]
-        @characterize_residential_buildings_from_buildstock_csv = feature[:properties][:characterize_residential_buildings_from_buildstock_csv]
-        @resstock_buildstock_csv_path = feature[:properties][:resstock_buildstock_csv_path]
       end
 
       ##
@@ -296,8 +294,6 @@ module URBANopt
         result[:mixed_type_3_percentage] = @mixed_type_3_percentage if @mixed_type_3_percentage
         result[:mixed_type_4] = @mixed_type_4 if @mixed_type_4
         result[:mixed_type_4_percentage] = @mixed_type_4_percentage if @mixed_type_4_percentage
-        result[:characterize_residential_buildings_from_buildstock_csv] = @characterize_residential_buildings_from_buildstock_csv if @mixed_type_4_percentage 
-        result[:resstock_buildstock_csv_path] = @resstock_buildstock_csv_path if @resstock_buildstock_csv_path
         return result
       end
 
