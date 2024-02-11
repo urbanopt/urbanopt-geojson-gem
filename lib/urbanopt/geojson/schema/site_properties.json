@@ -211,6 +211,14 @@
 				"2018",
 				"2019"
 			]
+		},
+		"characterize_residential_buildings_from_buildstock_csv":{
+		"description" : "Enable UO and ResStock connection to characterize residential buildings by matching them (and their properties) with building from the BuildStock CSV.",
+		"type": "boolean"
+		},
+		"resstock_buildstock_csv_path":{
+		"description" : "Path to the buildstock CSV that the users want to sample from to find the closest match to their UO residential buildings features.",
+		"type": "string"
 		}
 	},
 	"required": [
