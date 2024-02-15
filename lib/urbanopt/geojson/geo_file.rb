@@ -198,7 +198,8 @@ module URBANopt
           { site: :electricity_emissions_hourly_historical_year, feature: :electricity_emissions_hourly_historical_year },
           { site: :electricity_emissions_annual_historical_year, feature: :electricity_emissions_annual_historical_year },
           { site: :characterize_residential_buildings_from_buildstock_csv, feature: :characterize_residential_buildings_from_buildstock_csv },
-          { site: :resstock_buildstock_csv_path, feature: :resstock_buildstock_csv_path }
+          { site: :resstock_buildstock_csv_path, feature: :resstock_buildstock_csv_path },
+          { site: :uo_buildstock_mapping_csv_path, feature: :uo_buildstock_mapping_csv_path }
         ]
 
         add_props.each do |prop|

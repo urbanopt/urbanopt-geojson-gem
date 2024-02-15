@@ -219,6 +219,10 @@
 		"resstock_buildstock_csv_path":{
 		"description" : "Path to the buildstock CSV that the users want to sample from to find the closest match to their UO residential buildings features.",
 		"type": "string"
+		},
+		"uo_buildstock_mapping_csv_path":{
+		"description" : "Path to the uo_buildstock mapping CSV. IN this CSV users can set a match of the UO features with a buildstock building and its characteristics and the feature will run with the assigned buildstock characteristics",
+		"type": "string"
 		}
 	},
 	"required": [
