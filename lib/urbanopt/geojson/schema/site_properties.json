@@ -77,15 +77,15 @@
 		},
 		"underground_cables_ratio": {
 			"description": "Ratio of overall cables that are underground vs. overhead for RNM analysis.",
-			"type": "number"
+			"type": ["number", "null"]
 		},
 		"only_lv_consumers": {
 			"description": "If true, only low voltage consumers will be considered in the RNM analysis.",
-			"type": "boolean"
+			"type": ["boolean", "null"]
 		},
 		"max_number_of_lv_nodes_per_building": {
 			"description": "Maximum number of low voltage nodes to represent a single building.",
-			"type": "number"
+			"type": ["number", "null"]
 		},
 		"emissions": {
 			"description": "Should be set to true to calculate electricity emissions for the associated building.",
