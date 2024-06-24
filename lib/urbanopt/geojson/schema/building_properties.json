@@ -285,15 +285,15 @@
 			"type": "number"
 		},
 		"characterize_residential_buildings_from_buildstock_csv":{
-		"description" : "Enable UO and ResStock connection to characterize residential buildings by matching them (and their properties) with building from the BuildStock CSV.",
+		"description" : "Enable UO and ResStock connection to characterize residential buildings by matching them (and their properties) with building from the BuildStock CSV. Optional for residential buildings.",
 		"type": "boolean"
 		},
 		"resstock_buildstock_csv_path":{
-		"description" : "Path to the buildstock CSV that the users want to sample from to find the closest match to their UO residential buildings features.",
+		"description" : "Path to the buildstock CSV that the users want to sample from to find the closest match to their UO residential buildings features. Optional for residential buildings.",
 		"type": "string"
 		},
 		"uo_buildstock_mapping_csv_path":{
-			"description" : "Path to the uo_buildstock mapping CSV. IN this CSV users can set a match of the UO features with a buildstock building and its characteristics and the feature will run with the assigned buildstock characteristics",
+			"description" : "Path to the uo_buildstock mapping CSV. IN this CSV users can set a match of the UO features with a buildstock building and its characteristics and the feature will run with the assigned buildstock characteristics. Optional for residential buildings.",
 			"type": "string"
 		}
 	},
