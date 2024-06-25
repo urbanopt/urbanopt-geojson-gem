@@ -75,6 +75,7 @@ module URBANopt
         stories.each_index do |i|
           space_type = space_types[i]
           next if space_type.nil?
+
           stories[i].spaces.each do |space|
             space.setSpaceType(space_type)
           end

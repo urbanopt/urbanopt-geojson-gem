@@ -8,10 +8,6 @@ require 'urbanopt/geojson/feature'
 module URBANopt
   module GeoJSON # :nodoc: all
     class DistrictSystem < Feature
-      def initialize(feature)
-        super(feature)
-      end
-
       ##
       # Used to describe the feature type using the base method from the Feature class.
       def feature_type

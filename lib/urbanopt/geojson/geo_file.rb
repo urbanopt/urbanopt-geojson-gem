@@ -47,7 +47,6 @@ module URBANopt
           symbolize_names: true
         )
 
-
         # validate geojson file against schema
         geojson_errors = validate(@@geojson_schema, geojson_file)
         unless geojson_errors.empty?
@@ -83,6 +82,7 @@ module URBANopt
               if feature[:properties][:name].nil?
                 raise('No name found for Building Feature')
               end
+
               if feature[:properties][:number_of_stories].nil?
                 @@logger.warn("Number of stories is required to calculate shading using the UrbanGeometryCreation measure.\n" \
                   "Not validating #{feature[:properties][:id]} against schema and ignoring in shading calculations")
@@ -96,6 +96,7 @@ module URBANopt
               if feature[:properties][:name].nil?
                 raise('No name found for Building Feature')
               end
+
               @@logger.warn("OS-HPXML files may not conform to schema, which is usually ok.\n" \
                 "Not validating #{feature[:properties][:id]} against schema")
             # Else validate for all required properties in the schema
@@ -203,12 +204,10 @@ module URBANopt
         ]
 
         add_props.each do |prop|
-          if project.key?(prop[:site]) && project[prop[:site]]
-            # property exists in site
-            if !feature[:properties].key?(prop[:feature]) || feature[:properties][prop[:feature]].nil? || feature[:properties][prop[:feature]].to_s.empty?
-              # property does not exist in feature or is nil: add site property (don't overwrite)
-              feature[:properties][prop[:feature]] = project[prop[:site]]
-            end
+          # property exists in site
+          if project.key?(prop[:site]) && project[prop[:site]] && (!feature[:properties].key?(prop[:feature]) || feature[:properties][prop[:feature]].nil? || feature[:properties][prop[:feature]].to_s.empty?)
+            # property does not exist in feature or is nil: add site property (don't overwrite)
+            feature[:properties][prop[:feature]] = project[prop[:site]]
           end
         end
 
@@ -229,7 +228,7 @@ module URBANopt
         result = nil
         if @@geojson_schema.nil?
           @@schema_file_lock.synchronize do
-            File.open(File.dirname(__FILE__) + '/schema/geojson_schema.json') do |f|
+            File.open("#{File.dirname(__FILE__)}/schema/geojson_schema.json") do |f|
               result = JSON.parse(f.read, symbolize_names: true)
             end
           end
@@ -239,7 +238,7 @@ module URBANopt
 
       def self.get_building_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/building_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/building_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -252,7 +251,7 @@ module URBANopt
 
       def self.get_district_system_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/district_system_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/district_system_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -265,7 +264,7 @@ module URBANopt
 
       def self.get_region_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/region_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/region_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -278,7 +277,7 @@ module URBANopt
 
       def self.get_site_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/site_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/site_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -291,7 +290,7 @@ module URBANopt
 
       def self.get_electrical_connector_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/electrical_connector_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/electrical_connector_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -304,7 +303,7 @@ module URBANopt
 
       def self.get_electrical_junction_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/electrical_junction_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/electrical_junction_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -317,7 +316,7 @@ module URBANopt
 
       def self.get_thermal_connector_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/thermal_connector_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/thermal_connector_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict
@@ -330,7 +329,7 @@ module URBANopt
 
       def self.get_thermal_junction_schema(strict)
         result = nil
-        File.open(File.dirname(__FILE__) + '/schema/thermal_junction_properties.json') do |f|
+        File.open("#{File.dirname(__FILE__)}/schema/thermal_junction_properties.json") do |f|
           result = JSON.parse(f.read)
         end
         if strict

@@ -46,15 +46,16 @@ module URBANopt
           feature_file = scenario.feature_file
           feature = feature_file.get_feature_by_id(feature_id)
           raise "Cannot find feature '#{feature_id}' in '#{scenario.geometry_file}'" if feature.nil?
+
           # deep clone of @@osw before we configure it #:nodoc:
           osw = Marshal.load(Marshal.dump(@@osw))
           osw[:name] = feature_name
           osw[:description] = feature_name
-          end
+        end
         # rubocop:disable Lint/ReturnInVoidContext
         return osw
-       # rubocop:enable Lint/ReturnInVoidContext
-     end
+        # rubocop:enable Lint/ReturnInVoidContext
+      end
     end
   end
 end

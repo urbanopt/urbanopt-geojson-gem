@@ -7,7 +7,7 @@ require 'logger'
 
 module URBANopt
   module GeoJSON
-    @@logger = Logger.new(STDERR)
+    @@logger = Logger.new($stderr)
     @@logger.progname = 'URBANopt::GeoJSON'
 
     def self.logger
