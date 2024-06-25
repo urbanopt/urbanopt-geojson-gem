@@ -1,5 +1,12 @@
 # URBANopt GeoJSON Gem
 
+## Version 0.11.2
+* Allow null for some optional fields by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/273
+* Added UO-ResStock connection variable to the site properties schema by @rawadelkontar in https://github.com/urbanopt/urbanopt-geojson-gem/pull/270
+
+
+**Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.11.1...v0.11.2
+
 ## Version 0.11.1
 Date Range: 01/09/24
 
