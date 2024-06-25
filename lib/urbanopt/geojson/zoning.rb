@@ -28,11 +28,12 @@ module URBANopt
           vertex_1 = nil
           vertex_2 = nil
           vertex_3 = nil
-          if i == 0
+          case i
+          when 0
             vertex_1 = vertices[n - 1]
             vertex_2 = vertices[i]
             vertex_3 = vertices[i + 1]
-          elsif i == (n - 1)
+          when n - 1
             vertex_1 = vertices[i - 1]
             vertex_2 = vertices[i]
             vertex_3 = vertices[0]

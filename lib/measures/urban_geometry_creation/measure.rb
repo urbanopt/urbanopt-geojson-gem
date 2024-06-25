@@ -121,7 +121,7 @@ class UrbanGeometryCreation < OpenStudio::Measure::ModelMeasure
       if scale_footprint_area_by_floor_area
         building_hash = feature.to_hash
         if building_hash[:number_of_stories] && building_hash[:floor_area]
-          scaled_footprint_area = building_hash[:floor_area].to_f / building_hash[:number_of_stories].to_f
+          scaled_footprint_area = building_hash[:floor_area].to_f / building_hash[:number_of_stories]
           @runner.registerInfo("Desired footprint area in ft2: #{scaled_footprint_area}")
         end
       end

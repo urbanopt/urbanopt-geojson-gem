@@ -103,12 +103,13 @@ module URBANopt
         end
 
         spaces = []
-        if create_method == :space_per_floor || create_method == :spaces_per_floor
+        case create_method
+        when :space_per_floor, :spaces_per_floor
           (-number_of_stories_below_ground + 1..number_of_stories_above_ground).each do |story_number|
             new_spaces = create_space_per_floor(story_number, floor_to_floor_height, model, origin_lat_lon, runner, zoning, scaled_footprint_area)
             spaces.concat(new_spaces)
           end
-        elsif create_method == :space_per_building
+        when :space_per_building
           spaces = create_space_per_building(-number_of_stories_below_ground * floor_to_floor_height, number_of_stories_above_ground * floor_to_floor_height, model, origin_lat_lon, runner, zoning, other_building)
         end
         return spaces
@@ -417,10 +418,8 @@ module URBANopt
           space = space.get
           space.setName("Building Story #{story_number} Space")
           space.surfaces.each do |surface|
-            if surface.surfaceType == 'Wall'
-              if story_number < 1
-                surface.setOutsideBoundaryCondition('Ground')
-              end
+            if surface.surfaceType == 'Wall' && (story_number < 1)
+              surface.setOutsideBoundaryCondition('Ground')
             end
           end
           spaces << space

@@ -10,9 +10,6 @@ module URBANopt
     class Region < Feature
       ##
       # Used to initialize the feature. This method is inherited from the Feature class.
-      def initialize(feature)
-        super(feature)
-      end
 
       ##
       # Used to describe the Region feature type using the base method from the Feature class.

@@ -19,9 +19,7 @@ module URBANopt
         @feature_json = validate_feat(feature)
       end
 
-      # rubocop:disable Style/MethodMissing
       def method_missing(name, *args, &blk)
-        # rubocop:enable Style/MethodMissing
         if @feature_json[:properties].keys.map(&:to_sym).include? name.to_sym
 
           return @feature_json[:properties][name.to_sym]
@@ -196,10 +194,11 @@ module URBANopt
       def get_multi_polygons(json = @feature_json)
         geometry_type = json[:geometry][:type]
         multi_polygons = []
-        if geometry_type == 'Polygon'
+        case geometry_type
+        when 'Polygon'
           polygons = json[:geometry][:coordinates]
           multi_polygons = [polygons]
-        elsif geometry_type == 'MultiPolygon'
+        when 'MultiPolygon'
           multi_polygons = json[:geometry][:coordinates]
         end
         return multi_polygons
@@ -256,8 +255,7 @@ module URBANopt
         central_latitude = Math.atan2(z, central_square_root)
 
         [central_longitude * 180 / Math::PI,
-          central_latitude * 180 / Math::PI]
-
+         central_latitude * 180 / Math::PI]
       end
 
       private
@@ -292,8 +290,9 @@ module URBANopt
         end
 
         geometry_type = feature[:geometry][:type]
-        if geometry_type == 'Polygon'
-        elsif geometry_type == 'MultiPolygon'
+        case geometry_type
+        when 'Polygon'
+        when 'MultiPolygon'
         else
           raise("Unknown geometry type '#{geometry_type}'")
           return false

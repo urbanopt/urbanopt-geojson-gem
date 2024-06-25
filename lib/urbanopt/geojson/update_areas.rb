@@ -25,10 +25,11 @@ geojson[:features].each do |feature|
   # end
 
   multi_polygons = nil
-  if geometry[:type] == 'Polygon'
+  case geometry[:type]
+  when 'Polygon'
     polygons = geometry[:coordinates]
     multi_polygons = [polygons]
-  elsif geometry[:type] == 'MultiPolygon'
+  when 'MultiPolygon'
     multi_polygons = geometry[:coordinates]
   end
 
