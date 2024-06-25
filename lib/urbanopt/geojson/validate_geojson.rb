@@ -8,7 +8,7 @@ require 'json-schema'
 
 def get_building_schema(strict)
   result = nil
-  File.open(File.dirname(__FILE__) + '/../schema/building_properties.json') do |f|
+  File.open("#{File.dirname(__FILE__)}/../schema/building_properties.json") do |f|
     result = JSON.parse(f.read)
   end
   if strict
@@ -21,7 +21,7 @@ end
 
 def get_taxlot_schema(strict)
   result = nil
-  File.open(File.dirname(__FILE__) + '/../schema/taxlot_properties.json') do |f|
+  File.open("#{File.dirname(__FILE__)}/../schema/taxlot_properties.json") do |f|
     result = JSON.parse(f.read)
   end
   if strict
@@ -34,7 +34,7 @@ end
 
 def get_district_system_schema(strict)
   result = nil
-  File.open(File.dirname(__FILE__) + '/../schema/district_system_properties.json') do |f|
+  File.open("#{File.dirname(__FILE__)}/../schema/district_system_properties.json") do |f|
     result = JSON.parse(f.read)
   end
   if strict
@@ -47,7 +47,7 @@ end
 
 def get_region_schema(strict)
   result = nil
-  File.open(File.dirname(__FILE__) + '/../schema/region_properties.json') do |f|
+  File.open("#{File.dirname(__FILE__)}/../schema/region_properties.json") do |f|
     result = JSON.parse(f.read)
   end
   if strict
@@ -95,13 +95,14 @@ Dir.glob('denver_district*.geojson').each do |p|
       type = data['type']
       errors = []
 
-      if /building/i.match(type)
+      case type
+      when /building/i
         errors = validate(building_schema, data)
-      elsif /district system/i.match(type)
+      when /district system/i
         errors = validate(district_system_schema, data)
-      elsif /taxlot/i.match(type)
+      when /taxlot/i
         errors = validate(taxlot_schema, data)
-      elsif /region/i.match(type)
+      when /region/i
         errors = validate(region_schema, data)
       else
         raise("Unknown type: '#{type}'")

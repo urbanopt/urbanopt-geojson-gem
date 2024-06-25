@@ -242,6 +242,7 @@ module URBANopt
         other_buildings[:features].each do |other_building|
           other_id = other_building[:properties][:id]
           next if other_id == building.id
+
           # Consider building, if other building type is ShadingOnly and other id is not equal to building id
           if other_building_type == 'ShadingOnly' && other_id != building.id
             # Checks if any building point is shaded by any other building point.
@@ -277,6 +278,7 @@ module URBANopt
               runner.registerInfo("Feature #{other_building[:properties][:id]} is acting as shading object for #{building.id}")
             end
             next unless shadowed
+
             new_building = building.create_other_building(:space_per_building, model, origin_lat_lon, runner, zoning, 0, other_building)
             if new_building.nil? || new_building.empty?
               runner.registerWarning("Failed to create spaces for other building '#{name}'")
@@ -321,6 +323,7 @@ module URBANopt
         if is_shaded(min_pair[:building_point], min_pair[:other_building_point], origin_lat_lon)
           return true
         end
+
         return false
       end
 
@@ -339,7 +342,8 @@ module URBANopt
         if distance < 1
           return true
         end
-        elevation_angle = 2.5 #not sure of best value maybe allow as project level argument
+
+        elevation_angle = 2.5 # not sure of best value maybe allow as project level argument
         height = vector.z
         apparent_angle_rad = Math.atan2(height, distance)
         apparent_angle = OpenStudio.radToDeg(apparent_angle_rad)
@@ -351,9 +355,9 @@ module URBANopt
         return result
       end
 
-            class << self
-              private :is_shaded
-            end
-          end
-        end
+      class << self
+        private :is_shaded
       end
+    end
+  end
+end

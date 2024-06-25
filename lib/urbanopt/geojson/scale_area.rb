@@ -30,6 +30,7 @@ module URBANopt
         @vertices = vertices
         @centroid = OpenStudio.getCentroid(vertices)
         raise "Cannot compute centroid for '#{vertices}'" if @centroid.empty?
+
         @centroid = @centroid.get
         @desired_area = desired_area
         @new_vertices = vertices
@@ -41,15 +42,7 @@ module URBANopt
         @eps  = eps
       end
 
-      attr_reader :zero
-
-      attr_reader :one
-
-      attr_reader :two
-
-      attr_reader :ten
-
-      attr_reader :eps
+      attr_reader :zero, :one, :two, :ten, :eps, :new_vertices
 
       ##
       # Used to determine new scaled vertices, by iteratively passing in the perimeter distance to
@@ -59,12 +52,11 @@ module URBANopt
         @new_vertices = URBANopt::GeoJSON::Zoning.divide_floor_print(@vertices, x[0].to_f, @runner, scale = true)
         new_area = OpenStudio.getArea(@new_vertices)
         raise "Cannot compute area for '#{@new_vertices}'" if new_area.empty?
+
         new_area = new_area.get
 
         return [new_area - @desired_area]
       end
-
-      attr_reader :new_vertices
-    end # ScaleArea
-  end # GeoJSON
-end # URBANopt
+    end
+  end
+end

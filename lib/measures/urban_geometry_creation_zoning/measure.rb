@@ -110,7 +110,8 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
       @runner.registerWarning("Surface elevation not set for building '#{name}'")
     end
 
-    if feature.type == 'Building'
+    case feature.type
+    when 'Building'
       # make requested building, zoning is set to true
       spaces = feature.create_building(:spaces_per_floor, model, @origin_lat_lon, @runner, true)
       if spaces.nil? || spaces.empty?
@@ -157,7 +158,7 @@ class UrbanGeometryCreationZoning < OpenStudio::Measure::ModelMeasure
         URBANopt::GeoJSON::Helper.convert_to_shading_surface_group(space)
       end
 
-    elsif feature.type == 'District System'
+    when 'District System'
       district_system_type = feature[:properties][:district_system_type]
       if district_system_type == 'Community Photovoltaic'
         shading_surfaces = URBANopt::GeoJSON::Helper.create_photovoltaics(feature, 0, model, @origin_lat_lon, @runner)
