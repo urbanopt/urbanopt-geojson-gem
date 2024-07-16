@@ -14,6 +14,7 @@
 /lib/measures/*/tests/output
 out.txt
 .rubocop*s3*
+.coverage
 
 # rspec failure tracking
 .rspec_status
