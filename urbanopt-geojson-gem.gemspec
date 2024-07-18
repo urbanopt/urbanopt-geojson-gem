@@ -21,11 +21,10 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
+  # We support exactly Ruby v3.2.2 because os-extension requires bundler==2.4.10 and that requires Ruby 3.2.2: https://stdgems.org/bundler/
+  # It would be nice to be able to use newer patches of Ruby 3.2, which would require os-extension to relax its dependency on bundler.
+  spec.required_ruby_version = '3.2.2'
 
-  spec.required_ruby_version = '~> 3.2'
-
-  spec.add_development_dependency 'bundler', '~> 2.4.10'
-  spec.add_development_dependency 'rake', '~> 13.2'
   spec.add_development_dependency 'rspec', '~> 3.13'
   spec.add_development_dependency 'simplecov', '0.22.0'
   spec.add_development_dependency 'simplecov-lcov', '0.8.0'
