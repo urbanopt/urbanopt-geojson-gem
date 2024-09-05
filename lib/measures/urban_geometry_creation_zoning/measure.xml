@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.1</schema_version>
+  <error>Failed to infer measure name from '/Users/nmoore/github/urbanopt-geojson-gem/lib/measures/urban_geometry_creation_zoning/measure.rb'</error>
   <name>urban_geometry_creation_zoning</name>
   <uid>96ea1317-76ac-4670-b51d-71ee3f4fdd65</uid>
-  <version_id>ce351d93-94f1-49d4-bd05-68836151a8d4</version_id>
-  <version_modified>2024-07-16T17:32:48Z</version_modified>
+  <version_id>18b7bd33-5ab2-470a-96df-1b994a388c0e</version_id>
+  <version_modified>2024-09-05T14:06:38Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreationZoning</class_name>
   <display_name>UrbanGeometryCreationZoning</display_name>
@@ -96,12 +97,6 @@
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
       <checksum>0458EE16</checksum>
-    </file>
-    <file>
-      <filename>README.md.erb</filename>
-      <filetype>erb</filetype>
-      <usage_type>readmeerb</usage_type>
-      <checksum>703C9964</checksum>
     </file>
     <file>
       <version>
