@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.1</schema_version>
-  <error>Failed to infer measure name from '/Users/nmoore/github/urbanopt-geojson-gem/lib/measures/urban_geometry_creation_zoning/measure.rb'</error>
   <name>urban_geometry_creation_zoning</name>
   <uid>96ea1317-76ac-4670-b51d-71ee3f4fdd65</uid>
   <version_id>18b7bd33-5ab2-470a-96df-1b994a388c0e</version_id>
