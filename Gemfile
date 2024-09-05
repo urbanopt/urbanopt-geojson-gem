@@ -15,7 +15,7 @@ gem 'regexp_parser', '2.9.0'
 # 2.9.1 breaks test_with_openstudio, for more information: https://github.com/NREL/OpenStudio/issues/5203
 
 # pin this dependency to avoid unicode_normalize error
-# gem 'addressable', '2.8.1'
+gem 'addressable', '2.8.1'
 # pin this dependency to avoid using racc dependency (which has native extensions)
 # gem 'parser', '3.2.2.2'
 
