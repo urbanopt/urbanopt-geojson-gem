@@ -32,7 +32,9 @@ jobs:
       - name: List OpenStudio measures
         run: bundle exec rake openstudio:list_measures
       - name: Update OpenStudio measures
-        run: bundle exec rake openstudio:update_measures
+        run: |
+          bundle install
+          bundle exec rake openstudio:update_measures
       - name: Test OpenStudio measures
         run: bundle exec rake openstudio:test_with_openstudio
       - name: Run Rspec
