@@ -22,14 +22,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '~> 2.7.0'
+  # We support exactly Ruby v3.2.2 because os-extension requires bundler==2.4.10 and that requires Ruby 3.2.2: https://stdgems.org/bundler/
+  # It would be nice to be able to use newer patches of Ruby 3.2, which would require os-extension to relax its dependency on bundler.
+  spec.required_ruby_version = '3.2.2'
 
-  spec.add_development_dependency 'bundler', '>= 2.1.0'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'simplecov', '~> 0.18.2'
-  spec.add_development_dependency 'simplecov-lcov', '~> 0.8.0'
+  spec.add_development_dependency 'rspec', '~> 3.13'
+  spec.add_development_dependency 'simplecov', '0.22.0'
+  spec.add_development_dependency 'simplecov-lcov', '0.8.0'
 
-  spec.add_runtime_dependency 'json-schema', '~> 2.7'
-  spec.add_runtime_dependency 'urbanopt-core', '~> 0.11.0'
+  spec.add_runtime_dependency 'json-schema', '~> 4.3.1'
+  # spec.add_runtime_dependency 'urbanopt-core', '~> 0.12.0'
 end
