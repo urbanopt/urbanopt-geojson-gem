@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.1</schema_version>
+  <error>Failed to infer measure name from '/Users/nmoore/github/urbanopt-geojson-gem/lib/measures/urban_geometry_creation/measure.rb'</error>
   <name>urban_geometry_creation</name>
   <uid>5ab85d6b-c9af-4361-8ab9-613ee99a5666</uid>
-  <version_id>114e5a3f-0e66-47f2-aa96-299f71b4ef0f</version_id>
-  <version_modified>2024-06-25T21:15:26Z</version_modified>
+  <version_id>048231f4-ba53-4506-b922-35f13d8b806e</version_id>
+  <version_modified>2024-11-13T17:45:33Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreation</class_name>
   <display_name>UrbanGeometryCreation</display_name>
@@ -114,7 +115,7 @@
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>AA2D38B0</checksum>
+      <checksum>0B68E96D</checksum>
     </file>
     <file>
       <filename>README.md.erb</filename>
@@ -131,7 +132,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>5D490083</checksum>
+      <checksum>D58B8040</checksum>
     </file>
     <file>
       <filename>nrel_stm_footprints.geojson</filename>
