@@ -11,16 +11,11 @@ gemspec
 # checkout the latest version (develop) from github.
 allow_local = ENV['FAVOR_LOCAL_GEMS']
 
-# pin this dependency to avoid unicode_normalize error
-gem 'addressable', '2.8.1'
-# pin this dependency to avoid using racc dependency (which has native extensions)
-# gem 'parser', '3.2.2.2'
-
-gem 'openstudio-extension', '~> 0.8.2'
+# gem 'openstudio-extension', '~> 0.8.2'
 # if allow_local && File.exist?('../openstudio-extension-gem')
 #   gem 'openstudio-extension', path: '../openstudio-extension-gem'
 # elsif allow_local
-#   gem 'openstudio-extension', github: 'NREL/openstudio-extension-gem', branch: 'develop'
+gem 'openstudio-extension', github: 'NREL/openstudio-extension-gem', branch: 'bundler-hack'
 # end
 
 # if allow_local && File.exist?('../urbanopt-core-gem')
