@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.1</schema_version>
+  <error>Failed to infer measure name from '/Users/nmoore/github/urbanopt-geojson-gem/lib/measures/urban_geometry_creation_zoning/measure.rb'</error>
   <name>urban_geometry_creation_zoning</name>
   <uid>96ea1317-76ac-4670-b51d-71ee3f4fdd65</uid>
-  <version_id>8b2f1d05-725a-4f06-bcac-1fb685f12f89</version_id>
-  <version_modified>2024-06-25T21:15:28Z</version_modified>
+  <version_id>f4e83153-b29e-4154-9ed0-7062896e7448</version_id>
+  <version_modified>2024-11-14T16:53:21Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreationZoning</class_name>
   <display_name>UrbanGeometryCreationZoning</display_name>
@@ -95,7 +96,7 @@
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>0458EE16</checksum>
+      <checksum>0B68E96D</checksum>
     </file>
     <file>
       <filename>README.md.erb</filename>
@@ -112,7 +113,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>5827BCFA</checksum>
+      <checksum>1EA1A74B</checksum>
     </file>
     <file>
       <filename>OV_Buildings_Update_090420_res_eui_test.json</filename>
@@ -136,7 +137,7 @@
       <filename>urban_geometry_creation_zoning_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>FC65E7CE</checksum>
+      <checksum>3B495B27</checksum>
     </file>
   </files>
 </measure>
