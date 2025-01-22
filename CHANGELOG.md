@@ -1,13 +1,22 @@
 # URBANopt GeoJSON Gem
 
+## Version 1.0.0
+
+## Exciting new features 🎉
+
+* Upgrade to OpenStudio 3.9 and Ruby 3.2.2 by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/279
+
+**Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.11.2...v1.0.0
+
 ## Version 0.11.2
+
 * Allow null for some optional fields by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/273
 * Added UO-ResStock connection variable to the site properties schema by @rawadelkontar in https://github.com/urbanopt/urbanopt-geojson-gem/pull/270
-
 
 **Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.11.1...v0.11.2
 
 ## Version 0.11.1
+
 Date Range: 01/09/24
 
 * downgrade json-schema to 2.7 by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/267
@@ -15,6 +24,7 @@ Date Range: 01/09/24
 **Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v0.11.0...v0.11.1
 
 ## Version 0.11.0
+
 Date Range: 7/19/23 - 01/09/24
 
 * Remove jenkins by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/260
