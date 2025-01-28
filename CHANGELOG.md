@@ -1,5 +1,13 @@
 # URBANopt GeoJSON Gem
 
+## Version 1.0.1
+
+## What's Changed
+
+* Use SI units for connector lengths by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/283
+
+**Full Changelog**: https://github.com/urbanopt/urbanopt-geojson-gem/compare/v1.0.0...v1.0.1
+
 ## Version 1.0.0
 
 ## Exciting new features 🎉
