@@ -829,7 +829,7 @@
         "endJunctionId": "76bcf271-177c-46e6-8682-e70f3d376472",
         "startFeatureId": "8c369df2-18e9-439a-8c25-875851c5aaf0",
         "endFeatureId": "9",
-        "total_length": 296
+        "total_length": 99
       },
       "geometry": {
         "type": "LineString",
@@ -884,7 +884,7 @@
         "endJunctionId": "b0c5d72f-ec40-4213-b7d5-9329ded57d7b",
         "startFeatureId": "9",
         "endFeatureId": "8",
-        "total_length": 48
+        "total_length": 15
       },
       "geometry": {
         "type": "LineString",
@@ -939,7 +939,7 @@
         "endJunctionId": "32adaea4-f926-4dc6-94e2-634cf8fef84c",
         "startFeatureId": "8",
         "endFeatureId": "8c369df2-18e9-439a-8c25-875851c5aaf0",
-        "total_length": 485
+        "total_length": 150
       },
       "geometry": {
         "type": "LineString",
