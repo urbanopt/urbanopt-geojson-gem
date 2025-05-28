@@ -15,11 +15,13 @@ allow_local = ENV['FAVOR_LOCAL_GEMS']
 # if allow_local && File.exist?('../openstudio-extension-gem')
 #   gem 'openstudio-extension', path: '../openstudio-extension-gem'
 # elsif allow_local
-#   gem 'openstudio-extension', github: 'NREL/openstudio-extension-gem', branch: 'develop'
+  gem 'openstudio-extension', github: 'NREL/openstudio-extension-gem', branch: 'faraday'
 # end
 
 # if allow_local && File.exist?('../urbanopt-core-gem')
 #   gem 'urbanopt-core', path: '../urbanopt-core-gem'
 # elsif allow_local
-# gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'master'
+gem 'urbanopt-core', github: 'URBANopt/urbanopt-core-gem', branch: 'faraday'
 # end
+# Delete this once testing is complete!
+gem 'bcl', github: 'NREL/bcl-gem', branch: 'faraday'
