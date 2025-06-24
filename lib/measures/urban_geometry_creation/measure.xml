@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.1</schema_version>
-  <error>Failed to infer measure name from '/Users/nmoore/github/urbanopt-geojson-gem/lib/measures/urban_geometry_creation/measure.rb'</error>
   <name>urban_geometry_creation</name>
   <uid>5ab85d6b-c9af-4361-8ab9-613ee99a5666</uid>
-  <version_id>048231f4-ba53-4506-b922-35f13d8b806e</version_id>
-  <version_modified>2024-11-13T17:45:33Z</version_modified>
+  <version_id>2c5d7aa9-2e06-43c5-bbcb-fbeb28d798cf</version_id>
+  <version_modified>2025-06-24T01:22:20Z</version_modified>
   <xml_checksum>D254E772</xml_checksum>
   <class_name>UrbanGeometryCreation</class_name>
   <display_name>UrbanGeometryCreation</display_name>
@@ -109,13 +108,13 @@
       <filename>LICENSE.md</filename>
       <filetype>md</filetype>
       <usage_type>license</usage_type>
-      <checksum>3C275955</checksum>
+      <checksum>C901E1FD</checksum>
     </file>
     <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>0B68E96D</checksum>
+      <checksum>AA2D38B0</checksum>
     </file>
     <file>
       <filename>README.md.erb</filename>
