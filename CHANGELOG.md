@@ -1,8 +1,10 @@
 # URBANopt GeoJSON Gem
 
-## Version 1.0.1
+## Version 1.0.2
 
-## What's Changed
+* Enable capital costs per building by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/285
+
+## Version 1.0.1
 
 * Use SI units for connector lengths by @vtnate in https://github.com/urbanopt/urbanopt-geojson-gem/pull/283
 
