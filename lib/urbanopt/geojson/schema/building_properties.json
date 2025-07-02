@@ -64,6 +64,15 @@
 			"description": "Name of the tariff file for this building.  Defaults to site's tariff_filename.",
 			"type": "string"
 		},
+		"capital_costs":{
+			"description": "Capital costs for the building, used for financial analysis.",
+			"type": ["integer", "null"],
+			"default": null
+		},
+		"capital_costs_per_square_foot":{
+			"description": "Are the capital costs a total for the building or a cost per square foot?",
+			"type": "boolean"
+		},
 		"surface_elevation": {
 			"description": "The surface elevation (above NAVD88 datum) of the building (ft).  This is the elevation of the ground at the building location, any below ground stories will be lower than this. Defaults to site's surface_elevation.",
 			"type": "number"
