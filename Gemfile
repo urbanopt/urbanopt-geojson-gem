@@ -11,8 +11,6 @@ gemspec
 # checkout the latest version (develop) from github.
 allow_local = ENV['FAVOR_LOCAL_GEMS']
 
-gem 'rubocop', '~> 1.50'
-
 # gem 'openstudio-extension', '~> 0.8.2'
 # if allow_local && File.exist?('../openstudio-extension-gem')
 #   gem 'openstudio-extension', path: '../openstudio-extension-gem'
