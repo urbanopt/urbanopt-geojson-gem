@@ -1,5 +1,9 @@
 # URBANopt GeoJSON Gem
 
+## Version 1.1.0
+
+* Upgrade to OpenStudio 3.10
+
 ## Version 1.0.1
 
 ## What's Changed
