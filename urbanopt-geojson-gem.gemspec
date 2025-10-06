@@ -33,5 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov-lcov', '0.8.0'
 
   spec.add_runtime_dependency 'json-schema', '~> 4.3.1'
-  # spec.add_runtime_dependency 'urbanopt-core', '~> 1.0.0'
+  spec.add_runtime_dependency 'urbanopt-core', '~> 1.1.0'
 end
