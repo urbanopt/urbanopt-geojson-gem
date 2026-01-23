@@ -6,7 +6,7 @@
 # *********************************************************************************
 
 # see the URL below for information on how to write OpenStudio measures
-# http://nrel.github.io/OpenStudio-user-documentation/measures/measure_writing_guide/
+# http://natlabrockies.github.io/OpenStudio-user-documentation/measures/measure_writing_guide/
 
 require 'json'
 require 'net/http'
