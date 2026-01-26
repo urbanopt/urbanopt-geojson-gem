@@ -5,8 +5,8 @@ require 'urbanopt/geojson/version'
 Gem::Specification.new do |spec|
   spec.name          = 'urbanopt-geojson'
   spec.version       = URBANopt::GeoJSON::VERSION
-  spec.authors       = ['Tanushree Charan', 'Nicholas Long', 'Dan Macumber']
-  spec.email         = ['tanushree.charan@nrel.gov', 'nicholas.long@nrel.gov', 'daniel.macumber@nrel.gov']
+  spec.authors       = ['Tanushree Charan', 'Katherine Fleming', 'Nicholas Long', 'Dan Macumber']
+  spec.email         = ['tanushree.charan@nrel.gov', 'katherine.fleming@nrel.gov', 'nicholas.long@nrel.gov']
 
   spec.summary       = 'Translate URBANopt GeoJSON format to OpenStudio'
   spec.description   = 'Library and measures to translate URBANopt GeoJSON format to OpenStudio'
@@ -34,5 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov-lcov', '~> 0.8.0'
 
   spec.add_runtime_dependency 'json-schema', '~> 4.3.1'
-  spec.add_runtime_dependency 'urbanopt-core', '~> 1.1.0'
+  spec.add_runtime_dependency 'urbanopt-core', '~> 1.2.0'
 end

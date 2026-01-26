@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 # *********************************************************************************
-# URBANopt (tm), Copyright (c) Alliance for Sustainable Energy, LLC.
+# URBANopt (tm), Copyright (c) Alliance for Energy Innovation, LLC.
 # See also https://github.com/urbanopt/urbanopt-geojson-gem/blob/develop/LICENSE.md
 # *********************************************************************************
 
 # see the URL below for information on how to write OpenStudio measures
-# http://nrel.github.io/OpenStudio-user-documentation/measures/measure_writing_guide/
+# http://natlabrockies.github.io/OpenStudio-user-documentation/measures/measure_writing_guide/
 
 require 'json'
 require 'net/http'
