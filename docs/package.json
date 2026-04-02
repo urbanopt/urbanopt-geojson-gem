@@ -26,7 +26,7 @@
     "is-svg": "^4.3.1",
     "js-yaml": ">=3.14.2",
     "lodash": ">=4.17.23",
-    "lodash.template": ">=4.5.0",
+    "lodash.template": ">=4.18.1",
     "minimist": ">=1.2.3",
     "mixin-deep": "^2.0.1",
     "serialize-javascript": "^5.0.1",
