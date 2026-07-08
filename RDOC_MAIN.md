@@ -3,9 +3,9 @@
 ### [back to main docs](../)
 
 The URBANopt&trade; GeoJSON Gem has been developed by restructuring methods extracted from the
-[urban_geometry_creation](https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation)
+[urban_geometry_creation](https://github.com/NatLabRockies/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation)
 and
-[urban_geometry_creation_zoning.](https://github.com/NREL/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation_zoning)
+[urban_geometry_creation_zoning.](https://github.com/NatLabRockies/openstudio-urban-measures/tree/develop/measures/urban_geometry_creation_zoning)
 
 The `urban_geometry_creation` measure can be used to create an OpenStudio Model for a
 building feature from the feature file and create the surrounding buildings that are shading the
